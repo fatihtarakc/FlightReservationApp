@@ -1,0 +1,83 @@
+@model FlightReservation.Web.ViewModels.Flight.FlightSearchViewModel
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<section class="py-5 rounded-4 mb-4 text-white text-center" style="background: linear-gradient(135deg, #1a3c6e 0%, #2563a8 100%);">
+    <div class="py-4">
+        <h1 class="display-5 fw-bold mb-2"><i class="fas fa-plane-departure me-3"></i>Uçuşunuzu Arayın</h1>
+        <p class="lead mb-4 opacity-75">Yüzlerce sefer arasından en uygununu bulun</p>
+
+        <div class="card mx-auto shadow-lg" style="max-width: 720px; border-radius: 16px;">
+            <div class="card-body p-4">
+                <form asp-controller="Flight" asp-action="Search" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label text-start d-block text-dark fw-semibold">
+                                <i class="fas fa-plane-departure me-1 text-primary"></i>Kalkış
+                            </label>
+                            <select name="Origin" class="form-select" required>
+                                <option value="">Seçiniz...</option>
+                                @foreach (var r in Model.Routes.GroupBy(x => x.OriginCode))
+                                {
+                                    var first = r.First();
+                                    <option value="@first.OriginCode">@first.OriginCity (@first.OriginCode)</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-start d-block text-dark fw-semibold">
+                                <i class="fas fa-plane-arrival me-1 text-primary"></i>Varış
+                            </label>
+                            <select name="Destination" class="form-select" required>
+                                <option value="">Seçiniz...</option>
+                                @foreach (var r in Model.Routes.GroupBy(x => x.DestinationCode))
+                                {
+                                    var first = r.First();
+                                    <option value="@first.DestinationCode">@first.DestinationCity (@first.DestinationCode)</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-start d-block text-dark fw-semibold">
+                                <i class="fas fa-calendar me-1 text-primary"></i>Tarih
+                            </label>
+                            <input type="date" name="Date" class="form-control"
+                                   value="@Model.Date.ToString("yyyy-MM-dd")"
+                                   min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-lg w-100 fw-semibold">
+                                <i class="fas fa-search me-2"></i>Uçuş Ara
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card h-100 text-center p-4">
+            <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+            <h5>Güvenli Rezervasyon</h5>
+            <p class="text-muted mb-0">Tüm rezervasyonlarınız güvende, anında PNR kodu alın.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 text-center p-4">
+            <i class="fas fa-bolt fa-3x text-warning mb-3"></i>
+            <h5>Hızlı İşlem</h5>
+            <p class="text-muted mb-0">Saniyeler içinde koltuk seçin, rezervasyonunuzu tamamlayın.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 text-center p-4">
+            <i class="fas fa-headset fa-3x text-success mb-3"></i>
+            <h5>7/24 Destek</h5>
+            <p class="text-muted mb-0">Herhangi bir sorunuzda destek ekibimiz her zaman yanınızda.</p>
+        </div>
+    </div>
+</section>

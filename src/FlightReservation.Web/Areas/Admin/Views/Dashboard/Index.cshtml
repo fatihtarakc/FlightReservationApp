@@ -1,0 +1,126 @@
+@model FlightReservation.Web.ViewModels.Admin.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card p-3" style="border-color:#1a3c6e">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="text-muted small">Toplam Sefer</div>
+                    <div class="fs-2 fw-bold">@Model.TotalFlights</div>
+                    <div class="text-muted small">@Model.ScheduledFlights planlandı</div>
+                </div>
+                <i class="fas fa-plane fa-2x text-primary opacity-50 align-self-center"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-3" style="border-color:#198754">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="text-muted small">Rezervasyonlar</div>
+                    <div class="fs-2 fw-bold">@Model.TotalReservations</div>
+                    <div class="text-muted small">@Model.ActiveReservations aktif</div>
+                </div>
+                <i class="fas fa-ticket-alt fa-2x text-success opacity-50 align-self-center"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-3" style="border-color:#fd7e14">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="text-muted small">Kullanıcılar</div>
+                    <div class="fs-2 fw-bold">@Model.TotalUsers</div>
+                    <div class="text-muted small">@Model.TotalRoutes güzergah</div>
+                </div>
+                <i class="fas fa-users fa-2x text-warning opacity-50 align-self-center"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-3" style="border-color:#6f42c1">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="text-muted small">Uçak Filosu</div>
+                    <div class="fs-2 fw-bold">@Model.TotalAircrafts</div>
+                    <div class="text-muted small">aktif uçak</div>
+                </div>
+                <i class="fas fa-fighter-jet fa-2x text-purple opacity-50 align-self-center" style="color:#6f42c1"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header fw-semibold d-flex justify-content-between">
+                <span><i class="fas fa-clock me-2"></i>Son Rezervasyonlar</span>
+                <a asp-area="Admin" asp-controller="User" asp-action="Index" class="btn btn-sm btn-outline-primary">Tümü</a>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>PNR</th>
+                            <th>Yolcu</th>
+                            <th>Sefer</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var r in Model.RecentReservations)
+                        {
+                            <tr>
+                                <td class="font-monospace fw-semibold">@r.PnrCode</td>
+                                <td class="small">@r.PassengerName</td>
+                                <td class="small">@r.FlightNumber @r.Route</td>
+                                <td><span class="badge @(r.Status == "Active" ? "bg-success" : "bg-secondary")">@r.Status</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header fw-semibold d-flex justify-content-between">
+                <span><i class="fas fa-plane-departure me-2"></i>Yaklaşan Seferler</span>
+                <a asp-area="Admin" asp-controller="Flight" asp-action="Index" class="btn btn-sm btn-outline-primary">Tümü</a>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Sefer</th>
+                            <th>Güzergah</th>
+                            <th>Kalkış</th>
+                            <th>Doluluk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var f in Model.UpcomingFlights)
+                        {
+                            var pct = f.TotalSeats > 0 ? (f.ReservationCount * 100 / f.TotalSeats) : 0;
+                            <tr>
+                                <td class="fw-semibold small">@f.FlightNumber</td>
+                                <td class="small">@f.Route</td>
+                                <td class="small">@f.DepartureUtc.ToLocalTime().ToString("dd MMM HH:mm", new System.Globalization.CultureInfo("tr-TR"))</td>
+                                <td>
+                                    <div class="progress" style="height:8px;width:80px">
+                                        <div class="progress-bar @(pct > 80 ? "bg-danger" : "bg-success")" style="width:@pct%"></div>
+                                    </div>
+                                    <span class="small text-muted">@f.ReservationCount/@f.TotalSeats</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

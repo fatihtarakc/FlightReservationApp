@@ -1,0 +1,86 @@
+@model FlightReservation.Web.ViewModels.Reservation.CreateReservationViewModel
+@{
+    ViewData["Title"] = "Rezervasyon Oluştur";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white fw-semibold">
+                <i class="fas fa-plane me-2"></i>Sefer Bilgileri
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="text-muted small">Sefer</div>
+                        <div class="fw-bold">@Model.FlightNumber</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-muted small">Güzergah</div>
+                        <div class="fw-bold">@Model.Route</div>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <div class="text-muted small">Kalkış</div>
+                        <div class="fw-bold">@Model.DepartureUtc.ToLocalTime().ToString("dd MMM yyyy HH:mm", new System.Globalization.CultureInfo("tr-TR"))</div>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <div class="text-muted small">Koltuk</div>
+                        <div class="fw-bold">@Model.SeatNumber
+                            <span class="badge @(Model.SeatClass == FlightReservation.Core.Enums.SeatClass.Business ? "bg-primary" : "bg-success") ms-1">
+                                @(Model.SeatClass == FlightReservation.Core.Enums.SeatClass.Business ? "Business" : "Economy")
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header fw-semibold">
+                <i class="fas fa-user me-2"></i>Yolcu Bilgileri
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <input type="hidden" asp-for="FlightId" />
+                    <input type="hidden" asp-for="SeatId" />
+                    <input type="hidden" asp-for="FlightNumber" />
+                    <input type="hidden" asp-for="Route" />
+                    <input type="hidden" asp-for="DepartureUtc" />
+                    <input type="hidden" asp-for="SeatNumber" />
+                    <input type="hidden" asp-for="SeatClass" />
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="PassengerFirstName" class="form-label"></label>
+                            <input asp-for="PassengerFirstName" class="form-control" />
+                            <span asp-validation-for="PassengerFirstName" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PassengerLastName" class="form-label"></label>
+                            <input asp-for="PassengerLastName" class="form-control" />
+                            <span asp-validation-for="PassengerLastName" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="PassengerIdentityNumber" class="form-label"></label>
+                            <input asp-for="PassengerIdentityNumber" class="form-control" maxlength="11" />
+                            <span asp-validation-for="PassengerIdentityNumber" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary fw-semibold flex-grow-1">
+                            <i class="fas fa-check me-2"></i>Rezervasyonu Tamamla
+                        </button>
+                        <a asp-controller="Flight" asp-action="Search" class="btn btn-outline-secondary">İptal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

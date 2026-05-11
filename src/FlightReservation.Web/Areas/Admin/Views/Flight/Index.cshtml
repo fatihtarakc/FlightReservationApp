@@ -1,0 +1,63 @@
+@model IEnumerable<FlightReservation.Core.Entities.Flight>
+@{
+    ViewData["Title"] = "Seferler";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold mb-0">Sefer Listesi</h5>
+    <a asp-action="Create" class="btn btn-primary btn-sm">
+        <i class="fas fa-plus me-1"></i>Yeni Sefer
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Sefer No</th>
+                    <th>Güzergah</th>
+                    <th>Uçak</th>
+                    <th>Kalkış</th>
+                    <th>Varış</th>
+                    <th>Durum</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var f in Model)
+                {
+                    var statusBadge = f.Status switch
+                    {
+                        FlightStatus.Scheduled => "bg-primary",
+                        FlightStatus.Boarding => "bg-info",
+                        FlightStatus.Departed => "bg-warning text-dark",
+                        FlightStatus.Completed => "bg-secondary",
+                        FlightStatus.Cancelled => "bg-danger",
+                        FlightStatus.Delayed => "bg-warning text-dark",
+                        _ => "bg-secondary"
+                    };
+                    <tr>
+                        <td class="fw-semibold">@f.FlightNumber</td>
+                        <td>@f.Route?.OriginCode → @f.Route?.DestinationCode</td>
+                        <td class="small">@f.Aircraft?.Model</td>
+                        <td class="small">@f.DepartureUtc.ToLocalTime().ToString("dd MMM HH:mm", new System.Globalization.CultureInfo("tr-TR"))</td>
+                        <td class="small">@f.ArrivalUtc.ToLocalTime().ToString("dd MMM HH:mm", new System.Globalization.CultureInfo("tr-TR"))</td>
+                        <td><span class="badge @statusBadge">@f.Status</span></td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@f.Id" class="btn btn-sm btn-outline-primary me-1">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form asp-action="Delete" asp-route-id="@f.Id" method="post" class="d-inline"
+                                  onsubmit="return confirm('Bu seferi silmek istediğinizden emin misiniz?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

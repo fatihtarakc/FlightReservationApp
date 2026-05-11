@@ -1,0 +1,20 @@
+@model FlightReservation.Web.ViewModels.Admin.AircraftFormViewModel
+@{
+    ViewData["Title"] = "Uçak Düzenle";
+}
+
+<div class="card" style="max-width:600px">
+    <div class="card-header fw-semibold">Uçağı Düzenle — @Model.RegistrationNumber</div>
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            @await Html.PartialAsync("_AircraftForm", Model)
+            <div class="d-flex gap-2 mt-3">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save me-1"></i>Güncelle</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
