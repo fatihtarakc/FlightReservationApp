@@ -22,11 +22,11 @@ namespace App.DataAccess.Migrations
                     is_super_admin = table.Column<bool>(type: "boolean", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     identity_id = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false)
                 },
@@ -52,11 +52,11 @@ namespace App.DataAccess.Migrations
                     website = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -82,11 +82,11 @@ namespace App.DataAccess.Migrations
                     longitude = table.Column<double>(type: "double precision", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -107,7 +107,7 @@ namespace App.DataAccess.Migrations
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     surname = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     phone_number = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
-                    birth_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    birth_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     user_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 2),
                     preferred_notification_channel = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     passport_number = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
@@ -115,11 +115,11 @@ namespace App.DataAccess.Migrations
                     nationality = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     identity_id = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false)
                 },
@@ -183,11 +183,11 @@ namespace App.DataAccess.Migrations
                     country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -208,11 +208,11 @@ namespace App.DataAccess.Migrations
                     arrival_airport_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -244,16 +244,16 @@ namespace App.DataAccess.Migrations
                     channel = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     purpose = table.Column<int>(type: "integer", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    expires_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    expires_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     attempt_count = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     app_user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -392,11 +392,11 @@ namespace App.DataAccess.Migrations
                     manufacturer_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -420,19 +420,19 @@ namespace App.DataAccess.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    valid_from = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    valid_to = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    valid_from = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    valid_to = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     days_of_week = table.Column<int>(type: "integer", nullable: false),
                     departure_time = table.Column<TimeSpan>(type: "interval", nullable: false),
                     time_zone = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     route_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -460,11 +460,11 @@ namespace App.DataAccess.Migrations
                     model_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -492,8 +492,8 @@ namespace App.DataAccess.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     number = table.Column<string>(type: "character varying(6)", maxLength: 6, nullable: false),
-                    departure_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    arrival_date_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    departure_date_time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    arrival_date_time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     duration = table.Column<TimeSpan>(type: "interval", nullable: false),
                     base_economy_price = table.Column<decimal>(type: "numeric(12,2)", precision: 12, scale: 2, nullable: false),
                     base_premium_economy_price = table.Column<decimal>(type: "numeric(12,2)", precision: 12, scale: 2, nullable: false),
@@ -509,11 +509,11 @@ namespace App.DataAccess.Migrations
                     schedule_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -556,11 +556,11 @@ namespace App.DataAccess.Migrations
                     aircraft_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -585,7 +585,7 @@ namespace App.DataAccess.Migrations
                     currency = table.Column<int>(type: "integer", nullable: false),
                     booking_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     cancellation_reason = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    check_in_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    check_in_time = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     boarding_pass_number = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     is_reminder_sent7days = table.Column<bool>(type: "boolean", nullable: false),
                     is_reminder_sent24hours = table.Column<bool>(type: "boolean", nullable: false),
@@ -594,11 +594,11 @@ namespace App.DataAccess.Migrations
                     seat_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
                     deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    deleted_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
-                    modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -762,9 +762,9 @@ namespace App.DataAccess.Migrations
                 column: "airline_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_flights_number",
+                name: "ix_flights_number_departure_date_time",
                 table: "flights",
-                column: "number",
+                columns: new[] { "number", "departure_date_time" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

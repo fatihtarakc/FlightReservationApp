@@ -54,7 +54,16 @@ namespace App.Web.Services.Concrete
         private static async Task<ApiResponse<T>?> DeserializeAsync<T>(HttpResponseMessage response)
         {
             var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<ApiResponse<T>>(json, _jsonOptions);
+            if (string.IsNullOrWhiteSpace(json))
+                return new ApiResponse<T> { Success = false, Message = $"HTTP {(int)response.StatusCode}" };
+            try
+            {
+                return JsonSerializer.Deserialize<ApiResponse<T>>(json, _jsonOptions);
+            }
+            catch
+            {
+                return new ApiResponse<T> { Success = false, Message = $"HTTP {(int)response.StatusCode}" };
+            }
         }
     }
 }

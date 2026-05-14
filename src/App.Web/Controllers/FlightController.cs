@@ -23,22 +23,19 @@ namespace App.Web.Controllers
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            var searchDto = new FlightSearchDto
-            {
-                DepartureIata = viewModel.DepartureIata,
-                ArrivalIata = viewModel.ArrivalIata,
-                DepartureDate = viewModel.DepartureDate,
-                Passengers = viewModel.Passengers,
-                SeatClass = viewModel.SeatClass
-            };
+            var qs = $"flight/search?departureIata={Uri.EscapeDataString(viewModel.DepartureIata)}" +
+                     $"&arrivalIata={Uri.EscapeDataString(viewModel.ArrivalIata)}" +
+                     $"&departureDate={viewModel.DepartureDate:yyyy-MM-dd}" +
+                     $"&passengers={viewModel.Passengers}" +
+                     $"&seatClass={(int)viewModel.SeatClass}";
 
             var token = HttpContext.Session.GetString("jwt_token");
-            var response = await _apiService.PostAsync<List<FlightListDto>>("flights/search", searchDto, token);
+            var response = await _apiService.GetAsync<List<FlightListDto>>(qs, token);
 
             if (response?.Success == true && response.Data != null)
                 viewModel.Results = response.Data;
             else
-                TempData["ErrorMessage"] = response?.Message ?? "No flights found.";
+                TempData["ErrorMessage"] = response?.Message ?? "No flights found for this route.";
 
             return View(viewModel);
         }
@@ -47,7 +44,7 @@ namespace App.Web.Controllers
         public async Task<IActionResult> Details(Guid id)
         {
             var token = HttpContext.Session.GetString("jwt_token");
-            var response = await _apiService.GetAsync<FlightDto>($"flights/{id}", token);
+            var response = await _apiService.GetAsync<FlightDto>($"flight/{id}", token);
 
             if (response?.Success != true || response.Data == null)
             {
@@ -64,14 +61,14 @@ namespace App.Web.Controllers
         {
             var token = HttpContext.Session.GetString("jwt_token");
 
-            var flightResponse = await _apiService.GetAsync<FlightDto>($"flights/{flightId}", token);
+            var flightResponse = await _apiService.GetAsync<FlightDto>($"flight/{flightId}", token);
             if (flightResponse?.Success != true || flightResponse.Data == null)
             {
                 TempData["ErrorMessage"] = "Flight not found.";
                 return RedirectToAction(nameof(Search));
             }
 
-            var seatsResponse = await _apiService.GetAsync<List<SeatDto>>($"seats/available/{flightId}", token);
+            var seatsResponse = await _apiService.GetAsync<List<SeatDto>>($"seat/available/{flightId}", token);
 
             var viewModel = new BookViewModel
             {

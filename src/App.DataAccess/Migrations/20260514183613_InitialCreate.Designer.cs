@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace App.DataAccess.Migrations
 {
     [DbContext(typeof(FlightReservationDbContext))]
-    [Migration("20260514141708_InitialCreate")]
+    [Migration("20260514183613_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -40,7 +40,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -50,7 +50,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<string>("Email")
@@ -81,7 +81,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
@@ -144,7 +144,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -154,7 +154,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<int>("EntityStatus")
@@ -177,7 +177,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("TailNumber")
@@ -230,7 +230,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -240,7 +240,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<int>("EntityStatus")
@@ -272,7 +272,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
@@ -340,7 +340,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -350,7 +350,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<int>("EntityStatus")
@@ -385,7 +385,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
@@ -439,7 +439,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("id");
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("birth_date");
 
                     b.Property<string>("CreatedBy")
@@ -450,7 +450,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -460,7 +460,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<string>("Email")
@@ -487,7 +487,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
@@ -594,7 +594,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("cancellation_reason");
 
                     b.Property<DateTime?>("CheckInTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("check_in_time");
 
                     b.Property<string>("CreatedBy")
@@ -605,7 +605,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -619,7 +619,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<int>("EntityStatus")
@@ -646,7 +646,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("PnrNumber")
@@ -708,7 +708,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("airline_id");
 
                     b.Property<DateTime>("ArrivalDateTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("arrival_date_time");
 
                     b.Property<decimal>("BaseBusinessPrice")
@@ -744,7 +744,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -760,11 +760,11 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<DateTime>("DepartureDateTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("departure_date_time");
 
                     b.Property<TimeSpan>("Duration")
@@ -794,7 +794,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Number")
@@ -821,12 +821,12 @@ namespace App.DataAccess.Migrations
                     b.HasIndex("AirlineId")
                         .HasDatabaseName("ix_flights_airline_id");
 
-                    b.HasIndex("Number")
-                        .IsUnique()
-                        .HasDatabaseName("ix_flights_number");
-
                     b.HasIndex("ScheduleId")
                         .HasDatabaseName("ix_flights_schedule_id");
+
+                    b.HasIndex("Number", "DepartureDateTime")
+                        .IsUnique()
+                        .HasDatabaseName("ix_flights_number_departure_date_time");
 
                     b.ToTable("flights", null, t =>
                         {
@@ -861,7 +861,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -871,7 +871,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<int>("EntityStatus")
@@ -886,7 +886,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
@@ -935,7 +935,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -945,7 +945,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<int>("EconomySeats")
@@ -981,7 +981,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<string>("Name")
@@ -1034,7 +1034,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -1044,7 +1044,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<Guid>("DepartureAirportId")
@@ -1072,7 +1072,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.HasKey("Id")
@@ -1118,7 +1118,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -1132,7 +1132,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<TimeSpan>("DepartureTime")
@@ -1151,7 +1151,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<Guid>("RouteId")
@@ -1165,11 +1165,11 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("time_zone");
 
                     b.Property<DateTime>("ValidFrom")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("valid_from");
 
                     b.Property<DateTime?>("ValidTo")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("valid_to");
 
                     b.HasKey("Id")
@@ -1215,7 +1215,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -1225,7 +1225,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<int>("EntityStatus")
@@ -1252,7 +1252,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<int>("Row")
@@ -1317,7 +1317,7 @@ namespace App.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_date")
                         .HasDefaultValueSql("NOW()");
 
@@ -1327,7 +1327,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("deleted_date");
 
                     b.Property<int>("EntityStatus")
@@ -1337,7 +1337,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("entity_status");
 
                     b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("expires_at");
 
                     b.Property<string>("ModifiedBy")
@@ -1346,7 +1346,7 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_date");
 
                     b.Property<int>("Purpose")

@@ -1,44 +1,78 @@
 body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fb;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: #1a1a2e;
 }
 
+/* Cards */
+.card {
+    border-radius: 0.875rem;
+}
+
+.rounded-4 {
+    border-radius: 1rem !important;
+}
+
+/* Navbar */
 .navbar-brand {
-    font-size: 1.4rem;
-    letter-spacing: 0.5px;
+    font-size: 1.25rem;
+    letter-spacing: 0.3px;
 }
 
-.flight-card, .booking-card {
+/* Flight & booking card hover */
+.flight-card,
+.booking-card {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.flight-card:hover, .booking-card:hover {
+.flight-card:hover,
+.booking-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.12) !important;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1) !important;
 }
 
+/* Hero */
 .hero-section {
     border-radius: 1rem;
 }
 
+/* Input group icons */
+.input-group-text {
+    border-color: #dee2e6;
+}
+
+/* Focus ring */
+.form-control:focus,
+.form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* Password strength */
+.progress {
+    border-radius: 2px;
+}
+
+/* Phone select */
+.input-group .form-select {
+    border-right: 0;
+}
+
+/* Monospace PNR */
 .font-monospace {
     font-family: 'Courier New', monospace;
     letter-spacing: 0.1rem;
 }
 
-.btn-check:checked + .btn-outline-primary {
-    background-color: #0d6efd;
-    color: white;
+/* Alerts auto-dismiss */
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
 }
 
-input[type="text"].text-uppercase {
-    text-transform: uppercase;
-}
-
-.card {
-    border-radius: 0.75rem;
-}
-
-.card-header {
-    border-radius: 0.75rem 0.75rem 0 0 !important;
+/* Responsive */
+@media (max-width: 576px) {
+    .btn-lg { font-size: 1rem; padding: 0.5rem 1rem; }
+    .display-5 { font-size: 2rem !important; }
+    h2 { font-size: 1.4rem; }
 }

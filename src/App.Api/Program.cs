@@ -10,13 +10,17 @@ using App.Queue.Extensions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 using Serilog;
 using System.Text;
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +33,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // Localization
-builder.Services.AddLocalization(opts => opts.ResourcesPath = "Resources");
+builder.Services.AddLocalization();
 
 // FluentValidation
 builder.Services.AddFluentValidationAutoValidation();
@@ -68,11 +72,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // JWT Authentication
 var tokenOptions = builder.Configuration.GetSection(App.Core.Options.TokenOptions.TokenConfiguration).Get<App.Core.Options.TokenOptions>()!;
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
+builder.Services.AddAuthentication()
 .AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -86,6 +86,13 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.IssuerSigningSymmetricSecurityKey)),
         ClockSkew = TimeSpan.Zero
     };
+});
+
+// PostConfigure ensures JWT defaults win over AddIdentity's cookie defaults
+builder.Services.PostConfigure<AuthenticationOptions>(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 });
 
 builder.Services.AddAuthorization(options =>
@@ -123,6 +130,9 @@ builder.Services.AddBusinessServices(builder.Configuration);
 // Queue / MassTransit
 builder.Services.AddQueueServices(builder.Configuration);
 
+// Ensure Hangfire PostgreSQL database exists before Hangfire service registration
+EnsureHangfireDatabaseExists(builder.Configuration);
+
 // Background Jobs / Hangfire
 builder.Services.AddBackgroundJobServices(builder.Configuration);
 
@@ -150,6 +160,13 @@ if (!app.Environment.IsProduction())
     app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
 app.UseRouting();
+
+var supportedCultures = new[] { "tr-TR", "en-US" };
+app.UseRequestLocalization(new RequestLocalizationOptions()
+    .SetDefaultCulture("tr-TR")
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures));
+
 app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
@@ -168,3 +185,27 @@ app.MapControllers();
 app.Services.ConfigureRecurringJobs();
 
 app.Run();
+
+static void EnsureHangfireDatabaseExists(IConfiguration configuration)
+{
+    var connectionOptions = configuration.GetSection(ConnectionOptions.Connections).Get<ConnectionOptions>();
+    if (connectionOptions?.DatabaseProvider != "PostgreSql") return;
+
+    var csb = new NpgsqlConnectionStringBuilder(connectionOptions.Hangfire);
+    var dbName = csb.Database ?? "FlightReservationHangfireDb";
+    csb.Database = "postgres";
+
+    using var conn = new NpgsqlConnection(csb.ConnectionString);
+    conn.Open();
+
+    using var checkCmd = conn.CreateCommand();
+    checkCmd.CommandText = $"SELECT 1 FROM pg_database WHERE datname = '{dbName}'";
+    var exists = checkCmd.ExecuteScalar() != null;
+
+    if (!exists)
+    {
+        using var createCmd = conn.CreateCommand();
+        createCmd.CommandText = $"CREATE DATABASE \"{dbName}\"";
+        createCmd.ExecuteNonQuery();
+    }
+}

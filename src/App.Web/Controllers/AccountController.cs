@@ -81,7 +81,7 @@ namespace App.Web.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var response = await _apiService.PostAsync<object>("account/verify-email", model);
+            var response = await _apiService.PostAsync<object>("account/verify-code", model);
 
             if (response?.Success != true)
             {
@@ -99,7 +99,7 @@ namespace App.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(string email)
         {
-            var response = await _apiService.PostAsync<object>("account/send-verification-code", new { email });
+            var response = await _apiService.PostAsync<object>($"account/send-verification-code?email={Uri.EscapeDataString(email)}&purpose=1&channel=1", new { });
 
             TempData["SuccessMessage"] = "If your email is registered, you will receive a reset code shortly.";
             return RedirectToAction(nameof(ResetPassword), new { email });

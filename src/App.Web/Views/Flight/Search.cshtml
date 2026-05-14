@@ -3,30 +3,75 @@
     ViewData["Title"] = "Search Flights";
 }
 
+@section Scripts {
+<script>
+const AIRPORTS = [
+    { iata:'IST', city:'Istanbul',  name:'Istanbul Airport',  flag:'🇹🇷' },
+    { iata:'SAW', city:'Istanbul',  name:'Sabiha Gökçen',     flag:'🇹🇷' },
+    { iata:'ESB', city:'Ankara',    name:'Esenboğa',          flag:'🇹🇷' },
+    { iata:'ADB', city:'İzmir',     name:'Adnan Menderes',    flag:'🇹🇷' },
+    { iata:'AYT', city:'Antalya',   name:'Antalya Airport',   flag:'🇹🇷' },
+    { iata:'LHR', city:'London',    name:'Heathrow',          flag:'🇬🇧' },
+    { iata:'DXB', city:'Dubai',     name:'International',     flag:'🇦🇪' },
+    { iata:'JFK', city:'New York',  name:'JFK',               flag:'🇺🇸' },
+    { iata:'FRA', city:'Frankfurt', name:'Frankfurt Airport', flag:'🇩🇪' },
+    { iata:'CDG', city:'Paris',     name:'Charles de Gaulle', flag:'🇫🇷' },
+];
+
+function populateSelect(selId, selectedIata, excludeIata) {
+    const sel = document.getElementById(selId);
+    sel.innerHTML = '<option value="">Select airport...</option>';
+    AIRPORTS.filter(a => a.iata !== excludeIata).forEach(a => {
+        const opt = document.createElement('option');
+        opt.value = a.iata;
+        opt.textContent = a.flag + ' ' + a.city + ' — ' + a.name;
+        if (a.iata === selectedIata) opt.selected = true;
+        sel.appendChild(opt);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const dep = '@Model.DepartureIata';
+    const arr = '@Model.ArrivalIata';
+    populateSelect('DepartureIata', dep, arr);
+    populateSelect('ArrivalIata', arr, dep);
+
+    document.getElementById('DepartureIata').addEventListener('change', function() {
+        populateSelect('ArrivalIata', document.getElementById('ArrivalIata').value, this.value);
+    });
+    document.getElementById('ArrivalIata').addEventListener('change', function() {
+        populateSelect('DepartureIata', document.getElementById('DepartureIata').value, this.value);
+    });
+});
+</script>
+}
+
 <h2 class="fw-bold mb-4"><i class="bi bi-search me-2 text-primary"></i>Search Flights</h2>
 
-<div class="card shadow-sm border-0 mb-4">
+<div class="card shadow-sm border-0 mb-4 rounded-4">
     <div class="card-body p-4">
         <form asp-action="Search" method="post">
             <div class="row g-3 align-items-end">
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">From <span class="text-muted">(IATA)</span></label>
-                    <input type="text" name="DepartureIata" value="@Model.DepartureIata"
-                           class="form-control text-uppercase" placeholder="IST" maxlength="3" required />
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label class="form-label fw-semibold">From</label>
+                    <select id="DepartureIata" name="DepartureIata" class="form-select" required>
+                        <option value="">Select airport...</option>
+                    </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">To <span class="text-muted">(IATA)</span></label>
-                    <input type="text" name="ArrivalIata" value="@Model.ArrivalIata"
-                           class="form-control text-uppercase" placeholder="LHR" maxlength="3" required />
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label class="form-label fw-semibold">To</label>
+                    <select id="ArrivalIata" name="ArrivalIata" class="form-select" required>
+                        <option value="">Select airport...</option>
+                    </select>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label fw-semibold">Departure Date</label>
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <label class="form-label fw-semibold">Date</label>
                     <input type="date" name="DepartureDate"
                            value="@Model.DepartureDate.ToString("yyyy-MM-dd")"
                            class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Passengers</label>
+                <div class="col-3 col-sm-4 col-lg-1">
+                    <label class="form-label fw-semibold">Pax</label>
                     <select name="Passengers" class="form-select">
                         @for (int i = 1; i <= 9; i++)
                         {
@@ -41,7 +86,7 @@
                         }
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-9 col-sm-6 col-lg-2">
                     <label class="form-label fw-semibold">Class</label>
                     <select asp-for="SeatClass" class="form-select">
                         <option value="0">Economy</option>
@@ -50,9 +95,9 @@
                         <option value="3">First Class</option>
                     </select>
                 </div>
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-search"></i>
+                <div class="col-12 col-lg-1">
+                    <button type="submit" class="btn btn-primary w-100 fw-semibold">
+                        <i class="bi bi-search"></i> Search
                     </button>
                 </div>
             </div>
@@ -62,68 +107,66 @@
 
 @if (Model.Results.Any())
 {
-    <h4 class="mb-3 text-muted">@Model.Results.Count flight(s) found</h4>
+    <p class="text-muted fw-semibold mb-3">@Model.Results.Count flight(s) found</p>
 
     @foreach (var flight in Model.Results)
     {
         <div class="card shadow-sm border-0 mb-3 flight-card">
             <div class="card-body p-3">
-                <div class="row align-items-center">
-                    <div class="col-md-3">
-                        <div class="fw-bold text-primary fs-5">@flight.AirlineName</div>
+                <div class="row align-items-center g-2">
+                    <div class="col-12 col-md-3">
+                        <div class="fw-bold text-primary">@flight.AirlineName</div>
                         <div class="text-muted small">Flight @flight.Number</div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-12 col-md-5">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="text-center">
-                                <div class="fw-bold fs-5">@flight.DepartureDateTime.ToString("HH:mm")</div>
-                                <div class="text-muted small">@flight.DepartureAirportIata</div>
-                                <div class="text-muted small">@flight.DepartureCity</div>
+                                <div class="fw-bold">@flight.DepartureDateTime.ToString("HH:mm")</div>
+                                <div class="fw-semibold small">@flight.DepartureCity</div>
+                                <div class="text-muted small">@flight.DepartureDateTime.ToString("dd MMM")</div>
                             </div>
-                            <div class="text-center flex-grow-1 px-3">
+                            <div class="text-center flex-grow-1 px-2">
                                 <div class="text-muted small">@((flight.ArrivalDateTime - flight.DepartureDateTime).ToString(@"h\h\ mm\m"))</div>
                                 <div class="d-flex align-items-center">
                                     <div class="border-top flex-grow-1"></div>
-                                    <i class="bi bi-airplane-fill text-primary mx-2"></i>
+                                    <i class="bi bi-airplane-fill text-primary mx-2 small"></i>
                                     <div class="border-top flex-grow-1"></div>
                                 </div>
                                 <div class="text-muted small">Direct</div>
                             </div>
                             <div class="text-center">
-                                <div class="fw-bold fs-5">@flight.ArrivalDateTime.ToString("HH:mm")</div>
-                                <div class="text-muted small">@flight.ArrivalAirportIata</div>
-                                <div class="text-muted small">@flight.ArrivalCity</div>
+                                <div class="fw-bold">@flight.ArrivalDateTime.ToString("HH:mm")</div>
+                                <div class="fw-semibold small">@flight.ArrivalCity</div>
+                                <div class="text-muted small">@flight.ArrivalDateTime.ToString("dd MMM")</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2 text-center">
-                        <div class="fw-bold fs-4 text-success">
-                            @flight.BaseEconomyPrice.ToString("N0") @flight.Currency
-                        </div>
+                    <div class="col-6 col-md-2 text-center">
+                        <div class="fw-bold text-success">@flight.BaseEconomyPrice.ToString("N0") @flight.Currency</div>
                         <div class="text-muted small">from / person</div>
-                        @if (flight.AvailableSeats <= 5 && flight.AvailableSeats > 0)
+                        @if (flight.AvailableSeats is > 0 and <= 5)
                         {
-                            <span class="badge bg-warning text-dark small">Only @flight.AvailableSeats left!</span>
+                            <span class="badge bg-warning text-dark small">@flight.AvailableSeats left!</span>
                         }
                     </div>
-                    <div class="col-md-2 text-end">
-                        <a asp-action="Book" asp-route-flightId="@flight.Id" class="btn btn-primary">
-                            Select <i class="bi bi-chevron-right ms-1"></i>
+                    <div class="col-6 col-md-2 text-end">
+                        <a asp-action="Book" asp-route-flightId="@flight.Id" class="btn btn-primary btn-sm w-100">
+                            Select →
                         </a>
-                        <div class="mt-1">
-                            <a asp-action="Details" asp-route-id="@flight.Id" class="text-muted small">Details</a>
-                        </div>
+                        <a asp-action="Details" asp-route-id="@flight.Id" class="btn btn-link btn-sm text-muted p-0 mt-1 d-block">
+                            Details
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     }
 }
-else if (ViewBag.Searched == true)
+else if (!string.IsNullOrEmpty(TempData["ErrorMessage"]?.ToString()))
 {
     <div class="text-center py-5">
-        <i class="bi bi-airplane display-1 text-muted"></i>
-        <h4 class="mt-3 text-muted">No flights found for this route and date.</h4>
-        <p class="text-muted">Try adjusting your search criteria.</p>
+        <i class="bi bi-airplane display-4 text-muted opacity-25"></i>
+        <h5 class="text-muted mt-3">No flights found for this route and date.</h5>
+        <p class="text-muted small">Try different dates or destinations.</p>
     </div>
 }

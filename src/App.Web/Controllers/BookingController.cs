@@ -14,7 +14,7 @@ namespace App.Web.Controllers
         public async Task<IActionResult> MyBookings()
         {
             var token = HttpContext.Session.GetString("jwt_token");
-            var response = await _apiService.GetAsync<List<BookingListDto>>("bookings/my-bookings", token);
+            var response = await _apiService.GetAsync<List<BookingListDto>>("booking/my-bookings", token);
 
             var bookings = response?.Data ?? new List<BookingListDto>();
             return View(bookings);
@@ -24,7 +24,7 @@ namespace App.Web.Controllers
         public async Task<IActionResult> Details(Guid id)
         {
             var token = HttpContext.Session.GetString("jwt_token");
-            var response = await _apiService.GetAsync<BookingDto>($"bookings/{id}", token);
+            var response = await _apiService.GetAsync<BookingDto>($"booking/{id}", token);
 
             if (response?.Success != true || response.Data == null)
             {
@@ -39,7 +39,7 @@ namespace App.Web.Controllers
         public async Task<IActionResult> Cancel(Guid id)
         {
             var token = HttpContext.Session.GetString("jwt_token");
-            var response = await _apiService.DeleteAsync<object>($"bookings/{id}/cancel", token);
+            var response = await _apiService.PostAsync<object>($"booking/{id}/cancel", new { }, token);
 
             if (response?.Success != true)
                 TempData["ErrorMessage"] = response?.Message ?? "Cancellation failed.";

@@ -10,7 +10,7 @@ export interface TokenDto {
 }
 
 export interface SignInDto {
-  email: string;
+  usernameOrEmail: string;
   password: string;
 }
 

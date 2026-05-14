@@ -7,7 +7,7 @@
             base.Configure(builder);
             builder.ToTable("flights");
 
-            builder.HasIndex(f => f.Number).IsUnique();
+            builder.HasIndex(f => new { f.Number, f.DepartureDateTime }).IsUnique();
             builder.Property(f => f.Number).IsRequired().HasMaxLength(6);
             builder.ToTable(t => t.HasCheckConstraint("CK_Flight_Number_Pattern",
                 "number ~ '^[A-Z0-9]{3,6}$'"));

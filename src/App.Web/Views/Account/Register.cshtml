@@ -3,80 +3,228 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-7">
-        <div class="card shadow border-0">
-            <div class="card-body p-4">
+@section Scripts {
+<script>
+const PHONE_CODES = [
+    { flag:'🇹🇷', name:'Turkey',      code:'+90'  },
+    { flag:'🇺🇸', name:'USA/Canada',  code:'+1'   },
+    { flag:'🇬🇧', name:'UK',          code:'+44'  },
+    { flag:'🇩🇪', name:'Germany',     code:'+49'  },
+    { flag:'🇫🇷', name:'France',      code:'+33'  },
+    { flag:'🇦🇪', name:'UAE',         code:'+971' },
+    { flag:'🇮🇹', name:'Italy',       code:'+39'  },
+    { flag:'🇪🇸', name:'Spain',       code:'+34'  },
+    { flag:'🇳🇱', name:'Netherlands', code:'+31'  },
+    { flag:'🇧🇪', name:'Belgium',     code:'+32'  },
+    { flag:'🇨🇭', name:'Switzerland', code:'+41'  },
+    { flag:'🇦🇹', name:'Austria',     code:'+43'  },
+    { flag:'🇵🇱', name:'Poland',      code:'+48'  },
+    { flag:'🇸🇪', name:'Sweden',      code:'+46'  },
+    { flag:'🇬🇷', name:'Greece',      code:'+30'  },
+    { flag:'🇵🇹', name:'Portugal',    code:'+351' },
+    { flag:'🇷🇺', name:'Russia',      code:'+7'   },
+    { flag:'🇯🇵', name:'Japan',       code:'+81'  },
+    { flag:'🇮🇳', name:'India',       code:'+91'  },
+    { flag:'🇦🇺', name:'Australia',   code:'+61'  },
+];
+
+document.addEventListener('DOMContentLoaded', function() {
+    const codeSelect = document.getElementById('phoneCode');
+    const localInput = document.getElementById('phoneLocal');
+    const hiddenInput = document.getElementById('PhoneNumber');
+    const preview = document.getElementById('phonePreview');
+
+    // Build country select
+    PHONE_CODES.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.code;
+        opt.textContent = c.flag + ' ' + c.code + ' ' + c.name;
+        if (c.code === '+90') opt.selected = true;
+        codeSelect.appendChild(opt);
+    });
+
+    function updateHidden() {
+        const digits = localInput.value.replace(/\D/g, '');
+        localInput.value = digits;
+        if (digits) {
+            hiddenInput.value = codeSelect.value + digits;
+            preview.textContent = codeSelect.value + digits;
+            preview.style.display = 'block';
+        } else {
+            hiddenInput.value = '';
+            preview.style.display = 'none';
+        }
+    }
+    codeSelect.addEventListener('change', updateHidden);
+    localInput.addEventListener('input', updateHidden);
+
+    // Password strength
+    const pwInput = document.getElementById('Password');
+    const strengthBar = document.getElementById('pwStrengthBar');
+    const strengthLabel = document.getElementById('pwStrengthLabel');
+    pwInput && pwInput.addEventListener('input', function() {
+        const pw = this.value;
+        let score = 0;
+        if (pw.length >= 8) score++;
+        if (/[A-Z]/.test(pw)) score++;
+        if (/[0-9]/.test(pw)) score++;
+        if (/[^A-Za-z0-9]/.test(pw)) score++;
+        const colors = ['danger','danger','warning','info','success'];
+        const labels = ['','Weak','Fair','Good','Strong'];
+        strengthBar.style.width = (score * 25) + '%';
+        strengthBar.className = 'progress-bar bg-' + colors[score];
+        strengthLabel.textContent = labels[score];
+        strengthLabel.className = 'small text-' + colors[score];
+    });
+
+    // Birth date max
+    const bd = document.getElementById('BirthDate');
+    if (bd) {
+        const max = new Date();
+        max.setFullYear(max.getFullYear() - 12);
+        bd.max = max.toISOString().split('T')[0];
+    }
+});
+</script>
+}
+
+<div class="row justify-content-center mt-4 mb-5">
+    <div class="col-sm-11 col-md-9 col-lg-8">
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-body p-4 p-md-5">
+
                 <div class="text-center mb-4">
-                    <i class="bi bi-person-plus-fill display-4 text-primary"></i>
-                    <h2 class="mt-2 fw-bold">Create Account</h2>
-                    <p class="text-muted">Join FlightReservation today</p>
+                    <i class="bi bi-person-plus-fill display-5 text-primary"></i>
+                    <h2 class="fw-bold mt-2 mb-1">Create Account</h2>
+                    <p class="text-muted mb-0">Join FlightReservation today</p>
                 </div>
 
                 @await Html.PartialAsync("_ValidationSummary")
 
-                <form asp-action="Register" method="post">
+                <form asp-action="Register" method="post" novalidate>
                     <div class="row g-3">
-                        <div class="col-md-6">
-                            <label asp-for="Name" class="form-label fw-semibold">First Name</label>
-                            <input asp-for="Name" class="form-control" placeholder="John" />
+
+                        <!-- First Name -->
+                        <div class="col-sm-6">
+                            <label asp-for="Name" class="form-label fw-semibold">
+                                First Name <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Name" class="form-control" placeholder="John" autocomplete="given-name" required />
                             <span asp-validation-for="Name" class="text-danger small"></span>
                         </div>
-                        <div class="col-md-6">
-                            <label asp-for="Surname" class="form-label fw-semibold">Last Name</label>
-                            <input asp-for="Surname" class="form-control" placeholder="Doe" />
+
+                        <!-- Last Name -->
+                        <div class="col-sm-6">
+                            <label asp-for="Surname" class="form-label fw-semibold">
+                                Last Name <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Surname" class="form-control" placeholder="Doe" autocomplete="family-name" required />
                             <span asp-validation-for="Surname" class="text-danger small"></span>
                         </div>
-                        <div class="col-md-6">
-                            <label asp-for="Username" class="form-label fw-semibold">Username</label>
-                            <input asp-for="Username" class="form-control" placeholder="johndoe" />
+
+                        <!-- Username -->
+                        <div class="col-sm-6">
+                            <label asp-for="Username" class="form-label fw-semibold">
+                                Username <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">@@</span>
+                                <input asp-for="Username" class="form-control" placeholder="johndoe" autocomplete="username" minlength="3" required />
+                            </div>
                             <span asp-validation-for="Username" class="text-danger small"></span>
                         </div>
-                        <div class="col-md-6">
-                            <label asp-for="Email" class="form-label fw-semibold">Email</label>
-                            <input asp-for="Email" class="form-control" placeholder="john@example.com" type="email" />
+
+                        <!-- Email -->
+                        <div class="col-sm-6">
+                            <label asp-for="Email" class="form-label fw-semibold">
+                                Email <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-envelope text-muted"></i></span>
+                                <input asp-for="Email" class="form-control" type="email" placeholder="john@example.com" autocomplete="email" required />
+                            </div>
                             <span asp-validation-for="Email" class="text-danger small"></span>
                         </div>
-                        <div class="col-md-6">
-                            <label asp-for="Password" class="form-label fw-semibold">Password</label>
-                            <input asp-for="Password" class="form-control" type="password" placeholder="••••••••" />
-                            <span asp-validation-for="Password" class="text-danger small"></span>
+
+                        <!-- Password -->
+                        <div class="col-sm-6">
+                            <label asp-for="Password" class="form-label fw-semibold">
+                                Password <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-lock text-muted"></i></span>
+                                <input asp-for="Password" id="Password" class="form-control" type="password"
+                                       placeholder="Min. 8 characters" autocomplete="new-password" minlength="8" required />
+                                <button type="button" class="btn btn-outline-secondary" id="togglePw" tabindex="-1">
+                                    <i class="bi bi-eye" id="togglePwIcon"></i>
+                                </button>
+                            </div>
+                            <div class="progress mt-1" style="height:4px">
+                                <div id="pwStrengthBar" class="progress-bar" style="width:0"></div>
+                            </div>
+                            <span id="pwStrengthLabel" class="small"></span>
+                            <span asp-validation-for="Password" class="text-danger small d-block"></span>
                         </div>
-                        <div class="col-md-6">
-                            <label asp-for="PhoneNumber" class="form-label fw-semibold">Phone Number</label>
-                            <input asp-for="PhoneNumber" class="form-control" placeholder="+905551234567" />
+
+                        <!-- Phone -->
+                        <div class="col-sm-6">
+                            <label class="form-label fw-semibold">
+                                Phone Number <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <select id="phoneCode" class="form-select flex-shrink-0" style="max-width:160px"></select>
+                                <input id="phoneLocal" type="tel" class="form-control"
+                                       placeholder="5551234567" minlength="6" maxlength="12"
+                                       inputmode="tel" required />
+                            </div>
+                            <small id="phonePreview" class="text-muted" style="display:none"></small>
+                            <input asp-for="PhoneNumber" id="PhoneNumber" type="hidden" />
                             <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
                         </div>
-                        <div class="col-md-6">
-                            <label asp-for="BirthDate" class="form-label fw-semibold">Date of Birth</label>
-                            <input asp-for="BirthDate" class="form-control" type="date" />
+
+                        <!-- Birth Date -->
+                        <div class="col-sm-6">
+                            <label asp-for="BirthDate" class="form-label fw-semibold">
+                                Date of Birth <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="BirthDate" id="BirthDate" class="form-control" type="date" required />
                             <span asp-validation-for="BirthDate" class="text-danger small"></span>
                         </div>
-                        <div class="col-md-6">
-                            <label asp-for="Nationality" class="form-label fw-semibold">Nationality <span class="text-muted">(optional)</span></label>
-                            <input asp-for="Nationality" class="form-control" placeholder="Turkish" />
+
+                        <!-- Nationality -->
+                        <div class="col-sm-6">
+                            <label asp-for="Nationality" class="form-label fw-semibold">
+                                Nationality <span class="text-muted small">(optional)</span>
+                            </label>
+                            <input asp-for="Nationality" class="form-control" placeholder="e.g. Turkish" />
                         </div>
+
+                        <!-- Notification -->
                         <div class="col-12">
-                            <label asp-for="PreferredNotificationChannel" class="form-label fw-semibold">Notification Preference</label>
+                            <label asp-for="PreferredNotificationChannel" class="form-label fw-semibold">
+                                Notification Preference
+                            </label>
                             <select asp-for="PreferredNotificationChannel" class="form-select">
-                                <option value="1">Email</option>
-                                <option value="2">SMS</option>
-                                <option value="4">WhatsApp</option>
-                                <option value="7">All (Email + SMS + WhatsApp)</option>
+                                <option value="1">📧 Email</option>
+                                <option value="2">📱 SMS</option>
+                                <option value="4">💬 WhatsApp</option>
+                                <option value="7">🔔 All (Email + SMS + WhatsApp)</option>
                             </select>
                         </div>
+
                         <div class="col-12 mt-2">
-                            <button type="submit" class="btn btn-primary w-100 btn-lg">
+                            <button type="submit" class="btn btn-primary w-100 btn-lg fw-semibold">
                                 <i class="bi bi-person-check me-2"></i>Create Account
                             </button>
                         </div>
+
                     </div>
                 </form>
 
                 <hr class="my-4" />
-                <p class="text-center mb-0">
+                <p class="text-center mb-0 text-muted">
                     Already have an account?
-                    <a asp-action="Login" class="text-primary fw-semibold">Sign In</a>
+                    <a asp-action="Login" class="text-primary fw-semibold text-decoration-none">Sign In</a>
                 </p>
             </div>
         </div>

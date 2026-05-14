@@ -10,19 +10,23 @@ export default function LoginPage() {
   const { login } = useAuth();
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname ?? '/';
 
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm] = useState({ usernameOrEmail: '', password: '' });
+  const [showPw, setShowPw] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    if (!form.usernameOrEmail.trim()) { setError('Username or email is required.'); return; }
+    if (!form.password) { setError('Password is required.'); return; }
+
     setLoading(true);
     try {
       const res = await authApi.signIn(form);
       const body = res.data;
       if (!body.success || !body.data) {
-        setError(body.message ?? 'Login failed.');
+        setError(body.message ?? 'Sign in failed. Please check your credentials.');
         return;
       }
       login(body.data.accessToken, body.data.expiration);
@@ -35,52 +39,85 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="row justify-content-center">
-      <div className="col-md-5">
-        <div className="card shadow border-0">
-          <div className="card-body p-4">
+    <div className="row justify-content-center mt-4">
+      <div className="col-sm-10 col-md-6 col-lg-5">
+        <div className="card shadow-lg border-0 rounded-4">
+          <div className="card-body p-4 p-md-5">
+
             <div className="text-center mb-4">
-              <div style={{ fontSize: '3rem' }}>👤</div>
-              <h2 className="fw-bold">Sign In</h2>
-              <p className="text-muted">Welcome back to FlightReservation</p>
+              <div className="display-6 mb-2">✈</div>
+              <h2 className="fw-bold mb-1">Welcome Back</h2>
+              <p className="text-muted mb-0">Sign in to FlightReservation</p>
             </div>
+
             {error && <AlertMessage type="danger" message={error} onClose={() => setError('')} />}
-            <form onSubmit={handleSubmit}>
+
+            <form onSubmit={handleSubmit} noValidate>
               <div className="mb-3">
-                <label className="form-label fw-semibold">Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="your@email.com"
-                  value={form.email}
-                  onChange={e => setForm({ ...form, email: e.target.value })}
-                  required
-                  autoComplete="email"
-                />
+                <label className="form-label fw-semibold">Username or Email</label>
+                <div className="input-group">
+                  <span className="input-group-text bg-light">
+                    <i className="bi bi-person text-muted"></i>
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="username or email@example.com"
+                    value={form.usernameOrEmail}
+                    onChange={e => setForm({ ...form, usernameOrEmail: e.target.value })}
+                    autoComplete="username"
+                    required
+                  />
+                </div>
               </div>
+
               <div className="mb-3">
                 <label className="form-label fw-semibold">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="••••••••"
-                  value={form.password}
-                  onChange={e => setForm({ ...form, password: e.target.value })}
-                  required
-                  autoComplete="current-password"
-                />
+                <div className="input-group">
+                  <span className="input-group-text bg-light">
+                    <i className="bi bi-lock text-muted"></i>
+                  </span>
+                  <input
+                    type={showPw ? 'text' : 'password'}
+                    className="form-control"
+                    placeholder="••••••••"
+                    value={form.password}
+                    onChange={e => setForm({ ...form, password: e.target.value })}
+                    autoComplete="current-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={() => setShowPw(p => !p)}
+                    tabIndex={-1}
+                  >
+                    <i className={`bi bi-eye${showPw ? '-slash' : ''}`}></i>
+                  </button>
+                </div>
               </div>
-              <div className="mb-3 text-end">
-                <Link to="/forgot-password" className="text-muted small">Forgot password?</Link>
+
+              <div className="d-flex justify-content-end mb-3">
+                <Link to="/forgot-password" className="text-muted small text-decoration-none">
+                  Forgot password?
+                </Link>
               </div>
-              <button type="submit" className="btn btn-primary w-100 btn-lg" disabled={loading}>
-                {loading ? <span className="spinner-border spinner-border-sm me-2" /> : null}
-                Sign In
+
+              <button
+                type="submit"
+                className="btn btn-primary w-100 btn-lg fw-semibold"
+                disabled={loading}
+              >
+                {loading
+                  ? <><span className="spinner-border spinner-border-sm me-2" />Signing in...</>
+                  : 'Sign In'}
               </button>
             </form>
+
             <hr className="my-4" />
-            <p className="text-center mb-0">
-              Don't have an account? <Link to="/register" className="text-primary fw-semibold">Register</Link>
+            <p className="text-center mb-0 text-muted">
+              Don't have an account?{' '}
+              <Link to="/register" className="text-primary fw-semibold text-decoration-none">Register</Link>
             </p>
           </div>
         </div>

@@ -12,6 +12,14 @@ namespace App.DataAccess.Concrete.SeedDatas
         private const string AdminUsername = "superadmin";
         private const string AdminPassword = "Admin2026+-!?";
 
+        private const string TestAdminEmail = "testadmin@flightreservation.com";
+        private const string TestAdminUsername = "testadmin";
+        private const string TestAdminPassword = "TestAdmin2026+-!?";
+
+        private const string TestUserEmail = "testuser@flightreservation.com";
+        private const string TestUserUsername = "testuser";
+        private const string TestUserPassword = "TestUser2026+-!?";
+
         public static async Task SeedAsync(
             FlightReservationDbContext db,
             UserManager<IdentityUser> userManager,
@@ -19,6 +27,8 @@ namespace App.DataAccess.Concrete.SeedDatas
         {
             await SeedRolesAsync(roleManager);
             await SeedAdminAsync(db, userManager);
+            await SeedTestAdminAsync(db, userManager);
+            await SeedTestAppUserAsync(db, userManager);
             await SeedManufacturersAsync(db);
             await SeedModelsAsync(db);
             await SeedAirlinesAsync(db);
@@ -27,7 +37,7 @@ namespace App.DataAccess.Concrete.SeedDatas
             await SeedSchedulesAsync(db);
             await SeedAircraftsAsync(db);
             await SeedSeatsAsync(db);
-            //await SeedFlightsAsync(db);
+            await SeedFlightsAsync(db);
         }
 
         private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
@@ -62,6 +72,70 @@ namespace App.DataAccess.Concrete.SeedDatas
                     Name = "Super",
                     Surname = "Admin",
                     Email = AdminEmail,
+                    IdentityId = identityUser.Id,
+                    CreatedBy = "system"
+                });
+                await db.SaveChangesAsync();
+            }
+        }
+
+        private static async Task SeedTestAdminAsync(FlightReservationDbContext db, UserManager<IdentityUser> userManager)
+        {
+            if (await userManager.FindByEmailAsync(TestAdminEmail) != null) return;
+
+            var identityUser = new IdentityUser
+            {
+                Email = TestAdminEmail,
+                UserName = TestAdminUsername,
+                NormalizedEmail = TestAdminEmail.ToUpperInvariant(),
+                NormalizedUserName = TestAdminUsername.ToUpperInvariant(),
+                EmailConfirmed = true
+            };
+            await userManager.CreateAsync(identityUser, TestAdminPassword);
+            await userManager.AddToRoleAsync(identityUser, "Admin");
+
+            if (!await db.Admins.AnyAsync(a => a.Email == TestAdminEmail))
+            {
+                db.Admins.Add(new Admin
+                {
+                    Name = "Test",
+                    Surname = "Admin",
+                    Email = TestAdminEmail,
+                    IdentityId = identityUser.Id,
+                    IsSuperAdmin = false,
+                    CreatedBy = "system"
+                });
+                await db.SaveChangesAsync();
+            }
+        }
+
+        private static async Task SeedTestAppUserAsync(FlightReservationDbContext db, UserManager<IdentityUser> userManager)
+        {
+            if (await userManager.FindByEmailAsync(TestUserEmail) != null) return;
+
+            var identityUser = new IdentityUser
+            {
+                Email = TestUserEmail,
+                UserName = TestUserUsername,
+                NormalizedEmail = TestUserEmail.ToUpperInvariant(),
+                NormalizedUserName = TestUserUsername.ToUpperInvariant(),
+                EmailConfirmed = true
+            };
+            await userManager.CreateAsync(identityUser, TestUserPassword);
+            await userManager.AddToRoleAsync(identityUser, "User");
+
+            if (!await db.AppUsers.AnyAsync(u => u.Email == TestUserEmail))
+            {
+                db.AppUsers.Add(new AppUser
+                {
+                    Name = "Test",
+                    Surname = "User",
+                    Email = TestUserEmail,
+                    PhoneNumber = "+905001234567",
+                    BirthDate = new DateTime(1996, 6, 15, 0, 0, 0, DateTimeKind.Utc),
+                    UserStatus = UserStatus.Active,
+                    PreferredNotificationChannel = NotificationChannel.Email,
+                    Nationality = "TR",
                     IdentityId = identityUser.Id,
                     CreatedBy = "system"
                 });

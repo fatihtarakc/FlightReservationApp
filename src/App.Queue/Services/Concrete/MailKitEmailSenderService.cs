@@ -38,7 +38,7 @@ namespace App.Queue.Services.Concrete
                 await client.ConnectAsync(
                     _emailOptions.SmtpServer,
                     _emailOptions.Port,
-                    _emailOptions.UseSsl ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.StartTlsWhenAvailable);
+                    SecureSocketOptions.Auto);
                 await client.AuthenticateAsync(_emailOptions.Username, _emailOptions.Password);
                 await client.SendAsync(message);
                 await client.DisconnectAsync(true);

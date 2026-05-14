@@ -1,13 +1,24 @@
-import apiClient from './apiClient';
+import { api } from './apiClient';
 import type { ApiResponse, FlightDto, FlightListDto, FlightSearchDto, SeatDto } from '../types';
 
 export const flightApi = {
-  search: (data: FlightSearchDto) =>
-    apiClient.post<ApiResponse<FlightListDto[]>>('flights/search', data),
+  getAll: () =>
+    api.get<ApiResponse<FlightListDto[]>>('flight'),
+
+  search: (data: FlightSearchDto) => {
+    const params = new URLSearchParams({
+      departureIata: data.departureIata,
+      arrivalIata:   data.arrivalIata,
+      departureDate: data.departureDate,
+      passengers:    String(data.passengers),
+      seatClass:     String(data.seatClass),
+    });
+    return api.get<ApiResponse<FlightListDto[]>>(`flight/search?${params}`);
+  },
 
   getById: (id: string) =>
-    apiClient.get<ApiResponse<FlightDto>>(`flights/${id}`),
+    api.get<ApiResponse<FlightDto>>(`flight/${id}`),
 
   getAvailableSeats: (flightId: string) =>
-    apiClient.get<ApiResponse<SeatDto[]>>(`seats/available/${flightId}`),
+    api.get<ApiResponse<SeatDto[]>>(`seat/available/${flightId}`),
 };
