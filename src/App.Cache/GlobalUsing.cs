@@ -1,0 +1,11 @@
+global using App.Core.Constants;
+global using App.Core.Entities.Abstract;
+global using App.Core.Options;
+global using App.Core.Resources;
+global using App.Core.Utilities.Results.Abstract;
+global using App.Core.Utilities.Results.Concrete;
+global using Microsoft.Extensions.Caching.Distributed;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Localization;
+global using Microsoft.Extensions.Logging;
+global using System.Text.Json;

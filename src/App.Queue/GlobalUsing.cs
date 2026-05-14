@@ -1,0 +1,17 @@
+global using App.Core.Constants;
+global using App.Core.Options;
+global using App.Core.Resources;
+global using App.Core.Utilities.Results.Abstract;
+global using App.Core.Utilities.Results.Concrete;
+global using App.Dtos.EmailDtos;
+global using App.Dtos.NotificationDtos;
+global using App.Entity.Enums;
+global using App.Queue.Constants;
+global using App.Queue.Events;
+global using App.Queue.Services.Abstract;
+global using MassTransit;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Localization;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;

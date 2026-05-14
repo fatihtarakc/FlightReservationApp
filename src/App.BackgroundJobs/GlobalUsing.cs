@@ -1,0 +1,11 @@
+global using App.Core.Constants;
+global using App.Core.Options;
+global using App.Core.UnitOfWorks.Interfaces;
+global using App.DataAccess.Abstract.Repositories.Abstract;
+global using App.Entity.Enums;
+global using App.Queue.Events;
+global using Hangfire;
+global using MassTransit;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;

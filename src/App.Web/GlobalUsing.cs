@@ -1,0 +1,16 @@
+global using App.Dtos.AccountDtos;
+global using App.Dtos.SeatDtos;
+global using App.Dtos.AirlineDtos;
+global using App.Dtos.AirportDtos;
+global using App.Dtos.BookingDtos;
+global using App.Dtos.FlightDtos;
+global using App.Dtos.TokenDtos;
+global using App.Entity.Enums;
+global using App.Web.Models;
+global using App.Web.Services.Abstract;
+global using Microsoft.AspNetCore.Authentication;
+global using Microsoft.AspNetCore.Authentication.Cookies;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using System.Security.Claims;
+global using System.Text.Json;

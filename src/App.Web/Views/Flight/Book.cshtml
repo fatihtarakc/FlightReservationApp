@@ -1,0 +1,110 @@
+@model BookViewModel
+@{
+    ViewData["Title"] = $"Book Flight {Model.Flight.Number}";
+}
+
+<div class="mb-3">
+    <a asp-action="Details" asp-route-id="@Model.Flight.Id" class="text-muted">
+        <i class="bi bi-arrow-left me-1"></i>Back to Flight Details
+    </a>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-8">
+        <div class="card shadow border-0 mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-cursor me-2"></i>Select Your Seat
+                </h5>
+            </div>
+            <div class="card-body p-4">
+                @if (Model.AvailableSeats.Any())
+                {
+                    <form asp-action="Book" method="post">
+                        <input type="hidden" name="Flight.Id" value="@Model.Flight.Id" />
+                        <input type="hidden" name="Flight.Number" value="@Model.Flight.Number" />
+
+                        @foreach (var seatClass in Model.AvailableSeats.Select(s => s.SeatClass).Distinct().OrderBy(c => c))
+                        {
+                            <h6 class="fw-semibold text-muted mb-2 mt-3">@seatClass</h6>
+                            <div class="row g-2 mb-3">
+                                @foreach (var seat in Model.AvailableSeats.Where(s => s.SeatClass == seatClass).OrderBy(s => s.Row).ThenBy(s => s.Column))
+                                {
+                                    <div class="col-auto">
+                                        <input type="radio" class="btn-check" name="SelectedSeatId"
+                                               id="seat_@seat.Id" value="@seat.Id" required />
+                                        <label class="btn btn-outline-primary btn-sm" for="seat_@seat.Id"
+                                               title="Row @seat.Row @seat.Column @(seat.IsWindowSeat ? "| Window" : "") @(seat.IsAisleSeat ? "| Aisle" : "") @(seat.HasExtraLegRoom ? "| Extra Legroom" : "")">
+                                            @seat.Row@seat.Column
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                        <div class="d-flex gap-3 mt-2 mb-4 flex-wrap">
+                            <span class="text-muted small"><span class="btn btn-outline-primary btn-sm disabled">XX</span> Available</span>
+                            <span class="text-muted small"><i class="bi bi-window me-1"></i>= Window</span>
+                            <span class="text-muted small"><i class="bi bi-sign-intersection-side me-1"></i>= Aisle</span>
+                            <span class="text-muted small"><i class="bi bi-arrows-expand me-1"></i>= Extra Legroom</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100">
+                            <i class="bi bi-check-circle me-2"></i>Confirm Booking
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <i class="bi bi-x-circle display-4 text-danger"></i>
+                        <h5 class="mt-3">No seats available for this flight.</h5>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow border-0 sticky-top" style="top: 1rem;">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0"><i class="bi bi-receipt me-2"></i>Flight Summary</h5>
+            </div>
+            <div class="card-body p-3">
+                <div class="mb-2">
+                    <span class="text-muted small">Airline</span>
+                    <div class="fw-semibold">@Model.Flight.AirlineName</div>
+                </div>
+                <div class="mb-2">
+                    <span class="text-muted small">Flight</span>
+                    <div class="fw-semibold">@Model.Flight.Number</div>
+                </div>
+                <div class="mb-2">
+                    <span class="text-muted small">Route</span>
+                    <div class="fw-semibold">
+                        @Model.Flight.DepartureCity (@Model.Flight.DepartureAirportIata)
+                        <i class="bi bi-arrow-right mx-1"></i>
+                        @Model.Flight.ArrivalCity (@Model.Flight.ArrivalAirportIata)
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <span class="text-muted small">Departure</span>
+                    <div class="fw-semibold">@Model.Flight.DepartureDateTime.ToString("dd MMM yyyy HH:mm")</div>
+                </div>
+                <div class="mb-2">
+                    <span class="text-muted small">Arrival</span>
+                    <div class="fw-semibold">@Model.Flight.ArrivalDateTime.ToString("dd MMM yyyy HH:mm")</div>
+                </div>
+                <hr />
+                <div class="mb-2">
+                    <span class="text-muted small">Economy from</span>
+                    <div class="fw-bold fs-5 text-success">@Model.Flight.BaseEconomyPrice.ToString("N0") @Model.Flight.Currency</div>
+                </div>
+                <div class="alert alert-info p-2 small mb-0">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Final price depends on the selected seat class.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- Account -->
+  <data name="Account_SignIn_Failed"><value>Sign in failed. Invalid username or password.</value></data>
+  <data name="Account_SignIn_Successful"><value>Sign in successful. Welcome!</value></data>
+  <data name="Account_SignOut_Successful"><value>Sign out successful.</value></data>
+  <data name="Account_ActivateAccount_Failed"><value>Account activation failed.</value></data>
+  <data name="Account_ActivateAccount_Successful"><value>Account activated successfully.</value></data>
+  <data name="Account_ConfirmEmail_Failed"><value>Email confirmation failed.</value></data>
+  <data name="Account_ConfirmEmail_Successful"><value>Email confirmed successfully.</value></data>
+  <data name="Account_ResetPassword_Failed"><value>Password reset failed.</value></data>
+  <data name="Account_ResetPassword_Successful"><value>Password reset successfully.</value></data>
+  <data name="Account_Was_Not_Found"><value>Account not found.</value></data>
+  <data name="Account_Was_Found"><value>Account found.</value></data>
+  <data name="Account_Has_Already_Been_Activated"><value>Account is already active.</value></data>
+  <data name="Account_Has_Not_Activated"><value>Account has not been activated yet.</value></data>
+  <data name="Account_Email_Has_Already_Been_Confirmed"><value>Email address is already confirmed.</value></data>
+  <data name="Account_Email_Has_Not_Confirmed"><value>Email address has not been confirmed yet.</value></data>
+  <data name="Account_Email_Was_Confirmed"><value>Email address confirmed.</value></data>
+  <data name="Account_Email_Has_Already_Existed"><value>This email address is already in use.</value></data>
+  <data name="Account_Email_Is_Invalid"><value>Invalid email address.</value></data>
+  <data name="Account_Username_Has_Already_Existed"><value>This username is already in use.</value></data>
+  <data name="Account_Role_Was_Not_Found_For_IdentityUser"><value>User role not found.</value></data>
+  <data name="Account_Please_Enter_Your_Name"><value>Please enter your name.</value></data>
+  <data name="Account_Name_Cannot_Be_LessThan_2Characters"><value>Name must be at least 2 characters.</value></data>
+  <data name="Account_Name_Cannot_Be_GreaterThan_50Characters"><value>Name cannot exceed 50 characters.</value></data>
+  <data name="Account_Please_Enter_Your_Surname"><value>Please enter your surname.</value></data>
+  <data name="Account_Surname_Cannot_Be_LessThan_2Characters"><value>Surname must be at least 2 characters.</value></data>
+  <data name="Account_Surname_Cannot_Be_GreaterThan_50Characters"><value>Surname cannot exceed 50 characters.</value></data>
+  <data name="Account_Please_Enter_Your_Username"><value>Please enter your username.</value></data>
+  <data name="Account_Username_Cannot_Be_LessThan_5Characters"><value>Username must be at least 5 characters.</value></data>
+  <data name="Account_Username_Cannot_Be_GreaterThan_30Characters"><value>Username cannot exceed 30 characters.</value></data>
+  <data name="Account_Please_Enter_Your_Email"><value>Please enter your email address.</value></data>
+  <data name="Account_Please_Enter_Your_Email_With_Correct_Format"><value>Please enter a valid email address.</value></data>
+  <data name="Account_Email_Cannot_Be_LessThan_5Characters"><value>Email must be at least 5 characters.</value></data>
+  <data name="Account_Email_Cannot_Be_GreaterThan_100Characters"><value>Email cannot exceed 100 characters.</value></data>
+  <data name="Account_Please_Enter_Your_Password"><value>Please enter your password.</value></data>
+  <data name="Account_Password_Must_Include_1UpperLetter_AtLeast"><value>Password must include at least 1 uppercase letter.</value></data>
+  <data name="Account_Password_Must_Include_1LowerLetter_AtLeast"><value>Password must include at least 1 lowercase letter.</value></data>
+  <data name="Account_Password_Must_Include_1Digit_AtLeast"><value>Password must include at least 1 digit.</value></data>
+  <data name="Account_Password_Must_Include_1Symbol_AtLeast"><value>Password must include at least 1 special character.</value></data>
+  <data name="Account_Password_Cannot_Be_LessThan_8Characters"><value>Password must be at least 8 characters.</value></data>
+  <data name="Account_Password_Cannot_Be_GreaterThan_50Characters"><value>Password cannot exceed 50 characters.</value></data>
+  <data name="Account_Please_Enter_Your_Birthdate"><value>Please enter your birthdate.</value></data>
+  <data name="Account_Birthdate_Age_Cannot_Be_LessThan_12YearsOld"><value>User must be at least 12 years old.</value></data>
+  <data name="Account_Please_Enter_Your_PhoneNumber"><value>Please enter your phone number.</value></data>
+  <data name="Account_PhoneNumber_Is_Invalid"><value>Invalid phone number.</value></data>
+  <data name="Account_Please_Select_NotificationPreference"><value>Please select your notification preference.</value></data>
+  <data name="Account_Please_Take_New_VerificationCode"><value>Please request a new verification code.</value></data>
+  <data name="Account_Please_Enter_Your_VerificationCode"><value>Please enter your verification code.</value></data>
+  <data name="Account_VerificationCode_Is_Invalid"><value>Invalid verification code.</value></data>
+  <data name="Account_VerificationCode_Is_Expired"><value>Verification code has expired.</value></data>
+
+  <!-- Token -->
+  <data name="Token_Could_Not_Generated"><value>Token could not be generated.</value></data>
+  <data name="Token_Was_Generated_Successfully"><value>Token generated successfully.</value></data>
+  <data name="Token_Is_Invalid"><value>Invalid token.</value></data>
+  <data name="Token_Is_Expired"><value>Token has expired.</value></data>
+
+  <!-- AppUser -->
+  <data name="AppUser_HasBeen_Added"><value>User added successfully.</value></data>
+  <data name="AppUser_CouldNotBe_Added"><value>User could not be added.</value></data>
+  <data name="AppUser_Was_Not_Found"><value>User not found.</value></data>
+  <data name="AppUser_Was_Found"><value>User found.</value></data>
+  <data name="AppUser_Was_Updated"><value>User updated successfully.</value></data>
+  <data name="AppUser_Could_Not_Be_Updated"><value>User could not be updated.</value></data>
+
+  <!-- Airline -->
+  <data name="Airline_Was_Not_Found"><value>Airline not found.</value></data>
+  <data name="Airline_Was_Found"><value>Airline found.</value></data>
+  <data name="Airline_HasBeen_Added"><value>Airline added successfully.</value></data>
+  <data name="Airline_CouldNotBe_Added"><value>Airline could not be added.</value></data>
+  <data name="Airline_Was_Updated"><value>Airline updated successfully.</value></data>
+  <data name="Airline_Could_Not_Be_Updated"><value>Airline could not be updated.</value></data>
+  <data name="Airline_Was_Deleted"><value>Airline deleted successfully.</value></data>
+  <data name="Airline_Could_Not_Be_Deleted"><value>Airline could not be deleted.</value></data>
+  <data name="Airline_IataCode_Already_Exists"><value>This IATA code is already in use.</value></data>
+
+  <!-- Airport -->
+  <data name="Airport_Was_Not_Found"><value>Airport not found.</value></data>
+  <data name="Airport_Was_Found"><value>Airport found.</value></data>
+  <data name="Airport_HasBeen_Added"><value>Airport added successfully.</value></data>
+  <data name="Airport_CouldNotBe_Added"><value>Airport could not be added.</value></data>
+  <data name="Airport_Was_Updated"><value>Airport updated successfully.</value></data>
+  <data name="Airport_Was_Deleted"><value>Airport deleted successfully.</value></data>
+  <data name="Airport_IataCode_Already_Exists"><value>This IATA code is already in use.</value></data>
+
+  <!-- Aircraft -->
+  <data name="Aircraft_Was_Not_Found"><value>Aircraft not found.</value></data>
+  <data name="Aircraft_Was_Found"><value>Aircraft found.</value></data>
+  <data name="Aircraft_HasBeen_Added"><value>Aircraft added successfully.</value></data>
+  <data name="Aircraft_CouldNotBe_Added"><value>Aircraft could not be added.</value></data>
+  <data name="Aircraft_Was_Updated"><value>Aircraft updated successfully.</value></data>
+  <data name="Aircraft_Was_Deleted"><value>Aircraft deleted successfully.</value></data>
+  <data name="Aircraft_TailNumber_Already_Exists"><value>This tail number is already registered.</value></data>
+
+  <!-- Manufacturer -->
+  <data name="Manufacturer_Was_Not_Found"><value>Manufacturer not found.</value></data>
+  <data name="Manufacturer_Was_Found"><value>Manufacturer found.</value></data>
+  <data name="Manufacturer_HasBeen_Added"><value>Manufacturer added successfully.</value></data>
+  <data name="Manufacturer_CouldNotBe_Added"><value>Manufacturer could not be added.</value></data>
+  <data name="Manufacturer_Was_Updated"><value>Manufacturer updated successfully.</value></data>
+  <data name="Manufacturer_Was_Deleted"><value>Manufacturer deleted successfully.</value></data>
+  <data name="Manufacturer_Name_Already_Exists"><value>This manufacturer name is already in use.</value></data>
+
+  <!-- Model -->
+  <data name="Model_Was_Not_Found"><value>Model not found.</value></data>
+  <data name="Model_Was_Found"><value>Model found.</value></data>
+  <data name="Model_HasBeen_Added"><value>Model added successfully.</value></data>
+  <data name="Model_CouldNotBe_Added"><value>Model could not be added.</value></data>
+  <data name="Model_Was_Updated"><value>Model updated successfully.</value></data>
+  <data name="Model_Was_Deleted"><value>Model deleted successfully.</value></data>
+
+  <!-- Route -->
+  <data name="Route_Was_Not_Found"><value>Route not found.</value></data>
+  <data name="Route_Was_Found"><value>Route found.</value></data>
+  <data name="Route_HasBeen_Added"><value>Route added successfully.</value></data>
+  <data name="Route_CouldNotBe_Added"><value>Route could not be added.</value></data>
+  <data name="Route_Was_Updated"><value>Route updated successfully.</value></data>
+  <data name="Route_Was_Deleted"><value>Route deleted successfully.</value></data>
+  <data name="Route_Already_Exists"><value>This route already exists.</value></data>
+
+  <!-- Schedule -->
+  <data name="Schedule_Was_Not_Found"><value>Schedule not found.</value></data>
+  <data name="Schedule_Was_Found"><value>Schedule found.</value></data>
+  <data name="Schedule_HasBeen_Added"><value>Schedule added successfully.</value></data>
+  <data name="Schedule_CouldNotBe_Added"><value>Schedule could not be added.</value></data>
+  <data name="Schedule_Was_Updated"><value>Schedule updated successfully.</value></data>
+  <data name="Schedule_Was_Deleted"><value>Schedule deleted successfully.</value></data>
+
+  <!-- Flight -->
+  <data name="Flight_Was_Not_Found"><value>Flight not found.</value></data>
+  <data name="Flight_Was_Found"><value>Flight found.</value></data>
+  <data name="Flight_HasBeen_Added"><value>Flight added successfully.</value></data>
+  <data name="Flight_CouldNotBe_Added"><value>Flight could not be added.</value></data>
+  <data name="Flight_Was_Updated"><value>Flight updated successfully.</value></data>
+  <data name="Flight_Was_Deleted"><value>Flight deleted successfully.</value></data>
+  <data name="Flight_Was_Cancelled"><value>Flight has been cancelled.</value></data>
+  <data name="Flight_Number_Already_Exists"><value>This flight number is already in use.</value></data>
+  <data name="Flight_No_Available_Seats"><value>No available seats on this flight.</value></data>
+  <data name="Flight_Seat_Is_Already_Booked"><value>This seat is already booked.</value></data>
+
+  <!-- Seat -->
+  <data name="Seat_Was_Not_Found"><value>Seat not found.</value></data>
+  <data name="Seat_Was_Found"><value>Seat found.</value></data>
+  <data name="Seat_HasBeen_Added"><value>Seat added successfully.</value></data>
+  <data name="Seat_CouldNotBe_Added"><value>Seat could not be added.</value></data>
+  <data name="Seat_Was_Updated"><value>Seat updated successfully.</value></data>
+  <data name="Seat_Was_Deleted"><value>Seat deleted successfully.</value></data>
+
+  <!-- Booking -->
+  <data name="Booking_Was_Not_Found"><value>Booking not found.</value></data>
+  <data name="Booking_Was_Found"><value>Booking found.</value></data>
+  <data name="Booking_HasBeen_Added"><value>Booking created successfully.</value></data>
+  <data name="Booking_CouldNotBe_Added"><value>Booking could not be created.</value></data>
+  <data name="Booking_Was_Updated"><value>Booking updated successfully.</value></data>
+  <data name="Booking_Was_Cancelled"><value>Booking cancelled successfully.</value></data>
+  <data name="Booking_Could_Not_Be_Cancelled"><value>Booking could not be cancelled.</value></data>
+  <data name="Booking_Already_Exists_For_This_Flight"><value>You already have a booking for this flight.</value></data>
+  <data name="Booking_Cannot_Cancel_Departed"><value>Cannot cancel booking for a departed flight.</value></data>
+
+  <!-- Email -->
+  <data name="Email_SendingProcess_Was_Failed"><value>Email sending failed.</value></data>
+  <data name="Email_SendingProcess_Was_Successful"><value>Email sent successfully.</value></data>
+  <data name="EmailTitle_WelcomeNewUser"><value>Welcome to FlightReservation!</value></data>
+  <data name="EmailSubject_WelcomeNewUser"><value>Welcome - Account Created</value></data>
+  <data name="EmailContent_WelcomeNewUser"><value>Hello {0}, welcome to FlightReservation! Your account has been created successfully.</value></data>
+  <data name="EmailTitle_BookingConfirmation"><value>Booking Confirmation - {0}</value></data>
+  <data name="EmailSubject_BookingConfirmation"><value>Your Booking is Confirmed</value></data>
+  <data name="EmailContent_BookingConfirmation"><value>Hello {0}, your booking for flight {1} has been confirmed. PNR: {2}</value></data>
+  <data name="EmailTitle_BookingCancellation"><value>Booking Cancellation - {0}</value></data>
+  <data name="EmailSubject_BookingCancellation"><value>Your Booking has been Cancelled</value></data>
+  <data name="EmailContent_BookingCancellation"><value>Hello {0}, your booking for flight {1} has been cancelled. PNR: {2}</value></data>
+  <data name="EmailTitle_FlightReminder_7Days"><value>Flight Reminder - 7 Days</value></data>
+  <data name="EmailSubject_FlightReminder_7Days"><value>Your Flight is in 7 Days</value></data>
+  <data name="EmailContent_FlightReminder_7Days"><value>Hello {0}, your flight {1} departs in 7 days. Departure: {2}. PNR: {3}</value></data>
+  <data name="EmailTitle_FlightReminder_24Hours"><value>Flight Reminder - 24 Hours</value></data>
+  <data name="EmailSubject_FlightReminder_24Hours"><value>Your Flight is Tomorrow</value></data>
+  <data name="EmailContent_FlightReminder_24Hours"><value>Hello {0}, your flight {1} departs in 24 hours. Departure: {2}. PNR: {3}</value></data>
+  <data name="EmailTitle_FlightCancelled"><value>Flight Cancellation Notice</value></data>
+  <data name="EmailSubject_FlightCancelled"><value>Your Flight has been Cancelled</value></data>
+  <data name="EmailContent_FlightCancelled"><value>Hello {0}, flight {1} has been cancelled. PNR: {2}. A refund process will be initiated.</value></data>
+  <data name="EmailTitle_VerificationCode"><value>Verification Code</value></data>
+  <data name="EmailSubject_VerificationCode"><value>Account Verification Code</value></data>
+  <data name="EmailContent_VerificationCode"><value>Hello {0}, your verification code is: {1}. This code is valid for 15 minutes.</value></data>
+  <data name="EmailTitle_PasswordReset"><value>Password Reset</value></data>
+  <data name="EmailSubject_PasswordReset"><value>Password Reset Request</value></data>
+  <data name="EmailContent_PasswordReset"><value>Hello {0}, your password reset code is: {1}. This code is valid for 15 minutes.</value></data>
+
+  <!-- SMS -->
+  <data name="Sms_SendingProcess_Was_Failed"><value>SMS sending failed.</value></data>
+  <data name="Sms_SendingProcess_Was_Successful"><value>SMS sent successfully.</value></data>
+  <data name="WhatsApp_SendingProcess_Was_Failed"><value>WhatsApp message could not be sent.</value></data>
+  <data name="WhatsApp_SendingProcess_Was_Successful"><value>WhatsApp message sent successfully.</value></data>
+
+  <!-- Redis -->
+  <data name="Redis_Cache_Entity_Was_Found"><value>Data retrieved from cache.</value></data>
+  <data name="Redis_Cache_Entity_Was_Not_Found"><value>Data not found in cache.</value></data>
+  <data name="Redis_Cache_Entity_Was_Added"><value>Data added to cache.</value></data>
+  <data name="Redis_Cache_Entity_Could_Not_Be_Added"><value>Data could not be added to cache.</value></data>
+  <data name="Redis_Cache_Entity_Was_Deleted"><value>Data deleted from cache.</value></data>
+  <data name="Redis_Cache_Entity_Could_Not_Be_Deleted"><value>Data could not be deleted from cache.</value></data>
+
+  <!-- MassTransit -->
+  <data name="MassTransit_Publish_Was_Failed"><value>Message publishing failed.</value></data>
+  <data name="MassTransit_Publish_Was_Successful"><value>Message published successfully.</value></data>
+  <data name="MassTransit_Consume_Was_Failed"><value>Message processing failed.</value></data>
+  <data name="MassTransit_Consume_Was_Successful"><value>Message processed successfully.</value></data>
+
+  <!-- General -->
+  <data name="UnexpectedError"><value>An unexpected error occurred.</value></data>
+  <data name="ValidationFailed"><value>Validation error.</value></data>
+  <data name="NotFound"><value>Record not found.</value></data>
+  <data name="Unauthorized"><value>You are not authorized to perform this action.</value></data>
+  <data name="Forbidden"><value>Access to this resource is forbidden.</value></data>
+</root>

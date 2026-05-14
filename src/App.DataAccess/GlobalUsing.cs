@@ -1,0 +1,11 @@
+global using App.Core.Enums;
+global using App.Core.Options;
+global using App.Entities.Configurations.Concrete;
+global using App.Entity.Entities;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.ChangeTracking;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Options;

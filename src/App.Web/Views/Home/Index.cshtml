@@ -1,0 +1,97 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="hero-section bg-dark text-white py-5 rounded-3 mb-5 px-4" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h1 class="display-4 fw-bold mb-3">
+                <i class="bi bi-airplane-fill me-3 text-primary"></i>
+                Fly Anywhere
+            </h1>
+            <p class="lead mb-4 text-light opacity-75">
+                Search and book flights to hundreds of destinations worldwide.
+                Best prices, seamless experience.
+            </p>
+            <a asp-controller="Flight" asp-action="Search" class="btn btn-primary btn-lg px-5">
+                <i class="bi bi-search me-2"></i>Search Flights
+            </a>
+        </div>
+        <div class="col-lg-6 text-center d-none d-lg-block">
+            <i class="bi bi-airplane display-1 text-primary opacity-50" style="font-size: 10rem;"></i>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+                <i class="bi bi-shield-check text-success display-4 mb-3"></i>
+                <h5 class="card-title">Secure Booking</h5>
+                <p class="card-text text-muted">Your booking is protected with end-to-end encryption and instant PNR generation.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+                <i class="bi bi-bell text-warning display-4 mb-3"></i>
+                <h5 class="card-title">Flight Reminders</h5>
+                <p class="card-text text-muted">Get automatic reminders 7 days and 24 hours before your departure via email, SMS, or WhatsApp.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+                <i class="bi bi-globe text-info display-4 mb-3"></i>
+                <h5 class="card-title">Global Coverage</h5>
+                <p class="card-text text-muted">Access hundreds of routes across the globe with competitive pricing and multiple cabin classes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-light rounded-3 p-4">
+    <h3 class="mb-3">Quick Search</h3>
+    <form asp-controller="Flight" asp-action="Search" method="post">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-2">
+                <label class="form-label fw-semibold">From</label>
+                <input type="text" name="DepartureIata" class="form-control form-control-lg text-uppercase" placeholder="IST" maxlength="3" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label fw-semibold">To</label>
+                <input type="text" name="ArrivalIata" class="form-control form-control-lg text-uppercase" placeholder="LHR" maxlength="3" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-semibold">Date</label>
+                <input type="date" name="DepartureDate" class="form-control form-control-lg" value="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label fw-semibold">Passengers</label>
+                <select name="Passengers" class="form-select form-select-lg">
+                    @for (int i = 1; i <= 9; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label fw-semibold">Class</label>
+                <select name="SeatClass" class="form-select form-select-lg">
+                    <option value="0">Economy</option>
+                    <option value="1">Premium Economy</option>
+                    <option value="2">Business</option>
+                    <option value="3">First Class</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

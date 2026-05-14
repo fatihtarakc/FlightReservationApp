@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- Account -->
+  <data name="Account_SignIn_Failed"><value>Giriş başarısız. Kullanıcı adı veya şifre hatalı.</value></data>
+  <data name="Account_SignIn_Successful"><value>Giriş başarılı. Hoş geldiniz!</value></data>
+  <data name="Account_SignOut_Successful"><value>Çıkış başarılı.</value></data>
+  <data name="Account_ActivateAccount_Failed"><value>Hesap aktivasyonu başarısız.</value></data>
+  <data name="Account_ActivateAccount_Successful"><value>Hesap başarıyla aktive edildi.</value></data>
+  <data name="Account_ConfirmEmail_Failed"><value>E-posta doğrulaması başarısız.</value></data>
+  <data name="Account_ConfirmEmail_Successful"><value>E-posta başarıyla doğrulandı.</value></data>
+  <data name="Account_ResetPassword_Failed"><value>Şifre sıfırlama başarısız.</value></data>
+  <data name="Account_ResetPassword_Successful"><value>Şifre başarıyla sıfırlandı.</value></data>
+  <data name="Account_Was_Not_Found"><value>Hesap bulunamadı.</value></data>
+  <data name="Account_Was_Found"><value>Hesap bulundu.</value></data>
+  <data name="Account_Has_Already_Been_Activated"><value>Hesap zaten aktif durumda.</value></data>
+  <data name="Account_Has_Not_Activated"><value>Hesap henüz aktive edilmemiş.</value></data>
+  <data name="Account_Email_Has_Already_Been_Confirmed"><value>E-posta adresi zaten doğrulanmış.</value></data>
+  <data name="Account_Email_Has_Not_Confirmed"><value>E-posta adresi henüz doğrulanmamış.</value></data>
+  <data name="Account_Email_Was_Confirmed"><value>E-posta adresi doğrulandı.</value></data>
+  <data name="Account_Email_Has_Already_Existed"><value>Bu e-posta adresi zaten kullanımda.</value></data>
+  <data name="Account_Email_Is_Invalid"><value>Geçersiz e-posta adresi.</value></data>
+  <data name="Account_Username_Has_Already_Existed"><value>Bu kullanıcı adı zaten kullanımda.</value></data>
+  <data name="Account_Role_Was_Not_Found_For_IdentityUser"><value>Kullanıcı rolü bulunamadı.</value></data>
+  <data name="Account_Please_Enter_Your_Name"><value>Lütfen adınızı giriniz.</value></data>
+  <data name="Account_Name_Cannot_Be_LessThan_2Characters"><value>Ad en az 2 karakter olmalıdır.</value></data>
+  <data name="Account_Name_Cannot_Be_GreaterThan_50Characters"><value>Ad en fazla 50 karakter olabilir.</value></data>
+  <data name="Account_Please_Enter_Your_Surname"><value>Lütfen soyadınızı giriniz.</value></data>
+  <data name="Account_Surname_Cannot_Be_LessThan_2Characters"><value>Soyad en az 2 karakter olmalıdır.</value></data>
+  <data name="Account_Surname_Cannot_Be_GreaterThan_50Characters"><value>Soyad en fazla 50 karakter olabilir.</value></data>
+  <data name="Account_Please_Enter_Your_Username"><value>Lütfen kullanıcı adınızı giriniz.</value></data>
+  <data name="Account_Username_Cannot_Be_LessThan_5Characters"><value>Kullanıcı adı en az 5 karakter olmalıdır.</value></data>
+  <data name="Account_Username_Cannot_Be_GreaterThan_30Characters"><value>Kullanıcı adı en fazla 30 karakter olabilir.</value></data>
+  <data name="Account_Please_Enter_Your_Email"><value>Lütfen e-posta adresinizi giriniz.</value></data>
+  <data name="Account_Please_Enter_Your_Email_With_Correct_Format"><value>Lütfen geçerli bir e-posta adresi giriniz.</value></data>
+  <data name="Account_Email_Cannot_Be_LessThan_5Characters"><value>E-posta en az 5 karakter olmalıdır.</value></data>
+  <data name="Account_Email_Cannot_Be_GreaterThan_100Characters"><value>E-posta en fazla 100 karakter olabilir.</value></data>
+  <data name="Account_Please_Enter_Your_Password"><value>Lütfen şifrenizi giriniz.</value></data>
+  <data name="Account_Password_Must_Include_1UpperLetter_AtLeast"><value>Şifre en az 1 büyük harf içermelidir.</value></data>
+  <data name="Account_Password_Must_Include_1LowerLetter_AtLeast"><value>Şifre en az 1 küçük harf içermelidir.</value></data>
+  <data name="Account_Password_Must_Include_1Digit_AtLeast"><value>Şifre en az 1 rakam içermelidir.</value></data>
+  <data name="Account_Password_Must_Include_1Symbol_AtLeast"><value>Şifre en az 1 özel karakter içermelidir.</value></data>
+  <data name="Account_Password_Cannot_Be_LessThan_8Characters"><value>Şifre en az 8 karakter olmalıdır.</value></data>
+  <data name="Account_Password_Cannot_Be_GreaterThan_50Characters"><value>Şifre en fazla 50 karakter olabilir.</value></data>
+  <data name="Account_Please_Enter_Your_Birthdate"><value>Lütfen doğum tarihinizi giriniz.</value></data>
+  <data name="Account_Birthdate_Age_Cannot_Be_LessThan_12YearsOld"><value>Kullanıcı en az 12 yaşında olmalıdır.</value></data>
+  <data name="Account_Please_Enter_Your_PhoneNumber"><value>Lütfen telefon numaranızı giriniz.</value></data>
+  <data name="Account_PhoneNumber_Is_Invalid"><value>Geçersiz telefon numarası.</value></data>
+  <data name="Account_Please_Select_NotificationPreference"><value>Lütfen bildirim tercihinizi seçiniz.</value></data>
+  <data name="Account_Please_Take_New_VerificationCode"><value>Lütfen yeni doğrulama kodu alınız.</value></data>
+  <data name="Account_Please_Enter_Your_VerificationCode"><value>Lütfen doğrulama kodunuzu giriniz.</value></data>
+  <data name="Account_VerificationCode_Is_Invalid"><value>Geçersiz doğrulama kodu.</value></data>
+  <data name="Account_VerificationCode_Is_Expired"><value>Doğrulama kodu süresi dolmuş.</value></data>
+
+  <!-- Token -->
+  <data name="Token_Could_Not_Generated"><value>Token oluşturulamadı.</value></data>
+  <data name="Token_Was_Generated_Successfully"><value>Token başarıyla oluşturuldu.</value></data>
+  <data name="Token_Is_Invalid"><value>Geçersiz token.</value></data>
+  <data name="Token_Is_Expired"><value>Token süresi dolmuş.</value></data>
+
+  <!-- AppUser -->
+  <data name="AppUser_HasBeen_Added"><value>Kullanıcı başarıyla eklendi.</value></data>
+  <data name="AppUser_CouldNotBe_Added"><value>Kullanıcı eklenemedi.</value></data>
+  <data name="AppUser_Was_Not_Found"><value>Kullanıcı bulunamadı.</value></data>
+  <data name="AppUser_Was_Found"><value>Kullanıcı bulundu.</value></data>
+  <data name="AppUser_Was_Updated"><value>Kullanıcı başarıyla güncellendi.</value></data>
+  <data name="AppUser_Could_Not_Be_Updated"><value>Kullanıcı güncellenemedi.</value></data>
+
+  <!-- Airline -->
+  <data name="Airline_Was_Not_Found"><value>Havayolu bulunamadı.</value></data>
+  <data name="Airline_Was_Found"><value>Havayolu bulundu.</value></data>
+  <data name="Airline_HasBeen_Added"><value>Havayolu başarıyla eklendi.</value></data>
+  <data name="Airline_CouldNotBe_Added"><value>Havayolu eklenemedi.</value></data>
+  <data name="Airline_Was_Updated"><value>Havayolu başarıyla güncellendi.</value></data>
+  <data name="Airline_Could_Not_Be_Updated"><value>Havayolu güncellenemedi.</value></data>
+  <data name="Airline_Was_Deleted"><value>Havayolu başarıyla silindi.</value></data>
+  <data name="Airline_Could_Not_Be_Deleted"><value>Havayolu silinemedi.</value></data>
+  <data name="Airline_IataCode_Already_Exists"><value>Bu IATA kodu zaten kullanımda.</value></data>
+
+  <!-- Airport -->
+  <data name="Airport_Was_Not_Found"><value>Havalimanı bulunamadı.</value></data>
+  <data name="Airport_Was_Found"><value>Havalimanı bulundu.</value></data>
+  <data name="Airport_HasBeen_Added"><value>Havalimanı başarıyla eklendi.</value></data>
+  <data name="Airport_CouldNotBe_Added"><value>Havalimanı eklenemedi.</value></data>
+  <data name="Airport_Was_Updated"><value>Havalimanı başarıyla güncellendi.</value></data>
+  <data name="Airport_Was_Deleted"><value>Havalimanı başarıyla silindi.</value></data>
+  <data name="Airport_IataCode_Already_Exists"><value>Bu IATA kodu zaten kullanımda.</value></data>
+
+  <!-- Aircraft -->
+  <data name="Aircraft_Was_Not_Found"><value>Uçak bulunamadı.</value></data>
+  <data name="Aircraft_Was_Found"><value>Uçak bulundu.</value></data>
+  <data name="Aircraft_HasBeen_Added"><value>Uçak başarıyla eklendi.</value></data>
+  <data name="Aircraft_CouldNotBe_Added"><value>Uçak eklenemedi.</value></data>
+  <data name="Aircraft_Was_Updated"><value>Uçak başarıyla güncellendi.</value></data>
+  <data name="Aircraft_Was_Deleted"><value>Uçak başarıyla silindi.</value></data>
+  <data name="Aircraft_TailNumber_Already_Exists"><value>Bu kuyruk numarası zaten kayıtlı.</value></data>
+
+  <!-- Manufacturer -->
+  <data name="Manufacturer_Was_Not_Found"><value>Üretici bulunamadı.</value></data>
+  <data name="Manufacturer_Was_Found"><value>Üretici bulundu.</value></data>
+  <data name="Manufacturer_HasBeen_Added"><value>Üretici başarıyla eklendi.</value></data>
+  <data name="Manufacturer_CouldNotBe_Added"><value>Üretici eklenemedi.</value></data>
+  <data name="Manufacturer_Was_Updated"><value>Üretici başarıyla güncellendi.</value></data>
+  <data name="Manufacturer_Was_Deleted"><value>Üretici başarıyla silindi.</value></data>
+  <data name="Manufacturer_Name_Already_Exists"><value>Bu üretici adı zaten kullanımda.</value></data>
+
+  <!-- Model -->
+  <data name="Model_Was_Not_Found"><value>Model bulunamadı.</value></data>
+  <data name="Model_Was_Found"><value>Model bulundu.</value></data>
+  <data name="Model_HasBeen_Added"><value>Model başarıyla eklendi.</value></data>
+  <data name="Model_CouldNotBe_Added"><value>Model eklenemedi.</value></data>
+  <data name="Model_Was_Updated"><value>Model başarıyla güncellendi.</value></data>
+  <data name="Model_Was_Deleted"><value>Model başarıyla silindi.</value></data>
+
+  <!-- Route -->
+  <data name="Route_Was_Not_Found"><value>Rota bulunamadı.</value></data>
+  <data name="Route_Was_Found"><value>Rota bulundu.</value></data>
+  <data name="Route_HasBeen_Added"><value>Rota başarıyla eklendi.</value></data>
+  <data name="Route_CouldNotBe_Added"><value>Rota eklenemedi.</value></data>
+  <data name="Route_Was_Updated"><value>Rota başarıyla güncellendi.</value></data>
+  <data name="Route_Was_Deleted"><value>Rota başarıyla silindi.</value></data>
+  <data name="Route_Already_Exists"><value>Bu rota zaten mevcut.</value></data>
+
+  <!-- Schedule -->
+  <data name="Schedule_Was_Not_Found"><value>Sefer programı bulunamadı.</value></data>
+  <data name="Schedule_Was_Found"><value>Sefer programı bulundu.</value></data>
+  <data name="Schedule_HasBeen_Added"><value>Sefer programı başarıyla eklendi.</value></data>
+  <data name="Schedule_CouldNotBe_Added"><value>Sefer programı eklenemedi.</value></data>
+  <data name="Schedule_Was_Updated"><value>Sefer programı başarıyla güncellendi.</value></data>
+  <data name="Schedule_Was_Deleted"><value>Sefer programı başarıyla silindi.</value></data>
+
+  <!-- Flight -->
+  <data name="Flight_Was_Not_Found"><value>Uçuş bulunamadı.</value></data>
+  <data name="Flight_Was_Found"><value>Uçuş bulundu.</value></data>
+  <data name="Flight_HasBeen_Added"><value>Uçuş başarıyla eklendi.</value></data>
+  <data name="Flight_CouldNotBe_Added"><value>Uçuş eklenemedi.</value></data>
+  <data name="Flight_Was_Updated"><value>Uçuş başarıyla güncellendi.</value></data>
+  <data name="Flight_Was_Deleted"><value>Uçuş başarıyla silindi.</value></data>
+  <data name="Flight_Was_Cancelled"><value>Uçuş iptal edildi.</value></data>
+  <data name="Flight_Number_Already_Exists"><value>Bu uçuş numarası zaten kullanımda.</value></data>
+  <data name="Flight_No_Available_Seats"><value>Bu uçuş için müsait koltuk bulunmamaktadır.</value></data>
+  <data name="Flight_Seat_Is_Already_Booked"><value>Bu koltuk zaten rezerve edilmiş.</value></data>
+
+  <!-- Seat -->
+  <data name="Seat_Was_Not_Found"><value>Koltuk bulunamadı.</value></data>
+  <data name="Seat_Was_Found"><value>Koltuk bulundu.</value></data>
+  <data name="Seat_HasBeen_Added"><value>Koltuk başarıyla eklendi.</value></data>
+  <data name="Seat_CouldNotBe_Added"><value>Koltuk eklenemedi.</value></data>
+  <data name="Seat_Was_Updated"><value>Koltuk başarıyla güncellendi.</value></data>
+  <data name="Seat_Was_Deleted"><value>Koltuk başarıyla silindi.</value></data>
+
+  <!-- Booking -->
+  <data name="Booking_Was_Not_Found"><value>Rezervasyon bulunamadı.</value></data>
+  <data name="Booking_Was_Found"><value>Rezervasyon bulundu.</value></data>
+  <data name="Booking_HasBeen_Added"><value>Rezervasyon başarıyla oluşturuldu.</value></data>
+  <data name="Booking_CouldNotBe_Added"><value>Rezervasyon oluşturulamadı.</value></data>
+  <data name="Booking_Was_Updated"><value>Rezervasyon başarıyla güncellendi.</value></data>
+  <data name="Booking_Was_Cancelled"><value>Rezervasyon başarıyla iptal edildi.</value></data>
+  <data name="Booking_Could_Not_Be_Cancelled"><value>Rezervasyon iptal edilemedi.</value></data>
+  <data name="Booking_Already_Exists_For_This_Flight"><value>Bu uçuş için zaten bir rezervasyonunuz mevcut.</value></data>
+  <data name="Booking_Cannot_Cancel_Departed"><value>Kalkmış uçuşların rezervasyonu iptal edilemez.</value></data>
+
+  <!-- Email -->
+  <data name="Email_SendingProcess_Was_Failed"><value>E-posta gönderimi başarısız.</value></data>
+  <data name="Email_SendingProcess_Was_Successful"><value>E-posta başarıyla gönderildi.</value></data>
+  <data name="EmailTitle_WelcomeNewUser"><value>FlightReservation'a Hoş Geldiniz!</value></data>
+  <data name="EmailSubject_WelcomeNewUser"><value>Hoş Geldiniz - Hesabınız Oluşturuldu</value></data>
+  <data name="EmailContent_WelcomeNewUser"><value>Merhaba {0}, FlightReservation'a hoş geldiniz! Hesabınız başarıyla oluşturuldu.</value></data>
+  <data name="EmailTitle_BookingConfirmation"><value>Rezervasyon Onayı - {0}</value></data>
+  <data name="EmailSubject_BookingConfirmation"><value>Rezervasyonunuz Onaylandı</value></data>
+  <data name="EmailContent_BookingConfirmation"><value>Merhaba {0}, {1} uçuşunuz için rezervasyonunuz onaylandı. PNR: {2}</value></data>
+  <data name="EmailTitle_BookingCancellation"><value>Rezervasyon İptali - {0}</value></data>
+  <data name="EmailSubject_BookingCancellation"><value>Rezervasyonunuz İptal Edildi</value></data>
+  <data name="EmailContent_BookingCancellation"><value>Merhaba {0}, {1} uçuşunuz için rezervasyonunuz iptal edildi. PNR: {2}</value></data>
+  <data name="EmailTitle_FlightReminder_7Days"><value>Uçuş Hatırlatması - 7 Gün</value></data>
+  <data name="EmailSubject_FlightReminder_7Days"><value>Uçuşunuza 7 Gün Kaldı</value></data>
+  <data name="EmailContent_FlightReminder_7Days"><value>Merhaba {0}, {1} uçuşunuza 7 gün kaldı. Uçuş saati: {2}. PNR: {3}</value></data>
+  <data name="EmailTitle_FlightReminder_24Hours"><value>Uçuş Hatırlatması - 24 Saat</value></data>
+  <data name="EmailSubject_FlightReminder_24Hours"><value>Uçuşunuza 24 Saat Kaldı</value></data>
+  <data name="EmailContent_FlightReminder_24Hours"><value>Merhaba {0}, {1} uçuşunuza 24 saat kaldı. Uçuş saati: {2}. PNR: {3}</value></data>
+  <data name="EmailTitle_FlightCancelled"><value>Uçuş İptali Bildirimi</value></data>
+  <data name="EmailSubject_FlightCancelled"><value>Uçuşunuz İptal Edildi</value></data>
+  <data name="EmailContent_FlightCancelled"><value>Merhaba {0}, {1} uçuşunuz iptal edilmiştir. PNR: {2}. İade işleminiz başlatılacaktır.</value></data>
+  <data name="EmailTitle_VerificationCode"><value>Doğrulama Kodu</value></data>
+  <data name="EmailSubject_VerificationCode"><value>Hesap Doğrulama Kodu</value></data>
+  <data name="EmailContent_VerificationCode"><value>Merhaba {0}, doğrulama kodunuz: {1}. Bu kod 15 dakika geçerlidir.</value></data>
+  <data name="EmailTitle_PasswordReset"><value>Şifre Sıfırlama</value></data>
+  <data name="EmailSubject_PasswordReset"><value>Şifre Sıfırlama Talebi</value></data>
+  <data name="EmailContent_PasswordReset"><value>Merhaba {0}, şifre sıfırlama kodunuz: {1}. Bu kod 15 dakika geçerlidir.</value></data>
+
+  <!-- SMS -->
+  <data name="Sms_SendingProcess_Was_Failed"><value>SMS gönderimi başarısız.</value></data>
+  <data name="Sms_SendingProcess_Was_Successful"><value>SMS başarıyla gönderildi.</value></data>
+  <data name="WhatsApp_SendingProcess_Was_Failed"><value>WhatsApp mesajı gönderilemedi.</value></data>
+  <data name="WhatsApp_SendingProcess_Was_Successful"><value>WhatsApp mesajı başarıyla gönderildi.</value></data>
+
+  <!-- Redis -->
+  <data name="Redis_Cache_Entity_Was_Found"><value>Veriler önbellekten getirildi.</value></data>
+  <data name="Redis_Cache_Entity_Was_Not_Found"><value>Veriler önbellekte bulunamadı.</value></data>
+  <data name="Redis_Cache_Entity_Was_Added"><value>Veriler önbelleğe eklendi.</value></data>
+  <data name="Redis_Cache_Entity_Could_Not_Be_Added"><value>Veriler önbelleğe eklenemedi.</value></data>
+  <data name="Redis_Cache_Entity_Was_Deleted"><value>Veriler önbellekten silindi.</value></data>
+  <data name="Redis_Cache_Entity_Could_Not_Be_Deleted"><value>Veriler önbellekten silinemedi.</value></data>
+
+  <!-- MassTransit -->
+  <data name="MassTransit_Publish_Was_Failed"><value>Mesaj yayınlama başarısız.</value></data>
+  <data name="MassTransit_Publish_Was_Successful"><value>Mesaj başarıyla yayınlandı.</value></data>
+  <data name="MassTransit_Consume_Was_Failed"><value>Mesaj işleme başarısız.</value></data>
+  <data name="MassTransit_Consume_Was_Successful"><value>Mesaj başarıyla işlendi.</value></data>
+
+  <!-- General -->
+  <data name="UnexpectedError"><value>Beklenmeyen bir hata oluştu.</value></data>
+  <data name="ValidationFailed"><value>Doğrulama hatası.</value></data>
+  <data name="NotFound"><value>Kayıt bulunamadı.</value></data>
+  <data name="Unauthorized"><value>Bu işlem için yetkiniz bulunmamaktadır.</value></data>
+  <data name="Forbidden"><value>Bu kaynağa erişim yasak.</value></data>
+</root>

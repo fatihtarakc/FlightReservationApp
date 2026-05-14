@@ -1,0 +1,97 @@
+@model BookingDto
+@{
+    ViewData["Title"] = $"Booking {Model.PnrNumber}";
+
+    var statusClass = Model.BookingStatus switch
+    {
+        BookingStatus.Confirmed => "success",
+        BookingStatus.Cancelled => "danger",
+        BookingStatus.CheckedIn => "info",
+        _ => "secondary"
+    };
+}
+
+<div class="mb-3">
+    <a asp-action="MyBookings" class="text-muted">
+        <i class="bi bi-arrow-left me-1"></i>Back to My Bookings
+    </a>
+</div>
+
+<div class="card shadow border-0">
+    <div class="card-header bg-dark text-white p-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0 fw-bold font-monospace">PNR: @Model.PnrNumber</h4>
+                <small class="opacity-75">Booked on @Model.CreatedDate.ToString("dd MMM yyyy HH:mm")</small>
+            </div>
+            <span class="badge bg-@statusClass fs-6 px-3 py-2">@Model.BookingStatus</span>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <h5 class="fw-semibold mb-3"><i class="bi bi-airplane me-2 text-primary"></i>Flight Details</h5>
+                <table class="table table-borderless">
+                    <tr>
+                        <td class="text-muted" style="width: 40%">Flight Number</td>
+                        <td class="fw-semibold">@Model.FlightNumber</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">Route</td>
+                        <td class="fw-semibold">
+                            @Model.DepartureCity
+                            <i class="bi bi-arrow-right mx-1"></i>
+                            @Model.ArrivalCity
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">Departure</td>
+                        <td class="fw-semibold">@Model.DepartureDateTime.ToString("dd MMM yyyy HH:mm")</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h5 class="fw-semibold mb-3"><i class="bi bi-person me-2 text-primary"></i>Passenger Details</h5>
+                <table class="table table-borderless">
+                    <tr>
+                        <td class="text-muted" style="width: 40%">Passenger</td>
+                        <td class="fw-semibold">@Model.PassengerName</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">Seat</td>
+                        <td class="fw-semibold">@Model.SeatNumber — @Model.SeatClass</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">Total Price</td>
+                        <td class="fw-bold text-success fs-5">@Model.TotalPrice.ToString("N0") @Model.Currency</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.BoardingPassNumber))
+        {
+            <div class="alert alert-info mt-2">
+                <i class="bi bi-card-text me-2"></i>
+                <strong>Boarding Pass:</strong> @Model.BoardingPassNumber
+                @if (Model.CheckInTime.HasValue)
+                {
+                    <span class="ms-3 text-muted small">Checked in at @Model.CheckInTime.Value.ToString("HH:mm")</span>
+                }
+            </div>
+        }
+
+        @if (Model.BookingStatus == BookingStatus.Confirmed && Model.DepartureDateTime > DateTime.UtcNow)
+        {
+            <hr />
+            <div class="text-end">
+                <form asp-action="Cancel" asp-route-id="@Model.Id" method="post"
+                      onsubmit="return confirm('Are you sure you want to cancel this booking?')">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-x-circle me-2"></i>Cancel Booking
+                    </button>
+                </form>
+            </div>
+        }
+    </div>
+</div>

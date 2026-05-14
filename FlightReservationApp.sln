@@ -1,21 +1,33 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightReservation.Core", "src\FlightReservation.Core\FlightReservation.Core.csproj", "{A1B2C3D4-0001-0000-0000-000000000001}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Core", "src\App.Core\App.Core.csproj", "{11111111-1111-1111-1111-100000000001}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightReservation.Data", "src\FlightReservation.Data\FlightReservation.Data.csproj", "{A1B2C3D4-0002-0000-0000-000000000002}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Entity", "src\App.Entity\App.Entity.csproj", "{11111111-1111-1111-1111-100000000002}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightReservation.Business", "src\FlightReservation.Business\FlightReservation.Business.csproj", "{A1B2C3D4-0003-0000-0000-000000000003}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Dtos", "src\App.Dtos\App.Dtos.csproj", "{11111111-1111-1111-1111-100000000003}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightReservation.Infrastructure", "src\FlightReservation.Infrastructure\FlightReservation.Infrastructure.csproj", "{A1B2C3D4-0004-0000-0000-000000000004}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Entities.Configurations", "src\App.Entities.Configurations\App.Entities.Configurations.csproj", "{11111111-1111-1111-1111-100000000004}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightReservation.Messaging", "src\FlightReservation.Messaging\FlightReservation.Messaging.csproj", "{A1B2C3D4-0005-0000-0000-000000000005}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.DataAccess.Abstract", "src\App.DataAccess.Abstract\App.DataAccess.Abstract.csproj", "{11111111-1111-1111-1111-100000000005}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightReservation.Api", "src\FlightReservation.Api\FlightReservation.Api.csproj", "{A1B2C3D4-0006-0000-0000-000000000006}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.DataAccess", "src\App.DataAccess\App.DataAccess.csproj", "{11111111-1111-1111-1111-100000000006}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightReservation.Web", "src\FlightReservation.Web\FlightReservation.Web.csproj", "{A1B2C3D4-0007-0000-0000-000000000007}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.DataAccess.Concrete", "src\App.DataAccess.Concrete\App.DataAccess.Concrete.csproj", "{11111111-1111-1111-1111-100000000007}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Cache", "src\App.Cache\App.Cache.csproj", "{11111111-1111-1111-1111-100000000008}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Queue", "src\App.Queue\App.Queue.csproj", "{11111111-1111-1111-1111-100000000009}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.BackgroundJobs", "src\App.BackgroundJobs\App.BackgroundJobs.csproj", "{11111111-1111-1111-1111-100000000010}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Business", "src\App.Business\App.Business.csproj", "{11111111-1111-1111-1111-100000000011}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Api", "src\App.Api\App.Api.csproj", "{11111111-1111-1111-1111-100000000012}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Web", "src\App.Web\App.Web.csproj", "{11111111-1111-1111-1111-100000000013}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,33 +35,57 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A1B2C3D4-0001-0000-0000-000000000001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1B2C3D4-0001-0000-0000-000000000001}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1B2C3D4-0001-0000-0000-000000000001}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1B2C3D4-0001-0000-0000-000000000001}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1B2C3D4-0002-0000-0000-000000000002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1B2C3D4-0002-0000-0000-000000000002}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1B2C3D4-0002-0000-0000-000000000002}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1B2C3D4-0002-0000-0000-000000000002}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1B2C3D4-0003-0000-0000-000000000003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1B2C3D4-0003-0000-0000-000000000003}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1B2C3D4-0003-0000-0000-000000000003}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1B2C3D4-0003-0000-0000-000000000003}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1B2C3D4-0004-0000-0000-000000000004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1B2C3D4-0004-0000-0000-000000000004}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1B2C3D4-0004-0000-0000-000000000004}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1B2C3D4-0004-0000-0000-000000000004}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1B2C3D4-0005-0000-0000-000000000005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1B2C3D4-0005-0000-0000-000000000005}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1B2C3D4-0005-0000-0000-000000000005}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1B2C3D4-0005-0000-0000-000000000005}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1B2C3D4-0006-0000-0000-000000000006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1B2C3D4-0006-0000-0000-000000000006}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1B2C3D4-0006-0000-0000-000000000006}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1B2C3D4-0006-0000-0000-000000000006}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1B2C3D4-0007-0000-0000-000000000007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1B2C3D4-0007-0000-0000-000000000007}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1B2C3D4-0007-0000-0000-000000000007}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1B2C3D4-0007-0000-0000-000000000007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000008}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000009}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000009}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000009}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000010}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000010}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000012}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000012}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000012}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000012}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11111111-1111-1111-1111-100000000013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11111111-1111-1111-1111-100000000013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11111111-1111-1111-1111-100000000013}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,129 @@
+@model FlightSearchViewModel
+@{
+    ViewData["Title"] = "Search Flights";
+}
+
+<h2 class="fw-bold mb-4"><i class="bi bi-search me-2 text-primary"></i>Search Flights</h2>
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+        <form asp-action="Search" method="post">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">From <span class="text-muted">(IATA)</span></label>
+                    <input type="text" name="DepartureIata" value="@Model.DepartureIata"
+                           class="form-control text-uppercase" placeholder="IST" maxlength="3" required />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">To <span class="text-muted">(IATA)</span></label>
+                    <input type="text" name="ArrivalIata" value="@Model.ArrivalIata"
+                           class="form-control text-uppercase" placeholder="LHR" maxlength="3" required />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Departure Date</label>
+                    <input type="date" name="DepartureDate"
+                           value="@Model.DepartureDate.ToString("yyyy-MM-dd")"
+                           class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">Passengers</label>
+                    <select name="Passengers" class="form-select">
+                        @for (int i = 1; i <= 9; i++)
+                        {
+                            if (i == Model.Passengers)
+                            {
+                                <option value="@i" selected>@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">Class</label>
+                    <select asp-for="SeatClass" class="form-select">
+                        <option value="0">Economy</option>
+                        <option value="1">Premium Economy</option>
+                        <option value="2">Business</option>
+                        <option value="3">First Class</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Results.Any())
+{
+    <h4 class="mb-3 text-muted">@Model.Results.Count flight(s) found</h4>
+
+    @foreach (var flight in Model.Results)
+    {
+        <div class="card shadow-sm border-0 mb-3 flight-card">
+            <div class="card-body p-3">
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        <div class="fw-bold text-primary fs-5">@flight.AirlineName</div>
+                        <div class="text-muted small">Flight @flight.Number</div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="text-center">
+                                <div class="fw-bold fs-5">@flight.DepartureDateTime.ToString("HH:mm")</div>
+                                <div class="text-muted small">@flight.DepartureAirportIata</div>
+                                <div class="text-muted small">@flight.DepartureCity</div>
+                            </div>
+                            <div class="text-center flex-grow-1 px-3">
+                                <div class="text-muted small">@((flight.ArrivalDateTime - flight.DepartureDateTime).ToString(@"h\h\ mm\m"))</div>
+                                <div class="d-flex align-items-center">
+                                    <div class="border-top flex-grow-1"></div>
+                                    <i class="bi bi-airplane-fill text-primary mx-2"></i>
+                                    <div class="border-top flex-grow-1"></div>
+                                </div>
+                                <div class="text-muted small">Direct</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="fw-bold fs-5">@flight.ArrivalDateTime.ToString("HH:mm")</div>
+                                <div class="text-muted small">@flight.ArrivalAirportIata</div>
+                                <div class="text-muted small">@flight.ArrivalCity</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <div class="fw-bold fs-4 text-success">
+                            @flight.BaseEconomyPrice.ToString("N0") @flight.Currency
+                        </div>
+                        <div class="text-muted small">from / person</div>
+                        @if (flight.AvailableSeats <= 5 && flight.AvailableSeats > 0)
+                        {
+                            <span class="badge bg-warning text-dark small">Only @flight.AvailableSeats left!</span>
+                        }
+                    </div>
+                    <div class="col-md-2 text-end">
+                        <a asp-action="Book" asp-route-flightId="@flight.Id" class="btn btn-primary">
+                            Select <i class="bi bi-chevron-right ms-1"></i>
+                        </a>
+                        <div class="mt-1">
+                            <a asp-action="Details" asp-route-id="@flight.Id" class="text-muted small">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else if (ViewBag.Searched == true)
+{
+    <div class="text-center py-5">
+        <i class="bi bi-airplane display-1 text-muted"></i>
+        <h4 class="mt-3 text-muted">No flights found for this route and date.</h4>
+        <p class="text-muted">Try adjusting your search criteria.</p>
+    </div>
+}

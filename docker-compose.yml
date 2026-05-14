@@ -1,0 +1,111 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: 2024PostgreSqlDb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "Dockerpostgresqldb2024+-!?"
+      POSTGRES_DB: FlightReservationDb
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - flight_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: 2024RedisDb
+    command: redis-server --requirepass "Dockerredisdb2024+-!?"
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - flight_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "Dockerredisdb2024+-!?", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: 2025RabbitMQ
+    hostname: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: DockerRabbitmq
+      RABBITMQ_DEFAULT_PASS: "Dockerrabbitmq2025+-!?"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - flight_network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: 2024MsSqlServerDb
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Dockermssqldb2024+-!?"
+      MSSQL_PID: Developer
+    ports:
+      - "1434:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - flight_network
+
+  api:
+    build:
+      context: .
+      dockerfile: src/App.Api/Dockerfile
+    image: flight-reservation-api:latest
+    container_name: FlightReservationApi
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Connections__DatabaseProvider: "PostgreSql"
+      Connections__PostgreSql: "Host=postgres;Port=5432;Database=FlightReservationDb;Username=postgres;Password=Dockerpostgresqldb2024+-!?"
+      Connections__Hangfire: "Host=postgres;Port=5432;Database=FlightReservationHangfireDb;Username=postgres;Password=Dockerpostgresqldb2024+-!?"
+      Connections__MssqlServer: "Server=mssql-db,1433;Database=FlightReservationDb;User Id=sa;Password=Dockermssqldb2024+-!?;TrustServerCertificate=True;MultipleActiveResultSets=True"
+      Connections__Redis: "redis:6379,password=Dockerredisdb2024+-!?"
+      RabbitMqConfiguration__Host: "rabbitmq"
+      RabbitMqConfiguration__Port: "5672"
+      RabbitMqConfiguration__VirtualHost: "/"
+      RabbitMqConfiguration__Username: "DockerRabbitmq"
+      RabbitMqConfiguration__Password: "Dockerrabbitmq2025+-!?"
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - flight_network
+
+volumes:
+  postgres_data:
+  redis_data:
+  rabbitmq_data:
+  mssql_data:
+
+networks:
+  flight_network:
+    driver: bridge
