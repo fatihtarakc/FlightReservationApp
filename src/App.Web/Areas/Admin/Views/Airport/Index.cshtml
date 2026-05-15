@@ -1,0 +1,71 @@
+@model AdminAirportListPageVM
+
+<div class="admin-card">
+    <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-map-marker-alt me-2"></i>@L["Airport_All"]</span>
+        <a asp-area="Admin" asp-controller="Airport" asp-action="Create" class="btn btn-sm btn-danger">
+            <i class="fas fa-plus me-1"></i> @L["Airport_New"]
+        </a>
+    </div>
+    <div class="p-3 border-bottom bg-light">
+        <form method="get" class="row g-2">
+            <div class="col-md-4">
+                <input type="text" name="search" value="@Model.Search" class="form-control form-control-sm"
+                       placeholder="@L["Placeholder_SearchAirport"]" />
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-sm btn-secondary"><i class="fas fa-search me-1"></i>@L["Btn_Search"]</button>
+                <a asp-action="Index" class="btn btn-sm btn-outline-secondary ms-1">@L["Btn_Clear"]</a>
+            </div>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>@L["Airport_IataCode"]</th>
+                    <th>@L["Airport_Name"]</th>
+                    <th>@L["Airport_City"]</th>
+                    <th>@L["Airport_Country"]</th>
+                    <th>@L["Airport_Timezone"]</th>
+                    <th class="text-center">@L["Label_Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Airports.Any())
+                {
+                    @foreach (var a in Model.Airports)
+                    {
+                        <tr>
+                            <td><span class="badge bg-danger fs-6">@a.IataCode</span></td>
+                            <td>@a.Name</td>
+                            <td>@a.City</td>
+                            <td>@a.Country</td>
+                            <td><small>@a.Timezone</small></td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm">
+                                    <a asp-action="Edit" asp-route-id="@a.Id" class="btn btn-outline-primary" title="@L["Btn_Edit"]">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form asp-action="Delete" asp-route-id="@a.Id" method="post" class="d-inline"
+                                          onsubmit="return confirm('@L["Confirm_Delete"]')">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-outline-danger" title="@L["Btn_Delete"]">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="6" class="text-center text-muted py-4">
+                        <i class="fas fa-map-marker-alt fa-2x mb-2 d-block"></i>@L["Airport_NotFound"]
+                    </td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+@model AdminRouteFormPageVM
+@{
+    ViewData["Title"] = "Yeni Güzergah";
+    ViewData["PageTitle"] = "Yeni Güzergah Ekle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-xl-7">
+        <div class="admin-card">
+            <div class="admin-card-header"><i class="fas fa-route me-2"></i>Güzergah Bilgileri</div>
+            <div class="p-4">
+                <form asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Form.OriginAirportId" class="form-label fw-semibold">Kalkış Havalimanı <span class="text-danger">*</span></label>
+                            <select asp-for="Form.OriginAirportId" class="form-select" id="originSelect">
+                                <option value="">— Kalkış Seçin —</option>
+                                @foreach (var a in Model.Airports)
+                                {
+                                    <option value="@a.Id" data-iata="@a.IataCode" data-city="@a.City">
+                                        @a.IataCode · @a.Name (@a.City, @a.Country)
+                                    </option>
+                                }
+                            </select>
+                            <span asp-validation-for="Form.OriginAirportId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Form.DestinationAirportId" class="form-label fw-semibold">Varış Havalimanı <span class="text-danger">*</span></label>
+                            <select asp-for="Form.DestinationAirportId" class="form-select" id="destinationSelect">
+                                <option value="">— Varış Seçin —</option>
+                                @foreach (var a in Model.Airports)
+                                {
+                                    <option value="@a.Id" data-iata="@a.IataCode" data-city="@a.City">
+                                        @a.IataCode · @a.Name (@a.City, @a.Country)
+                                    </option>
+                                }
+                            </select>
+                            <span asp-validation-for="Form.DestinationAirportId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Form.DistanceKm" class="form-label fw-semibold">Mesafe (km) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input asp-for="Form.DistanceKm" class="form-control" type="number" min="1" />
+                                <span class="input-group-text">km</span>
+                            </div>
+                            <span asp-validation-for="Form.DistanceKm" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Form.EstimatedDuration" class="form-label fw-semibold">Tahmini Süre <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input asp-for="Form.EstimatedDuration" class="form-control" type="number" min="1" />
+                                <span class="input-group-text">dakika</span>
+                            </div>
+                            <span asp-validation-for="Form.EstimatedDuration" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-danger px-4"><i class="fas fa-save me-1"></i> Güzergah Ekle</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">İptal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function validateDifferentAirports() {
+        const o = document.getElementById('originSelect').value;
+        const d = document.getElementById('destinationSelect').value;
+        if (o && d && o === d) {
+            alert('Kalkış ve varış havalimanları aynı olamaz!');
+            document.getElementById('destinationSelect').value = '';
+        }
+    }
+    document.getElementById('originSelect').addEventListener('change', validateDifferentAirports);
+    document.getElementById('destinationSelect').addEventListener('change', validateDifferentAirports);
+</script>
+}

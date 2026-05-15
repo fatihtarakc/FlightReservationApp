@@ -1,0 +1,126 @@
+﻿@model AdminFlightListPageVM
+
+<div class="admin-card">
+    <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-plane me-2"></i>@L["Flight_All"]</span>
+        <a asp-area="Admin" asp-controller="Flight" asp-action="Create" class="btn btn-sm btn-danger">
+            <i class="fas fa-plus me-1"></i> @L["Flight_New"]
+        </a>
+    </div>
+
+    <div class="p-3 border-bottom bg-light">
+        <form method="get" class="row g-2" id="filterForm">
+            <div class="col-md-3">
+                <input type="text" name="search" value="@Model.Search" class="form-control form-control-sm" placeholder="@L["Placeholder_SearchFlight"]" />
+            </div>
+            <div class="col-md-2">
+                <select name="status" class="form-select form-select-sm">
+                    <option value="">@L["Label_All"] @L["Label_Status"]</option>
+                    @foreach (var s in Enum.GetValues<FlightStatus>())
+                    {
+                        <option value="@((int)s)" selected="@(Model.StatusFilter == (int)s)">@L["Status_" + s.ToString()]</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="date" name="date" value="@Model.DateFilter" class="form-control form-control-sm" />
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-sm btn-secondary"><i class="fas fa-search me-1"></i>@L["Btn_Filter"]</button>
+                <a asp-action="Index" class="btn btn-sm btn-outline-secondary ms-1">@L["Btn_Clear"]</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-responsive" id="flightTable">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>@L["Flight_Number"]</th>
+                    <th>@L["Flight_Route"]</th>
+                    <th>@L["Flight_Departure"]</th>
+                    <th>@L["Flight_Arrival"]</th>
+                    <th>@L["Flight_Aircraft"]</th>
+                    <th>@L["Flight_Economy"]</th>
+                    <th>@L["Label_Status"]</th>
+                    <th class="text-center">@L["Label_Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Flights.Any())
+                {
+                    @foreach (var f in Model.Flights)
+                    {
+                        <tr>
+                            <td><strong class="text-danger">@f.FlightNumber</strong></td>
+                            <td>
+                                <span class="badge bg-secondary">@f.OriginIata</span>
+                                <i class="fas fa-arrow-right text-muted mx-1"></i>
+                                <span class="badge bg-secondary">@f.DestinationIata</span>
+                            </td>
+                            <td>@f.DepartureTime.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>@f.ArrivalTime.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td><small>@f.AircraftModel</small></td>
+                            <td>₺@f.EconomyPrice.ToString("N0")</td>
+                            <td>
+                                @{
+                                    var sc = f.Status switch {
+                                        FlightStatus.Scheduled => "status-scheduled",
+                                        FlightStatus.Boarding => "status-boarding",
+                                        FlightStatus.Departed => "status-departed",
+                                        FlightStatus.Delayed => "status-delayed",
+                                        FlightStatus.Cancelled => "status-cancelled",
+                                        FlightStatus.Arrived => "status-arrived",
+                                        _ => "status-scheduled"
+                                    };
+                                }
+                                <span class="status-badge @sc">@L["Status_" + f.Status.ToString()]</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm">
+                                    <a asp-action="Edit" asp-route-id="@f.Id" class="btn btn-outline-primary"><i class="fas fa-edit"></i></a>
+                                    @if (f.Status != FlightStatus.Cancelled)
+                                    {
+                                        <button type="button" class="btn btn-outline-warning"
+                                                onclick="confirmAction('@Url.Action("Cancel", new { id = f.Id })', '@L["Confirm_Cancel"]', '@Html.AntiForgeryToken().ToString()')">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    }
+                                    <button type="button" class="btn btn-outline-danger"
+                                            onclick="confirmAction('@Url.Action("Delete", new { id = f.Id })', '@L["Confirm_Delete"]', '@Html.AntiForgeryToken().ToString()')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="8" class="text-center text-muted py-4">
+                        <i class="fas fa-plane fa-2x mb-2 d-block"></i>@L["Flight_NotFound"]
+                    </td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<form id="actionForm" method="post" style="display:none">
+    <input name="__RequestVerificationToken" id="aft" />
+</form>
+
+@section Scripts {
+<script>
+function confirmAction(url, msg, tokenHtml) {
+    if (!confirm(msg)) return;
+    const form = document.getElementById('actionForm');
+    form.action = url;
+    const tmp = document.createElement('div');
+    tmp.innerHTML = tokenHtml;
+    const tkn = tmp.querySelector('input');
+    document.getElementById('aft').value = tkn ? tkn.value : '';
+    form.submit();
+}
+</script>
+}

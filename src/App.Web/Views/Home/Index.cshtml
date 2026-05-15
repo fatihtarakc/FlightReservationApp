@@ -1,0 +1,301 @@
+@model HomePageVM
+@{
+    ViewData["Title"] = "SkyWay Airlines - Uçuşun Özgürlüğü";
+}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <p class="text-uppercase mb-2" style="color:var(--gold);letter-spacing:2px;font-weight:600;font-size:.85rem">Güvenilir Havayolu</p>
+                <h1 class="display-4 fw-bold mb-3">Dünyanın Her Yerine <span style="color:var(--gold)">Uçun</span></h1>
+                <p class="lead mb-4" style="color:rgba(255,255,255,.8)">En uygun fiyatlarla, konforlu uçuş deneyimi. Hayalinizdeki destinasyona SkyWay ile ulaşın.</p>
+                <div class="d-flex gap-3">
+                    <a asp-controller="Flight" asp-action="Index" class="btn btn-book px-4 py-3">
+                        <i class="fas fa-search me-2"></i>Uçuş Ara
+                    </a>
+                    <a asp-controller="Home" asp-action="About" class="btn btn-outline-light px-4 py-3">
+                        Hakkımızda
+                    </a>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-4 text-center">
+                        <h3 class="fw-bold mb-0" style="color:var(--gold)">50+</h3>
+                        <small style="color:rgba(255,255,255,.7)">Destinasyon</small>
+                    </div>
+                    <div class="col-4 text-center">
+                        <h3 class="fw-bold mb-0" style="color:var(--gold)">1M+</h3>
+                        <small style="color:rgba(255,255,255,.7)">Yolcu</small>
+                    </div>
+                    <div class="col-4 text-center">
+                        <h3 class="fw-bold mb-0" style="color:var(--gold)">99%</h3>
+                        <small style="color:rgba(255,255,255,.7)">Memnuniyet</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="search-box">
+                    <h5 class="fw-bold mb-4" style="color:var(--secondary)"><i class="fas fa-plane me-2" style="color:var(--primary)"></i>Uçuş Ara</h5>
+                    <form asp-controller="Flight" asp-action="Index" method="get" id="searchForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Kalkış</label>
+                                <div class="position-relative">
+                                    <input type="text" id="departureInput" name="DepartureIata" class="form-control" placeholder="İstanbul (IST)" autocomplete="off" required />
+                                    <div id="departureSuggestions" class="dropdown-menu w-100"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Varış</label>
+                                <div class="position-relative">
+                                    <input type="text" id="arrivalInput" name="ArrivalIata" class="form-control" placeholder="Ankara (ESB)" autocomplete="off" required />
+                                    <div id="arrivalSuggestions" class="dropdown-menu w-100"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tarih</label>
+                                <input type="date" name="DepartureDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Yolcu</label>
+                                <select name="Passengers" class="form-select">
+                                    @for (int i = 1; i <= 9; i++) { <option value="@i">@i Yolcu</option> }
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Sınıf</label>
+                                <select name="SeatClass" class="form-select">
+                                    <option value="1">Economy</option>
+                                    <option value="2">Premium</option>
+                                    <option value="3">Business</option>
+                                    <option value="4">First</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-search">
+                                    <i class="fas fa-search me-2"></i>Uçuş Ara
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Routes Section -->
+@if (Model.PopularRoutes.Any())
+{
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="text-uppercase mb-2" style="color:var(--primary);letter-spacing:2px;font-size:.8rem;font-weight:700">Popüler Güzergahlar</p>
+                <h2 class="fw-bold" style="color:var(--secondary)">Keşfedilmeyi Bekleyen Destinasyonlar</h2>
+            </div>
+            <div class="row g-4">
+                @foreach (var route in Model.PopularRoutes)
+                {
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card border-0 shadow-sm h-100" style="border-radius:12px;overflow:hidden;transition:transform .3s" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                            <div style="background:linear-gradient(135deg,var(--secondary),var(--primary));height:140px;display:flex;align-items:center;justify-content:center;padding:20px">
+                                <div class="text-center text-white">
+                                    <div class="d-flex align-items-center justify-content-center gap-3">
+                                        <div>
+                                            <div style="font-size:1.4rem;font-weight:800">@route.OriginIata</div>
+                                            <small style="opacity:.8">@route.OriginCity</small>
+                                        </div>
+                                        <i class="fas fa-plane" style="font-size:1.2rem;opacity:.7"></i>
+                                        <div>
+                                            <div style="font-size:1.4rem;font-weight:800">@route.DestinationIata</div>
+                                            <small style="opacity:.8">@route.DestinationCity</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted small"><i class="fas fa-clock me-1"></i>@(route.EstimatedDuration / 60) sa @(route.EstimatedDuration % 60) dk</span>
+                                    <span class="text-muted small"><i class="fas fa-ruler-horizontal me-1"></i>@route.DistanceKm.ToString("N0") km</span>
+                                </div>
+                                <a asp-controller="Flight" asp-action="Index" asp-route-DepartureIata="@route.OriginIata" asp-route-ArrivalIata="@route.DestinationIata" asp-route-DepartureDate="@DateTime.Today.ToString("yyyy-MM-dd")" class="btn btn-sm w-100" style="background:var(--primary);color:#fff;font-weight:700">
+                                    Uçuş Bul
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Recent Flights -->
+@if (Model.RecentFlights.Any())
+{
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="text-uppercase mb-2" style="color:var(--primary);letter-spacing:2px;font-size:.8rem;font-weight:700">Güncel Uçuşlar</p>
+                <h2 class="fw-bold" style="color:var(--secondary)">Yaklaşan Uçuşlar</h2>
+            </div>
+            <div class="row g-3">
+                @foreach (var flight in Model.RecentFlights)
+                {
+                    <div class="col-lg-6">
+                        <div class="flight-card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <span class="flight-number">@flight.FlightNumber</span>
+                                    <span class="ms-2 text-muted small">@flight.AircraftModel</span>
+                                </div>
+                                @{
+                                    var statusClass = flight.Status switch {
+                                        FlightStatus.Scheduled => "status-scheduled",
+                                        FlightStatus.Boarding => "status-boarding",
+                                        FlightStatus.Departed => "status-departed",
+                                        FlightStatus.Delayed => "status-delayed",
+                                        FlightStatus.Cancelled => "status-cancelled",
+                                        FlightStatus.Arrived => "status-arrived",
+                                        _ => "status-scheduled"
+                                    };
+                                }
+                                <span class="status-badge @statusClass">@L["Status_" + flight.Status.ToString()]</span>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="text-center">
+                                    <div class="fw-bold fs-5">@flight.DepartureTime.ToString("HH:mm")</div>
+                                    <div class="fw-bold" style="color:var(--primary)">@flight.OriginIata</div>
+                                    <small class="text-muted">@flight.OriginCity</small>
+                                </div>
+                                <div class="text-center flex-grow-1 px-3">
+                                    <small class="text-muted d-block">@flight.DurationFormatted</small>
+                                    <div class="d-flex align-items-center">
+                                        <div style="height:2px;flex-grow:1;background:#dee2e6"></div>
+                                        <i class="fas fa-plane mx-2 text-muted" style="font-size:.75rem"></i>
+                                        <div style="height:2px;flex-grow:1;background:#dee2e6"></div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="fw-bold fs-5">@flight.ArrivalTime.ToString("HH:mm")</div>
+                                    <div class="fw-bold" style="color:var(--primary)">@flight.DestinationIata</div>
+                                    <small class="text-muted">@flight.DestinationCity</small>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                                <span class="price-badge">₺@flight.EconomyPrice.ToString("N0")</span>
+                                <a asp-controller="Flight" asp-action="Detail" asp-route-id="@flight.Id" class="btn btn-sm" style="border:2px solid var(--primary);color:var(--primary);font-weight:700">
+                                    Koltuk Seç <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="text-center mt-4">
+                <a asp-controller="Flight" asp-action="Index" class="btn btn-book px-5 py-3">
+                    Tüm Uçuşları Gör <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Features -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 text-center">
+                <div class="p-4">
+                    <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:70px;height:70px;background:rgba(200,16,46,.1)">
+                        <i class="fas fa-shield-alt fa-2x" style="color:var(--primary)"></i>
+                    </div>
+                    <h5 class="fw-bold" style="color:var(--secondary)">Güvenli Uçuş</h5>
+                    <p class="text-muted small">En yüksek güvenlik standartlarıyla hizmetinizdeyiz.</p>
+                </div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="p-4">
+                    <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:70px;height:70px;background:rgba(200,16,46,.1)">
+                        <i class="fas fa-tag fa-2x" style="color:var(--primary)"></i>
+                    </div>
+                    <h5 class="fw-bold" style="color:var(--secondary)">Uygun Fiyat</h5>
+                    <p class="text-muted small">Rekabetçi fiyatlarla en iyi uçuş deneyimi.</p>
+                </div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="p-4">
+                    <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:70px;height:70px;background:rgba(200,16,46,.1)">
+                        <i class="fas fa-headset fa-2x" style="color:var(--primary)"></i>
+                    </div>
+                    <h5 class="fw-bold" style="color:var(--secondary)">7/24 Destek</h5>
+                    <p class="text-muted small">Her zaman yanınızda, her sorunda çözüm odaklı.</p>
+                </div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="p-4">
+                    <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:70px;height:70px;background:rgba(200,16,46,.1)">
+                        <i class="fas fa-mobile-alt fa-2x" style="color:var(--primary)"></i>
+                    </div>
+                    <h5 class="fw-bold" style="color:var(--secondary)">Online İşlem</h5>
+                    <p class="text-muted small">Bilet alımı, check-in hepsini online yapın.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+<script>
+$(document).ready(function() {
+    var airports = [];
+    $.get('/api/airports-list', function(data) { airports = data; }).fail(function() { airports = []; });
+
+    function filterAirports(q) {
+        if (!q || q.length < 2) return [];
+        q = q.toLowerCase();
+        return airports.filter(function(a) {
+            return (a.iataCode && a.iataCode.toLowerCase().includes(q))
+                || (a.city && a.city.toLowerCase().includes(q))
+                || (a.name && a.name.toLowerCase().includes(q));
+        }).slice(0, 6);
+    }
+
+    function bindAutocomplete(inputId, suggestionsId) {
+        var $input = $('#' + inputId);
+        var $suggestions = $('#' + suggestionsId);
+        $input.on('input', function() {
+            var results = filterAirports($(this).val());
+            $suggestions.empty();
+            if (results.length > 0) {
+                results.forEach(function(a) {
+                    $('<a class="dropdown-item" href="#"></a>').text(a.city + ' - ' + a.name + ' (' + a.iataCode + ')')
+                        .on('click', function(e) { e.preventDefault(); $input.val(a.iataCode); $suggestions.hide(); })
+                        .appendTo($suggestions);
+                });
+                $suggestions.show();
+            } else { $suggestions.hide(); }
+        });
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('#' + inputId + ', #' + suggestionsId).length) $suggestions.hide();
+        });
+    }
+
+    bindAutocomplete('departureInput', 'departureSuggestions');
+    bindAutocomplete('arrivalInput', 'arrivalSuggestions');
+
+    $('#searchForm').on('submit', function(e) {
+        var dep = $('#departureInput').val().trim().toUpperCase();
+        var arr = $('#arrivalInput').val().trim().toUpperCase();
+        if (dep.length !== 3 || arr.length !== 3) {
+            e.preventDefault();
+            alert('Lütfen geçerli bir IATA kodu girin (ör: IST, ESB)');
+        } else {
+            $('#departureInput').val(dep);
+            $('#arrivalInput').val(arr);
+        }
+    });
+});
+</script>
+}

@@ -1,0 +1,168 @@
+@model AdminUserListPageVM
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="admin-stat-card" style="border-left:4px solid var(--admin-primary)">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-label">@L["Admin_TotalPassengers"]</div>
+                    <div class="stat-value">@Model.TotalUsers</div>
+                </div>
+                <div class="stat-icon" style="background:rgba(200,16,46,.1);color:var(--admin-primary)"><i class="fas fa-users"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="admin-stat-card" style="border-left:4px solid #28a745">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-label">@L["Admin_ActiveAccounts"]</div>
+                    <div class="stat-value">@Model.ActiveCount</div>
+                </div>
+                <div class="stat-icon" style="background:rgba(40,167,69,.1);color:#28a745"><i class="fas fa-user-check"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="admin-stat-card" style="border-left:4px solid #ffc107">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-label">@L["Admin_PassiveAccounts"]</div>
+                    <div class="stat-value">@Model.PassiveCount</div>
+                </div>
+                <div class="stat-icon" style="background:rgba(255,193,7,.1);color:#ffc107"><i class="fas fa-user-times"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="admin-card">
+    <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-users me-2"></i>@L["Admin_UserList"]</span>
+    </div>
+
+    <div class="p-3 border-bottom bg-light">
+        <form method="get" class="row g-2">
+            <div class="col-md-4">
+                <input type="text" name="search" value="@Model.Search" class="form-control form-control-sm"
+                       placeholder="@L["Placeholder_SearchUser"]" />
+            </div>
+            <div class="col-md-2">
+                <select name="role" class="form-select form-select-sm">
+                    <option value="">@L["Label_All"] @L["Label_Role"]</option>
+                    <option value="Admin" @(Model.RoleFilter == "Admin" ? "selected" : "")>Admin</option>
+                    <option value="Passenger" @(Model.RoleFilter == "Passenger" ? "selected" : "")>@L["Label_Passenger"]</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="active" class="form-select form-select-sm">
+                    <option value="">@L["Label_All"] @L["Label_Status"]</option>
+                    @if (Model.ActiveFilter == true)
+                    {
+                        <option value="true" selected>@L["Label_Active"]</option>
+                    }
+                    else
+                    {
+                        <option value="true">@L["Label_Active"]</option>
+                    }
+                    @if (Model.ActiveFilter == false)
+                    {
+                        <option value="false" selected>@L["Label_Passive"]</option>
+                    }
+                    else
+                    {
+                        <option value="false">@L["Label_Passive"]</option>
+                    }
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-sm btn-secondary"><i class="fas fa-search me-1"></i>@L["Btn_Filter"]</button>
+                <a asp-action="Index" class="btn btn-sm btn-outline-secondary ms-1">@L["Btn_Clear"]</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>@L["Label_Name"] @L["Label_Surname"]</th>
+                    <th>@L["Label_UsernameOrEmail"]</th>
+                    <th>@L["Account_Phone"]</th>
+                    <th>@L["Label_Role"]</th>
+                    <th>@L["Label_BookingCount"]</th>
+                    <th>@L["Label_RegisterDate"]</th>
+                    <th>@L["Label_Status"]</th>
+                    <th class="text-center">@L["Label_Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Users.Any())
+                {
+                    @foreach (var u in Model.Users)
+                    {
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">@u.FullName</div>
+                                <small class="text-muted">@u.Email</small>
+                            </td>
+                            <td><code>@u.UserName</code></td>
+                            <td><small>@u.PhoneNumber</small></td>
+                            <td>
+                                @if (u.Role == "Admin")
+                                {
+                                    <span class="badge bg-danger">Admin</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">@L["Label_Passenger"]</span>
+                                }
+                            </td>
+                            <td><span class="badge bg-info text-dark">@u.BookingCount</span></td>
+                            <td><small>@u.CreatedAt.ToString("dd.MM.yyyy")</small></td>
+                            <td>
+                                @if (u.IsActive)
+                                {
+                                    <span class="badge bg-success"><i class="fas fa-check me-1"></i>@L["Label_Active"]</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary"><i class="fas fa-times me-1"></i>@L["Label_Passive"]</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (u.IsActive)
+                                {
+                                    <form asp-action="Deactivate" asp-route-id="@u.Id" method="post" class="d-inline"
+                                          onsubmit="return confirm('@L["Confirm_Cancel"]')">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-warning" title="@L["Admin_Deactivate"]">
+                                            <i class="fas fa-user-times"></i>
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form asp-action="Activate" asp-route-id="@u.Id" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-success" title="@L["Admin_ActivateUser"]">
+                                            <i class="fas fa-user-check"></i>
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-5">
+                            <i class="fas fa-users fa-2x mb-2 d-block"></i>@L["Label_NoData"]
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

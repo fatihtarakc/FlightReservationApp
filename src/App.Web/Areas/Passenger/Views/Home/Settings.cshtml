@@ -1,0 +1,168 @@
+﻿@model PassengerSettingsPageVM
+@{
+    ViewData["Title"] = "Hesap Ayarları";
+}
+
+<ul class="nav nav-tabs mb-4" id="settingsTabs">
+    <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profileTab">
+            <i class="fas fa-user me-1"></i> Profil Bilgileri
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#passwordTab">
+            <i class="fas fa-lock me-1"></i> Şifre Değiştir
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#notifTab">
+            <i class="fas fa-bell me-1"></i> @L["Account_Notification"]
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="profileTab">
+        <div class="pax-card">
+            <div class="pax-card-header"><i class="fas fa-user me-2"></i>@L["Account_Name"] / @L["Account_Surname"]</div>
+            <div class="p-4">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="mb-2"><span class="fw-semibold text-muted small">@L["Account_Name"]:</span> @Model.Profile.Name</div>
+                        <div class="mb-2"><span class="fw-semibold text-muted small">@L["Account_Surname"]:</span> @Model.Profile.Surname</div>
+                        <div class="mb-2"><span class="fw-semibold text-muted small">@L["Account_Username"]:</span> @Model.Profile.UserName</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-2"><span class="fw-semibold text-muted small">@L["Account_Email"]:</span> @Model.Profile.Email</div>
+                        <div class="mb-2"><span class="fw-semibold text-muted small">@L["Account_Phone"]:</span> @Model.Profile.PhoneNumber</div>
+                        <div class="mb-2"><span class="fw-semibold text-muted small">@L["Account_BirthDate"]:</span> @Model.Profile.BirthDate.ToString("dd.MM.yyyy")</div>
+                    </div>
+                </div>
+
+                <form asp-area="Passenger" asp-controller="Home" asp-action="UpdateProfile" method="post">
+                    @Html.AntiForgeryToken()
+                    <asp-validation-summary asp-validation-summary="ModelOnly" class="alert alert-danger" />
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">@L["Account_Name"]</label>
+                            <input asp-for="UpdateForm.Name" class="form-control" />
+                            <span asp-validation-for="UpdateForm.Name" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">@L["Account_Surname"]</label>
+                            <input asp-for="UpdateForm.Surname" class="form-control" />
+                            <span asp-validation-for="UpdateForm.Surname" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">@L["Account_Email"]</label>
+                            <input asp-for="UpdateForm.Email" class="form-control" type="email" />
+                            <span asp-validation-for="UpdateForm.Email" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">@L["Account_Phone"]</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <input asp-for="UpdateForm.PhoneNumber" class="form-control" placeholder="+90XXXXXXXXXX" />
+                            </div>
+                            <span asp-validation-for="UpdateForm.PhoneNumber" class="text-danger small"></span>
+                            <small class="text-muted">Format: +90XXXXXXXXXX</small>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-danger mt-3">
+                        <i class="fas fa-save me-1"></i> @L["Btn_Save"]
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="passwordTab">
+        <div class="pax-card">
+            <div class="pax-card-header"><i class="fas fa-lock me-2"></i>Şifre Değiştir</div>
+            <div class="p-4">
+                <form asp-area="Passenger" asp-controller="Home" asp-action="ChangePassword" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="row g-3" style="max-width:480px">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Mevcut Şifre</label>
+                            <input asp-for="PasswordForm.CurrentPassword" type="password" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">@L["Account_Password"]</label>
+                            <input asp-for="PasswordForm.NewPassword" type="password" class="form-control" />
+                            <div class="progress mt-1" style="height:4px">
+                                <div id="pwStrength" class="progress-bar" style="width:0%"></div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">@L["Account_ConfirmPassword"]</label>
+                            <input asp-for="PasswordForm.ConfirmPassword" type="password" class="form-control" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-danger mt-3">
+                        <i class="fas fa-key me-1"></i> Şifreyi Güncelle
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="notifTab">
+        <div class="pax-card">
+            <div class="pax-card-header"><i class="fas fa-bell me-2"></i>@L["Account_Notification"]</div>
+            <div class="p-4">
+                <form asp-area="Passenger" asp-controller="Home" asp-action="UpdateNotification" method="post">
+                    @Html.AntiForgeryToken()
+                    <p class="text-muted mb-3">Uçuş hatırlatmaları ve rezervasyon bildirimlerini hangi kanallardan almak istediğinizi seçin.</p>
+                    <div class="row g-3">
+                        @foreach (var ch in new[] { NotificationChannel.Email, NotificationChannel.Sms, NotificationChannel.WhatsApp })
+                        {
+                            var label = ch switch {
+                                NotificationChannel.Email => L["Notif_Email"].ToString(),
+                                NotificationChannel.Sms => L["Notif_Sms"].ToString(),
+                                NotificationChannel.WhatsApp => L["Notif_WhatsApp"].ToString(),
+                                _ => ch.ToString()
+                            };
+                            var icon = ch switch {
+                                NotificationChannel.Email => "fas fa-envelope",
+                                NotificationChannel.Sms => "fas fa-sms",
+                                NotificationChannel.WhatsApp => "fab fa-whatsapp",
+                                _ => "fas fa-bell"
+                            };
+                            <div class="col-md-4">
+                                <div class="border rounded p-3 @(Model.Profile.NotificationPreference.HasFlag(ch) ? "border-danger bg-light" : "")">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="channels" value="@((int)ch)"
+                                               id="ch_@((int)ch)" @(Model.Profile.NotificationPreference.HasFlag(ch) ? "checked" : "") />
+                                        <label class="form-check-label fw-semibold" for="ch_@((int)ch)">
+                                            <i class="@icon me-1 text-danger"></i> @label
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <button type="submit" class="btn btn-danger mt-3">
+                        <i class="fas fa-save me-1"></i> @L["Btn_Save"]
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+document.querySelector('[name="PasswordForm.NewPassword"]')?.addEventListener('input', function() {
+    const pw = this.value;
+    let strength = 0;
+    if (pw.length >= 8) strength += 25;
+    if (/[A-Z]/.test(pw)) strength += 25;
+    if (/[0-9]/.test(pw)) strength += 25;
+    if (/[^A-Za-z0-9]/.test(pw)) strength += 25;
+    const bar = document.getElementById('pwStrength');
+    bar.style.width = strength + '%';
+    bar.className = 'progress-bar ' + (strength <= 25 ? 'bg-danger' : strength <= 50 ? 'bg-warning' : strength <= 75 ? 'bg-info' : 'bg-success');
+});
+</script>
+}

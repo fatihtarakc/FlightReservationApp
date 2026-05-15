@@ -1,0 +1,73 @@
+﻿@model PassengerDashboardVM
+@{
+    ViewData["Title"] = L["Passenger_Dashboard"].ToString();
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="pax-card">
+            <div class="p-3 text-center">
+                <div class="fs-2 fw-bold text-danger">@Model.TotalBookings</div>
+                <div class="text-muted small">@L["Booking_My"]</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="pax-card">
+            <div class="p-3 text-center">
+                <div class="fs-2 fw-bold text-success">@Model.UpcomingCount</div>
+                <div class="text-muted small">@L["Passenger_ActiveBookings"]</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="pax-card">
+            <div class="p-3 text-center">
+                <div class="fs-2 fw-bold text-secondary">@Model.PastBookings.Count</div>
+                <div class="text-muted small">@L["Passenger_PastBookings"]</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.ActiveBookings.Any())
+{
+    <div class="pax-card">
+        <div class="pax-card-header"><i class="fas fa-plane me-2"></i>@L["Passenger_ActiveBookings"]</div>
+        <div class="p-3">
+            @foreach (var b in Model.ActiveBookings)
+            {
+                <div class="border rounded p-3 mb-2 d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fw-bold">@b.FlightNumber · <span class="badge bg-secondary">@b.OriginIata</span> → <span class="badge bg-secondary">@b.DestinationIata</span></div>
+                        <small class="text-muted">@b.DepartureTime.ToString("dd.MM.yyyy HH:mm") · @L["Booking_Seat"]: @b.SeatNumber (@b.SeatClass)</small>
+                    </div>
+                    <div class="text-end">
+                        <div class="fw-bold text-danger">₺@b.TotalPrice.ToString("N0")</div>
+                        @{
+                            var sc = b.Status switch {
+                                BookingStatus.Confirmed => "status-boarding",
+                                BookingStatus.CheckedIn => "status-scheduled",
+                                _ => "status-delayed"
+                            };
+                        }
+                        <span class="status-badge @sc">@L["Status_" + b.Status.ToString()]</span>
+                        <br />
+                        <a asp-area="Passenger" asp-controller="Booking" asp-action="Detail" asp-route-id="@b.Id"
+                           class="btn btn-sm btn-outline-primary mt-1">@L["Btn_Details"]</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<div class="pax-card">
+    <div class="pax-card-header"><i class="fas fa-search me-2"></i>@L["Flight_Search"]</div>
+    <div class="p-3 text-center">
+        <p class="text-muted">@L["Home_BookNow"]</p>
+        <a asp-area="" asp-controller="Flight" asp-action="Index" class="btn btn-danger">
+            <i class="fas fa-search me-1"></i> @L["Nav_SearchTicket"]
+        </a>
+    </div>
+</div>

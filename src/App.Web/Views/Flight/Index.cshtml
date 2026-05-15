@@ -1,0 +1,217 @@
+@model FlightListPageVM
+@{
+    ViewData["Title"] = "Uçuşlar - SkyWay Airlines";
+}
+
+<section class="py-4" style="background:var(--secondary);color:#fff">
+    <div class="container">
+        <h2 class="fw-bold mb-0"><i class="fas fa-search me-2" style="color:var(--gold)"></i>@L["Flight_Search"]</h2>
+        <p class="mb-0 mt-1" style="color:rgba(255,255,255,.7)">Güzergah, tarih ve sınıfa göre uçuş arayın</p>
+    </div>
+</section>
+
+<section class="py-4" style="background:#f8f9fa;border-bottom:1px solid #dee2e6">
+    <div class="container">
+        <form asp-action="Index" method="get">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted">@L["Flight_Departure"]</label>
+                    <select name="DepartureIata" class="form-select">
+                        <option value="">— Seçin —</option>
+                        @foreach (var a in Model.Airports)
+                        {
+                            if (Model.SearchVM.DepartureIata == a.IataCode)
+                            {
+                                <option value="@a.IataCode" selected>@a.IataCode - @a.City</option>
+                            }
+                            else
+                            {
+                                <option value="@a.IataCode">@a.IataCode - @a.City</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted">@L["Flight_Arrival"]</label>
+                    <select name="ArrivalIata" class="form-select">
+                        <option value="">— Seçin —</option>
+                        @foreach (var a in Model.Airports)
+                        {
+                            if (Model.SearchVM.ArrivalIata == a.IataCode)
+                            {
+                                <option value="@a.IataCode" selected>@a.IataCode - @a.City</option>
+                            }
+                            else
+                            {
+                                <option value="@a.IataCode">@a.IataCode - @a.City</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted">@L["Flight_Date"]</label>
+                    @{ var depDateStr = Model.SearchVM.DepartureDate.ToString("yyyy-MM-dd"); var todayStr = DateTime.Today.ToString("yyyy-MM-dd"); }
+                    <input type="date" name="DepartureDate" value="@depDateStr" class="form-control" min="@todayStr" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted">@L["Flight_Passengers"]</label>
+                    <select name="Passengers" class="form-select">
+                        @for (int i = 1; i <= 9; i++)
+                        {
+                            if (Model.SearchVM.Passengers == i)
+                            {
+                                <option value="@i" selected>@i Yolcu</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i Yolcu</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted">@L["Flight_Class"]</label>
+                    <select name="SeatClass" class="form-select">
+                        @if (Model.SearchVM.SeatClass == SeatClass.Economy)
+                        {
+                            <option value="1" selected>@L["Flight_Economy"]</option>
+                        }
+                        else
+                        {
+                            <option value="1">@L["Flight_Economy"]</option>
+                        }
+                        @if (Model.SearchVM.SeatClass == SeatClass.PremiumEconomy)
+                        {
+                            <option value="2" selected>@L["Flight_PremiumEconomy"]</option>
+                        }
+                        else
+                        {
+                            <option value="2">@L["Flight_PremiumEconomy"]</option>
+                        }
+                        @if (Model.SearchVM.SeatClass == SeatClass.Business)
+                        {
+                            <option value="3" selected>@L["Flight_Business"]</option>
+                        }
+                        else
+                        {
+                            <option value="3">@L["Flight_Business"]</option>
+                        }
+                        @if (Model.SearchVM.SeatClass == SeatClass.First)
+                        {
+                            <option value="4" selected>@L["Flight_First"]</option>
+                        }
+                        else
+                        {
+                            <option value="4">@L["Flight_First"]</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn w-100 fw-bold" style="background:var(--primary);color:#fff">
+                        <i class="fas fa-search me-1"></i> @L["Btn_Search"]
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="py-4">
+    <div class="container">
+        @if (Model.IsSearchResult)
+        {
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0" style="color:var(--secondary)">
+                    @Model.SearchVM.DepartureIata &rarr; @Model.SearchVM.ArrivalIata &nbsp;
+                    <span class="text-muted fw-normal" style="font-size:.9rem">@Model.SearchVM.DepartureDate.ToString("dd MMMM yyyy")</span>
+                </h5>
+                <span class="badge" style="background:var(--primary)">@Model.Flights.Count uçuş bulundu</span>
+            </div>
+        }
+
+        @if (!Model.Flights.Any())
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-plane-slash fa-4x text-muted mb-3"></i>
+                <h4 class="text-muted">@L["Flight_NotFound"]</h4>
+                <p class="text-muted">Farklı tarih veya güzergah deneyin.</p>
+                <a asp-action="Index" class="btn btn-book mt-2">Tüm Uçuşlar</a>
+            </div>
+        }
+        else
+        {
+            <div id="flightList">
+                @foreach (var flight in Model.Flights)
+                {
+                    var statusClass = flight.Status switch {
+                        FlightStatus.Scheduled => "status-scheduled",
+                        FlightStatus.Boarding => "status-boarding",
+                        FlightStatus.Departed => "status-departed",
+                        FlightStatus.Delayed => "status-delayed",
+                        FlightStatus.Cancelled => "status-cancelled",
+                        FlightStatus.Arrived => "status-arrived",
+                        _ => "status-scheduled"
+                    };
+                    <div class="flight-card mb-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-2 text-center border-end">
+                                <div class="fw-bold" style="color:var(--primary)">@flight.FlightNumber</div>
+                                <small class="text-muted">@flight.AircraftModel</small>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="text-center">
+                                        <div class="fw-bold fs-4">@flight.DepartureTime.ToString("HH:mm")</div>
+                                        <div class="fw-bold" style="color:var(--primary)">@flight.OriginIata</div>
+                                        <small class="text-muted">@flight.OriginCity</small>
+                                        <div class="text-muted" style="font-size:.75rem">@flight.DepartureTime.ToString("dd MMM")</div>
+                                    </div>
+                                    <div class="text-center px-3">
+                                        <small class="text-muted">@flight.DurationFormatted</small>
+                                        <div class="d-flex align-items-center">
+                                            <div style="height:2px;width:50px;background:#dee2e6"></div>
+                                            <i class="fas fa-plane mx-1 text-muted" style="font-size:.7rem"></i>
+                                            <div style="height:2px;width:50px;background:#dee2e6"></div>
+                                        </div>
+                                        <span class="status-badge @statusClass">@L["Status_" + flight.Status.ToString()]</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="fw-bold fs-4">@flight.ArrivalTime.ToString("HH:mm")</div>
+                                        <div class="fw-bold" style="color:var(--primary)">@flight.DestinationIata</div>
+                                        <small class="text-muted">@flight.DestinationCity</small>
+                                        <div class="text-muted" style="font-size:.75rem">@flight.ArrivalTime.ToString("dd MMM")</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 border-start">
+                                <div class="px-3">
+                                    <div class="mb-1">
+                                        <small class="text-muted">Economy</small>
+                                        <span class="float-end fw-bold" style="color:var(--primary)">₺@flight.EconomyPrice.ToString("N0")</span>
+                                    </div>
+                                    @if (flight.BusinessPrice.HasValue)
+                                    {
+                                        <div class="mb-1">
+                                            <small class="text-muted">Business</small>
+                                            <span class="float-end fw-bold" style="color:var(--primary)">₺@flight.BusinessPrice.Value.ToString("N0")</span>
+                                        </div>
+                                    }
+                                    <div class="d-flex gap-1 mt-2" style="font-size:.75rem">
+                                        <span class="text-muted"><i class="fas fa-chair me-1"></i>@flight.AvailableEconomySeats Eco</span>
+                                        <span class="text-muted ms-2"><i class="fas fa-chair me-1"></i>@flight.AvailableBusinessSeats Biz</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <a asp-controller="Flight" asp-action="Detail" asp-route-id="@flight.Id"
+                                   class="btn fw-bold d-block" style="background:var(--primary);color:#fff;border-radius:8px">
+                                    @L["Btn_SelectSeat"]
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>

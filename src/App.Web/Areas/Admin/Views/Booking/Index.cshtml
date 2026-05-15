@@ -1,0 +1,114 @@
+@model AdminBookingListPageVM
+
+<div class="admin-card">
+    <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-ticket-alt me-2"></i>@L["Booking_All"]</span>
+    </div>
+
+    <div class="p-3 border-bottom bg-light">
+        <form method="get" class="row g-2">
+            <div class="col-md-3">
+                <input type="text" name="search" value="@Model.Search" class="form-control form-control-sm" placeholder="@L["Placeholder_SearchBooking"]" />
+            </div>
+            <div class="col-md-2">
+                <select name="statusFilter" class="form-select form-select-sm">
+                    <option value="">@L["Label_All"] @L["Label_Status"]</option>
+                    @foreach (var s in Enum.GetValues<BookingStatus>())
+                    {
+                        if (Model.StatusFilter == (int)s)
+                        {
+                            <option value="@((int)s)" selected>@L["Status_" + s.ToString()]</option>
+                        }
+                        else
+                        {
+                            <option value="@((int)s)">@L["Status_" + s.ToString()]</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="date" name="date" value="@Model.DateFilter" class="form-control form-control-sm" />
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-sm btn-secondary"><i class="fas fa-search me-1"></i>@L["Btn_Filter"]</button>
+                <a asp-action="Index" class="btn btn-sm btn-outline-secondary ms-1">@L["Btn_Clear"]</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>@L["Booking_Code"]</th>
+                    <th>@L["Booking_Passenger"]</th>
+                    <th>@L["Flight_Number"]</th>
+                    <th>@L["Flight_Route"]</th>
+                    <th>@L["Booking_Seat"]</th>
+                    <th>@L["Booking_TotalPrice"]</th>
+                    <th>@L["Booking_Date"]</th>
+                    <th>@L["Label_Status"]</th>
+                    <th class="text-center">@L["Label_Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Bookings.Any())
+                {
+                    @foreach (var b in Model.Bookings)
+                    {
+                        <tr>
+                            <td><strong class="text-danger">@b.BookingCode</strong></td>
+                            <td>
+                                @b.PassengerName<br />
+                                <small class="text-muted">@b.PassengerEmail</small>
+                            </td>
+                            <td>@b.FlightNumber</td>
+                            <td>
+                                <span class="badge bg-secondary">@b.OriginIata</span>
+                                <i class="fas fa-arrow-right text-muted mx-1"></i>
+                                <span class="badge bg-secondary">@b.DestinationIata</span>
+                            </td>
+                            <td>@b.SeatNumber <small class="text-muted">(@b.SeatClass)</small></td>
+                            <td>₺@b.TotalPrice.ToString("N0")</td>
+                            <td>
+                                <div>@b.BookingDate.ToString("dd.MM.yyyy")</div>
+                                <small class="text-muted">@b.BookingDate.ToString("HH:mm")</small>
+                            </td>
+                            <td>
+                                @{
+                                    var sc = b.Status switch {
+                                        BookingStatus.Confirmed => "status-boarding",
+                                        BookingStatus.Cancelled => "status-cancelled",
+                                        BookingStatus.Pending => "status-delayed",
+                                        BookingStatus.CheckedIn => "status-scheduled",
+                                        BookingStatus.Completed => "status-arrived",
+                                        _ => "status-scheduled"
+                                    };
+                                }
+                                <span class="status-badge @sc">@L["Status_" + b.Status.ToString()]</span>
+                            </td>
+                            <td class="text-center">
+                                @if (b.Status != BookingStatus.Cancelled)
+                                {
+                                    <form asp-action="Cancel" asp-route-id="@b.Id" method="post" class="d-inline"
+                                          onsubmit="return confirm('@L["Confirm_Cancel"]')">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-outline-warning" title="@L["Booking_Cancel"]">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="9" class="text-center text-muted py-4">
+                        <i class="fas fa-ticket-alt fa-2x mb-2 d-block"></i>@L["Booking_NotFound"]
+                    </td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

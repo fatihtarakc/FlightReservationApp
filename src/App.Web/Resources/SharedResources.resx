@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <!-- Nav -->
+  <data name="Nav_Home"><value>Ana Sayfa</value></data>
+  <data name="Nav_Flights"><value>Uçuşlar</value></data>
+  <data name="Nav_About"><value>Hakkımızda</value></data>
+  <data name="Nav_SearchTicket"><value>Bilet Ara</value></data>
+  <data name="Nav_Login"><value>Giriş Yap</value></data>
+  <data name="Nav_Register"><value>Üye Ol</value></data>
+  <data name="Nav_Logout"><value>Çıkış</value></data>
+  <data name="Nav_MyAccount"><value>Hesabım</value></data>
+  <data name="Nav_AdminPanel"><value>Admin Panel</value></data>
+  <data name="Nav_Language"><value>Dil</value></data>
+
+  <!-- General -->
+  <data name="Btn_Save"><value>Kaydet</value></data>
+  <data name="Btn_Cancel"><value>İptal</value></data>
+  <data name="Btn_Edit"><value>Düzenle</value></data>
+  <data name="Btn_Delete"><value>Sil</value></data>
+  <data name="Btn_Search"><value>Ara</value></data>
+  <data name="Btn_Filter"><value>Filtrele</value></data>
+  <data name="Btn_Clear"><value>Temizle</value></data>
+  <data name="Btn_Add"><value>Ekle</value></data>
+  <data name="Btn_Back"><value>Geri</value></data>
+  <data name="Btn_Confirm"><value>Onayla</value></data>
+  <data name="Btn_Details"><value>Detay</value></data>
+  <data name="Label_Status"><value>Durum</value></data>
+  <data name="Label_Actions"><value>İşlemler</value></data>
+  <data name="Label_All"><value>Tümü</value></data>
+  <data name="Label_NoData"><value>Kayıt bulunamadı</value></data>
+  <data name="Label_Required"><value>zorunlu</value></data>
+  <data name="Confirm_Delete"><value>Bu kaydı silmek istediğinizden emin misiniz?</value></data>
+  <data name="Confirm_Cancel"><value>Bu işlemi iptal etmek istediğinizden emin misiniz?</value></data>
+
+  <!-- Flight -->
+  <data name="Flight_Management"><value>Uçuş Yönetimi</value></data>
+  <data name="Flight_All"><value>Tüm Uçuşlar</value></data>
+  <data name="Flight_New"><value>Yeni Uçuş</value></data>
+  <data name="Flight_Add"><value>Uçuş Ekle</value></data>
+  <data name="Flight_Edit"><value>Uçuş Düzenle</value></data>
+  <data name="Flight_Number"><value>Uçuş Numarası</value></data>
+  <data name="Flight_Route"><value>Güzergah</value></data>
+  <data name="Flight_Departure"><value>Kalkış</value></data>
+  <data name="Flight_Arrival"><value>Varış</value></data>
+  <data name="Flight_Aircraft"><value>Uçak</value></data>
+  <data name="Flight_Price"><value>Fiyat</value></data>
+  <data name="Flight_Economy"><value>Ekonomi</value></data>
+  <data name="Flight_PremiumEconomy"><value>Premium Ekonomi</value></data>
+  <data name="Flight_Business"><value>Business</value></data>
+  <data name="Flight_First"><value>First Class</value></data>
+  <data name="Flight_SelectSeat"><value>Koltuk Seç</value></data>
+  <data name="Flight_Search"><value>Uçuş Ara</value></data>
+  <data name="Flight_From"><value>Nereden</value></data>
+  <data name="Flight_To"><value>Nereye</value></data>
+  <data name="Flight_Date"><value>Tarih</value></data>
+  <data name="Flight_Passengers"><value>Yolcu Sayısı</value></data>
+  <data name="Flight_Class"><value>Sınıf</value></data>
+  <data name="Flight_Duration"><value>Süre</value></data>
+  <data name="Flight_Cancel"><value>İptal Et</value></data>
+  <data name="Flight_NotFound"><value>Uçuş bulunamadı</value></data>
+  <data name="Flight_Detail"><value>Uçuş Detayı</value></data>
+  <data name="Flight_Pricing"><value>Fiyatlandırma</value></data>
+  <data name="Flight_SelectRoute"><value>Güzergah Seçin</value></data>
+  <data name="Flight_SelectAircraft"><value>Uçak Seçin</value></data>
+
+  <!-- Route -->
+  <data name="Route_Management"><value>Güzergah Yönetimi</value></data>
+  <data name="Route_All"><value>Tüm Güzergahlar</value></data>
+  <data name="Route_New"><value>Yeni Güzergah</value></data>
+  <data name="Route_Add"><value>Güzergah Ekle</value></data>
+  <data name="Route_Origin"><value>Kalkış Havalimanı</value></data>
+  <data name="Route_Destination"><value>Varış Havalimanı</value></data>
+  <data name="Route_Distance"><value>Mesafe (km)</value></data>
+  <data name="Route_Duration"><value>Tahmini Süre (dk)</value></data>
+  <data name="Route_SelectOrigin"><value>Kalkış Seçin</value></data>
+  <data name="Route_SelectDestination"><value>Varış Seçin</value></data>
+  <data name="Route_NotFound"><value>Güzergah bulunamadı</value></data>
+
+  <!-- Aircraft -->
+  <data name="Aircraft_Management"><value>Uçak Yönetimi</value></data>
+  <data name="Aircraft_Fleet"><value>Uçak Filosu</value></data>
+  <data name="Aircraft_New"><value>Yeni Uçak</value></data>
+  <data name="Aircraft_Add"><value>Uçak Ekle</value></data>
+  <data name="Aircraft_Registration"><value>Tescil Numarası</value></data>
+  <data name="Aircraft_Model"><value>Model</value></data>
+  <data name="Aircraft_Manufacturer"><value>Üretici</value></data>
+  <data name="Aircraft_BodyType"><value>Gövde Tipi</value></data>
+  <data name="Aircraft_TotalSeats"><value>Toplam Koltuk</value></data>
+  <data name="Aircraft_EconomySeats"><value>Ekonomi Koltuk</value></data>
+  <data name="Aircraft_BusinessSeats"><value>Business Koltuk</value></data>
+  <data name="Aircraft_ManufactureYear"><value>Üretim Yılı</value></data>
+  <data name="Aircraft_NotFound"><value>Uçak bulunamadı</value></data>
+
+  <!-- Airport -->
+  <data name="Airport_Management"><value>Havalimanı Yönetimi</value></data>
+  <data name="Airport_All"><value>Havalimanları</value></data>
+  <data name="Airport_New"><value>Yeni Havalimanı</value></data>
+  <data name="Airport_Add"><value>Havalimanı Ekle</value></data>
+  <data name="Airport_IataCode"><value>IATA Kodu</value></data>
+  <data name="Airport_Name"><value>Havalimanı Adı</value></data>
+  <data name="Airport_City"><value>Şehir</value></data>
+  <data name="Airport_Country"><value>Ülke</value></data>
+  <data name="Airport_Timezone"><value>Saat Dilimi</value></data>
+  <data name="Airport_Latitude"><value>Enlem</value></data>
+  <data name="Airport_Longitude"><value>Boylam</value></data>
+  <data name="Airport_NotFound"><value>Havalimanı bulunamadı</value></data>
+  <data name="Airport_SelectCountry"><value>Ülke Seçin</value></data>
+  <data name="Airport_SelectTimezone"><value>Saat Dilimi Seçin</value></data>
+
+  <!-- Booking -->
+  <data name="Booking_Management"><value>Rezervasyon Yönetimi</value></data>
+  <data name="Booking_All"><value>Tüm Rezervasyonlar</value></data>
+  <data name="Booking_My"><value>Rezervasyonlarım</value></data>
+  <data name="Booking_New"><value>Yeni Rezervasyon</value></data>
+  <data name="Booking_Detail"><value>Rezervasyon Detayı</value></data>
+  <data name="Booking_Cancel"><value>Rezervasyonu İptal Et</value></data>
+  <data name="Booking_CheckIn"><value>Online Check-in</value></data>
+  <data name="Booking_Passenger"><value>Yolcu</value></data>
+  <data name="Booking_Seat"><value>Koltuk</value></data>
+  <data name="Booking_TotalPrice"><value>Toplam Ücret</value></data>
+  <data name="Booking_Date"><value>Rezervasyon Tarihi</value></data>
+  <data name="Booking_Code"><value>Rezervasyon Kodu</value></data>
+  <data name="Booking_NotFound"><value>Rezervasyon bulunamadı</value></data>
+  <data name="Booking_Confirm"><value>Rezervasyonu Onayla</value></data>
+  <data name="Booking_SelectSeat"><value>Koltuk Seçin</value></data>
+  <data name="Booking_SeatMap"><value>Koltuk Haritası</value></data>
+
+  <!-- Account -->
+  <data name="Account_Login"><value>Giriş Yap</value></data>
+  <data name="Account_Register"><value>Kayıt Ol</value></data>
+  <data name="Account_ForgotPassword"><value>Şifremi Unuttum</value></data>
+  <data name="Account_ResetPassword"><value>Şifre Sıfırla</value></data>
+  <data name="Account_Username"><value>Kullanıcı Adı veya E-posta</value></data>
+  <data name="Account_Password"><value>Şifre</value></data>
+  <data name="Account_ConfirmPassword"><value>Şifre Tekrar</value></data>
+  <data name="Account_Name"><value>Ad</value></data>
+  <data name="Account_Surname"><value>Soyad</value></data>
+  <data name="Account_Email"><value>E-posta</value></data>
+  <data name="Account_Phone"><value>Telefon</value></data>
+  <data name="Account_BirthDate"><value>Doğum Tarihi</value></data>
+  <data name="Account_Notification"><value>Bildirim Tercihi</value></data>
+  <data name="Account_RememberMe"><value>Beni Hatırla</value></data>
+  <data name="Account_NoAccount"><value>Hesabınız yok mu?</value></data>
+  <data name="Account_HaveAccount"><value>Zaten hesabınız var mı?</value></data>
+  <data name="Account_VerificationCode"><value>Doğrulama Kodu</value></data>
+
+  <!-- Admin Dashboard -->
+  <data name="Admin_Dashboard"><value>Genel Bakış</value></data>
+  <data name="Admin_TotalFlights"><value>Toplam Uçuş</value></data>
+  <data name="Admin_ActiveFlights"><value>Aktif Uçuşlar</value></data>
+  <data name="Admin_TotalBookings"><value>Toplam Rezervasyon</value></data>
+  <data name="Admin_ConfirmedBookings"><value>Onaylı Rezervasyonlar</value></data>
+  <data name="Admin_TotalPassengers"><value>Toplam Kullanıcı</value></data>
+  <data name="Admin_TotalRevenue"><value>Toplam Gelir</value></data>
+  <data name="Admin_RecentFlights"><value>Son Uçuşlar</value></data>
+  <data name="Admin_RecentBookings"><value>Son Rezervasyonlar</value></data>
+  <data name="Admin_QuickActions"><value>Hızlı İşlemler</value></data>
+  <data name="Admin_Hangfire"><value>Görev Kuyruğu (Hangfire)</value></data>
+  <data name="Admin_Logs"><value>Uygulama Logları</value></data>
+  <data name="Admin_Notifications"><value>Bildirim Takibi</value></data>
+
+  <!-- Passenger Dashboard -->
+  <data name="Passenger_Dashboard"><value>Hesabım</value></data>
+  <data name="Passenger_ActiveBookings"><value>Aktif Rezervasyonlar</value></data>
+  <data name="Passenger_PastBookings"><value>Geçmiş Rezervasyonlar</value></data>
+  <data name="Passenger_Welcome"><value>Hoş Geldiniz</value></data>
+
+  <!-- Seat -->
+  <data name="Seat_Available"><value>Müsait</value></data>
+  <data name="Seat_Occupied"><value>Dolu</value></data>
+  <data name="Seat_Selected"><value>Seçili</value></data>
+  <data name="Seat_Economy"><value>Ekonomi</value></data>
+  <data name="Seat_Business"><value>Business</value></data>
+  <data name="Seat_First"><value>First Class</value></data>
+  <data name="Seat_Row"><value>Sıra</value></data>
+  <data name="Seat_Column"><value>Kolon</value></data>
+  <data name="Seat_Number"><value>Koltuk No</value></data>
+  <data name="Seat_Class"><value>Sınıf</value></data>
+  <data name="Seat_Price"><value>Fiyat</value></data>
+
+  <!-- Notifications -->
+  <data name="Notif_Email"><value>E-posta</value></data>
+  <data name="Notif_Sms"><value>SMS</value></data>
+  <data name="Notif_WhatsApp"><value>WhatsApp</value></data>
+  <data name="Notif_Channel"><value>Kanal</value></data>
+  <data name="Notif_Recipient"><value>Alıcı</value></data>
+  <data name="Notif_Subject"><value>Konu</value></data>
+  <data name="Notif_SentAt"><value>Gönderilme Zamanı</value></data>
+  <data name="Notif_Success"><value>Başarılı</value></data>
+  <data name="Notif_Failed"><value>Başarısız</value></data>
+  <data name="Notif_History"><value>Bildirim Geçmişi</value></data>
+
+  <!-- Home -->
+  <data name="Home_HeroTitle"><value>Hayalinizdeki Uçuşu Bulun</value></data>
+  <data name="Home_HeroSubtitle"><value>Türkiye'nin güvenilir havayolu ile konforlu ve uygun fiyatlı seyahatin keyfini çıkarın</value></data>
+  <data name="Home_PopularRoutes"><value>Popüler Güzergahlar</value></data>
+  <data name="Home_RecentFlights"><value>Yaklaşan Uçuşlar</value></data>
+  <data name="Home_Features"><value>Neden SkyWay?</value></data>
+  <data name="Home_BookNow"><value>Hemen Rezervasyon Yap</value></data>
+  <data name="Home_ViewAll"><value>Tümünü Gör</value></data>
+
+  <!-- Login / Account pages -->
+  <data name="Login_Title"><value>Giriş Yap - SkyWay Airlines</value></data>
+  <data name="Login_Welcome"><value>Hoş Geldiniz</value></data>
+  <data name="Login_Subtitle"><value>Hesabınıza giriş yapın</value></data>
+  <data name="Login_ForgotPassword"><value>Şifremi Unuttum</value></data>
+  <data name="Login_NoAccount"><value>Hesabınız yok mu?</value></data>
+  <data name="Login_BackToLogin"><value>Giriş Sayfasına Dön</value></data>
+  <data name="Btn_Login"><value>Giriş Yap</value></data>
+  <data name="Label_UsernameOrEmail"><value>Kullanıcı Adı veya E-posta</value></data>
+  <data name="Label_Password"><value>Şifre</value></data>
+  <data name="Label_RememberMe"><value>Beni Hatırla</value></data>
+  <data name="Label_Email"><value>E-posta Adresi</value></data>
+  <data name="Label_NewPassword"><value>Yeni Şifre</value></data>
+  <data name="Label_ConfirmPassword"><value>Şifre Tekrar</value></data>
+  <data name="Label_CurrentPassword"><value>Mevcut Şifre</value></data>
+  <data name="Label_Name"><value>Ad</value></data>
+  <data name="Label_Surname"><value>Soyad</value></data>
+  <data name="Label_Phone"><value>Telefon</value></data>
+  <data name="Label_BirthDate"><value>Doğum Tarihi</value></data>
+  <data name="Placeholder_Email"><value>ornek@email.com</value></data>
+
+  <!-- ForgotPassword -->
+  <data name="ForgotPassword_Title"><value>Şifremi Unuttum</value></data>
+  <data name="ForgotPassword_Subtitle"><value>E-postanıza doğrulama kodu göndereceğiz</value></data>
+  <data name="ForgotPassword_SendCode"><value>Kod Gönder</value></data>
+
+  <!-- Flight Detail / Seat -->
+  <data name="Flight_SeatSelection"><value>Koltuk Seçimi</value></data>
+  <data name="Flight_Info"><value>Uçuş Bilgileri</value></data>
+  <data name="Flight_FromEconomy"><value>Economy'den itibaren</value></data>
+  <data name="Seat_Legend"><value>Renk Kodları</value></data>
+  <data name="Seat_NotFound"><value>Koltuk bilgisi bulunamadı.</value></data>
+  <data name="Seat_PleaseSelect"><value>Lütfen bir koltuk seçin.</value></data>
+  <data name="Btn_SelectSeat"><value>Koltuk Seç</value></data>
+  <data name="Booking_Proceed"><value>Rezervasyon Yap</value></data>
+
+  <!-- Success / Error messages -->
+  <data name="Error_Generic"><value>Bir hata oluştu. Lütfen tekrar deneyiniz.</value></data>
+  <data name="Profile_UpdateSuccess"><value>Profil bilgileriniz başarıyla güncellendi.</value></data>
+  <data name="Password_ChangeSuccess"><value>Şifreniz başarıyla değiştirildi.</value></data>
+  <data name="Notif_UpdateSuccess"><value>Bildirim tercihleriniz güncellendi.</value></data>
+
+  <!-- Entity messages -->
+  <data name="Flight_AddSuccess"><value>Uçuş başarıyla eklendi.</value></data>
+  <data name="Flight_UpdateSuccess"><value>Uçuş başarıyla güncellendi.</value></data>
+  <data name="Flight_DeleteSuccess"><value>Uçuş silindi.</value></data>
+  <data name="Flight_CancelSuccess"><value>Uçuş iptal edildi.</value></data>
+  <data name="Flight_LoadError"><value>Uçuş bilgileri yüklenemedi.</value></data>
+  <data name="Route_AddSuccess"><value>Güzergah başarıyla eklendi.</value></data>
+  <data name="Route_DeleteSuccess"><value>Güzergah silindi.</value></data>
+  <data name="Route_LoadError"><value>Güzergah bilgileri yüklenemedi.</value></data>
+  <data name="Airport_AddSuccess"><value>Havalimanı başarıyla eklendi.</value></data>
+  <data name="Airport_DeleteSuccess"><value>Havalimanı silindi.</value></data>
+  <data name="Airport_LoadError"><value>Havalimanı bilgileri yüklenemedi.</value></data>
+  <data name="Aircraft_AddSuccess"><value>Uçak başarıyla eklendi.</value></data>
+  <data name="Aircraft_DeleteSuccess"><value>Uçak silindi.</value></data>
+  <data name="Aircraft_LoadError"><value>Uçak bilgileri yüklenemedi.</value></data>
+  <data name="Booking_CreateSuccess"><value>Rezervasyonunuz başarıyla oluşturuldu.</value></data>
+  <data name="Booking_CancelSuccess"><value>Rezervasyonunuz iptal edildi.</value></data>
+  <data name="Booking_CheckInSuccess"><value>Check-in işleminiz tamamlandı.</value></data>
+  <data name="Booking_LoadError"><value>Rezervasyon bilgileri yüklenemedi.</value></data>
+  <data name="Dashboard_LoadError"><value>Dashboard bilgileri yüklenemedi.</value></data>
+  <data name="Account_LoginSuccess"><value>Giriş başarıyla yapıldı.</value></data>
+  <data name="Account_RegisterSuccess"><value>Kayıt başarıyla tamamlandı. Giriş yapabilirsiniz.</value></data>
+  <data name="Account_LogoutSuccess"><value>Çıkış yapıldı.</value></data>
+  <data name="Account_LoginError"><value>Giriş başarısız. Kullanıcı adı veya şifre hatalı.</value></data>
+  <data name="Account_RegisterError"><value>Kayıt işlemi başarısız.</value></data>
+
+  <!-- Messages (App.Core naming convention) -->
+  <data name="UnexpectedError"><value>Beklenmeyen bir hata oluştu. Lütfen tekrar deneyiniz.</value></data>
+  <data name="Data_LoadSuccess"><value>Veriler başarıyla yüklendi.</value></data>
+  <data name="Account_SignIn_Successful"><value>Giriş başarıyla yapıldı.</value></data>
+  <data name="Account_SignIn_Failed"><value>Giriş başarısız. Kullanıcı adı veya şifre hatalı.</value></data>
+  <data name="Account_SignOut_Successful"><value>Çıkış başarıyla yapıldı.</value></data>
+  <data name="Account_ResetPassword_Successful"><value>Şifreniz başarıyla sıfırlandı.</value></data>
+  <data name="Account_ForgotPassword_Successful"><value>Doğrulama kodu e-postanıza gönderildi.</value></data>
+  <data name="Account_Was_Not_Found"><value>Hesap bulunamadı.</value></data>
+  <data name="AppUser_HasBeen_Added"><value>Kayıt başarıyla tamamlandı. Giriş yapabilirsiniz.</value></data>
+  <data name="AppUser_CouldNotBe_Added"><value>Kayıt işlemi başarısız.</value></data>
+  <data name="AppUser_Was_Not_Found"><value>Kullanıcı bulunamadı.</value></data>
+  <data name="AppUser_Was_Activated"><value>Kullanıcı hesabı aktif edildi.</value></data>
+  <data name="AppUser_Was_Deactivated"><value>Kullanıcı hesabı pasife alındı.</value></data>
+  <data name="Flight_Was_Not_Found"><value>Uçuş bulunamadı.</value></data>
+  <data name="Flight_HasBeen_Added"><value>Uçuş başarıyla eklendi.</value></data>
+  <data name="Flight_Was_Updated"><value>Uçuş başarıyla güncellendi.</value></data>
+  <data name="Flight_Was_Deleted"><value>Uçuş başarıyla silindi.</value></data>
+  <data name="Flight_Was_Cancelled"><value>Uçuş başarıyla iptal edildi.</value></data>
+  <data name="Route_Was_Not_Found"><value>Güzergah bulunamadı.</value></data>
+  <data name="Route_HasBeen_Added"><value>Güzergah başarıyla eklendi.</value></data>
+  <data name="Route_Was_Deleted"><value>Güzergah başarıyla silindi.</value></data>
+  <data name="Airport_Was_Not_Found"><value>Havalimanı bulunamadı.</value></data>
+  <data name="Airport_HasBeen_Added"><value>Havalimanı başarıyla eklendi.</value></data>
+  <data name="Airport_Was_Updated"><value>Havalimanı başarıyla güncellendi.</value></data>
+  <data name="Airport_Was_Deleted"><value>Havalimanı başarıyla silindi.</value></data>
+  <data name="Aircraft_Was_Not_Found"><value>Uçak bulunamadı.</value></data>
+  <data name="Aircraft_HasBeen_Added"><value>Uçak başarıyla eklendi.</value></data>
+  <data name="Aircraft_Was_Updated"><value>Uçak başarıyla güncellendi.</value></data>
+  <data name="Aircraft_Was_Deleted"><value>Uçak başarıyla silindi.</value></data>
+  <data name="Booking_Was_Not_Found"><value>Rezervasyon bulunamadı.</value></data>
+  <data name="Booking_HasBeen_Added"><value>Rezervasyonunuz başarıyla oluşturuldu.</value></data>
+  <data name="Booking_Was_Cancelled"><value>Rezervasyonunuz başarıyla iptal edildi.</value></data>
+  <data name="Booking_CheckedIn_Successfully"><value>Check-in işleminiz başarıyla tamamlandı.</value></data>
+  <data name="Seat_Was_Not_Found"><value>Koltuk bulunamadı.</value></data>
+
+  <!-- Validation messages -->
+  <data name="Val_UsernameOrEmail_Required"><value>Kullanıcı adı veya e-posta boş olamaz.</value></data>
+  <data name="Val_UsernameOrEmail_MinLength"><value>En az 3 karakter olmalıdır.</value></data>
+  <data name="Val_Password_Required"><value>Şifre boş olamaz.</value></data>
+  <data name="Val_Password_TooShort"><value>Şifre en az 6 karakter olmalıdır.</value></data>
+  <data name="Val_Password_Register_TooShort"><value>Şifre en az 8 karakter olmalıdır.</value></data>
+  <data name="Val_Password_Uppercase"><value>En az bir büyük harf içermelidir.</value></data>
+  <data name="Val_Password_Lowercase"><value>En az bir küçük harf içermelidir.</value></data>
+  <data name="Val_Password_Digit"><value>En az bir rakam içermelidir.</value></data>
+  <data name="Val_Password_Special"><value>En az bir özel karakter içermelidir.</value></data>
+  <data name="Val_ConfirmPassword_Required"><value>Şifre onayı boş olamaz.</value></data>
+  <data name="Val_ConfirmPassword_Match"><value>Şifreler eşleşmiyor.</value></data>
+  <data name="Val_Name_Required"><value>Ad boş olamaz.</value></data>
+  <data name="Val_Name_TooShort"><value>Ad en az 2 karakter olmalıdır.</value></data>
+  <data name="Val_Name_TooLong"><value>Ad en fazla 50 karakter olabilir.</value></data>
+  <data name="Val_Surname_Required"><value>Soyad boş olamaz.</value></data>
+  <data name="Val_Surname_TooShort"><value>Soyad en az 2 karakter olmalıdır.</value></data>
+  <data name="Val_Surname_TooLong"><value>Soyad en fazla 50 karakter olabilir.</value></data>
+  <data name="Val_Username_Required"><value>Kullanıcı adı boş olamaz.</value></data>
+  <data name="Val_Username_Format"><value>Yalnızca harf, rakam, '.', '_' ve '-' içerebilir.</value></data>
+  <data name="Val_Email_Required"><value>E-posta boş olamaz.</value></data>
+  <data name="Val_Email_Invalid"><value>Geçerli bir e-posta adresi giriniz.</value></data>
+  <data name="Val_Phone_Required"><value>Telefon numarası boş olamaz.</value></data>
+  <data name="Val_Phone_Format"><value>Uluslararası formatta olmalıdır (+90XXXXXXXXXX).</value></data>
+  <data name="Val_BirthDate_Required"><value>Doğum tarihi boş olamaz.</value></data>
+  <data name="Val_BirthDate_MinAge"><value>18 yaşından büyük olmalısınız.</value></data>
+  <data name="Val_BirthDate_Valid"><value>Geçerli bir doğum tarihi giriniz.</value></data>
+  <data name="Val_Code_Required"><value>Doğrulama kodu boş olamaz.</value></data>
+  <data name="Val_Code_Length"><value>Doğrulama kodu 6 haneli olmalıdır.</value></data>
+  <data name="Val_DepartureIata_Required"><value>Kalkış havalimanı boş olamaz.</value></data>
+  <data name="Val_ArrivalIata_Required"><value>Varış havalimanı boş olamaz.</value></data>
+  <data name="Val_IATA_Length"><value>IATA kodu 3 karakter olmalıdır.</value></data>
+  <data name="Val_IATA_Different"><value>Kalkış ve varış farklı olmalıdır.</value></data>
+  <data name="Val_Date_NotPast"><value>Geçmiş tarih seçilemez.</value></data>
+  <data name="Val_Passengers_Range"><value>Yolcu sayısı 1-9 arasında olmalıdır.</value></data>
+  <data name="Val_FlightNumber_Required"><value>Uçuş numarası boş olamaz.</value></data>
+  <data name="Val_FlightNumber_MaxLength"><value>En fazla 10 karakter olabilir.</value></data>
+  <data name="Val_DepartureTime_Future"><value>Kalkış tarihi gelecekte olmalıdır.</value></data>
+  <data name="Val_ArrivalTime_AfterDeparture"><value>Varış tarihi kalkıştan sonra olmalıdır.</value></data>
+  <data name="Val_EconomyPrice_Positive"><value>Ekonomi fiyatı sıfırdan büyük olmalıdır.</value></data>
+  <data name="Val_AircraftId_Required"><value>Uçak seçimi gereklidir.</value></data>
+  <data name="Val_RouteId_Required"><value>Güzergah seçimi gereklidir.</value></data>
+  <data name="Val_FlightId_Required"><value>Uçuş seçimi gereklidir.</value></data>
+  <data name="Val_SeatId_Required"><value>Koltuk seçimi gereklidir.</value></data>
+
+  <!-- Label additions -->
+  <data name="Label_Active"><value>Aktif</value></data>
+  <data name="Label_Passive"><value>Pasif</value></data>
+  <data name="Label_Confirmed"><value>Onaylı</value></data>
+  <data name="Label_ThisMonth"><value>Bu ay</value></data>
+  <data name="Label_Role"><value>Rol</value></data>
+  <data name="Label_BookingCount"><value>Rezervasyon</value></data>
+  <data name="Label_RegisterDate"><value>Kayıt Tarihi</value></data>
+  <data name="Label_Type"><value>Tip</value></data>
+  <data name="Label_Passenger"><value>Yolcu</value></data>
+
+  <!-- Admin additions -->
+  <data name="Admin_UserManagement"><value>Kullanıcı Yönetimi</value></data>
+  <data name="Admin_ActiveAccounts"><value>Aktif Hesaplar</value></data>
+  <data name="Admin_PassiveAccounts"><value>Pasif Hesaplar</value></data>
+  <data name="Admin_UserList"><value>Kullanıcı Listesi</value></data>
+  <data name="Admin_Users"><value>Kullanıcılar</value></data>
+  <data name="Admin_General"><value>Genel</value></data>
+  <data name="Admin_Reservations"><value>Rezervasyon</value></data>
+  <data name="Admin_System"><value>Sistem</value></data>
+  <data name="Admin_AccountSection"><value>Hesap</value></data>
+  <data name="Admin_Deactivate"><value>Pasife Al</value></data>
+  <data name="Admin_ActivateUser"><value>Aktif Et</value></data>
+
+  <!-- Nav additions -->
+  <data name="Nav_AccountSettings"><value>Hesap Ayarları</value></data>
+
+  <!-- Aircraft additions -->
+  <data name="Aircraft_Edit"><value>Uçak Düzenle</value></data>
+  <data name="Aircraft_ModelManufacturer"><value>Model / Üretici</value></data>
+
+  <!-- Airport additions -->
+  <data name="Airport_Edit"><value>Havalimanı Düzenle</value></data>
+
+  <!-- Placeholder additions -->
+  <data name="Placeholder_SearchFlight"><value>Uçuş no, IATA kodu...</value></data>
+  <data name="Placeholder_SearchUser"><value>Ad, kullanıcı adı veya e-posta ara...</value></data>
+  <data name="Placeholder_SearchAirport"><value>IATA kodu, şehir, ülke ara...</value></data>
+  <data name="Placeholder_SearchBooking"><value>Yolcu adı, uçuş no, rezervasyon kodu...</value></data>
+
+  <!-- Hangfire -->
+  <data name="Hangfire_SucceededJobs"><value>Başarılı Görevler</value></data>
+  <data name="Hangfire_EnqueuedJobs"><value>Bekleyen Görevler</value></data>
+  <data name="Hangfire_ProcessingJobs"><value>İşlenen Görevler</value></data>
+  <data name="Hangfire_FailedJobs"><value>Başarısız Görevler</value></data>
+  <data name="Hangfire_RecurringJobs"><value>Tekrarlayan Görevler</value></data>
+  <data name="Hangfire_JobName"><value>Görev Adı</value></data>
+  <data name="Hangfire_Schedule"><value>Zamanlama (CRON)</value></data>
+  <data name="Hangfire_LastRun"><value>Son Çalışma</value></data>
+  <data name="Hangfire_NextRun"><value>Sonraki Çalışma</value></data>
+  <data name="Hangfire_OpenDashboard"><value>Hangfire Dashboard'u Aç</value></data>
+  <data name="Hangfire_Info"><value>Hangfire Dashboard, arka plan görevlerini yönetmenizi sağlar. Tekrarlayan, anlık ve kuyruktaki işlemleri görüntüleyebilirsiniz.</value></data>
+
+  <!-- Logs -->
+  <data name="Log_Level"><value>Seviye</value></data>
+  <data name="Log_Message"><value>Mesaj</value></data>
+  <data name="Log_Source"><value>Kaynak</value></data>
+  <data name="Log_Time"><value>Zaman</value></data>
+  <data name="Log_Detail"><value>Detay</value></data>
+  <data name="Log_NotFound"><value>Log kaydı bulunamadı</value></data>
+  <data name="Log_ErrorDetail"><value>Hata Detayı</value></data>
+  <data name="Placeholder_SearchLog"><value>Log mesajı ara...</value></data>
+
+  <!-- Notification extras -->
+  <data name="Notif_AllStatuses"><value>Tüm Durumlar</value></data>
+  <data name="Notif_AllChannels"><value>Tüm Kanallar</value></data>
+  <data name="Notif_NotFound"><value>Bildirim kaydı bulunamadı</value></data>
+  <data name="Notif_EmailSent"><value>E-posta Gönderildi</value></data>
+  <data name="Notif_SmsSent"><value>SMS Gönderildi</value></data>
+  <data name="Notif_WhatsAppSent"><value>WhatsApp Gönderildi</value></data>
+  <data name="Notif_Error"><value>Hata</value></data>
+  <data name="Placeholder_SearchNotif"><value>Alıcı, konu ara...</value></data>
+
+  <!-- Route form -->
+  <data name="Route_Info"><value>Güzergah Bilgileri</value></data>
+  <data name="Error_SameAirport"><value>Kalkış ve varış havalimanları aynı olamaz!</value></data>
+
+  <!-- Status labels -->
+  <data name="Status_Scheduled"><value>Planlandı</value></data>
+  <data name="Status_Boarding"><value>Biniş</value></data>
+  <data name="Status_Departed"><value>Kalktı</value></data>
+  <data name="Status_InAir"><value>Havada</value></data>
+  <data name="Status_Landed"><value>İndi</value></data>
+  <data name="Status_Arrived"><value>Ulaştı</value></data>
+  <data name="Status_Delayed"><value>Gecikti</value></data>
+  <data name="Status_Cancelled"><value>İptal</value></data>
+  <data name="Status_Diverted"><value>Yönlendirildi</value></data>
+  <data name="Status_Pending"><value>Beklemede</value></data>
+  <data name="Status_Confirmed"><value>Onaylandı</value></data>
+  <data name="Status_CheckedIn"><value>Check-in Yapıldı</value></data>
+  <data name="Status_Boarded"><value>Bindi</value></data>
+  <data name="Status_Completed"><value>Tamamlandı</value></data>
+  <data name="Status_NoShow"><value>Gelmedi</value></data>
+  <data name="Status_Active"><value>Aktif</value></data>
+  <data name="Status_Maintenance"><value>Bakımda</value></data>
+  <data name="Status_Retired"><value>Emekli</value></data>
+</root>

@@ -1,0 +1,108 @@
+﻿@model BookingDetailPageVM
+@{
+    ViewData["Title"] = L["Booking_Detail"].ToString();
+    var b = Model.Booking;
+}
+
+<div class="pax-card">
+    <div class="pax-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-ticket-alt me-2"></i>@L["Booking_Detail"]</span>
+        <span class="badge bg-light text-dark">@b.BookingCode</span>
+    </div>
+    <div class="p-4">
+        <div class="row g-4">
+            <div class="col-md-8">
+                <div class="border rounded p-3 mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <strong class="text-danger fs-5">@b.FlightNumber</strong>
+                        @{
+                            var sc = b.Status switch {
+                                BookingStatus.Confirmed => "status-boarding",
+                                BookingStatus.CheckedIn => "status-scheduled",
+                                BookingStatus.Completed => "status-arrived",
+                                BookingStatus.Cancelled => "status-cancelled",
+                                _ => "status-delayed"
+                            };
+                        }
+                        <span class="status-badge @sc">@L["Status_" + b.Status.ToString()]</span>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-5">
+                            <div class="fs-3 fw-bold">@b.OriginIata</div>
+                            <div class="text-muted">@b.DepartureTime.ToString("HH:mm")</div>
+                            <small class="text-muted">@b.DepartureTime.ToString("dd MMM yyyy")</small>
+                        </div>
+                        <div class="col-2 d-flex flex-column align-items-center justify-content-center">
+                            <i class="fas fa-plane text-danger"></i>
+                        </div>
+                        <div class="col-5">
+                            <div class="fs-3 fw-bold">@b.DestinationIata</div>
+                            <div class="text-muted">@b.ArrivalTime.ToString("HH:mm")</div>
+                            <small class="text-muted">@b.ArrivalTime.ToString("dd MMM yyyy")</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="border rounded p-3">
+                            <div class="small text-muted fw-semibold text-uppercase">@L["Booking_Passenger"]</div>
+                            <div class="fw-bold">@b.PassengerName</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="border rounded p-3">
+                            <div class="small text-muted fw-semibold text-uppercase">@L["Booking_Seat"]</div>
+                            <div class="fw-bold fs-5 text-danger">@b.SeatNumber</div>
+                            <small class="text-muted">@b.SeatClass</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="border rounded p-3">
+                            <div class="small text-muted fw-semibold text-uppercase">@L["Booking_Code"]</div>
+                            <div class="fw-bold font-monospace">@b.BookingCode</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="border rounded p-3">
+                            <div class="small text-muted fw-semibold text-uppercase">@L["Booking_Date"]</div>
+                            <div class="fw-bold">@b.BookingDate.ToString("dd.MM.yyyy HH:mm")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="border rounded p-3 mb-3" style="background:#f8f9fa">
+                    <h6 class="fw-bold">@L["Booking_TotalPrice"]</h6>
+                    <div class="fs-3 fw-bold text-danger">₺@b.TotalPrice.ToString("N2")</div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    @if (Model.CanCheckIn)
+                    {
+                        <form asp-area="Passenger" asp-controller="Booking" asp-action="CheckIn" asp-route-id="@b.Id" method="post">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-success w-100">
+                                <i class="fas fa-check me-1"></i> @L["Booking_CheckIn"]
+                            </button>
+                        </form>
+                    }
+                    @if (Model.CanCancel)
+                    {
+                        <form asp-area="Passenger" asp-controller="Booking" asp-action="Cancel" asp-route-id="@b.Id" method="post"
+                              onsubmit="return confirm('@L["Confirm_Cancel"]')">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-outline-danger w-100">
+                                <i class="fas fa-ban me-1"></i> @L["Booking_Cancel"]
+                            </button>
+                        </form>
+                    }
+                    <a asp-area="Passenger" asp-controller="Booking" asp-action="MyBookings" class="btn btn-outline-secondary">
+                        @L["Btn_Back"]
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

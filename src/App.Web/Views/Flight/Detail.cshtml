@@ -1,0 +1,218 @@
+@model FlightDetailPageVM
+@{
+    ViewData["Title"] = $"{Model.Flight.FlightNumber} - {L["Flight_SeatSelection"]}";
+    var economySeats = Model.Seats.Where(s => s.SeatClass == SeatClass.Economy).ToList();
+    var businessSeats = Model.Seats.Where(s => s.SeatClass == SeatClass.Business).ToList();
+    var firstSeats = Model.Seats.Where(s => s.SeatClass == SeatClass.First).ToList();
+}
+
+<section class="py-4" style="background:var(--secondary);color:#fff">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2" style="--bs-breadcrumb-divider-color:rgba(255,255,255,.5)">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" style="color:rgba(255,255,255,.7)">@L["Nav_Home"]</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Flight" asp-action="Index" style="color:rgba(255,255,255,.7)">@L["Nav_Flights"]</a></li>
+                <li class="breadcrumb-item active text-white">@Model.Flight.FlightNumber</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="fw-bold mb-1">@Model.Flight.FlightNumber</h2>
+                <span class="text-white-50">@Model.Flight.OriginIata → @Model.Flight.DestinationIata &nbsp;·&nbsp; @Model.Flight.DepartureTime.ToString("dd MMMM yyyy")</span>
+            </div>
+            <div class="text-end">
+                <div class="fw-bold" style="color:var(--gold);font-size:1.4rem">₺@Model.Flight.EconomyPrice.ToString("N0")</div>
+                <small style="color:rgba(255,255,255,.7)">@L["Flight_FromEconomy"]</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-4">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Flight Info -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-3 pb-2 border-bottom" style="color:var(--secondary)">@L["Flight_Info"]</h6>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div class="text-center">
+                                <div class="fw-bold fs-3" style="color:var(--secondary)">@Model.Flight.DepartureTime.ToString("HH:mm")</div>
+                                <div class="fw-bold" style="color:var(--primary)">@Model.Flight.OriginIata</div>
+                                <small class="text-muted">@Model.Flight.OriginCity</small>
+                            </div>
+                            <div class="text-center">
+                                <small class="text-muted d-block">@Model.Flight.DurationFormatted</small>
+                                <i class="fas fa-plane" style="color:var(--primary)"></i>
+                            </div>
+                            <div class="text-center">
+                                <div class="fw-bold fs-3" style="color:var(--secondary)">@Model.Flight.ArrivalTime.ToString("HH:mm")</div>
+                                <div class="fw-bold" style="color:var(--primary)">@Model.Flight.DestinationIata</div>
+                                <small class="text-muted">@Model.Flight.DestinationCity</small>
+                            </div>
+                        </div>
+                        <table class="table table-sm table-borderless">
+                            <tr><td class="text-muted small">@L["Flight_Aircraft"]</td><td class="fw-bold small">@Model.Flight.AircraftModel</td></tr>
+                        </table>
+                        <div class="mt-3 p-3 rounded" style="background:#f8f9fa">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="small">Economy</span>
+                                <strong style="color:var(--primary)">₺@Model.Flight.EconomyPrice.ToString("N0")</strong>
+                            </div>
+                            @if (Model.Flight.PremiumEconomyPrice.HasValue)
+                            {
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="small">Premium Economy</span>
+                                    <strong style="color:var(--primary)">₺@Model.Flight.PremiumEconomyPrice.Value.ToString("N0")</strong>
+                                </div>
+                            }
+                            @if (Model.Flight.BusinessPrice.HasValue)
+                            {
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="small">Business</span>
+                                    <strong style="color:var(--primary)">₺@Model.Flight.BusinessPrice.Value.ToString("N0")</strong>
+                                </div>
+                            }
+                            @if (Model.Flight.FirstClassPrice.HasValue)
+                            {
+                                <div class="d-flex justify-content-between">
+                                    <span class="small">First Class</span>
+                                    <strong style="color:var(--primary)">₺@Model.Flight.FirstClassPrice.Value.ToString("N0")</strong>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-3" style="color:var(--secondary)">@L["Seat_Legend"]</h6>
+                        <div class="d-flex align-items-center mb-2"><div class="seat-btn seat-available me-2" style="width:28px;height:28px"></div><small>@L["Seat_Available"]</small></div>
+                        <div class="d-flex align-items-center mb-2"><div class="seat-btn seat-occupied me-2" style="width:28px;height:28px"></div><small>@L["Seat_Occupied"]</small></div>
+                        <div class="d-flex align-items-center mb-2"><div class="seat-btn seat-selected me-2" style="width:28px;height:28px"></div><small>@L["Seat_Selected"]</small></div>
+                        <div class="d-flex align-items-center mb-2"><div class="seat-btn seat-business me-2" style="width:28px;height:28px"></div><small>Business</small></div>
+                        <div class="d-flex align-items-center"><div class="seat-btn seat-first me-2" style="width:28px;height:28px"></div><small>First Class</small></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seat Map -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-3 pb-2 border-bottom" style="color:var(--secondary)">
+                            <i class="fas fa-chair me-2" style="color:var(--primary)"></i>@L["Flight_SeatSelection"]
+                        </h6>
+
+                        @if (!Model.Seats.Any())
+                        {
+                            <div class="text-center py-4 text-muted">
+                                <i class="fas fa-chair fa-3x mb-3"></i>
+                                <p>@L["Seat_NotFound"]</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="seatMapContainer">
+                                @if (firstSeats.Any())
+                                {
+                                    <h6 class="text-center mb-3" style="color:var(--gold)"><i class="fas fa-star me-1"></i>First Class</h6>
+                                    <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                                        @foreach (var seat in firstSeats)
+                                        {
+                                            var cls = !seat.IsAvailable ? "seat-occupied" : "seat-first";
+                                            <button type="button" class="seat-btn @cls" data-seat-id="@seat.Id" data-seat-number="@seat.SeatNumber" data-seat-class="@((int)seat.SeatClass)" data-available="@seat.IsAvailable.ToString().ToLower()" @(!seat.IsAvailable ? "disabled" : "") title="@seat.SeatNumber">
+                                                @seat.SeatNumber
+                                            </button>
+                                        }
+                                    </div>
+                                }
+
+                                @if (businessSeats.Any())
+                                {
+                                    <h6 class="text-center mb-3" style="color:#1565c0"><i class="fas fa-briefcase me-1"></i>Business</h6>
+                                    <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                                        @foreach (var seat in businessSeats)
+                                        {
+                                            var cls = !seat.IsAvailable ? "seat-occupied" : "seat-business";
+                                            <button type="button" class="seat-btn @cls" data-seat-id="@seat.Id" data-seat-number="@seat.SeatNumber" data-seat-class="@((int)seat.SeatClass)" data-available="@seat.IsAvailable.ToString().ToLower()" @(!seat.IsAvailable ? "disabled" : "") title="@seat.SeatNumber">
+                                                @seat.SeatNumber
+                                            </button>
+                                        }
+                                    </div>
+                                }
+
+                                @if (economySeats.Any())
+                                {
+                                    <h6 class="text-center mb-3" style="color:#2e7d32"><i class="fas fa-chair me-1"></i>Economy</h6>
+                                    <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                                        @foreach (var seat in economySeats.OrderBy(s => s.Row).ThenBy(s => s.Column))
+                                        {
+                                            var cls = !seat.IsAvailable ? "seat-occupied" : "seat-available";
+                                            <button type="button" class="seat-btn @cls" data-seat-id="@seat.Id" data-seat-number="@seat.SeatNumber" data-seat-class="@((int)seat.SeatClass)" data-available="@seat.IsAvailable.ToString().ToLower()" @(!seat.IsAvailable ? "disabled" : "") title="@seat.SeatNumber">
+                                                @seat.SeatNumber
+                                            </button>
+                                        }
+                                    </div>
+                                }
+                            </div>
+
+                            <div id="selectedSeatInfo" class="mt-3 p-3 rounded d-none" style="background:#f8f9fa;border:2px solid var(--primary)">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>@L["Seat_Selected"]: </strong><span id="selectedSeatNumber" class="fw-bold" style="color:var(--primary)"></span>
+                                        <span class="ms-2 text-muted" id="selectedSeatClass"></span>
+                                    </div>
+                                    @if (Model.IsLoggedIn)
+                                    {
+                                        <button type="button" id="bookNowBtn" class="btn btn-book" onclick="proceedToBooking()">
+                                            @L["Booking_Proceed"] <i class="fas fa-arrow-right ms-1"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path" class="btn btn-book">
+                                            @L["Nav_Login"] &amp; @L["Booking_Proceed"]
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+<script>
+var selectedSeatId = null;
+var seatClassNames = { 1: 'Economy', 2: 'Premium Economy', 3: 'Business', 4: 'First Class' };
+
+$(document).on('click', '.seat-btn[data-available="true"]', function() {
+    $('.seat-btn.seat-selected').each(function() {
+        var origClass = $(this).data('orig-class');
+        $(this).removeClass('seat-selected').addClass(origClass);
+    });
+
+    var $btn = $(this);
+    var origClass = $btn.hasClass('seat-available') ? 'seat-available'
+        : $btn.hasClass('seat-business') ? 'seat-business'
+        : $btn.hasClass('seat-first') ? 'seat-first' : 'seat-available';
+
+    $btn.data('orig-class', origClass).removeClass(origClass).addClass('seat-selected');
+
+    selectedSeatId = $btn.data('seat-id');
+    $('#selectedSeatNumber').text($btn.data('seat-number'));
+    $('#selectedSeatClass').text('(' + (seatClassNames[$btn.data('seat-class')] || '') + ')');
+    $('#selectedSeatInfo').removeClass('d-none');
+});
+
+function proceedToBooking() {
+    if (!selectedSeatId) { alert('@L["Seat_PleaseSelect"]'); return; }
+    window.location.href = '/Passenger/Booking/Create?flightId=@Model.Flight.Id&seatId=' + selectedSeatId;
+}
+</script>
+}

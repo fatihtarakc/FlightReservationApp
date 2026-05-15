@@ -1,0 +1,98 @@
+@model AdminHangfirePageVM
+
+<div class="admin-card">
+    <div class="admin-card-header">
+        <i class="fas fa-cogs me-2"></i>@L["Admin_Hangfire"]
+    </div>
+    <div class="p-4">
+        <div class="alert alert-info d-flex align-items-center">
+            <i class="fas fa-info-circle me-2 fs-5"></i>
+            <div>@L["Hangfire_Info"]</div>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="admin-stat-card text-center" style="border-left:4px solid #28a745">
+                    <div class="stat-label">@L["Hangfire_SucceededJobs"]</div>
+                    <div class="stat-value text-success">@Model.Stats.SucceededCount</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="admin-stat-card text-center" style="border-left:4px solid #ffc107">
+                    <div class="stat-label">@L["Hangfire_EnqueuedJobs"]</div>
+                    <div class="stat-value text-warning">@Model.Stats.EnqueuedCount</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="admin-stat-card text-center" style="border-left:4px solid var(--admin-primary)">
+                    <div class="stat-label">@L["Hangfire_ProcessingJobs"]</div>
+                    <div class="stat-value" style="color:var(--admin-primary)">@Model.Stats.ProcessingCount</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="admin-stat-card text-center" style="border-left:4px solid #dc3545">
+                    <div class="stat-label">@L["Hangfire_FailedJobs"]</div>
+                    <div class="stat-value text-danger">@Model.Stats.FailedCount</div>
+                </div>
+            </div>
+        </div>
+
+        <h6 class="fw-bold mb-3"><i class="fas fa-clock me-2 text-danger"></i>@L["Hangfire_RecurringJobs"]</h6>
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered align-middle small">
+                <thead class="table-dark">
+                    <tr>
+                        <th>@L["Hangfire_JobName"]</th>
+                        <th>@L["Hangfire_Schedule"]</th>
+                        <th>@L["Hangfire_LastRun"]</th>
+                        <th>@L["Hangfire_NextRun"]</th>
+                        <th>@L["Label_Status"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fas fa-envelope me-1 text-primary"></i> E-mail</td>
+                        <td><code>0 * * * *</code></td>
+                        <td>@DateTime.Now.AddHours(-1).ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@DateTime.Now.AddHours(1).ToString("dd.MM.yyyy HH:mm")</td>
+                        <td><span class="badge bg-success">@L["Label_Active"]</span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-sms me-1 text-success"></i> SMS (7d)</td>
+                        <td><code>0 9 * * *</code></td>
+                        <td>@DateTime.Now.AddDays(-1).ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@DateTime.Now.AddDays(1).ToString("dd.MM.yyyy 09:00")</td>
+                        <td><span class="badge bg-success">@L["Label_Active"]</span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fab fa-whatsapp me-1 text-success"></i> WhatsApp (24h)</td>
+                        <td><code>0 8 * * *</code></td>
+                        <td>@DateTime.Now.AddDays(-1).ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@DateTime.Now.AddDays(1).ToString("dd.MM.yyyy 08:00")</td>
+                        <td><span class="badge bg-success">@L["Label_Active"]</span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-plane-slash me-1 text-warning"></i> @L["Flight_Management"]</td>
+                        <td><code>*/5 * * * *</code></td>
+                        <td>@DateTime.Now.AddMinutes(-5).ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@DateTime.Now.AddMinutes(5).ToString("dd.MM.yyyy HH:mm")</td>
+                        <td><span class="badge bg-success">@L["Label_Active"]</span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-trash me-1 text-secondary"></i> @L["Admin_Logs"]</td>
+                        <td><code>0 0 * * 0</code></td>
+                        <td>@DateTime.Now.AddDays(-7).ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@DateTime.Now.AddDays(7 - (int)DateTime.Now.DayOfWeek).ToString("dd.MM.yyyy 00:00")</td>
+                        <td><span class="badge bg-success">@L["Label_Active"]</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a href="/hangfire" target="_blank" class="btn btn-danger">
+                <i class="fas fa-external-link-alt me-1"></i> @L["Hangfire_OpenDashboard"]
+            </a>
+        </div>
+    </div>
+</div>

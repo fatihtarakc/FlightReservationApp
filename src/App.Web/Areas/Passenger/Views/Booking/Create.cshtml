@@ -1,0 +1,85 @@
+﻿@model BookingCreatePageVM
+@{
+    ViewData["Title"] = L["Booking_Confirm"].ToString();
+}
+
+<div class="pax-card">
+    <div class="pax-card-header"><i class="fas fa-ticket-alt me-2"></i>@L["Booking_Confirm"]</div>
+    <div class="p-4">
+        <div class="row g-4">
+            <div class="col-md-7">
+                <h6 class="fw-bold mb-3"><i class="fas fa-plane me-2 text-danger"></i>@L["Flight_Detail"]</h6>
+                <div class="border rounded p-3 mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong class="text-danger fs-5">@Model.Flight.FlightNumber</strong>
+                        @{
+                            var sc = Model.Flight.Status switch {
+                                FlightStatus.Scheduled => "status-scheduled",
+                                FlightStatus.Boarding => "status-boarding",
+                                _ => "status-scheduled"
+                            };
+                        }
+                        <span class="status-badge @sc">@L["Status_" + Model.Flight.Status.ToString()]</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-5 text-center">
+                            <div class="fs-4 fw-bold">@Model.Flight.OriginIata</div>
+                            <div class="text-muted small">@Model.Flight.OriginCity</div>
+                            <div class="fw-semibold">@Model.Flight.DepartureTime.ToString("HH:mm")</div>
+                            <small class="text-muted">@Model.Flight.DepartureTime.ToString("dd.MM.yyyy")</small>
+                        </div>
+                        <div class="col-2 text-center d-flex flex-column align-items-center justify-content-center">
+                            <small class="text-muted">@Model.Flight.DurationFormatted</small>
+                            <i class="fas fa-arrow-right text-muted my-1"></i>
+                        </div>
+                        <div class="col-5 text-center">
+                            <div class="fs-4 fw-bold">@Model.Flight.DestinationIata</div>
+                            <div class="text-muted small">@Model.Flight.DestinationCity</div>
+                            <div class="fw-semibold">@Model.Flight.ArrivalTime.ToString("HH:mm")</div>
+                            <small class="text-muted">@Model.Flight.ArrivalTime.ToString("dd.MM.yyyy")</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h6 class="fw-bold mb-3"><i class="fas fa-chair me-2 text-danger"></i>@L["Booking_Seat"]</h6>
+                <div class="border rounded p-3">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <div class="fs-4 fw-bold text-danger">@Model.Seat.SeatNumber</div>
+                            <div class="text-muted small">@L["Seat_Row"] @Model.Seat.Row · @L["Seat_Column"] @Model.Seat.Column</div>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-primary">@L["Seat_" + Model.Seat.SeatClass.ToString()]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="border rounded p-3 mb-3" style="background:#f8f9fa">
+                    <h6 class="fw-bold"><i class="fas fa-receipt me-2 text-danger"></i>@L["Booking_TotalPrice"]</h6>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>@L["Seat_Price"]</span>
+                        <strong>₺@Model.TotalPrice.ToString("N2")</strong>
+                    </div>
+                    <hr />
+                    <div class="d-flex justify-content-between fs-5 fw-bold text-danger">
+                        <span>Toplam</span>
+                        <span>₺@Model.TotalPrice.ToString("N2")</span>
+                    </div>
+                </div>
+
+                <form asp-area="Passenger" asp-controller="Booking" asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Form.FlightId" />
+                    <input type="hidden" asp-for="Form.SeatId" />
+                    <button type="submit" class="btn btn-danger w-100 py-3 fw-bold">
+                        <i class="fas fa-check me-2"></i>@L["Booking_Confirm"]
+                    </button>
+                    <a asp-area="" asp-controller="Flight" asp-action="Detail" asp-route-id="@Model.Flight.Id"
+                       class="btn btn-outline-secondary w-100 mt-2">@L["Btn_Back"]</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

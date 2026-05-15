@@ -1,0 +1,165 @@
+@model AdminDashboardVM
+
+<div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="admin-stat-card" style="border-left:4px solid var(--admin-primary)">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-label">@L["Admin_TotalFlights"]</div>
+                    <div class="stat-value">@Model.TotalFlights</div>
+                    <small class="text-muted">@L["Label_Active"]: @Model.ActiveFlights</small>
+                </div>
+                <div class="stat-icon" style="background:rgba(200,16,46,.1);color:var(--admin-primary)">
+                    <i class="fas fa-plane"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="admin-stat-card" style="border-left:4px solid #28a745">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-label">@L["Admin_TotalBookings"]</div>
+                    <div class="stat-value">@Model.TotalBookings</div>
+                    <small class="text-muted">@L["Label_Confirmed"]: @Model.ConfirmedBookings</small>
+                </div>
+                <div class="stat-icon" style="background:rgba(40,167,69,.1);color:#28a745">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="admin-stat-card" style="border-left:4px solid #ffc107">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-label">@L["Admin_TotalPassengers"]</div>
+                    <div class="stat-value">@Model.TotalPassengers</div>
+                    <small class="text-muted">@L["Admin_ActiveAccounts"]</small>
+                </div>
+                <div class="stat-icon" style="background:rgba(255,193,7,.1);color:#ffc107">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="admin-stat-card" style="border-left:4px solid #17a2b8">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stat-label">@L["Admin_TotalRevenue"]</div>
+                    <div class="stat-value">₺@Model.TotalRevenue.ToString("N0")</div>
+                    <small class="text-muted">@L["Label_ThisMonth"]</small>
+                </div>
+                <div class="stat-icon" style="background:rgba(23,162,184,.1);color:#17a2b8">
+                    <i class="fas fa-lira-sign"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="admin-card">
+            <div class="admin-card-header d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-plane me-2"></i>@L["Admin_RecentFlights"]</span>
+                <a asp-area="Admin" asp-controller="Flight" asp-action="Index" class="btn btn-sm btn-outline-light">@L["Home_ViewAll"]</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>@L["Flight_Number"]</th>
+                            <th>@L["Flight_Route"]</th>
+                            <th>@L["Flight_Date"]</th>
+                            <th>@L["Label_Status"]</th>
+                            <th>@L["Flight_Price"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.RecentFlights != null && Model.RecentFlights.Any())
+                        {
+                            @foreach (var f in Model.RecentFlights)
+                            {
+                                <tr>
+                                    <td><strong class="text-danger">@f.FlightNumber</strong></td>
+                                    <td>@f.OriginIata <i class="fas fa-arrow-right text-muted mx-1"></i> @f.DestinationIata</td>
+                                    <td>@f.DepartureTime.ToString("dd.MM.yyyy HH:mm")</td>
+                                    <td>
+                                        @{
+                                            var sc = f.Status switch {
+                                                FlightStatus.Scheduled => "status-scheduled",
+                                                FlightStatus.Boarding => "status-boarding",
+                                                FlightStatus.Departed => "status-departed",
+                                                FlightStatus.Delayed => "status-delayed",
+                                                FlightStatus.Cancelled => "status-cancelled",
+                                                FlightStatus.Arrived => "status-arrived",
+                                                _ => "status-scheduled"
+                                            };
+                                        }
+                                        <span class="status-badge @sc">@L["Status_" + f.Status.ToString()]</span>
+                                    </td>
+                                    <td>₺@f.EconomyPrice.ToString("N0")</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="5" class="text-center text-muted py-3">@L["Flight_NotFound"]</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <i class="fas fa-ticket-alt me-2"></i>@L["Admin_RecentBookings"]
+            </div>
+            @if (Model.RecentBookings != null && Model.RecentBookings.Any())
+            {
+                <div class="list-group list-group-flush">
+                    @foreach (var b in Model.RecentBookings)
+                    {
+                        <div class="list-group-item px-3 py-2 border-0 border-bottom">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="fw-semibold" style="font-size:.85rem">@b.PassengerName</div>
+                                    <small class="text-muted">@b.FlightNumber · @b.SeatNumber</small>
+                                </div>
+                                <div class="text-end">
+                                    <div class="fw-bold text-danger" style="font-size:.85rem">₺@b.TotalPrice.ToString("N0")</div>
+                                    <small class="text-muted">@b.BookingDate.ToString("dd.MM")</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-muted text-center py-3 mb-0">@L["Booking_NotFound"]</p>
+            }
+        </div>
+
+        <div class="admin-card mt-4">
+            <div class="admin-card-header"><i class="fas fa-bolt me-2"></i>@L["Admin_QuickActions"]</div>
+            <div class="d-grid gap-2 p-3">
+                <a asp-area="Admin" asp-controller="Flight" asp-action="Create" class="btn btn-outline-danger btn-sm">
+                    <i class="fas fa-plus me-1"></i> @L["Flight_New"]
+                </a>
+                <a asp-area="Admin" asp-controller="Route" asp-action="Create" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-route me-1"></i> @L["Route_New"]
+                </a>
+                <a asp-area="Admin" asp-controller="Airport" asp-action="Create" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-map-marker-alt me-1"></i> @L["Airport_New"]
+                </a>
+                <a asp-area="Admin" asp-controller="Aircraft" asp-action="Create" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-fighter-jet me-1"></i> @L["Aircraft_New"]
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

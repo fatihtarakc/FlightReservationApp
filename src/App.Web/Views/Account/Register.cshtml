@@ -1,0 +1,330 @@
+﻿@model App.Web.ViewModels.Account.RegisterVM
+@{
+    ViewData["Title"] = "Üye Ol - SkyWay Airlines";
+    Layout = "_Layout";
+}
+
+<div class="py-5" style="background:linear-gradient(135deg,var(--secondary) 0%,#0f3460 100%)">
+    <div class="container py-3">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-9">
+                <div class="text-center mb-4">
+                    <a asp-controller="Home" asp-action="Index">
+                        <h2 class="text-white fw-bold"><i class="fas fa-plane me-2" style="color:var(--gold)"></i>SkyWay Airlines</h2>
+                    </a>
+                </div>
+                <div class="card border-0 shadow-lg" style="border-radius:16px">
+                    <div class="card-body p-4 p-md-5">
+                        <h4 class="fw-bold mb-1" style="color:var(--secondary)">Hesap Oluştur</h4>
+                        <p class="text-muted mb-4">Hızlı ve kolay kayıt</p>
+
+                        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+                        {
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors)) {
+                                    <div>@error.ErrorMessage</div>
+                                }
+                            </div>
+                        }
+
+                        <form asp-action="Register" method="post" id="registerForm" novalidate>
+                            @Html.AntiForgeryToken()
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="Name" class="form-label fw-semibold text-muted small text-uppercase">Ad</label>
+                                    <input asp-for="Name" class="form-control" placeholder="Adınız" id="regName" />
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="nameError"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Surname" class="form-label fw-semibold text-muted small text-uppercase">Soyad</label>
+                                    <input asp-for="Surname" class="form-control" placeholder="Soyadınız" id="regSurname" />
+                                    <span asp-validation-for="Surname" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="surnameError"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Username" class="form-label fw-semibold text-muted small text-uppercase">Kullanıcı Adı</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="background:#f8f9fa">@@</span>
+                                        <input asp-for="Username" class="form-control" placeholder="kullanici_adi" id="regUsername" />
+                                    </div>
+                                    <span asp-validation-for="Username" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="usernameError"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Email" class="form-label fw-semibold text-muted small text-uppercase">E-posta</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="background:#f8f9fa"><i class="fas fa-envelope text-muted"></i></span>
+                                        <input asp-for="Email" type="email" class="form-control" placeholder="ornek@email.com" id="regEmail" />
+                                    </div>
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="emailError"></div>
+                                </div>
+
+                                <!-- Telefon - Ülke Kodu + Bayrak -->
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold text-muted small text-uppercase">Telefon Numarası</label>
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-secondary dropdown-toggle px-3" type="button" id="countryDropBtn" data-bs-toggle="dropdown" style="min-width:120px;background:#f8f9fa">
+                                            <span id="selectedFlag">🇹🇷</span>
+                                            <span id="selectedCode" class="ms-1">+90</span>
+                                        </button>
+                                        <ul class="dropdown-menu" id="countryList" style="max-height:250px;overflow-y:auto;min-width:280px">
+                                            <li><div class="px-2 py-1"><input type="text" class="form-control form-control-sm" id="countrySearch" placeholder="Ülke ara..." /></div></li>
+                                        </ul>
+                                        <input type="text" id="phoneNumber" class="form-control" placeholder="5XX XXX XX XX" maxlength="15" />
+                                        <input asp-for="PhoneNumber" type="hidden" id="fullPhoneNumber" />
+                                    </div>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="phoneError"></div>
+                                    <small class="text-muted">Format: +90XXXXXXXXXX (Twilio için)</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="BirthDate" class="form-label fw-semibold text-muted small text-uppercase">Doğum Tarihi</label>
+                                    <input asp-for="BirthDate" type="date" class="form-control" id="regBirthDate"
+                                           max="@DateTime.Today.AddYears(-18).ToString("yyyy-MM-dd")"
+                                           min="1900-01-01" />
+                                    <span asp-validation-for="BirthDate" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="birthDateError"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Nationality" class="form-label fw-semibold text-muted small text-uppercase">Uyruk (Opsiyonel)</label>
+                                    <input asp-for="Nationality" class="form-control" placeholder="Türk" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="Password" class="form-label fw-semibold text-muted small text-uppercase">Şifre</label>
+                                    <div class="input-group">
+                                        <input asp-for="Password" type="password" class="form-control" id="regPassword" placeholder="Min. 8 karakter" />
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('regPassword', this)"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                    <div class="progress mt-1" style="height:4px" id="passwordStrengthBar" style="display:none">
+                                        <div class="progress-bar" id="strengthBar" style="width:0%;transition:width .3s"></div>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="passwordError"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="ConfirmPassword" class="form-label fw-semibold text-muted small text-uppercase">Şifre Tekrar</label>
+                                    <div class="input-group">
+                                        <input asp-for="ConfirmPassword" type="password" class="form-control" id="regConfirmPassword" placeholder="Şifrenizi tekrar girin" />
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('regConfirmPassword', this)"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="confirmPasswordError"></div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label asp-for="PreferredNotificationChannel" class="form-label fw-semibold text-muted small text-uppercase">Bildirim Tercihi</label>
+                                    <div class="d-flex gap-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="PreferredNotificationChannel" value="1" id="notifEmail" checked />
+                                            <label class="form-check-label" for="notifEmail"><i class="fas fa-envelope me-1"></i>E-posta</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="PreferredNotificationChannel" value="2" id="notifSms" />
+                                            <label class="form-check-label" for="notifSms"><i class="fas fa-sms me-1"></i>SMS</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="PreferredNotificationChannel" value="4" id="notifWhatsApp" />
+                                            <label class="form-check-label" for="notifWhatsApp"><i class="fab fa-whatsapp me-1"></i>WhatsApp</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-book w-100 py-3 fw-bold fs-5">
+                                        <i class="fas fa-user-plus me-2"></i>Üye Ol
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <hr class="my-3" />
+                        <div class="text-center">
+                            <span class="text-muted">Zaten hesabınız var mı?</span>
+                            <a asp-action="Login" class="fw-bold ms-1" style="color:var(--primary)">Giriş Yapın</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+// Ülke kodları listesi
+var countries = [
+    { code: '+90', flag: '🇹🇷', name: 'Türkiye' },
+    { code: '+1', flag: '🇺🇸', name: 'ABD / Kanada' },
+    { code: '+44', flag: '🇬🇧', name: 'İngiltere' },
+    { code: '+49', flag: '🇩🇪', name: 'Almanya' },
+    { code: '+33', flag: '🇫🇷', name: 'Fransa' },
+    { code: '+39', flag: '🇮🇹', name: 'İtalya' },
+    { code: '+34', flag: '🇪🇸', name: 'İspanya' },
+    { code: '+31', flag: '🇳🇱', name: 'Hollanda' },
+    { code: '+32', flag: '🇧🇪', name: 'Belçika' },
+    { code: '+41', flag: '🇨🇭', name: 'İsviçre' },
+    { code: '+43', flag: '🇦🇹', name: 'Avusturya' },
+    { code: '+46', flag: '🇸🇪', name: 'İsveç' },
+    { code: '+47', flag: '🇳🇴', name: 'Norveç' },
+    { code: '+45', flag: '🇩🇰', name: 'Danimarka' },
+    { code: '+358', flag: '🇫🇮', name: 'Finlandiya' },
+    { code: '+30', flag: '🇬🇷', name: 'Yunanistan' },
+    { code: '+7', flag: '🇷🇺', name: 'Rusya' },
+    { code: '+380', flag: '🇺🇦', name: 'Ukrayna' },
+    { code: '+48', flag: '🇵🇱', name: 'Polonya' },
+    { code: '+36', flag: '🇭🇺', name: 'Macaristan' },
+    { code: '+40', flag: '🇷🇴', name: 'Romanya' },
+    { code: '+420', flag: '🇨🇿', name: 'Çekya' },
+    { code: '+971', flag: '🇦🇪', name: 'Birleşik Arap Emirlikleri' },
+    { code: '+966', flag: '🇸🇦', name: 'Suudi Arabistan' },
+    { code: '+20', flag: '🇪🇬', name: 'Mısır' },
+    { code: '+212', flag: '🇲🇦', name: 'Fas' },
+    { code: '+213', flag: '🇩🇿', name: 'Cezayir' },
+    { code: '+216', flag: '🇹🇳', name: 'Tunus' },
+    { code: '+98', flag: '🇮🇷', name: 'İran' },
+    { code: '+964', flag: '🇮🇶', name: 'Irak' },
+    { code: '+962', flag: '🇯🇴', name: 'Ürdün' },
+    { code: '+961', flag: '🇱🇧', name: 'Lübnan' },
+    { code: '+90392', flag: '🇨🇾', name: 'Kıbrıs' },
+    { code: '+994', flag: '🇦🇿', name: 'Azerbaycan' },
+    { code: '+995', flag: '🇬🇪', name: 'Gürcistan' },
+    { code: '+374', flag: '🇦🇲', name: 'Ermenistan' },
+    { code: '+86', flag: '🇨🇳', name: 'Çin' },
+    { code: '+81', flag: '🇯🇵', name: 'Japonya' },
+    { code: '+82', flag: '🇰🇷', name: 'Güney Kore' },
+    { code: '+91', flag: '🇮🇳', name: 'Hindistan' },
+    { code: '+92', flag: '🇵🇰', name: 'Pakistan' },
+    { code: '+880', flag: '🇧🇩', name: 'Bangladeş' },
+    { code: '+27', flag: '🇿🇦', name: 'Güney Afrika' },
+    { code: '+234', flag: '🇳🇬', name: 'Nijerya' },
+    { code: '+254', flag: '🇰🇪', name: 'Kenya' },
+    { code: '+55', flag: '🇧🇷', name: 'Brezilya' },
+    { code: '+54', flag: '🇦🇷', name: 'Arjantin' },
+    { code: '+52', flag: '🇲🇽', name: 'Meksika' },
+    { code: '+57', flag: '🇨🇴', name: 'Kolombiya' },
+    { code: '+61', flag: '🇦🇺', name: 'Avustralya' },
+    { code: '+64', flag: '🇳🇿', name: 'Yeni Zelanda' }
+];
+
+var selectedCountryCode = '+90';
+
+function renderCountries(list) {
+    var $ul = $('#countryList');
+    $ul.find('li:not(:first-child)').remove();
+    list.forEach(function(c) {
+        var li = $('<li></li>');
+        var a = $('<a class="dropdown-item" href="#"></a>')
+            .html('<span class="me-2">' + c.flag + '</span><span>' + c.name + '</span><span class="float-end text-muted">' + c.code + '</span>')
+            .on('click', function(e) {
+                e.preventDefault();
+                selectedCountryCode = c.code;
+                $('#selectedFlag').text(c.flag);
+                $('#selectedCode').text(c.code);
+                updateFullPhone();
+                $('#countryDropBtn').dropdown('hide');
+            });
+        li.append(a);
+        $ul.append(li);
+    });
+}
+
+renderCountries(countries);
+
+$('#countrySearch').on('input', function() {
+    var q = $(this).val().toLowerCase();
+    var filtered = countries.filter(function(c) { return c.name.toLowerCase().includes(q) || c.code.includes(q); });
+    renderCountries(filtered);
+});
+
+function updateFullPhone() {
+    var num = $('#phoneNumber').val().replace(/\D/g, '');
+    var full = selectedCountryCode + num;
+    $('#fullPhoneNumber').val(full);
+}
+
+$('#phoneNumber').on('input', function() {
+    $(this).val($(this).val().replace(/[^0-9\s\-]/g, ''));
+    updateFullPhone();
+});
+
+// Şifre güç göstergesi
+$('#regPassword').on('input', function() {
+    var val = $(this).val();
+    var strength = 0;
+    if (val.length >= 8) strength++;
+    if (/[A-Z]/.test(val)) strength++;
+    if (/[a-z]/.test(val)) strength++;
+    if (/[0-9]/.test(val)) strength++;
+    if (/[^a-zA-Z0-9]/.test(val)) strength++;
+
+    var colors = ['#ef5350','#ff7043','#ffa726','#66bb6a','#26a69a'];
+    var bar = document.getElementById('strengthBar');
+    bar.style.width = (strength * 20) + '%';
+    bar.style.background = colors[strength - 1] || '#ef5350';
+    document.getElementById('passwordStrengthBar').style.display = val ? '' : 'none';
+});
+
+function togglePassword(id, btn) {
+    var input = document.getElementById(id);
+    input.type = input.type === 'text' ? 'password' : 'text';
+    btn.innerHTML = input.type === 'text' ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+}
+
+// JS validasyon
+$('#registerForm').on('submit', function(e) {
+    var valid = true;
+    clearErrors();
+
+    if (!$('#regName').val() || $('#regName').val().trim().length < 2)
+        { setError('regName','nameError','Ad en az 2 karakter olmalidir.'); valid = false; }
+
+    if (!$('#regSurname').val() || $('#regSurname').val().trim().length < 2)
+        { setError('regSurname','surnameError','Soyad en az 2 karakter olmalidir.'); valid = false; }
+
+    var username = $('#regUsername').val().trim();
+    if (!username || username.length < 3 || !/^[a-zA-Z0-9._-]+$/.test(username))
+        { setError('regUsername','usernameError','Kullanici adi en az 3 karakter, sadece harf/rakam/. _ -'); valid = false; }
+
+    var email = $('#regEmail').val().trim();
+    if (!email || !/^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/.test(email))
+        { setError('regEmail','emailError','Gecerli bir e-posta adresi girin.'); valid = false; }
+
+    var phone = $('#fullPhoneNumber').val();
+    if (!phone || !/^\+[1-9]\d{7,14}$/.test(phone))
+        { $('#phoneNumber').addClass('is-invalid'); $('#phoneError').text('Uluslararasi format gerekli: +90XXXXXXXXXX'); valid = false; }
+
+    var bd = $('#regBirthDate').val();
+    if (!bd) { setError('regBirthDate','birthDateError','Dogum tarihi gerekli.'); valid = false; }
+    else {
+        var age = (new Date() - new Date(bd)) / (1000*60*60*24*365.25);
+        if (age < 18) { setError('regBirthDate','birthDateError','18 yasindan buyuk olmalisiniz.'); valid = false; }
+    }
+
+    var pwd = $('#regPassword').val();
+    if (!pwd || pwd.length < 8 || !/[A-Z]/.test(pwd) || !/[a-z]/.test(pwd) || !/[0-9]/.test(pwd) || !/[^a-zA-Z0-9]/.test(pwd))
+        { setError('regPassword','passwordError','Sifre: min 8 karakter, buyuk/kucuk harf, rakam ve ozel karakter.'); valid = false; }
+
+    if ($('#regConfirmPassword').val() !== pwd)
+        { setError('regConfirmPassword','confirmPasswordError','Sifreler eslesmiyor.'); valid = false; }
+
+    if (!valid) e.preventDefault();
+    else updateFullPhone();
+});
+
+function setError(inputId, errorId, msg) {
+    $('#' + inputId).addClass('is-invalid');
+    $('#' + errorId).text(msg).show();
+}
+function clearErrors() {
+    $('.is-invalid').removeClass('is-invalid');
+    $('.invalid-feedback').text('').hide();
+}
+$('.form-control').on('input change', function() { $(this).removeClass('is-invalid'); });
+</script>
+}

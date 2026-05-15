@@ -1,0 +1,144 @@
+﻿@model IEnumerable<BookingVM>
+@{
+    ViewData["Title"] = L["Booking_My"].ToString();
+}
+
+<div class="pax-card">
+    <div class="pax-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-ticket-alt me-2"></i>@L["Booking_My"]</span>
+        <a asp-area="" asp-controller="Flight" asp-action="Index" class="btn btn-sm btn-danger">
+            <i class="fas fa-plus me-1"></i> @L["Booking_New"]
+        </a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        var active = Model.Where(b => b.Status == BookingStatus.Confirmed || b.Status == BookingStatus.Pending || b.Status == BookingStatus.CheckedIn || b.Status == BookingStatus.Boarded).ToList();
+        var past = Model.Where(b => b.Status == BookingStatus.Completed || b.Status == BookingStatus.Cancelled || b.Status == BookingStatus.NoShow).ToList();
+
+        if (active.Any())
+        {
+            <div class="p-3">
+                <h6 class="fw-bold text-danger mb-3">@L["Passenger_ActiveBookings"]</h6>
+                @foreach (var b in active)
+                {
+                    <div class="border rounded p-3 mb-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="fw-bold fs-6">@b.FlightNumber</div>
+                                <div>
+                                    <span class="badge bg-danger">@b.OriginIata</span>
+                                    <i class="fas fa-long-arrow-alt-right mx-2 text-muted"></i>
+                                    <span class="badge bg-danger">@b.DestinationIata</span>
+                                </div>
+                                <small class="text-muted">@b.DepartureTime.ToString("dd MMMM yyyy, HH:mm")</small>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="fw-semibold">@L["Booking_Seat"]</div>
+                                <div class="fs-5 fw-bold text-danger">@b.SeatNumber</div>
+                                <small class="text-muted">@b.SeatClass</small>
+                            </div>
+                            <div class="col-md-3 text-end">
+                                <div class="fw-bold text-danger fs-5">₺@b.TotalPrice.ToString("N0")</div>
+                                @{
+                                    var sc = b.Status switch {
+                                        BookingStatus.Confirmed => "status-boarding",
+                                        BookingStatus.CheckedIn => "status-scheduled",
+                                        BookingStatus.Boarded => "status-arrived",
+                                        _ => "status-delayed"
+                                    };
+                                }
+                                <span class="status-badge @sc">@L["Status_" + b.Status.ToString()]</span>
+                                <div class="mt-2 d-flex gap-1 justify-content-end flex-wrap">
+                                    <a asp-area="Passenger" asp-controller="Booking" asp-action="Detail" asp-route-id="@b.Id"
+                                       class="btn btn-sm btn-outline-primary">@L["Btn_Details"]</a>
+                                    @if (b.Status == BookingStatus.Confirmed)
+                                    {
+                                        <form asp-area="Passenger" asp-controller="Booking" asp-action="CheckIn" asp-route-id="@b.Id" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button class="btn btn-sm btn-success">@L["Booking_CheckIn"]</button>
+                                        </form>
+                                    }
+                                    @if (b.Status != BookingStatus.Cancelled)
+                                    {
+                                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                                onclick="cancelBooking('@b.Id', '@L["Confirm_Cancel"]')">@L["Booking_Cancel"]</button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        if (past.Any())
+        {
+            <div class="px-3 pb-3">
+                <h6 class="fw-bold text-secondary mb-3">@L["Passenger_PastBookings"]</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>@L["Flight_Number"]</th>
+                                <th>@L["Flight_Route"]</th>
+                                <th>@L["Flight_Date"]</th>
+                                <th>@L["Booking_Seat"]</th>
+                                <th>@L["Booking_TotalPrice"]</th>
+                                <th>@L["Label_Status"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var b in past)
+                            {
+                                <tr class="@(b.Status == BookingStatus.Cancelled ? "table-light text-muted" : "")">
+                                    <td>@b.FlightNumber</td>
+                                    <td>@b.OriginIata → @b.DestinationIata</td>
+                                    <td>@b.DepartureTime.ToString("dd.MM.yyyy")</td>
+                                    <td>@b.SeatNumber</td>
+                                    <td>₺@b.TotalPrice.ToString("N0")</td>
+                                    <td>
+                                        @{
+                                            var psc = b.Status switch {
+                                                BookingStatus.Completed => "status-arrived",
+                                                BookingStatus.Cancelled => "status-cancelled",
+                                                _ => "status-scheduled"
+                                            };
+                                        }
+                                        <span class="status-badge @psc">@L["Status_" + b.Status.ToString()]</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="p-5 text-center text-muted">
+            <i class="fas fa-ticket-alt fa-3x mb-3 d-block"></i>
+            <p>@L["Booking_NotFound"]</p>
+            <a asp-area="" asp-controller="Flight" asp-action="Index" class="btn btn-danger">
+                <i class="fas fa-search me-1"></i> @L["Flight_Search"]
+            </a>
+        </div>
+    }
+</div>
+
+<form id="cancelForm" method="post" style="display:none">
+    <input name="__RequestVerificationToken" id="cancelToken" />
+</form>
+
+@section Scripts {
+<script>
+function cancelBooking(id, msg) {
+    if (!confirm(msg)) return;
+    const form = document.getElementById('cancelForm');
+    form.action = '/Passenger/Booking/Cancel/' + id;
+    document.getElementById('cancelToken').value = document.querySelector('input[name="__RequestVerificationToken"]').value;
+    form.submit();
+}
+</script>
+}

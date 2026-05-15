@@ -1,0 +1,113 @@
+@model AdminLogListPageVM
+
+<div class="admin-card">
+    <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-file-alt me-2"></i>@L["Admin_Logs"]</span>
+        <div class="btn-group btn-group-sm">
+            <a asp-action="Logs" asp-route-level="Error" class="btn @(Model.Level == "Error" ? "btn-danger" : "btn-outline-danger")">Error</a>
+            <a asp-action="Logs" asp-route-level="Warning" class="btn @(Model.Level == "Warning" ? "btn-warning" : "btn-outline-warning")">Warning</a>
+            <a asp-action="Logs" asp-route-level="Information" class="btn @(Model.Level == "Information" ? "btn-info" : "btn-outline-info")">Info</a>
+            <a asp-action="Logs" class="btn @(string.IsNullOrEmpty(Model.Level) ? "btn-secondary" : "btn-outline-secondary")">@L["Label_All"]</a>
+        </div>
+    </div>
+
+    <div class="p-3 border-bottom bg-light">
+        <form method="get" class="row g-2">
+            <div class="col-md-4">
+                <input type="text" name="search" value="@Model.Search" class="form-control form-control-sm"
+                       placeholder="@L["Placeholder_SearchLog"]" />
+            </div>
+            <div class="col-md-3">
+                <input type="date" name="date" value="@Model.DateFilter" class="form-control form-control-sm" />
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-sm btn-secondary"><i class="fas fa-search me-1"></i>@L["Btn_Filter"]</button>
+                <a asp-action="Logs" class="btn btn-sm btn-outline-secondary ms-1">@L["Btn_Clear"]</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 small">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width:80px">@L["Log_Level"]</th>
+                    <th>@L["Log_Message"]</th>
+                    <th>@L["Log_Source"]</th>
+                    <th>@L["Log_Time"]</th>
+                    <th style="width:60px">@L["Log_Detail"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Logs.Any())
+                {
+                    @foreach (var log in Model.Logs)
+                    {
+                        var rowClass = log.Level switch {
+                            "Error" or "Fatal" => "table-danger",
+                            "Warning" => "table-warning",
+                            "Information" => "",
+                            _ => "table-light"
+                        };
+                        var badgeClass = log.Level switch {
+                            "Error" or "Fatal" => "bg-danger",
+                            "Warning" => "bg-warning text-dark",
+                            "Information" => "bg-info text-dark",
+                            _ => "bg-secondary"
+                        };
+                        <tr class="@rowClass">
+                            <td><span class="badge @badgeClass">@log.Level</span></td>
+                            <td>
+                                <div class="text-truncate" style="max-width:400px" title="@log.Message">@log.Message</div>
+                                @if (!string.IsNullOrEmpty(log.RequestPath))
+                                {
+                                    <small class="text-muted">@log.RequestPath</small>
+                                }
+                            </td>
+                            <td><small class="text-muted">@log.SourceContext</small></td>
+                            <td>@log.Timestamp.ToString("dd.MM HH:mm:ss")</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(log.Exception))
+                                {
+                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                            data-bs-toggle="modal" data-bs-target="#logModal"
+                                            onclick="showLogDetail('@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(log.Exception))')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="5" class="text-center text-muted py-4">
+                        <i class="fas fa-file-alt fa-2x mb-2 d-block"></i>@L["Log_NotFound"]
+                    </td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="logModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>@L["Log_ErrorDetail"]</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <pre id="logDetail" class="bg-dark text-light p-3 rounded small" style="max-height:400px;overflow-y:auto"></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+function showLogDetail(ex) {
+    document.getElementById('logDetail').textContent = ex;
+}
+</script>
+}
