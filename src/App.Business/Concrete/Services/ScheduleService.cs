@@ -63,6 +63,25 @@
             return new SuccessDataResult<ScheduleDto>(schedule.Adapt<ScheduleDto>(), _localizer[Messages.Schedule_HasBeen_Added]);
         }
 
+        public async Task<IResult> UpdateAsync(Guid id, ScheduleUpdateDto dto)
+        {
+            var schedule = await _scheduleRepository.GetByIdAsync(id);
+            if (schedule == null)
+                return new ErrorResult(_localizer[Messages.Schedule_Was_Not_Found]);
+
+            schedule.ValidFrom = dto.ValidFrom;
+            schedule.ValidTo = dto.ValidTo;
+            schedule.DaysOfWeek = dto.DaysOfWeek;
+            schedule.DepartureTime = dto.DepartureTime;
+            schedule.TimeZone = dto.TimeZone;
+
+            await _scheduleRepository.UpdateAsync(schedule);
+            await _unitOfWork.SaveChangesAsync();
+
+            _logger.LogInformation("{Message} ScheduleId: {Id}", _localizer[Messages.Schedule_Was_Updated].Value, id);
+            return new SuccessResult(_localizer[Messages.Schedule_Was_Updated]);
+        }
+
         public async Task<IResult> DeleteAsync(Guid id)
         {
             var schedule = await _scheduleRepository.GetByIdAsync(id);

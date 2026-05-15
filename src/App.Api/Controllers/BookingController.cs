@@ -40,6 +40,14 @@
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpGet]
+        [Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _bookingService.GetAllAsync();
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpGet("by-flight/{flightId:guid}")]
         [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> GetByFlightId(Guid flightId)

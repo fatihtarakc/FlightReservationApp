@@ -19,7 +19,12 @@ builder.Services.AddHttpClient("FlightReservationApi", client =>
 });
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IApiService, ApiService>();
+
+builder.Services.AddScoped<IApiHttpClient, ApiHttpClient>();
+builder.Services.AddScoped<IAccountWebService, AccountWebService>();
+builder.Services.AddScoped<IFlightWebService, FlightWebService>();
+builder.Services.AddScoped<IBookingWebService, BookingWebService>();
+builder.Services.AddScoped<IAdminWebService, AdminWebService>();
 
 builder.Services.AddSession(options =>
 {
@@ -42,6 +47,10 @@ app.UseRouting();
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

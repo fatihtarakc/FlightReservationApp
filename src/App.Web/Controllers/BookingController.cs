@@ -3,28 +3,26 @@ namespace App.Web.Controllers
     [Authorize]
     public class BookingController : Controller
     {
-        private readonly IApiService _apiService;
+        private readonly IBookingWebService _bookingService;
 
-        public BookingController(IApiService apiService)
+        public BookingController(IBookingWebService bookingService)
         {
-            _apiService = apiService;
+            _bookingService = bookingService;
         }
 
         [HttpGet]
         public async Task<IActionResult> MyBookings()
         {
-            var token = HttpContext.Session.GetString("jwt_token");
-            var response = await _apiService.GetAsync<List<BookingListDto>>("booking/my-bookings", token);
-
-            var bookings = response?.Data ?? new List<BookingListDto>();
-            return View(bookings);
+            var token = HttpContext.Session.GetString("jwt_token")!;
+            var response = await _bookingService.GetMyBookingsAsync(token);
+            return View(response?.Data ?? new List<BookingListItemViewModel>());
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
-            var token = HttpContext.Session.GetString("jwt_token");
-            var response = await _apiService.GetAsync<BookingDto>($"booking/{id}", token);
+            var token = HttpContext.Session.GetString("jwt_token")!;
+            var response = await _bookingService.GetDetailsAsync(id, token);
 
             if (response?.Success != true || response.Data == null)
             {
@@ -38,8 +36,8 @@ namespace App.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Cancel(Guid id)
         {
-            var token = HttpContext.Session.GetString("jwt_token");
-            var response = await _apiService.PostAsync<object>($"booking/{id}/cancel", new { }, token);
+            var token = HttpContext.Session.GetString("jwt_token")!;
+            var response = await _bookingService.CancelAsync(id, token);
 
             if (response?.Success != true)
                 TempData["ErrorMessage"] = response?.Message ?? "Cancellation failed.";

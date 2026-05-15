@@ -1,6 +1,17 @@
-@model App.Dtos.FlightDtos.FlightDto
+@model FlightDetailsViewModel
 @{
     ViewData["Title"] = $"Flight {Model.Number}";
+    var duration = Model.ArrivalDateTime - Model.DepartureDateTime;
+    var flightStatusClass = Model.FlightStatus switch
+    {
+        FlightStatus.Scheduled => "primary",
+        FlightStatus.Boarding => "warning",
+        FlightStatus.Departed or FlightStatus.InAir => "info",
+        FlightStatus.Arrived or FlightStatus.Landed => "success",
+        FlightStatus.Delayed => "warning",
+        FlightStatus.Cancelled => "danger",
+        _ => "secondary"
+    };
 }
 
 <div class="mb-3">
@@ -16,9 +27,7 @@
                 <h4 class="mb-0 fw-bold">@Model.AirlineName — Flight @Model.Number</h4>
                 <small class="opacity-75">@Model.ModelName · @Model.AircraftTailNumber</small>
             </div>
-            <span class="badge bg-light text-dark fs-6">
-                @Model.FlightStatus
-            </span>
+            <span class="badge bg-@flightStatusClass fs-6">@Model.FlightStatus</span>
         </div>
     </div>
     <div class="card-body p-4">
@@ -38,7 +47,7 @@
                 }
             </div>
             <div class="col-md-4 text-center">
-                <div class="text-muted small mb-1">@Model.Duration.ToString(@"h\h\ mm\m")</div>
+                <div class="text-muted small mb-1">@duration.ToString(@"h\h\ mm\m")</div>
                 <div class="d-flex align-items-center">
                     <div class="border-top flex-grow-1"></div>
                     <i class="bi bi-airplane-fill text-primary mx-3 fs-4"></i>
@@ -93,7 +102,7 @@
 
         <div class="text-center mt-4">
             <a asp-action="Book" asp-route-flightId="@Model.Id" class="btn btn-primary btn-lg px-5">
-                <i class="bi bi-ticket-perforated me-2"></i>Book This Flight
+                <i class="bi bi-ticket-perforated me-2"></i>Select Seat & Book
             </a>
         </div>
     </div>

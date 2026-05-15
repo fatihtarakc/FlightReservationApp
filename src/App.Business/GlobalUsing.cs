@@ -20,6 +20,7 @@ global using App.Dtos.ModelDtos;
 global using App.Dtos.RouteDtos;
 global using App.Dtos.ScheduleDtos;
 global using App.Dtos.SeatDtos;
+global using App.Dtos.AdminDtos;
 global using App.Dtos.TokenDtos;
 global using App.Entity.Entities;
 global using App.Entity.Enums;

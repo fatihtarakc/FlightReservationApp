@@ -43,6 +43,15 @@ namespace App.DataAccess.Concrete.Repositories.Concrete
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Flight>> GetAllWithStatsAsync(bool tracking = false) =>
+            await GetAllByStatusIsNotDeletedByTracking(tracking)
+                .Include(f => f.Aircraft).ThenInclude(a => a.Model)
+                .Include(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.DepartureAirport)
+                .Include(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.ArrivalAirport)
+                .Include(f => f.Bookings)
+                .OrderBy(f => f.DepartureDateTime)
+                .ToListAsync();
+
         public async Task<IEnumerable<Flight>> GetFlightsDepartingInDaysAsync(int days, bool tracking = false)
         {
             var now = DateTime.UtcNow;

@@ -10,5 +10,6 @@ namespace App.DataAccess.Abstract.Repositories.Abstract
         Task<IEnumerable<Booking>> GetByUserIdAsync(Guid userId, bool tracking = false);
         Task<IEnumerable<Booking>> GetActiveBookingsByFlightIdAsync(Guid flightId, bool tracking = false);
         Task<IEnumerable<Booking>> GetPendingRemindersAsync(int hoursBeforeDeparture, bool tracking = true);
+        Task<IEnumerable<Booking>> GetAllWithDetailsAsync(bool tracking = false);
     }
 }

@@ -2,18 +2,21 @@ namespace App.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IApiService _apiService;
+        private readonly IFlightWebService _flightService;
 
-        public HomeController(IApiService apiService)
+        public HomeController(IFlightWebService flightService)
         {
-            _apiService = apiService;
+            _flightService = flightService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var response = await _apiService.GetAsync<List<FlightListDto>>("flight");
+            var token = HttpContext.Session.GetString("jwt_token");
+            var response = await _flightService.SearchAsync(
+                string.Empty, string.Empty, DateTime.Today, 1, 1, token);
+
             var now = DateTime.UtcNow;
-            var upcoming = (response?.Data ?? new List<FlightListDto>())
+            var upcoming = (response?.Data ?? new List<FlightListItemViewModel>())
                 .Where(f => f.DepartureDateTime > now)
                 .OrderBy(f => f.DepartureDateTime)
                 .Take(8)

@@ -2,18 +2,18 @@ namespace App.Web.Controllers
 {
     public class FlightController : Controller
     {
-        private readonly IApiService _apiService;
+        private readonly IFlightWebService _flightService;
+        private readonly IBookingWebService _bookingService;
 
-        public FlightController(IApiService apiService)
+        public FlightController(IFlightWebService flightService, IBookingWebService bookingService)
         {
-            _apiService = apiService;
+            _flightService = flightService;
+            _bookingService = bookingService;
         }
 
         [HttpGet]
-        public IActionResult Search()
-        {
-            return View(new FlightSearchViewModel { DepartureDate = DateTime.Today.AddDays(1) });
-        }
+        public IActionResult Search() =>
+            View(new FlightSearchViewModel { DepartureDate = DateTime.Today.AddDays(1) });
 
         [HttpPost]
         public async Task<IActionResult> Search(FlightSearchViewModel viewModel)
@@ -21,14 +21,10 @@ namespace App.Web.Controllers
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            var qs = $"flight/search?departureIata={Uri.EscapeDataString(viewModel.DepartureIata)}" +
-                     $"&arrivalIata={Uri.EscapeDataString(viewModel.ArrivalIata)}" +
-                     $"&departureDate={viewModel.DepartureDate:yyyy-MM-dd}" +
-                     $"&passengers={viewModel.Passengers}" +
-                     $"&seatClass={(int)viewModel.SeatClass}";
-
             var token = HttpContext.Session.GetString("jwt_token");
-            var response = await _apiService.GetAsync<List<FlightListDto>>(qs, token);
+            var response = await _flightService.SearchAsync(
+                viewModel.DepartureIata, viewModel.ArrivalIata,
+                viewModel.DepartureDate, viewModel.Passengers, (int)viewModel.SeatClass, token);
 
             if (response?.Success == true && response.Data != null)
                 viewModel.Results = response.Data;
@@ -42,7 +38,7 @@ namespace App.Web.Controllers
         public async Task<IActionResult> Details(Guid id)
         {
             var token = HttpContext.Session.GetString("jwt_token");
-            var response = await _apiService.GetAsync<FlightDto>($"flight/{id}", token);
+            var response = await _flightService.GetDetailsAsync(id, token);
 
             if (response?.Success != true || response.Data == null)
             {
@@ -59,42 +55,34 @@ namespace App.Web.Controllers
         {
             var token = HttpContext.Session.GetString("jwt_token");
 
-            var flightResponse = await _apiService.GetAsync<FlightDto>($"flight/{flightId}", token);
+            var flightResponse = await _flightService.GetDetailsAsync(flightId, token);
             if (flightResponse?.Success != true || flightResponse.Data == null)
             {
                 TempData["ErrorMessage"] = "Flight not found.";
                 return RedirectToAction(nameof(Search));
             }
 
-            var seatsResponse = await _apiService.GetAsync<List<SeatDto>>($"seat/available/{flightId}", token);
+            var seatsResponse = await _flightService.GetAllSeatsWithAvailabilityAsync(flightId, token);
 
-            var viewModel = new BookViewModel
+            return View(new BookFlightViewModel
             {
                 Flight = flightResponse.Data,
-                AvailableSeats = seatsResponse?.Data ?? new List<SeatDto>()
-            };
-
-            return View(viewModel);
+                AllSeats = seatsResponse?.Data ?? new List<SeatViewModel>()
+            });
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Book(BookViewModel viewModel)
+        public async Task<IActionResult> Book(Guid flightId, Guid selectedSeatId)
         {
             var token = HttpContext.Session.GetString("jwt_token");
 
-            var bookingDto = new BookingAddDto
-            {
-                FlightId = viewModel.Flight.Id,
-                SeatId = viewModel.SelectedSeatId
-            };
-
-            var response = await _apiService.PostAsync<BookingDto>("bookings", bookingDto, token);
+            var response = await _bookingService.BookSeatAsync(flightId, selectedSeatId, token!);
 
             if (response?.Success != true || response.Data == null)
             {
                 TempData["ErrorMessage"] = response?.Message ?? "Booking failed.";
-                return RedirectToAction(nameof(Book), new { flightId = viewModel.Flight.Id });
+                return RedirectToAction(nameof(Book), new { flightId });
             }
 
             TempData["SuccessMessage"] = $"Booking confirmed! Your PNR: {response.Data.PnrNumber}";

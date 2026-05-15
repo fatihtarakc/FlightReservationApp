@@ -40,6 +40,15 @@
             return new SuccessDataResult<IEnumerable<SeatDto>>(seats.Select(s => s.Adapt<SeatDto>() with { IsAvailable = true }));
         }
 
+        public async Task<IDataResult<IEnumerable<SeatDto>>> GetAllWithAvailabilityByFlightIdAsync(Guid flightId)
+        {
+            var allSeats = await _seatRepository.GetAllByFlightAircraftAsync(flightId, tracking: false);
+            var available = await _seatRepository.GetAvailableSeatsByFlightIdAsync(flightId, tracking: false);
+            var availableIds = available.Select(s => s.Id).ToHashSet();
+            var dtos = allSeats.Select(s => s.Adapt<SeatDto>() with { IsAvailable = availableIds.Contains(s.Id) });
+            return new SuccessDataResult<IEnumerable<SeatDto>>(dtos);
+        }
+
         public async Task<IResult> AddAsync(SeatAddDto dto)
         {
             var seat = new Seat

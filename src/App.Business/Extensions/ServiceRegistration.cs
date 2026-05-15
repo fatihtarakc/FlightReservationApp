@@ -24,6 +24,7 @@ namespace App.Business.Extensions
             services.AddScoped<IFlightService, FlightService>();
             services.AddScoped<ISeatService, SeatService>();
             services.AddScoped<IBookingService, BookingService>();
+            services.AddScoped<IAdminService, AdminService>();
 
             return services;
         }

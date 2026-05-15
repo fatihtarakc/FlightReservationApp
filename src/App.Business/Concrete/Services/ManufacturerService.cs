@@ -67,6 +67,24 @@
             return new SuccessDataResult<ManufacturerDto>(manufacturer.Adapt<ManufacturerDto>(), _localizer[Messages.Manufacturer_HasBeen_Added]);
         }
 
+        public async Task<IResult> UpdateAsync(Guid id, ManufacturerUpdateDto dto)
+        {
+            var manufacturer = await _manufacturerRepository.GetByIdAsync(id);
+            if (manufacturer == null)
+                return new ErrorResult(_localizer[Messages.Manufacturer_Was_Not_Found]);
+
+            manufacturer.Name = dto.Name;
+            manufacturer.Country = dto.Country;
+
+            await _manufacturerRepository.UpdateAsync(manufacturer);
+            await _unitOfWork.SaveChangesAsync();
+            await _cacheService.DeleteAsync(CacheKeyById(id));
+            await _cacheService.DeleteAsync(CacheKeyAll);
+
+            _logger.LogInformation("{Message} ManufacturerId: {Id}", _localizer[Messages.Manufacturer_Was_Updated].Value, id);
+            return new SuccessResult(_localizer[Messages.Manufacturer_Was_Updated]);
+        }
+
         public async Task<IResult> DeleteAsync(Guid id)
         {
             var manufacturer = await _manufacturerRepository.GetByIdAsync(id);

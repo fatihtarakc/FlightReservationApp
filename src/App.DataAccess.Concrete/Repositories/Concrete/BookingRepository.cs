@@ -37,6 +37,15 @@ namespace App.DataAccess.Concrete.Repositories.Concrete
                 .Where(b => b.FlightId == flightId && b.BookingStatus != BookingStatus.Cancelled)
                 .ToListAsync();
 
+        public async Task<IEnumerable<Booking>> GetAllWithDetailsAsync(bool tracking = false) =>
+            await GetAllByStatusIsNotDeletedByTracking(tracking)
+                .Include(b => b.AppUser)
+                .Include(b => b.Flight).ThenInclude(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.DepartureAirport)
+                .Include(b => b.Flight).ThenInclude(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.ArrivalAirport)
+                .Include(b => b.Seat)
+                .OrderByDescending(b => b.CreatedDate)
+                .ToListAsync();
+
         public async Task<IEnumerable<Booking>> GetPendingRemindersAsync(int hoursBeforeDeparture, bool tracking = true)
         {
             var now = DateTime.UtcNow;

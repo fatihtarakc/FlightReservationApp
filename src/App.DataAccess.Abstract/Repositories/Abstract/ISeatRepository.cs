@@ -7,5 +7,6 @@ namespace App.DataAccess.Abstract.Repositories.Abstract
     {
         Task<IEnumerable<Seat>> GetAvailableSeatsByFlightIdAsync(Guid flightId, bool tracking = false);
         Task<IEnumerable<Seat>> GetByAircraftIdAsync(Guid aircraftId, bool tracking = false);
+        Task<IEnumerable<Seat>> GetAllByFlightAircraftAsync(Guid flightId, bool tracking = false);
     }
 }

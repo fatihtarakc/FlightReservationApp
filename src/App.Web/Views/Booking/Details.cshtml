@@ -1,13 +1,15 @@
-@model BookingDto
+@model BookingDetailsViewModel
 @{
     ViewData["Title"] = $"Booking {Model.PnrNumber}";
 
     var statusClass = Model.BookingStatus switch
     {
-        BookingStatus.Confirmed => "success",
-        BookingStatus.Cancelled => "danger",
-        BookingStatus.CheckedIn => "info",
-        _ => "secondary"
+        BookingStatus.Confirmed  => "success",
+        BookingStatus.Cancelled  => "danger",
+        BookingStatus.CheckedIn  => "info",
+        BookingStatus.Boarded    => "primary",
+        BookingStatus.Completed  => "success",
+        _                        => "secondary"
     };
 }
 
@@ -85,7 +87,7 @@
         {
             <hr />
             <div class="text-end">
-                <form asp-action="Cancel" asp-route-id="@Model.Id" method="post"
+                <form asp-action="Cancel" asp-controller="Booking" asp-route-id="@Model.Id" method="post"
                       onsubmit="return confirm('Are you sure you want to cancel this booking?')">
                     <button type="submit" class="btn btn-danger">
                         <i class="bi bi-x-circle me-2"></i>Cancel Booking

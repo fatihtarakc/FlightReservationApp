@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -29,6 +29,11 @@ export default function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/flights/search">Search Flights</Link>
             </li>
+            {isAdmin && (
+              <li className="nav-item">
+                <Link className="nav-link fw-semibold text-warning" to="/admin">Admin Panel</Link>
+              </li>
+            )}
           </ul>
           <ul className="navbar-nav ms-auto">
             {isAuthenticated ? (

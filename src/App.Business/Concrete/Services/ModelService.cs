@@ -90,6 +90,31 @@
             return new SuccessDataResult<ModelDto>(model.Adapt<ModelDto>(), _localizer[Messages.Model_HasBeen_Added]);
         }
 
+        public async Task<IResult> UpdateAsync(Guid id, ModelUpdateDto dto)
+        {
+            var model = await _modelRepository.GetByIdAsync(id);
+            if (model == null)
+                return new ErrorResult(_localizer[Messages.Model_Was_Not_Found]);
+
+            model.Name = dto.Name;
+            model.BodyType = dto.BodyType;
+            model.MaxPassengerCapacity = dto.MaxPassengerCapacity;
+            model.EconomySeats = dto.EconomySeats;
+            model.PremiumEconomySeats = dto.PremiumEconomySeats;
+            model.BusinessSeats = dto.BusinessSeats;
+            model.FirstClassSeats = dto.FirstClassSeats;
+            model.MaxRangeKm = dto.MaxRangeKm;
+
+            await _modelRepository.UpdateAsync(model);
+            await _unitOfWork.SaveChangesAsync();
+            await _cacheService.DeleteAsync(CacheKeyById(id));
+            await _cacheService.DeleteAsync(CacheKeyAll);
+            await _cacheService.DeleteAsync(CacheKeyByManufacturer(model.ManufacturerId));
+
+            _logger.LogInformation("{Message} ModelId: {Id}", _localizer[Messages.Model_Was_Updated].Value, id);
+            return new SuccessResult(_localizer[Messages.Model_Was_Updated]);
+        }
+
         public async Task<IResult> DeleteAsync(Guid id)
         {
             var model = await _modelRepository.GetByIdAsync(id);

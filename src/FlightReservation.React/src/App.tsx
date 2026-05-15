@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -14,6 +15,8 @@ import FlightDetailsPage from './pages/FlightDetailsPage';
 import BookPage from './pages/BookPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import BookingDetailsPage from './pages/BookingDetailsPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import AdminBookingsPage from './pages/AdminBookingsPage';
 
 export default function App() {
   return (
@@ -42,6 +45,14 @@ export default function App() {
               <Route
                 path="/bookings/:id"
                 element={<ProtectedRoute><BookingDetailsPage /></ProtectedRoute>}
+              />
+              <Route
+                path="/admin"
+                element={<AdminRoute><AdminDashboardPage /></AdminRoute>}
+              />
+              <Route
+                path="/admin/bookings"
+                element={<AdminRoute><AdminBookingsPage /></AdminRoute>}
               />
             </Routes>
           </div>

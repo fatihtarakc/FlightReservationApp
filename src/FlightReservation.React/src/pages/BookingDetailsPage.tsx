@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { bookingApi } from '../api/bookingApi';
-import type { BookingDto } from '../types';
-import { BookingStatus, BookingStatusLabels, SeatClassLabels } from '../types';
+import type { BookingDetails } from '../types';
+import { BookingStatus, BookingStatusLabels, SeatClassLabels, CurrencyLabels } from '../types';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AlertMessage from '../components/AlertMessage';
 
@@ -12,7 +12,7 @@ export default function BookingDetailsPage() {
   const location = useLocation();
   const successMsg = (location.state as { success?: string })?.success;
 
-  const [booking, setBooking] = useState<BookingDto | null>(null);
+  const [booking, setBooking] = useState<BookingDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [cancelling, setCancelling] = useState(false);
   const [error, setError] = useState('');
@@ -97,7 +97,7 @@ export default function BookingDetailsPage() {
                   <tr><td className="text-muted">Seat</td><td className="fw-semibold">{booking.seatNumber} — {SeatClassLabels[booking.seatClass]}</td></tr>
                   <tr>
                     <td className="text-muted">Total Price</td>
-                    <td className="fw-bold text-success fs-5">{booking.totalPrice.toLocaleString()} {booking.currency}</td>
+                    <td className="fw-bold text-success fs-5">{booking.totalPrice.toLocaleString()} {CurrencyLabels[booking.currency]}</td>
                   </tr>
                 </tbody>
               </table>

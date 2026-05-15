@@ -18,5 +18,13 @@ namespace App.DataAccess.Concrete.Repositories.Concrete
                 .ThenBy(s => s.Row)
                 .ThenBy(s => s.Column)
                 .ToListAsync();
+
+        public async Task<IEnumerable<Seat>> GetAllByFlightAircraftAsync(Guid flightId, bool tracking = false) =>
+            await GetAllByStatusIsNotDeletedByTracking(tracking)
+                .Where(s => s.Aircraft!.Flights.Any(f => f.Id == flightId))
+                .OrderBy(s => s.SeatClass)
+                .ThenBy(s => s.Row)
+                .ThenBy(s => s.Column)
+                .ToListAsync();
     }
 }

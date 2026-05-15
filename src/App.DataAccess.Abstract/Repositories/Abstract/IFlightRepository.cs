@@ -9,5 +9,6 @@ namespace App.DataAccess.Abstract.Repositories.Abstract
         Task<IEnumerable<Flight>> SearchFlightsAsync(string departureIata, string arrivalIata, DateTime departureDate, bool tracking = false);
         Task<IEnumerable<Flight>> GetFlightsDepartingInHoursAsync(int hours, bool tracking = false);
         Task<IEnumerable<Flight>> GetFlightsDepartingInDaysAsync(int days, bool tracking = false);
+        Task<IEnumerable<Flight>> GetAllWithStatsAsync(bool tracking = false);
     }
 }

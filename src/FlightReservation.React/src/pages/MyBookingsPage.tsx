@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { bookingApi } from '../api/bookingApi';
-import type { BookingListDto } from '../types';
+import type { BookingListItem } from '../types';
 import BookingCard from '../components/BookingCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function MyBookingsPage() {
   const navigate = useNavigate();
-  const [bookings, setBookings] = useState<BookingListDto[]>([]);
+  const [bookings, setBookings] = useState<BookingListItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

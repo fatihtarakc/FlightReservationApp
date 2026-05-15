@@ -44,6 +44,14 @@
             return result.IsSuccess ? CreatedAtAction(nameof(GetById), new { id = result.Data!.Id }, result) : BadRequest(result);
         }
 
+        [HttpPut("{id:guid}")]
+        [Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] ScheduleUpdateDto dto)
+        {
+            var result = await _scheduleService.UpdateAsync(id, dto);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpDelete("{id:guid}")]
         [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> Delete(Guid id)

@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { flightApi } from '../api/flightApi';
-import type { FlightDto } from '../types';
-import { FlightStatusLabels } from '../types';
+import type { FlightDetails } from '../types';
+import { FlightStatusLabels, CurrencyLabels } from '../types';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 export default function FlightDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [flight, setFlight] = useState<FlightDto | null>(null);
+  const [flight, setFlight] = useState<FlightDetails | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -86,7 +86,7 @@ export default function FlightDetailsPage() {
                 <div className="card border text-center p-3 h-100">
                   <div className="fw-semibold text-muted mb-1">{c.label}</div>
                   <div className="fs-4 fw-bold text-success">{c.price.toLocaleString()}</div>
-                  <div className="text-muted small">{flight.currency}</div>
+                  <div className="text-muted small">{CurrencyLabels[flight.currency]}</div>
                   {c.seats != null && <span className="badge bg-light text-dark mt-1">{c.seats} seats</span>}
                 </div>
               </div>

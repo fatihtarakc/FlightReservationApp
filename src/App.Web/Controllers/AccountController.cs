@@ -2,11 +2,11 @@ namespace App.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IApiService _apiService;
+        private readonly IAccountWebService _accountService;
 
-        public AccountController(IApiService apiService)
+        public AccountController(IAccountWebService accountService)
         {
-            _apiService = apiService;
+            _accountService = accountService;
         }
 
         [HttpGet]
@@ -16,11 +16,11 @@ namespace App.Web.Controllers
                 return RedirectToAction("Index", "Home");
 
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(new LoginViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(SignInDto model, string? returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             if (string.IsNullOrWhiteSpace(model.UsernameOrEmail) || string.IsNullOrWhiteSpace(model.Password))
             {
@@ -28,7 +28,7 @@ namespace App.Web.Controllers
                 return View(model);
             }
 
-            var response = await _apiService.PostAsync<TokenDto>("account/sign-in", model);
+            var response = await _accountService.SignInAsync(model);
 
             if (response?.Success != true || response.Data == null)
             {
@@ -38,25 +38,27 @@ namespace App.Web.Controllers
 
             var token = response.Data.AccessToken;
             await SignInWithTokenAsync(token, response.Data.Expiration);
-
             HttpContext.Session.SetString("jwt_token", token);
 
             if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);
 
+            if (User.IsInRole("Admin"))
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+
             return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
-        public IActionResult Register() => View();
+        public IActionResult Register() => View(new RegisterViewModel());
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterDto model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            var response = await _apiService.PostAsync<object>("account/register", model);
+            var response = await _accountService.RegisterAsync(model);
 
             if (response?.Success != true)
             {
@@ -72,16 +74,13 @@ namespace App.Web.Controllers
         public IActionResult VerifyEmail(string email)
         {
             ViewBag.Email = email;
-            return View();
+            return View(new VerifyEmailViewModel { Email = email });
         }
 
         [HttpPost]
-        public async Task<IActionResult> VerifyEmail(VerifyEmailDto model)
+        public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            var response = await _apiService.PostAsync<object>("account/verify-code", model);
+            var response = await _accountService.VerifyEmailAsync(model);
 
             if (response?.Success != true)
             {
@@ -99,8 +98,7 @@ namespace App.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(string email)
         {
-            var response = await _apiService.PostAsync<object>($"account/send-verification-code?email={Uri.EscapeDataString(email)}&purpose=1&channel=1", new { });
-
+            await _accountService.SendVerificationCodeAsync(email, 1, 1);
             TempData["SuccessMessage"] = "If your email is registered, you will receive a reset code shortly.";
             return RedirectToAction(nameof(ResetPassword), new { email });
         }
@@ -109,16 +107,13 @@ namespace App.Web.Controllers
         public IActionResult ResetPassword(string email)
         {
             ViewBag.Email = email;
-            return View();
+            return View(new ResetPasswordViewModel { Email = email });
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword(ResetPasswordDto model)
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            var response = await _apiService.PostAsync<object>("account/reset-password", model);
+            var response = await _accountService.ResetPasswordAsync(model);
 
             if (response?.Success != true)
             {

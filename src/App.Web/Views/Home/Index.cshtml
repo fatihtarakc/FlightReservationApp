@@ -1,6 +1,6 @@
 @{
     ViewData["Title"] = "Home";
-    var upcoming = ViewBag.UpcomingFlights as List<App.Dtos.FlightDtos.FlightListDto> ?? new();
+    var upcoming = ViewBag.UpcomingFlights as List<FlightListItemViewModel> ?? new();
 }
 
 @section Scripts {

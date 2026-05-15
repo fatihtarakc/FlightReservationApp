@@ -36,6 +36,14 @@
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpGet("flight/{flightId:guid}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllWithAvailabilityByFlightId(Guid flightId)
+        {
+            var result = await _seatService.GetAllWithAvailabilityByFlightIdAsync(flightId);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpPost]
         [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> Add([FromBody] SeatAddDto dto)

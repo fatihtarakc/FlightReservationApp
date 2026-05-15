@@ -55,6 +55,12 @@
             return new SuccessDataResult<IEnumerable<BookingListDto>>(bookings.Select(b => b.Adapt<BookingListDto>()));
         }
 
+        public async Task<IDataResult<IEnumerable<BookingDto>>> GetAllAsync()
+        {
+            var bookings = await _bookingRepository.GetAllWithDetailsAsync(tracking: false);
+            return new SuccessDataResult<IEnumerable<BookingDto>>(bookings.Select(b => b.Adapt<BookingDto>()));
+        }
+
         public async Task<IDataResult<IEnumerable<BookingListDto>>> GetByFlightIdAsync(Guid flightId)
         {
             var bookings = await _bookingRepository.GetActiveBookingsByFlightIdAsync(flightId, tracking: false);

@@ -1,4 +1,4 @@
-@model List<BookingListDto>
+@model List<BookingListItemViewModel>
 @{
     ViewData["Title"] = "My Bookings";
 }
@@ -24,16 +24,18 @@ else
         {
             var statusClass = booking.BookingStatus switch
             {
-                BookingStatus.Confirmed => "success",
-                BookingStatus.Cancelled => "danger",
-                BookingStatus.CheckedIn => "info",
-                _ => "secondary"
+                BookingStatus.Confirmed  => "success",
+                BookingStatus.Cancelled  => "danger",
+                BookingStatus.CheckedIn  => "info",
+                BookingStatus.Boarded    => "primary",
+                BookingStatus.Completed  => "success",
+                _                        => "secondary"
             };
 
             <div class="col-12">
-                <div class="card shadow-sm border-0 booking-card">
+                <div class="card shadow-sm border-0">
                     <div class="card-body p-3">
-                        <div class="row align-items-center">
+                        <div class="row align-items-center g-2">
                             <div class="col-md-2">
                                 <div class="text-muted small">PNR</div>
                                 <div class="fw-bold fs-5 font-monospace text-primary">@booking.PnrNumber</div>

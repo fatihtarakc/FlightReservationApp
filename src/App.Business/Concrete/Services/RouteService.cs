@@ -62,6 +62,22 @@
             return new SuccessDataResult<RouteDto>(saved.Adapt<RouteDto>(), _localizer[Messages.Route_HasBeen_Added]);
         }
 
+        public async Task<IResult> UpdateAsync(Guid id, RouteUpdateDto dto)
+        {
+            var route = await _routeRepository.GetByIdAsync(id);
+            if (route == null)
+                return new ErrorResult(_localizer[Messages.Route_Was_Not_Found]);
+
+            route.DistanceKm = dto.DistanceKm;
+            route.EstimatedDuration = dto.EstimatedDuration;
+
+            await _routeRepository.UpdateAsync(route);
+            await _unitOfWork.SaveChangesAsync();
+
+            _logger.LogInformation("{Message} RouteId: {Id}", _localizer[Messages.Route_Was_Updated].Value, id);
+            return new SuccessResult(_localizer[Messages.Route_Was_Updated]);
+        }
+
         public async Task<IResult> DeleteAsync(Guid id)
         {
             var route = await _routeRepository.GetByIdAsync(id);
