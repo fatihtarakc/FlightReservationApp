@@ -189,6 +189,9 @@ namespace App.Core.Constants
         public const string Booking_Could_Not_Be_Cancelled = "Booking_Could_Not_Be_Cancelled";
         public const string Booking_Already_Exists_For_This_Flight = "Booking_Already_Exists_For_This_Flight";
         public const string Booking_Cannot_Cancel_Departed = "Booking_Cannot_Cancel_Departed";
+        public const string Booking_CheckedIn_Successfully = "Booking_CheckedIn_Successfully";
+        public const string Booking_Cannot_CheckIn_NotConfirmed = "Booking_Cannot_CheckIn_NotConfirmed";
+        public const string Booking_Already_CheckedIn = "Booking_Already_CheckedIn";
         #endregion
 
         #region Email

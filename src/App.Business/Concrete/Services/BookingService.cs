@@ -180,6 +180,28 @@
             return new SuccessResult(_localizer[Messages.Booking_Was_Cancelled]);
         }
 
+        public async Task<IDataResult<BookingDto>> CheckInAsync(Guid id)
+        {
+            var booking = await _bookingRepository.IncludeGetByIdAsync(id);
+            if (booking == null)
+                return new ErrorDataResult<BookingDto>(_localizer[Messages.Booking_Was_Not_Found]);
+
+            if (booking.BookingStatus == BookingStatus.CheckedIn)
+                return new ErrorDataResult<BookingDto>(_localizer[Messages.Booking_Already_CheckedIn]);
+
+            if (booking.BookingStatus != BookingStatus.Confirmed)
+                return new ErrorDataResult<BookingDto>(_localizer[Messages.Booking_Cannot_CheckIn_NotConfirmed]);
+
+            booking.BookingStatus = BookingStatus.CheckedIn;
+            booking.CheckInTime = DateTime.UtcNow;
+
+            await _bookingRepository.UpdateAsync(booking);
+            await _unitOfWork.SaveChangesAsync();
+
+            var updated = await _bookingRepository.IncludeGetByIdAsync(id, tracking: false);
+            return new SuccessDataResult<BookingDto>(updated!.Adapt<BookingDto>(), _localizer[Messages.Booking_CheckedIn_Successfully]);
+        }
+
         private static string GeneratePnr()
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

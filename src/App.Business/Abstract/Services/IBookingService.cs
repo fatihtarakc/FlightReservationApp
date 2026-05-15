@@ -9,5 +9,6 @@ namespace App.Business.Abstract.Services
         Task<IDataResult<IEnumerable<BookingListDto>>> GetByFlightIdAsync(Guid flightId);
         Task<IDataResult<BookingDto>> AddAsync(Guid userId, BookingAddDto dto);
         Task<IResult> CancelAsync(Guid id, string? reason);
+        Task<IDataResult<BookingDto>> CheckInAsync(Guid id);
     }
 }

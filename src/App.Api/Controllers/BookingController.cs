@@ -74,6 +74,13 @@
             var result = await _bookingService.CancelAsync(id, reason);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpPost("{id:guid}/check-in")]
+        public async Task<IActionResult> CheckIn(Guid id)
+        {
+            var result = await _bookingService.CheckInAsync(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }
 
