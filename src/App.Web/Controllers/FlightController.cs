@@ -1,5 +1,3 @@
-using App.Web.Models.ViewModels;
-
 namespace App.Web.Controllers
 {
     public class FlightController : Controller

@@ -1,7 +1,4 @@
-﻿using App.DataAccess.Context;
-using Microsoft.EntityFrameworkCore.Design;
-
-namespace App.DataAccess.Context
+﻿namespace App.DataAccess.Context
 {
     public class FlightReservationDbContextFactory : IDesignTimeDbContextFactory<FlightReservationDbContext>
     {

@@ -1,7 +1,3 @@
-using Twilio;
-using Twilio.Rest.Api.V2010.Account;
-using Twilio.Types;
-
 namespace App.Queue.Services.Concrete
 {
     public class TwilioSmsSenderService : ISmsSenderService

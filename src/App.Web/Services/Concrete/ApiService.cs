@@ -1,7 +1,3 @@
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
-
 namespace App.Web.Services.Concrete
 {
     public class ApiService : IApiService

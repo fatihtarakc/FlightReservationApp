@@ -1,6 +1,3 @@
-using App.DataAccess.Concrete.Repositories.Concrete;
-using App.DataAccess.Concrete.UnitOfWorks.Concrete;
-
 namespace App.DataAccess.Concrete.Extensions
 {
     public static class ServiceRegistration

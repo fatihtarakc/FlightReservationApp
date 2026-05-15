@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace App.Api.Validators
 {
     public class AirportAddDtoValidator : AbstractValidator<AirportAddDto>

@@ -8,4 +8,5 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.ChangeTracking;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
-global using Microsoft.Extensions.Options;
+global using Microsoft.EntityFrameworkCore.Design;
+global using App.DataAccess.Context;

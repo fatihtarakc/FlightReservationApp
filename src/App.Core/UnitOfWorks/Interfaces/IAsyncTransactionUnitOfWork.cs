@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore.Storage;
-
 namespace App.Core.UnitOfWorks.Interfaces
 {
     public interface IAsyncTransactionUnitOfWork

@@ -1,5 +1,4 @@
-﻿using Mapster;
-namespace App.Business.Concrete.Services
+﻿namespace App.Business.Concrete.Services
 {
     public class ModelService : IModelService
     {

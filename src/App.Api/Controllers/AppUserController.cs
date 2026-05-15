@@ -1,6 +1,4 @@
-﻿using App.Dtos.AppUserDtos;
-
-namespace App.Api.Controllers
+﻿namespace App.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

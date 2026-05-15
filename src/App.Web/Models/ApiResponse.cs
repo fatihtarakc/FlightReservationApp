@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace App.Web.Models
 {
     public class ApiResponse

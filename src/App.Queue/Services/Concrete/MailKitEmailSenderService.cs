@@ -1,8 +1,3 @@
-using MailKit.Net.Smtp;
-using MailKit.Security;
-using MimeKit;
-using MimeKit.Text;
-
 namespace App.Queue.Services.Concrete
 {
     public class MailKitEmailSenderService : IEmailSenderService

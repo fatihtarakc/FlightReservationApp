@@ -1,6 +1,4 @@
-﻿using App.DataAccess.Context;
-
-namespace App.DataAccess.Extensions
+﻿namespace App.DataAccess.Extensions
 {
     public static class ServiceRegistration
     {

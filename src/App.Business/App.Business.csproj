@@ -11,22 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mapster" Version="7.4.0" />
-    <PackageReference Include="MassTransit" Version="8.2.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.2" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.10" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+    <PackageReference Include="Mapster" Version="10.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\App.Core\App.Core.csproj" />
     <ProjectReference Include="..\App.DataAccess.Abstract\App.DataAccess.Abstract.csproj" />
-    <ProjectReference Include="..\App.Entity\App.Entity.csproj" />
-    <ProjectReference Include="..\App.Dtos\App.Dtos.csproj" />
     <ProjectReference Include="..\App.Cache\App.Cache.csproj" />
     <ProjectReference Include="..\App.Queue\App.Queue.csproj" />
   </ItemGroup>

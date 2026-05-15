@@ -1,11 +1,15 @@
-global using App.Core.Constants;
 global using App.Core.Options;
 global using App.Core.UnitOfWorks.Interfaces;
 global using App.DataAccess.Abstract.Repositories.Abstract;
-global using App.Entity.Enums;
 global using App.Queue.Events;
 global using Hangfire;
 global using MassTransit;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
+global using App.BackgroundJobs.Jobs;
+global using App.BackgroundJobs.Schedules;
+global using Hangfire.PostgreSql;
+global using Hangfire.SqlServer;
+global using System.Net;
+global using Hangfire.Dashboard;

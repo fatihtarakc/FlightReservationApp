@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace App.Entities.Configurations.Concrete
+﻿namespace App.Entities.Configurations.Concrete
 {
     public class IdentityUserConfiguration : IEntityTypeConfiguration<IdentityUser>, IEntityConfiguration
     {

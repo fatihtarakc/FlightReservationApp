@@ -1,7 +1,3 @@
-using App.Business.Concrete.Services;
-using App.Cache.Extensions;
-using Mapster;
-
 namespace App.Business.Extensions
 {
     public static class ServiceRegistration
@@ -12,7 +8,7 @@ namespace App.Business.Extensions
 
             services.AddCacheServices(configuration);
 
-            services.Configure<App.Core.Options.TokenOptions>(configuration.GetSection(App.Core.Options.TokenOptions.TokenConfiguration));
+            services.Configure<Core.Options.TokenOptions>(configuration.GetSection(Core.Options.TokenOptions.TokenConfiguration));
 
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAccountService, AccountService>();

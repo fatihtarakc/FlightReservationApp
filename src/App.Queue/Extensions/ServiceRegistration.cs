@@ -1,6 +1,3 @@
-using App.Queue.Consumers;
-using App.Queue.Services.Concrete;
-
 namespace App.Queue.Extensions
 {
     public static class ServiceRegistration

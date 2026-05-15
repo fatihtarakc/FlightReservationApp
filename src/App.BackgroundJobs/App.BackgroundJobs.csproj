@@ -7,20 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hangfire.Core" Version="1.8.14" />
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
-    <PackageReference Include="Hangfire.SqlServer" Version="1.8.14" />
-    <PackageReference Include="Hangfire.PostgreSql" Version="1.20.9" />
-    <PackageReference Include="MassTransit" Version="8.2.5" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+    <PackageReference Include="Hangfire" Version="1.8.23" />
+    <PackageReference Include="Hangfire.PostgreSql" Version="1.21.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\App.Core\App.Core.csproj" />
     <ProjectReference Include="..\App.DataAccess.Abstract\App.DataAccess.Abstract.csproj" />
-    <ProjectReference Include="..\App.Entity\App.Entity.csproj" />
     <ProjectReference Include="..\App.Queue\App.Queue.csproj" />
   </ItemGroup>
 

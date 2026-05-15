@@ -1,15 +1,13 @@
-using CoreTokenOptions = App.Core.Options.TokenOptions;
-
 namespace App.Business.Concrete.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly CoreTokenOptions _tokenOptions;
+        private readonly Core.Options.TokenOptions _tokenOptions;
         private readonly IStringLocalizer<MessageResources> _localizer;
         private readonly ILogger<TokenService> _logger;
 
         public TokenService(
-            IOptions<CoreTokenOptions> tokenOptions,
+            IOptions<Core.Options.TokenOptions> tokenOptions,
             IStringLocalizer<MessageResources> localizer,
             ILogger<TokenService> logger)
         {

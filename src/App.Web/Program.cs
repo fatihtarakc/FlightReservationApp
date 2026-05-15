@@ -1,7 +1,3 @@
-using App.Web.Services.Abstract;
-using App.Web.Services.Concrete;
-using Microsoft.AspNetCore.Authentication.Cookies;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();

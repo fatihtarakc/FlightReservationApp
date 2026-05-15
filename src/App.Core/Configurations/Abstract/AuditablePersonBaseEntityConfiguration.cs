@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace App.Core.Configurations.Abstract
+﻿namespace App.Core.Configurations.Abstract
 {
     public abstract class AuditablePersonBaseEntityConfiguration<TEntity> : AuditableBaseEntityConfiguration<TEntity>
         where TEntity : AuditablePersonBaseEntity

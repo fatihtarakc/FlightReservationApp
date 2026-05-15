@@ -1,7 +1,3 @@
-using System.Net;
-using Hangfire.Dashboard;
-using Microsoft.AspNetCore.Http;
-
 namespace App.BackgroundJobs.Filters
 {
     public class HangfireAuthorizationFilter : IDashboardAuthorizationFilter

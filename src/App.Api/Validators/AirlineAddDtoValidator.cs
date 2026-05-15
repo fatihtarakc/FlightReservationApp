@@ -1,6 +1,3 @@
-using App.Core.Constants;
-using FluentValidation;
-
 namespace App.Api.Validators
 {
     public class AirlineAddDtoValidator : AbstractValidator<AirlineAddDto>

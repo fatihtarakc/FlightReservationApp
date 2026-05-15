@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace App.Api.Validators
 {
     public class BookingAddDtoValidator : AbstractValidator<BookingAddDto>

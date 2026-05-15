@@ -1,8 +1,3 @@
-using App.BackgroundJobs.Jobs;
-using App.BackgroundJobs.Schedules;
-using Hangfire.PostgreSql;
-using Hangfire.SqlServer;
-
 namespace App.BackgroundJobs.Extensions
 {
     public static class ServiceRegistration

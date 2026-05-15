@@ -1,25 +1,3 @@
-using App.BackgroundJobs.Extensions;
-using App.BackgroundJobs.Filters;
-using App.Business.Extensions;
-using App.Core.Options;
-using App.DataAccess.Concrete.Extensions;
-using App.DataAccess.Concrete.SeedDatas;
-using App.DataAccess.Context;
-using App.DataAccess.Extensions;
-using App.Queue.Extensions;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using Hangfire;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Npgsql;
-using Serilog;
-using System.Text;
-
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);

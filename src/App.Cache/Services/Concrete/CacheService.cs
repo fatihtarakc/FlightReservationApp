@@ -1,5 +1,3 @@
-using App.Cache.Services.Abstract;
-
 namespace App.Cache.Services.Concrete
 {
     public class CacheService<Entity> : ICacheService<Entity> where Entity : AuditableBaseEntity

@@ -1,7 +1,3 @@
-using App.Cache.Services.Abstract;
-using App.Cache.Services.Concrete;
-using Microsoft.Extensions.Configuration;
-
 namespace App.Cache.Extensions
 {
     public static class ServiceRegistration

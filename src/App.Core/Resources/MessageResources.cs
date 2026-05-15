@@ -1,6 +1,3 @@
-using System.Globalization;
-using System.Resources;
-
 namespace App.Core.Resources
 {
     public class MessageResources
