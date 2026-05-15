@@ -76,7 +76,7 @@ builder.Services.PostConfigure<AuthenticationOptions>(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("UserPolicy", policy => policy.RequireRole("User", "Admin"));
+    options.AddPolicy("UserPolicy", policy => policy.RequireRole("AppUser", "Admin"));
 });
 
 // CORS

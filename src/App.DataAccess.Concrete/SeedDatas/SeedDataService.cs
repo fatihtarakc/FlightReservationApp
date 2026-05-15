@@ -3,7 +3,7 @@
     public static class SeedDataService
     {
         private const string AdminEmail = "admin@flightreservation.com";
-        private const string AdminUsername = "superadmin";
+        private const string AdminUsername = "admin";
         private const string AdminPassword = "Admin2026+-!?";
 
         private const string TestAdminEmail = "testadmin@flightreservation.com";
@@ -36,7 +36,7 @@
 
         private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         {
-            string[] roles = { "Admin", "User" };
+            string[] roles = { "Admin", "AppUser" };
             foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
@@ -116,7 +116,7 @@
                 EmailConfirmed = true
             };
             await userManager.CreateAsync(identityUser, TestUserPassword);
-            await userManager.AddToRoleAsync(identityUser, "User");
+            await userManager.AddToRoleAsync(identityUser, "AppUser");
 
             if (!await db.AppUsers.AnyAsync(u => u.Email == TestUserEmail))
             {

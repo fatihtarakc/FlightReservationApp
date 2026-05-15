@@ -1,0 +1,106 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: 2024PostgreSqlDb
+    network_mode: bridge
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "Dockerpostgresqldb2024+-!?"
+      POSTGRES_DB: FlightReservationDb
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: 2024RedisDb
+    network_mode: bridge
+    entrypoint:
+      - sh
+      - -c
+      - |
+        printf 'user default off\nuser admin on >Dockerredisdb2024+-!? ~* &* +@all\n' > /tmp/users.acl
+        redis-server --aclfile /tmp/users.acl
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "--user", "admin", "-a", "Dockerredisdb2024+-!?", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: 2025RabbitMQ
+    network_mode: bridge
+    hostname: localhost
+    environment:
+      RABBITMQ_DEFAULT_USER: DockerRabbitmq
+      RABBITMQ_DEFAULT_PASS: "Dockerrabbitmq2025+-!?"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: 2024MsSqlServerDb
+    network_mode: bridge
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Dockermssqldb2024+-!?"
+      MSSQL_PID: Developer
+    ports:
+      - "1434:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  api:
+    build:
+      context: .
+      dockerfile: src/App.Api/Dockerfile
+    image: flightreservationapi:latest
+    container_name: FlightReservationApi
+    network_mode: bridge
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Connections__DatabaseProvider=PostgreSql
+      - Connections__PostgreSql=Host=host.docker.internal;Port=5433;Database=FlightReservationDb;Username=postgres;Password=Dockerpostgresqldb2024+-!?
+      - Connections__Hangfire=Host=host.docker.internal;Port=5433;Database=FlightReservationDb;Username=postgres;Password=Dockerpostgresqldb2024+-!?
+      - Connections__Redis=host.docker.internal:6380,user=admin,password=Dockerredisdb2024+-!?
+      - RabbitMqConfiguration__Host=host.docker.internal
+      - RabbitMqConfiguration__Port=5672
+      - RabbitMqConfiguration__VirtualHost=FlightReservationApp
+      - RabbitMqConfiguration__Username=FlightReservationApp-admin
+      - RabbitMqConfiguration__Password=Dockerrabbitmq2025+-!?
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
+  rabbitmq_data:
+  mssql_data:

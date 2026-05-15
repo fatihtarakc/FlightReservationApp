@@ -107,7 +107,8 @@
                 BookingStatus = BookingStatus.Confirmed,
                 AppUserId = userId,
                 FlightId = dto.FlightId,
-                SeatId = dto.SeatId
+                SeatId = dto.SeatId,
+                CreatedBy = user.Email!
             };
 
             await _bookingRepository.AddAsync(booking);

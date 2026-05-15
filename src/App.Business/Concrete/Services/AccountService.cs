@@ -52,7 +52,7 @@
             if (!result.Succeeded)
                 return new ErrorResult(string.Join(", ", result.Errors.Select(e => e.Description)));
 
-            await _userManager.AddToRoleAsync(identityUser, "User");
+            await _userManager.AddToRoleAsync(identityUser, "AppUser");
 
             var appUser = new AppUser
             {
@@ -64,7 +64,8 @@
                 UserStatus = UserStatus.Active,
                 PreferredNotificationChannel = dto.PreferredNotificationChannel,
                 Nationality = dto.Nationality,
-                IdentityId = identityUser.Id
+                IdentityId = identityUser.Id,
+                CreatedBy = dto.Email
             };
 
             await _appUserRepository.AddAsync(appUser);
