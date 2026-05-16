@@ -81,13 +81,15 @@
                                     <a asp-action="Edit" asp-route-id="@f.Id" class="btn btn-outline-primary"><i class="fas fa-edit"></i></a>
                                     @if (f.Status != FlightStatus.Cancelled)
                                     {
-                                        <button type="button" class="btn btn-outline-warning"
-                                                onclick="confirmAction('@Url.Action("Cancel", new { id = f.Id })', '@L["Confirm_Cancel"]', '@Html.AntiForgeryToken().ToString()')">
+                                        <button type="button" class="btn btn-outline-warning confirm-action-btn"
+                                                data-action-url="@Url.Action("Cancel", new { id = f.Id })"
+                                                data-confirm-msg="@L["Confirm_Cancel"]">
                                             <i class="fas fa-ban"></i>
                                         </button>
                                     }
-                                    <button type="button" class="btn btn-outline-danger"
-                                            onclick="confirmAction('@Url.Action("Delete", new { id = f.Id })', '@L["Confirm_Delete"]', '@Html.AntiForgeryToken().ToString()')">
+                                    <button type="button" class="btn btn-outline-danger confirm-action-btn"
+                                            data-action-url="@Url.Action("Delete", new { id = f.Id })"
+                                            data-confirm-msg="@L["Confirm_Delete"]">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -106,21 +108,6 @@
     </div>
 </div>
 
-<form id="actionForm" method="post" style="display:none">
-    <input name="__RequestVerificationToken" id="aft" />
+<form id="actionForm" method="post" class="d-none">
+    @Html.AntiForgeryToken()
 </form>
-
-@section Scripts {
-<script>
-function confirmAction(url, msg, tokenHtml) {
-    if (!confirm(msg)) return;
-    const form = document.getElementById('actionForm');
-    form.action = url;
-    const tmp = document.createElement('div');
-    tmp.innerHTML = tokenHtml;
-    const tkn = tmp.querySelector('input');
-    document.getElementById('aft').value = tkn ? tkn.value : '';
-    form.submit();
-}
-</script>
-}

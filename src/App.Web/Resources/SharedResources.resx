@@ -26,8 +26,8 @@
   <data name="Nav_Flights"><value>Uçuşlar</value></data>
   <data name="Nav_About"><value>Hakkımızda</value></data>
   <data name="Nav_SearchTicket"><value>Bilet Ara</value></data>
-  <data name="Nav_Login"><value>Giriş Yap</value></data>
-  <data name="Nav_Register"><value>Üye Ol</value></data>
+  <data name="Nav_SignIn"><value>Giriş Yap</value></data>
+  <data name="Nav_SignUp"><value>Kayıt Ol</value></data>
   <data name="Nav_Logout"><value>Çıkış</value></data>
   <data name="Nav_MyAccount"><value>Hesabım</value></data>
   <data name="Nav_AdminPanel"><value>Admin Panel</value></data>
@@ -147,8 +147,8 @@
   <data name="Booking_SeatMap"><value>Koltuk Haritası</value></data>
 
   <!-- Account -->
-  <data name="Account_Login"><value>Giriş Yap</value></data>
-  <data name="Account_Register"><value>Kayıt Ol</value></data>
+  <data name="Account_SignIn"><value>Giriş Yap</value></data>
+  <data name="Account_SignUp"><value>Kayıt Ol</value></data>
   <data name="Account_ForgotPassword"><value>Şifremi Unuttum</value></data>
   <data name="Account_ResetPassword"><value>Şifre Sıfırla</value></data>
   <data name="Account_Username"><value>Kullanıcı Adı veya E-posta</value></data>
@@ -220,14 +220,14 @@
   <data name="Home_BookNow"><value>Hemen Rezervasyon Yap</value></data>
   <data name="Home_ViewAll"><value>Tümünü Gör</value></data>
 
-  <!-- Login / Account pages -->
-  <data name="Login_Title"><value>Giriş Yap - SkyWay Airlines</value></data>
-  <data name="Login_Welcome"><value>Hoş Geldiniz</value></data>
-  <data name="Login_Subtitle"><value>Hesabınıza giriş yapın</value></data>
-  <data name="Login_ForgotPassword"><value>Şifremi Unuttum</value></data>
-  <data name="Login_NoAccount"><value>Hesabınız yok mu?</value></data>
-  <data name="Login_BackToLogin"><value>Giriş Sayfasına Dön</value></data>
-  <data name="Btn_Login"><value>Giriş Yap</value></data>
+  <!-- Sign In / Account pages -->
+  <data name="SignIn_Title"><value>Giriş Yap - SkyWay Airlines</value></data>
+  <data name="SignIn_Welcome"><value>Hoş Geldiniz</value></data>
+  <data name="SignIn_Subtitle"><value>Hesabınıza giriş yapın</value></data>
+  <data name="SignIn_ForgotPassword"><value>Şifremi Unuttum</value></data>
+  <data name="SignIn_NoAccount"><value>Hesabınız yok mu?</value></data>
+  <data name="SignIn_BackToSignIn"><value>Giriş sayfasına dön</value></data>
+  <data name="Btn_SignIn"><value>Giriş Yap</value></data>
   <data name="Label_UsernameOrEmail"><value>Kullanıcı Adı veya E-posta</value></data>
   <data name="Label_Password"><value>Şifre</value></data>
   <data name="Label_RememberMe"><value>Beni Hatırla</value></data>
@@ -444,7 +444,22 @@
 
   <!-- Route form -->
   <data name="Route_Info"><value>Güzergah Bilgileri</value></data>
+  <data name="Route_Edit"><value>Güzergah Düzenle</value></data>
+  <data name="Route_Was_Updated"><value>Güzergah başarıyla güncellendi.</value></data>
   <data name="Error_SameAirport"><value>Kalkış ve varış havalimanları aynı olamaz!</value></data>
+
+  <!-- Public page titles & access denied -->
+  <data name="Home_Tagline"><value>Uçuşun Özgürlüğü</value></data>
+  <data name="AccessDenied_Title"><value>Erişim Engellendi</value></data>
+  <data name="AccessDenied_Message"><value>Bu sayfaya erişim yetkiniz bulunmamaktadır.</value></data>
+  <data name="Btn_BackHome"><value>Ana Sayfaya Dön</value></data>
+
+  <!-- Account settings extras -->
+  <data name="Account_ProfileInfo"><value>Profil Bilgileri</value></data>
+  <data name="Account_ChangePassword"><value>Şifre Değiştir</value></data>
+  <data name="Account_CurrentPassword"><value>Mevcut Şifre</value></data>
+  <data name="Account_UpdatePassword"><value>Şifreyi Güncelle</value></data>
+  <data name="Account_NotifDescription"><value>Uçuş hatırlatmaları ve rezervasyon bildirimlerini hangi kanallardan almak istediğinizi seçin.</value></data>
 
   <!-- Status labels -->
   <data name="Status_Scheduled"><value>Planlandı</value></data>
@@ -465,4 +480,97 @@
   <data name="Status_Active"><value>Aktif</value></data>
   <data name="Status_Maintenance"><value>Bakımda</value></data>
   <data name="Status_Retired"><value>Emekli</value></data>
+
+  <!-- Flight form labels -->
+  <data name="Flight_DepartureDateTime"><value>Kalkış Tarihi/Saati</value></data>
+  <data name="Flight_ArrivalDateTime"><value>Varış Tarihi/Saati</value></data>
+  <data name="Label_MinAbbr"><value>dk</value></data>
+  <data name="Label_HourAbbr"><value>sa</value></data>
+  <data name="Label_SeatAbbr"><value>koltuk</value></data>
+  <data name="Btn_SaveChanges"><value>Değişiklikleri Kaydet</value></data>
+
+  <!-- Sign Up -->
+  <data name="SignUp_Title"><value>Hesap Oluştur</value></data>
+  <data name="SignUp_Subtitle"><value>Hızlı ve kolay kayıt</value></data>
+  <data name="Label_Username"><value>Kullanıcı Adı</value></data>
+  <data name="Label_Nationality"><value>Uyruk (Opsiyonel)</value></data>
+  <data name="Placeholder_SearchCountry"><value>Ülke ara...</value></data>
+  <data name="Placeholder_PhoneFormat"><value>Format: +90XXXXXXXXXX (Twilio için)</value></data>
+  <data name="Placeholder_Password"><value>Min. 8 karakter</value></data>
+  <data name="Placeholder_ConfirmPassword"><value>Şifrenizi tekrar girin</value></data>
+  <data name="Placeholder_Name"><value>Adınız</value></data>
+  <data name="Placeholder_Surname"><value>Soyadınız</value></data>
+  <data name="Placeholder_Username"><value>kullanici_adi</value></data>
+
+  <!-- Reset Password -->
+  <data name="ResetPassword_Subtitle"><value>E-postanıza gelen 6 haneli kodu ve yeni şifrenizi girin</value></data>
+  <data name="Btn_ResetPassword"><value>Şifremi Sıfırla</value></data>
+
+  <!-- Footer -->
+  <data name="Footer_Description"><value>Türkiye'nin güvenilir havayolu. Konfor, güvenlik ve uygun fiyatla uçuşun keyfini çıkarın.</value></data>
+  <data name="Footer_Services"><value>Hizmetler</value></data>
+  <data name="Footer_CheckIn"><value>Online Check-in</value></data>
+  <data name="Footer_Baggage"><value>Bagaj Bilgisi</value></data>
+  <data name="Footer_PassengerGuide"><value>Yolcu Rehberi</value></data>
+  <data name="Footer_FAQ"><value>Sık Sorulan Sorular</value></data>
+  <data name="Footer_Contact"><value>İletişim</value></data>
+  <data name="Footer_Location"><value>İstanbul, Türkiye</value></data>
+  <data name="Footer_Copyright"><value>Tüm hakları saklıdır.</value></data>
+  <data name="Footer_Privacy"><value>Gizlilik Politikası</value></data>
+  <data name="Footer_Terms"><value>Kullanım Koşulları</value></data>
+
+  <!-- Home page -->
+  <data name="Home_TrustedAirline"><value>Güvenilir Havayolu</value></data>
+  <data name="Home_HeroHeading"><value>Dünyanın Her Yerine</value></data>
+  <data name="Home_HeroHeadingAccent"><value>Uçun</value></data>
+  <data name="Home_HeroDescription"><value>En uygun fiyatlarla, konforlu uçuş deneyimi. Hayalinizdeki destinasyona SkyWay ile ulaşın.</value></data>
+  <data name="Home_StatDestinations"><value>Destinasyon</value></data>
+  <data name="Home_StatPassengers"><value>Yolcu</value></data>
+  <data name="Home_StatSatisfaction"><value>Memnuniyet</value></data>
+  <data name="Home_DiscoverDestinations"><value>Keşfedilmeyi Bekleyen Destinasyonlar</value></data>
+  <data name="Home_FindFlight"><value>Uçuş Bul</value></data>
+  <data name="Home_CurrentFlights"><value>Güncel Uçuşlar</value></data>
+  <data name="Home_ViewAllFlights"><value>Tüm Uçuşları Gör</value></data>
+  <data name="Placeholder_DepartureAirport"><value>İstanbul (IST)</value></data>
+  <data name="Placeholder_ArrivalAirport"><value>Ankara (ESB)</value></data>
+
+  <!-- Features section -->
+  <data name="Feature_SafeFlight"><value>Güvenli Uçuş</value></data>
+  <data name="Feature_SafeFlight_Desc"><value>En yüksek güvenlik standartlarıyla hizmetinizdeyiz.</value></data>
+  <data name="Feature_AffordablePrice"><value>Uygun Fiyat</value></data>
+  <data name="Feature_AffordablePrice_Desc"><value>Rekabetçi fiyatlarla en iyi uçuş deneyimi.</value></data>
+  <data name="Feature_Support"><value>7/24 Destek</value></data>
+  <data name="Feature_Support_Desc"><value>Her zaman yanınızda, her sorunda çözüm odaklı.</value></data>
+  <data name="Feature_Online"><value>Online İşlem</value></data>
+  <data name="Feature_Online_Desc"><value>Bilet alımı, check-in hepsini online yapın.</value></data>
+  <data name="Alert_InvalidIata"><value>Lütfen geçerli bir IATA kodu girin (ör: IST, ESB)</value></data>
+
+  <!-- About page -->
+  <data name="About_Title"><value>SkyWay Airlines Hakkında</value></data>
+  <data name="About_Subtitle"><value>Türkiye'nin güvenilir havayolu, 2010'dan beri hizmetinizde</value></data>
+  <data name="About_Mission"><value>Misyonumuz</value></data>
+  <data name="About_MissionTitle"><value>Uçuşun Keyfini Herkes İçin Erişilebilir Kılmak</value></data>
+  <data name="About_MissionText1"><value>SkyWay Airlines olarak, yolcularımıza güvenli, konforlu ve uygun fiyatlı uçuş deneyimi sunmayı amaçlıyoruz.</value></data>
+  <data name="About_MissionText2"><value>Yıllar boyunca sürdürdüğümüz yüksek güvenlik standartları ve müşteri memnuniyeti odaklı hizmet anlayışımızla sektörün en güvenilir havayolları arasında yer alıyoruz.</value></data>
+  <data name="About_StatDestinations"><value>Destinasyon</value></data>
+  <data name="About_StatPassengers"><value>Mutlu Yolcu</value></data>
+  <data name="About_StatYears"><value>Yıl Tecrübe</value></data>
+  <data name="About_StatSupport"><value>Müşteri Desteği</value></data>
+  <data name="About_SafetyFirst"><value>Güvenlik Önce</value></data>
+  <data name="About_SafetyFirst_Desc"><value>Uluslararası güvenlik standartlarına tam uyum. Her uçuş öncesi kapsamlı teknik kontrol.</value></data>
+  <data name="About_EcoFriendly"><value>Çevre Dostu</value></data>
+  <data name="About_EcoFriendly_Desc"><value>Karbon ayak izimizi azaltmak için çalışıyoruz.</value></data>
+  <data name="About_AwardedService"><value>Ödüllü Hizmet</value></data>
+  <data name="About_AwardedService_Desc"><value>Sektörde tanınan ve ödüllendirilen kalite.</value></data>
+
+  <!-- Flight search / index -->
+  <data name="Flight_SearchSubtitle"><value>Güzergah, tarih ve sınıfa göre uçuş arayın</value></data>
+  <data name="Label_SelectOption"><value>— Seçin —</value></data>
+  <data name="Flight_Found"><value>uçuş bulundu</value></data>
+  <data name="Flight_TryDifferent"><value>Farklı tarih veya güzergah deneyin.</value></data>
+
+  <!-- Contact info -->
+  <data name="Footer_Phone"><value>+90 850 123 45 67</value></data>
+  <data name="Footer_PhoneLink"><value>tel:+908501234567</value></data>
+  <data name="Footer_Email"><value>info@skyway.com</value></data>
 </root>

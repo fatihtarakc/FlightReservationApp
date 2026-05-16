@@ -1,4 +1,4 @@
-using App.Web.Controllers;
+﻿using App.Web.Controllers;
 
 namespace App.Web.Areas.Passenger.Controllers
 {
@@ -25,7 +25,7 @@ namespace App.Web.Areas.Passenger.Controllers
         public async Task<IActionResult> MyBookings()
         {
             var token = Token;
-            if (string.IsNullOrEmpty(token)) return RedirectToAction("Login", "Account", new { area = "" });
+            if (string.IsNullOrEmpty(token)) return RedirectToAction("SignIn", "Account", new { area = "" });
             var result = await _bookingService.GetMyBookingsAsync(token);
             return View(result.IsSuccess ? result.Data ?? new() : new List<BookingVM>());
         }
@@ -34,7 +34,7 @@ namespace App.Web.Areas.Passenger.Controllers
         public async Task<IActionResult> Create(Guid flightId, Guid seatId)
         {
             var token = Token;
-            if (string.IsNullOrEmpty(token)) return RedirectToAction("Login", "Account", new { area = "" });
+            if (string.IsNullOrEmpty(token)) return RedirectToAction("SignIn", "Account", new { area = "" });
 
             var flightTask = _flightService.GetByIdAsync(flightId);
             var seatTask = _seatService.GetByIdAsync(seatId);
@@ -72,7 +72,7 @@ namespace App.Web.Areas.Passenger.Controllers
         public async Task<IActionResult> Create(BookingCreatePageVM model)
         {
             var token = Token;
-            if (string.IsNullOrEmpty(token)) return RedirectToAction("Login", "Account", new { area = "" });
+            if (string.IsNullOrEmpty(token)) return RedirectToAction("SignIn", "Account", new { area = "" });
 
             var result = await _bookingService.CreateAsync(model.Form, token);
             if (!result.IsSuccess)
@@ -88,7 +88,7 @@ namespace App.Web.Areas.Passenger.Controllers
         public async Task<IActionResult> Detail(Guid id)
         {
             var token = Token;
-            if (string.IsNullOrEmpty(token)) return RedirectToAction("Login", "Account", new { area = "" });
+            if (string.IsNullOrEmpty(token)) return RedirectToAction("SignIn", "Account", new { area = "" });
 
             var result = await _bookingService.GetByIdAsync(id, token);
             if (!result.IsSuccess || result.Data == null) return NotFound();

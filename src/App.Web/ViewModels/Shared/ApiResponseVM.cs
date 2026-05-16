@@ -4,6 +4,7 @@
     {
         public List<FlightVM> RecentFlights { get; set; } = new();
         public List<RouteVM> PopularRoutes { get; set; } = new();
+        public List<AirportVM> Airports { get; set; } = new();
     }
 
     public class ApiResponseVM<T>

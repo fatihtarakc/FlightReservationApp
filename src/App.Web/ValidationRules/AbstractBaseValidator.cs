@@ -1,5 +1,4 @@
-using FluentValidation;
-using App.Web.Resources;
+﻿using FluentValidation;
 namespace App.Web.ValidationRules
 {
     public abstract class AbstractBaseValidator<T> : AbstractValidator<T>

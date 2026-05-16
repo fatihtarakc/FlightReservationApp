@@ -1,7 +1,4 @@
 ﻿@model BookingCreatePageVM
-@{
-    ViewData["Title"] = L["Booking_Confirm"].ToString();
-}
 
 <div class="pax-card">
     <div class="pax-card-header"><i class="fas fa-ticket-alt me-2"></i>@L["Booking_Confirm"]</div>
@@ -64,7 +61,7 @@
                     </div>
                     <hr />
                     <div class="d-flex justify-content-between fs-5 fw-bold text-danger">
-                        <span>Toplam</span>
+                        <span>@L["Booking_TotalPrice"]</span>
                         <span>₺@Model.TotalPrice.ToString("N2")</span>
                     </div>
                 </div>

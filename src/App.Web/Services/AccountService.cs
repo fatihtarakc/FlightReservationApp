@@ -19,7 +19,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, "api/auth/login")
+                var req = new HttpRequestMessage(HttpMethod.Post, "api/Account/sign-in")
                 { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();
@@ -40,7 +40,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, "api/auth/register")
+                var req = new HttpRequestMessage(HttpMethod.Post, "api/Account/register")
                 { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();
@@ -61,7 +61,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, "api/auth/forgot-password")
+                var req = new HttpRequestMessage(HttpMethod.Post, "api/Account/send-verification-code")
                 { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();
@@ -82,7 +82,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, "api/auth/reset-password")
+                var req = new HttpRequestMessage(HttpMethod.Post, "api/Account/reset-password")
                 { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();
@@ -103,7 +103,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, "api/auth/logout");
+                var req = new HttpRequestMessage(HttpMethod.Post, "api/Account/sign-out");
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 await _http.SendAsync(req);
                 return new SuccessResult(_localizer[Messages.Account_SignOut_Successful]);
@@ -120,7 +120,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Get, "api/account/profile");
+                var req = new HttpRequestMessage(HttpMethod.Get, "api/AppUser/me");
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();
@@ -208,7 +208,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Get, "api/admin/users");
+                var req = new HttpRequestMessage(HttpMethod.Get, "api/AppUser");
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();

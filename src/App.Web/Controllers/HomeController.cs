@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using App.Web.Models;
+using App.Web.ViewModels.Flight;
+using App.Web.Enums;
 
 namespace App.Web.Controllers
 {
@@ -8,23 +10,113 @@ namespace App.Web.Controllers
     {
         private readonly IFlightService _flightService;
         private readonly IRouteService _routeService;
+        private readonly IAirportService _airportService;
+        private readonly ISeatService _seatService;
 
-        public HomeController(IFlightService flightService, IRouteService routeService)
+        public HomeController(IFlightService flightService, IRouteService routeService,
+            IAirportService airportService, ISeatService seatService)
         {
             _flightService = flightService;
             _routeService = routeService;
+            _airportService = airportService;
+            _seatService = seatService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var flightsResult = await _flightService.GetAllAsync();
-            var routesResult = await _routeService.GetAllAsync();
+            var flightsTask = _flightService.GetAllAsync();
+            var routesTask = _routeService.GetAllAsync();
+            var airportsTask = _airportService.GetAllAsync();
+            await Task.WhenAll(flightsTask, routesTask, airportsTask);
             var vm = new HomePageVM
             {
-                RecentFlights = flightsResult.IsSuccess ? flightsResult.Data?.Take(6).ToList() ?? new() : new(),
-                PopularRoutes = routesResult.IsSuccess ? routesResult.Data?.Take(6).ToList() ?? new() : new()
+                RecentFlights = flightsTask.Result.IsSuccess ? flightsTask.Result.Data?.Take(6).ToList() ?? new() : new(),
+                PopularRoutes = routesTask.Result.IsSuccess ? routesTask.Result.Data?.Take(6).ToList() ?? new() : new(),
+                Airports = airportsTask.Result.IsSuccess ? airportsTask.Result.Data ?? new() : new()
             };
             return View(vm);
+        }
+
+        [HttpGet("api/airports-list")]
+        public async Task<IActionResult> AirportsList()
+        {
+            var result = await _airportService.GetAllAsync();
+            return Json(result.IsSuccess ? result.Data : new List<AirportVM>());
+        }
+
+        [HttpGet("api/available-destinations")]
+        public async Task<IActionResult> AvailableDestinations(string origin)
+        {
+            var routesTask = _routeService.GetAllAsync();
+            var airportsTask = _airportService.GetAllAsync();
+            await Task.WhenAll(routesTask, airportsTask);
+
+            if (!routesTask.Result.IsSuccess || !airportsTask.Result.IsSuccess)
+                return Json(new List<AirportVM>());
+
+            var destinationIatas = routesTask.Result.Data!
+                .Where(r => r.OriginIata == origin)
+                .Select(r => r.DestinationIata)
+                .ToHashSet();
+
+            var destinations = airportsTask.Result.Data!
+                .Where(a => destinationIatas.Contains(a.IataCode))
+                .ToList();
+
+            return Json(destinations);
+        }
+
+        [HttpGet("api/flight-dates")]
+        public async Task<IActionResult> FlightDates(string origin, string destination)
+        {
+            var result = await _flightService.GetAllAsync();
+            if (!result.IsSuccess || result.Data == null)
+                return Json(new List<string>());
+
+            var today = DateTime.Today;
+            var dates = result.Data
+                .Where(f => f.OriginIata == origin && f.DestinationIata == destination && f.DepartureTime.Date >= today)
+                .Select(f => f.DepartureTime.Date.ToString("yyyy-MM-dd"))
+                .Distinct()
+                .OrderBy(d => d)
+                .ToList();
+
+            return Json(dates);
+        }
+
+        [HttpGet("api/flight-seats")]
+        public async Task<IActionResult> FlightSeats(string origin, string destination, string date)
+        {
+            if (!DateTime.TryParse(date, out var depDate))
+                return Json(new { economy = 9, business = 9 });
+
+            var search = new FlightSearchVM
+            {
+                DepartureIata = origin,
+                ArrivalIata = destination,
+                DepartureDate = depDate,
+                Passengers = 1,
+                SeatClass = SeatClass.Economy
+            };
+
+            var flightResult = await _flightService.SearchAsync(search);
+            if (!flightResult.IsSuccess || flightResult.Data == null || !flightResult.Data.Any())
+                return Json(new { economy = 0, business = 0 });
+
+            var seatTasks = flightResult.Data.Select(f => _seatService.GetByFlightIdAsync(f.Id));
+            var allSeats = await Task.WhenAll(seatTasks);
+
+            int eco = 0, biz = 0;
+            foreach (var sr in allSeats)
+            {
+                if (sr.IsSuccess && sr.Data != null)
+                {
+                    eco += sr.Data.Count(s => s.IsAvailable && s.SeatClass == SeatClass.Economy);
+                    biz += sr.Data.Count(s => s.IsAvailable && s.SeatClass == SeatClass.Business);
+                }
+            }
+
+            return Json(new { economy = eco, business = biz });
         }
 
         public IActionResult About() => View();

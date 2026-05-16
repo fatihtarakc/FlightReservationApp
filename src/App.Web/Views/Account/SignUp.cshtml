@@ -1,0 +1,167 @@
+﻿@model App.Web.ViewModels.Account.RegisterVM
+@{
+    Layout = "_Layout";
+}
+
+<div class="py-5" style="background:linear-gradient(135deg,var(--secondary) 0%,#0f3460 100%)">
+    <div class="container py-3">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-9">
+                <div class="text-center mb-4">
+                    <a asp-controller="Home" asp-action="Index">
+                        <h2 class="text-white fw-bold"><i class="fas fa-plane me-2" style="color:var(--gold)"></i>SkyWay Airlines</h2>
+                    </a>
+                </div>
+                <div class="card border-0 shadow-lg" style="border-radius:16px">
+                    <div class="card-body p-4 p-md-5">
+                        <h4 class="fw-bold mb-1" style="color:var(--secondary)">@L["SignUp_Title"]</h4>
+                        <p class="text-muted mb-4">@L["SignUp_Subtitle"]</p>
+
+                        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+                        {
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors)) {
+                                    <div>@error.ErrorMessage</div>
+                                }
+                            </div>
+                        }
+
+                        <form asp-action="SignUp" method="post" id="signUpForm" novalidate
+                              data-val-name="@L["Val_Name_TooShort"]"
+                              data-val-surname="@L["Val_Surname_TooShort"]"
+                              data-val-username="@L["Val_Username_Format"]"
+                              data-val-email="@L["Val_Email_Invalid"]"
+                              data-val-phone="@L["Val_Phone_Format"]"
+                              data-val-birthdate="@L["Val_BirthDate_Required"]"
+                              data-val-birthdate-age="@L["Val_BirthDate_MinAge"]"
+                              data-val-password="@L["Val_Password_Register_TooShort"]"
+                              data-val-confirm="@L["Val_ConfirmPassword_Match"]">
+                            @Html.AntiForgeryToken()
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label asp-for="Name" class="form-label fw-semibold text-muted small text-uppercase">@L["Label_Name"]</label>
+                                    <input asp-for="Name" class="form-control" placeholder="@L["Placeholder_Name"]" id="regName" />
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="nameError"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Surname" class="form-label fw-semibold text-muted small text-uppercase">@L["Label_Surname"]</label>
+                                    <input asp-for="Surname" class="form-control" placeholder="@L["Placeholder_Surname"]" id="regSurname" />
+                                    <span asp-validation-for="Surname" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="surnameError"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Username" class="form-label fw-semibold text-muted small text-uppercase">@L["Label_Username"]</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="background:#f8f9fa">@@</span>
+                                        <input asp-for="Username" class="form-control" placeholder="@L["Placeholder_Username"]" id="regUsername" />
+                                    </div>
+                                    <span asp-validation-for="Username" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="usernameError"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Email" class="form-label fw-semibold text-muted small text-uppercase">@L["Label_Email"]</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="background:#f8f9fa"><i class="fas fa-envelope text-muted"></i></span>
+                                        <input asp-for="Email" type="email" class="form-control" placeholder="@L["Placeholder_Email"]" id="regEmail" />
+                                    </div>
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="emailError"></div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold text-muted small text-uppercase">@L["Label_Phone"]</label>
+                                    <div class="input-group">
+                                        <button class="btn btn-outline-secondary dropdown-toggle px-3" type="button" id="countryDropBtn" data-bs-toggle="dropdown" style="min-width:120px;background:#f8f9fa">
+                                            <span id="selectedFlag">🇹🇷</span>
+                                            <span id="selectedCode" class="ms-1">+90</span>
+                                        </button>
+                                        <ul class="dropdown-menu" id="countryList" style="max-height:250px;overflow-y:auto;min-width:280px">
+                                            <li><div class="px-2 py-1"><input type="text" class="form-control form-control-sm" id="countrySearch" placeholder="@L["Placeholder_SearchCountry"]" /></div></li>
+                                        </ul>
+                                        <input type="text" id="phoneNumber" class="form-control" placeholder="5XX XXX XX XX" maxlength="15" />
+                                        <input asp-for="PhoneNumber" type="hidden" id="fullPhoneNumber" />
+                                    </div>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="phoneError"></div>
+                                    <small class="text-muted">@L["Placeholder_PhoneFormat"]</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="BirthDate" class="form-label fw-semibold text-muted small text-uppercase">@L["Label_BirthDate"]</label>
+                                    <input asp-for="BirthDate" type="date" class="form-control" id="regBirthDate"
+                                           max="@DateTime.Today.AddYears(-18).ToString("yyyy-MM-dd")"
+                                           min="1900-01-01" />
+                                    <span asp-validation-for="BirthDate" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="birthDateError"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Nationality" class="form-label fw-semibold text-muted small text-uppercase">@L["Label_Nationality"]</label>
+                                    <input asp-for="Nationality" class="form-control" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="Password" class="form-label fw-semibold text-muted small text-uppercase">@L["Label_Password"]</label>
+                                    <div class="input-group">
+                                        <input asp-for="Password" type="password" class="form-control" id="regPassword" placeholder="@L["Placeholder_Password"]" />
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('regPassword', this)"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                    <div class="progress mt-1" style="height:4px" id="passwordStrengthBar" style="display:none">
+                                        <div class="progress-bar" id="strengthBar" style="width:0%;transition:width .3s"></div>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="passwordError"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="ConfirmPassword" class="form-label fw-semibold text-muted small text-uppercase">@L["Label_ConfirmPassword"]</label>
+                                    <div class="input-group">
+                                        <input asp-for="ConfirmPassword" type="password" class="form-control" id="regConfirmPassword" placeholder="@L["Placeholder_ConfirmPassword"]" />
+                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('regConfirmPassword', this)"><i class="fas fa-eye"></i></button>
+                                    </div>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                                    <div class="invalid-feedback" id="confirmPasswordError"></div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label asp-for="PreferredNotificationChannel" class="form-label fw-semibold text-muted small text-uppercase">@L["Account_Notification"]</label>
+                                    <div class="d-flex gap-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="PreferredNotificationChannel" value="1" id="notifEmail" checked />
+                                            <label class="form-check-label" for="notifEmail"><i class="fas fa-envelope me-1"></i>@L["Notif_Email"]</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="PreferredNotificationChannel" value="2" id="notifSms" />
+                                            <label class="form-check-label" for="notifSms"><i class="fas fa-sms me-1"></i>@L["Notif_Sms"]</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="PreferredNotificationChannel" value="4" id="notifWhatsApp" />
+                                            <label class="form-check-label" for="notifWhatsApp"><i class="fab fa-whatsapp me-1"></i>@L["Notif_WhatsApp"]</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-book w-100 py-3 fw-bold fs-5">
+                                        <i class="fas fa-user-plus me-2"></i>@L["Nav_SignUp"]
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <hr class="my-3" />
+                        <div class="text-center">
+                            <span class="text-muted">@L["Account_HaveAccount"]</span>
+                            <a asp-action="SignIn" class="fw-bold ms-1" style="color:var(--primary)">@L["Nav_SignIn"]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script src="~/js/signup.js" asp-append-version="true"></script>
+}

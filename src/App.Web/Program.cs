@@ -8,11 +8,11 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddLoggingConfiguration();
-builder.Services.AddControllersWithViews();
 builder.Services.AddWebServices(builder.Configuration);
 
-builder.Services.AddLocalization(opts => opts.ResourcesPath = "Resources");
+builder.Services.AddLocalization(opts => opts.ResourcesPath = "");
 builder.Services.AddControllersWithViews()
+    .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase)
     .AddViewLocalization()
     .AddDataAnnotationsLocalization();
 

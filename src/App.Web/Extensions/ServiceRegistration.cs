@@ -1,5 +1,4 @@
 using App.Web.Services;
-using App.Web.Services.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 namespace App.Web.Extensions
@@ -12,13 +11,14 @@ namespace App.Web.Extensions
                 .AddConfiguration(builder.Configuration.GetSection("Logging"))
                 .ClearProviders()
                 .AddConsole()
-                .AddDebug();
+                .AddDebug()
+                .AddSeq(builder.Configuration.GetSection("Seq"));
             return builder;
         }
 
         public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var apiBaseUrl = configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5001/";
+            var apiBaseUrl = configuration["ApiSettings:BaseUrl"] ?? "https://localhost:5000/";
             services.AddHttpClient("ApiClient", client =>
             {
                 client.BaseAddress = new Uri(apiBaseUrl);

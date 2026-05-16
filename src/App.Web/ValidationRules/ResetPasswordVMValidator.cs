@@ -1,4 +1,4 @@
-using App.Web.Resources;
+﻿
 using App.Web.ViewModels.Account;
 using FluentValidation;
 namespace App.Web.ValidationRules

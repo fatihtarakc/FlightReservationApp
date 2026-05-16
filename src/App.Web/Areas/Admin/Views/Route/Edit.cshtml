@@ -1,11 +1,11 @@
-@model AdminRouteFormPageVM
+@model AdminRouteEditPageVM
 
 <div class="row justify-content-center">
     <div class="col-xl-7">
         <div class="admin-card">
-            <div class="admin-card-header"><i class="fas fa-route me-2"></i>@L["Route_Info"]</div>
+            <div class="admin-card-header"><i class="fas fa-edit me-2"></i>@L["Route_Edit"]</div>
             <div class="p-4">
-                <form asp-action="Create" method="post" id="routeForm" data-same-airport-msg="@L["Error_SameAirport"]">
+                <form asp-action="Edit" asp-route-id="@Model.EditId" method="post" id="routeForm" data-same-airport-msg="@L["Error_SameAirport"]">
                     @Html.AntiForgeryToken()
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
@@ -16,9 +16,14 @@
                                 <option value="">— @L["Route_SelectOrigin"] —</option>
                                 @foreach (var a in Model.Airports)
                                 {
-                                    <option value="@a.Id" data-iata="@a.IataCode" data-city="@a.City">
-                                        @a.IataCode · @a.Name (@a.City, @a.Country)
-                                    </option>
+                                    @if (Model.Form.OriginAirportId == a.Id)
+                                    {
+                                        <option value="@a.Id" selected>@a.IataCode · @a.Name (@a.City, @a.Country)</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@a.Id">@a.IataCode · @a.Name (@a.City, @a.Country)</option>
+                                    }
                                 }
                             </select>
                             <span asp-validation-for="Form.OriginAirportId" class="text-danger small"></span>
@@ -30,9 +35,14 @@
                                 <option value="">— @L["Route_SelectDestination"] —</option>
                                 @foreach (var a in Model.Airports)
                                 {
-                                    <option value="@a.Id" data-iata="@a.IataCode" data-city="@a.City">
-                                        @a.IataCode · @a.Name (@a.City, @a.Country)
-                                    </option>
+                                    @if (Model.Form.DestinationAirportId == a.Id)
+                                    {
+                                        <option value="@a.Id" selected>@a.IataCode · @a.Name (@a.City, @a.Country)</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@a.Id">@a.IataCode · @a.Name (@a.City, @a.Country)</option>
+                                    }
                                 }
                             </select>
                             <span asp-validation-for="Form.DestinationAirportId" class="text-danger small"></span>
@@ -58,7 +68,7 @@
                     </div>
 
                     <div class="mt-4 d-flex gap-2">
-                        <button type="submit" class="btn btn-danger px-4"><i class="fas fa-save me-1"></i> @L["Route_Add"]</button>
+                        <button type="submit" class="btn btn-warning px-4"><i class="fas fa-save me-1"></i> @L["Btn_Save"]</button>
                         <a asp-action="Index" class="btn btn-outline-secondary">@L["Btn_Cancel"]</a>
                     </div>
                 </form>

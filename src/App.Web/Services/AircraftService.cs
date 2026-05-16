@@ -18,7 +18,7 @@ namespace App.Web.Services
         {
             try
             {
-                var body = await _http.GetStringAsync("api/aircraft");
+                var body = await _http.GetStringAsync("api/Aircraft");
                 var result = JsonSerializer.Deserialize<ApiResponseVM<List<AircraftVM>>>(body, _opts);
                 return result?.IsSuccess == true && result.Data != null
                     ? new SuccessDataResult<List<AircraftVM>>(result.Data, _localizer[Messages.Data_LoadSuccess])
@@ -36,7 +36,7 @@ namespace App.Web.Services
         {
             try
             {
-                var body = await _http.GetStringAsync($"api/aircraft/{id}");
+                var body = await _http.GetStringAsync($"api/Aircraft/{id}");
                 var result = JsonSerializer.Deserialize<ApiResponseVM<AircraftVM>>(body, _opts);
                 return result?.IsSuccess == true && result.Data != null
                     ? new SuccessDataResult<AircraftVM>(result.Data, _localizer[Messages.Data_LoadSuccess])
@@ -54,7 +54,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, "api/aircraft")
+                var req = new HttpRequestMessage(HttpMethod.Post, "api/Aircraft")
                 { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
@@ -76,7 +76,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Put, $"api/aircraft/{id}")
+                var req = new HttpRequestMessage(HttpMethod.Put, $"api/Aircraft/{id}")
                 { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
@@ -98,7 +98,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Delete, $"api/aircraft/{id}");
+                var req = new HttpRequestMessage(HttpMethod.Delete, $"api/Aircraft/{id}");
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();

@@ -98,16 +98,9 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <pre id="logDetail" class="bg-dark text-light p-3 rounded small" style="max-height:400px;overflow-y:auto"></pre>
+                <pre id="logDetail" class="bg-dark text-light p-3 rounded small log-detail-pre"></pre>
             </div>
         </div>
     </div>
 </div>
 
-@section Scripts {
-<script>
-function showLogDetail(ex) {
-    document.getElementById('logDetail').textContent = ex;
-}
-</script>
-}

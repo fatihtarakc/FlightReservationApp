@@ -1,0 +1,99 @@
+/* =============================================
+   SkyWay Airlines — Admin Area Styles
+   ============================================= */
+
+:root { --admin-primary: #1a1a2e; --admin-accent: #c8102e; --admin-sidebar: #16213e; }
+body { background: #f0f2f5; font-family: 'Segoe UI', sans-serif; }
+
+/* Sidebar */
+.admin-sidebar { width: 260px; min-height: 100vh; background: var(--admin-sidebar); position: fixed; top: 0; left: 0; z-index: 102; overflow-y: auto; transition: transform .25s ease; }
+.admin-sidebar .brand { padding: 20px; border-bottom: 1px solid rgba(255,255,255,.1); }
+.admin-sidebar .brand a { color: #fff; text-decoration: none; font-size: 1.2rem; font-weight: 800; }
+.admin-sidebar .brand span { color: var(--admin-accent); }
+.admin-sidebar .nav-section { padding: 12px 20px 5px; font-size: .68rem; font-weight: 700; text-transform: uppercase; color: rgba(255,255,255,.35); letter-spacing: 1.5px; }
+.admin-sidebar .nav-link { color: rgba(255,255,255,.7); padding: 10px 20px; display: flex; align-items: center; gap: 10px; transition: all .2s; font-size: .875rem; border-left: 3px solid transparent; }
+.admin-sidebar .nav-link:hover, .admin-sidebar .nav-link.active { color: #fff; background: rgba(255,255,255,.08); border-left-color: var(--admin-accent); }
+.admin-sidebar .nav-link i { width: 18px; text-align: center; font-size: .85rem; }
+
+/* Content area */
+.admin-content { margin-left: 260px; min-height: 100vh; }
+.admin-topbar { background: #fff; padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 4px rgba(0,0,0,.1); position: sticky; top: 0; z-index: 101; }
+.admin-body { padding: 24px; }
+
+/* Cards */
+.admin-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 24px; }
+.admin-card-header { background: var(--admin-primary); color: #fff; padding: 14px 20px; font-weight: 700; font-size: .9rem; border-radius: 12px 12px 0 0; }
+
+/* Stat cards */
+.admin-stat-card { background: #fff; border-radius: 10px; padding: 18px 20px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.stat-icon { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+.stat-label { font-size: .78rem; text-transform: uppercase; letter-spacing: .5px; color: #6c757d; font-weight: 600; }
+.stat-value { font-size: 1.8rem; font-weight: 800; color: #1a1a2e; line-height: 1.2; }
+
+/* Table */
+.table { margin-bottom: 0; }
+.table thead th { font-size: .8rem; text-transform: uppercase; letter-spacing: .5px; font-weight: 700; padding: 12px 16px; }
+.table tbody td { padding: 12px 16px; vertical-align: middle; border-color: #f0f2f5; }
+
+/* Status badges */
+.status-badge { padding: 4px 12px; border-radius: 20px; font-size: .78rem; font-weight: 700; text-transform: uppercase; display: inline-block; }
+.status-scheduled { background: #e3f2fd; color: #1565c0; }
+.status-boarding { background: #e8f5e9; color: #2e7d32; }
+.status-departed { background: #fff3e0; color: #e65100; }
+.status-delayed { background: #fff8e1; color: #f57f17; }
+.status-cancelled { background: #ffebee; color: #c62828; }
+.status-arrived { background: #e8f5e9; color: #1b5e20; }
+
+/* Language row */
+.admin-sidebar .lang-row { padding: 8px 20px; display: flex; gap: 8px; }
+.admin-sidebar .lang-row a { color: rgba(255,255,255,.6); text-decoration: none; font-size: .75rem; font-weight: 700; border: 1px solid rgba(255,255,255,.2); padding: 2px 8px; border-radius: 3px; }
+.admin-sidebar .lang-row a:hover, .admin-sidebar .lang-row a.active-lang { color: #d4a017; border-color: #d4a017; }
+.sidebar-divider { border-top: 1px solid rgba(255,255,255,.08); margin: 4px 0; }
+
+/* Sidebar overlay */
+.admin-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 101; }
+.admin-overlay.show { display: block; }
+
+/* Hamburger button */
+.btn-sidebar-toggle { display: none; background: transparent; border: 1px solid #dee2e6; border-radius: 6px; width: 36px; height: 36px; align-items: center; justify-content: center; cursor: pointer; color: #495057; flex-shrink: 0; }
+.btn-sidebar-toggle:hover { background: #f0f2f5; }
+
+/* Stat card border utilities */
+.stat-card-border-primary { border-left: 4px solid var(--admin-primary); }
+.stat-card-border-accent { border-left: 4px solid var(--admin-accent); }
+.stat-card-border-success { border-left: 4px solid #28a745; }
+.stat-card-border-warning { border-left: 4px solid #ffc107; }
+.stat-card-border-info { border-left: 4px solid #17a2b8; }
+.stat-card-border-danger { border-left: 4px solid #dc3545; }
+.stat-card-border-blue { border-left: 4px solid #1565c0; }
+.stat-card-border-green { border-left: 4px solid #2e7d32; }
+.stat-card-border-whatsapp { border-left: 4px solid #25d366; }
+
+/* Stat icon utilities */
+.stat-icon-primary { background: rgba(200,16,46,.1); color: var(--admin-primary) !important; }
+.stat-icon-success { background: rgba(40,167,69,.1); color: #28a745 !important; }
+.stat-icon-warning { background: rgba(255,193,7,.1); color: #ffc107 !important; }
+.stat-icon-info { background: rgba(23,162,184,.1); color: #17a2b8 !important; }
+.stat-icon-blue { background: rgba(21,101,192,.1); color: #1565c0 !important; }
+.stat-icon-green { background: rgba(46,125,50,.1); color: #2e7d32 !important; }
+.stat-icon-whatsapp { background: rgba(37,211,102,.1); color: #25d366 !important; }
+
+/* Log detail */
+.log-detail-pre { max-height: 400px; overflow-y: auto; }
+
+/* Responsive */
+@media (max-width: 991.98px) {
+    .admin-sidebar { transform: translateX(-260px); }
+    .admin-sidebar.sidebar-open { transform: translateX(0); z-index: 103; }
+    .admin-content { margin-left: 0; }
+    .admin-topbar { padding: 0 16px; }
+    .admin-body { padding: 16px; }
+    .btn-sidebar-toggle { display: inline-flex; }
+    .admin-card > *:not(.admin-card-header) { overflow-x: auto; }
+    .admin-stat-card { padding: 14px 16px; }
+    .stat-value { font-size: 1.4rem; }
+}
+@media (max-width: 575.98px) {
+    .admin-body { padding: 12px; }
+    .admin-topbar { height: 52px; }
+}

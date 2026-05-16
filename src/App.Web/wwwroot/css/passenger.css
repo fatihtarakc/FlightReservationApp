@@ -1,0 +1,81 @@
+/* =============================================
+   SkyWay Airlines — Passenger Area Styles
+   ============================================= */
+
+:root { --pax-primary: #c8102e; --pax-dark: #1a1a2e; --pax-gold: #d4a017; }
+body { background: #f0f2f5; font-family: 'Segoe UI', sans-serif; }
+
+/* Topbar */
+.pax-topbar { background: var(--pax-dark); color: #fff; height: 56px; display: flex; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+.pax-topbar .brand { font-weight: 800; font-size: 1.15rem; color: #fff; text-decoration: none; }
+.pax-topbar .brand span { color: var(--pax-primary); }
+.pax-topbar .topbar-link { color: rgba(255,255,255,.7); text-decoration: none; font-size: .82rem; display: flex; align-items: center; gap: 5px; transition: color .15s; }
+.pax-topbar .topbar-link:hover { color: #fff; }
+.pax-topbar .lang-btn { color: rgba(255,255,255,.55); text-decoration: none; font-size: .72rem; font-weight: 700; border: 1px solid rgba(255,255,255,.25); padding: 2px 7px; border-radius: 3px; transition: all .15s; }
+.pax-topbar .lang-btn:hover, .pax-topbar .lang-btn.active-lang { color: var(--pax-gold); border-color: var(--pax-gold); }
+
+/* Layout */
+.pax-wrapper { display: flex; gap: 24px; align-items: flex-start; padding: 24px; max-width: 1280px; margin: 0 auto; }
+
+/* Sidebar */
+.pax-sidebar { width: 240px; flex-shrink: 0; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.06); overflow: hidden; position: sticky; top: 80px; transition: transform .25s ease; }
+.pax-sidebar .user-card { background: var(--pax-dark); padding: 18px 20px; }
+.pax-sidebar .user-card .user-avatar { width: 44px; height: 44px; border-radius: 50%; background: rgba(200,16,46,.25); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--pax-primary); border: 2px solid rgba(200,16,46,.4); }
+.pax-sidebar .user-card .user-name { font-weight: 700; color: #fff; font-size: .9rem; }
+.pax-sidebar .user-card .user-role { font-size: .72rem; color: rgba(255,255,255,.5); }
+.pax-sidebar .nav-section { padding: 6px 16px 3px; font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #adb5bd; }
+.pax-sidebar .nav-link { color: #495057; padding: 9px 18px; display: flex; align-items: center; gap: 10px; font-size: .865rem; border-left: 3px solid transparent; transition: all .15s; }
+.pax-sidebar .nav-link:hover, .pax-sidebar .nav-link.active { color: var(--pax-primary); border-left-color: var(--pax-primary); background: rgba(200,16,46,.04); }
+.pax-sidebar .nav-link i { width: 16px; text-align: center; color: var(--pax-primary); font-size: .85rem; }
+.pax-sidebar .sidebar-divider { border-top: 1px solid #f0f2f5; margin: 4px 0; }
+.pax-sidebar .lang-row { display: flex; gap: 6px; padding: 8px 18px; }
+.pax-sidebar .lang-row a { color: #6c757d; text-decoration: none; font-size: .72rem; font-weight: 700; border: 1px solid #dee2e6; padding: 2px 7px; border-radius: 3px; transition: all .15s; }
+.pax-sidebar .lang-row a:hover, .pax-sidebar .lang-row a.active-lang { color: var(--pax-primary); border-color: var(--pax-primary); }
+
+/* Content */
+.pax-content { flex: 1; min-width: 0; }
+.pax-page-header { margin-bottom: 20px; }
+.pax-page-header h5 { font-weight: 800; color: var(--pax-dark); margin: 0; }
+.pax-page-header .breadcrumb { margin: 0; font-size: .8rem; }
+
+/* Cards */
+.pax-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 20px; overflow: hidden; }
+.pax-card-header { background: var(--pax-dark); color: #fff; padding: 14px 20px; font-weight: 700; font-size: .9rem; }
+
+/* Status badges */
+.status-badge { padding: 4px 12px; border-radius: 20px; font-size: .76rem; font-weight: 700; text-transform: uppercase; display: inline-block; }
+.status-scheduled { background: #e3f2fd; color: #1565c0; }
+.status-boarding  { background: #e8f5e9; color: #2e7d32; }
+.status-departed  { background: #fff3e0; color: #e65100; }
+.status-delayed   { background: #fff8e1; color: #f57f17; }
+.status-cancelled { background: #ffebee; color: #c62828; }
+.status-arrived   { background: #e8f5e9; color: #1b5e20; }
+
+/* Sidebar overlay */
+.pax-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 99; }
+.pax-overlay.show { display: block; }
+
+/* Hamburger */
+.btn-pax-toggle { display: none; background: transparent; border: 1px solid rgba(255,255,255,.3); border-radius: 6px; width: 34px; height: 34px; align-items: center; justify-content: center; cursor: pointer; color: rgba(255,255,255,.85); flex-shrink: 0; }
+.btn-pax-toggle:hover { background: rgba(255,255,255,.1); }
+
+/* Responsive */
+@media (max-width: 991.98px) {
+    .pax-sidebar {
+        position: fixed;
+        top: 56px;
+        left: 0;
+        height: calc(100vh - 56px);
+        border-radius: 0;
+        overflow-y: auto;
+        z-index: 100;
+        transform: translateX(-260px);
+        width: 260px;
+    }
+    .pax-sidebar.sidebar-open { transform: translateX(0); }
+    .pax-wrapper { padding: 16px; }
+    .btn-pax-toggle { display: inline-flex; }
+}
+@media (max-width: 575.98px) {
+    .pax-wrapper { padding: 12px; }
+}

@@ -16,18 +16,18 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(string? returnUrl = null) => View(new LoginVM { ReturnUrl = returnUrl });
+        public IActionResult SignIn(string? returnUrl = null) => View(new LoginVM { ReturnUrl = returnUrl });
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginVM model)
+        public async Task<IActionResult> SignIn(LoginVM model)
         {
             if (!ModelState.IsValid) return View(model);
 
             var result = await _accountService.LoginAsync(model);
             if (!result.IsSuccess)
             {
-                ModelState.AddModelError("", result.Message ?? "Giriş başarısız.");
+                ModelState.AddModelError("", result.Message ?? "");
                 return View(model);
             }
 
@@ -55,23 +55,23 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register() => View(new RegisterVM());
+        public IActionResult SignUp() => View(new RegisterVM());
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterVM model)
+        public async Task<IActionResult> SignUp(RegisterVM model)
         {
             if (!ModelState.IsValid) return View(model);
 
             var result = await _accountService.RegisterAsync(model);
             if (!result.IsSuccess)
             {
-                ModelState.AddModelError("", result.Message ?? "Kayıt başarısız.");
+                ModelState.AddModelError("", result.Message ?? "");
                 return View(model);
             }
 
             NotifySuccessLocalized(result.Message);
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction(nameof(SignIn));
         }
 
         [HttpGet]
@@ -110,7 +110,7 @@ namespace App.Web.Controllers
                 return View(model);
             }
             NotifySuccessLocalized(result.Message);
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction(nameof(SignIn));
         }
 
         [HttpPost]
@@ -121,7 +121,7 @@ namespace App.Web.Controllers
             if (!string.IsNullOrEmpty(token))
                 await _accountService.LogoutAsync(token);
             TokenHelper.ClearSession(_httpContextAccessor);
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction(nameof(SignIn));
         }
 
         [HttpGet]

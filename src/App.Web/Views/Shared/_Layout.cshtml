@@ -1,76 +1,40 @@
-﻿<!DOCTYPE html>
+@{
+    var pubCtrl = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var pubAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    var computedTitle = (pubCtrl, pubAction) switch {
+        ("Home", "About") => L["Nav_About"].Value,
+        ("Home", _) => L["Home_Tagline"].Value,
+        ("Flight", _) => L["Nav_Flights"].Value,
+        ("Account", "SignIn") => L["Account_SignIn"].Value,
+        ("Account", "SignUp") => L["Account_SignUp"].Value,
+        ("Account", "ForgotPassword") => L["ForgotPassword_Title"].Value,
+        ("Account", "ResetPassword") => L["Account_ResetPassword"].Value,
+        ("Account", "AccessDenied") => L["AccessDenied_Title"].Value,
+        _ => "SkyWay Airlines"
+    };
+    var pageTitle = ViewData["Title"] is string vdt && !string.IsNullOrEmpty(vdt) ? vdt : computedTitle;
+}
+<!DOCTYPE html>
 <html lang="@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SkyWay Airlines</title>
+    <title>@pageTitle - SkyWay Airlines</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <style>
-        :root { --primary: #c8102e; --secondary: #1a1a2e; --gold: #d4a017; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
-        .navbar-skyway { background: var(--secondary) !important; padding: 0; }
-        .navbar-skyway .navbar-brand { color: #fff !important; font-size: 1.6rem; font-weight: 800; letter-spacing: 1px; padding: 12px 0; }
-        .navbar-skyway .navbar-brand span { color: var(--primary); }
-        .navbar-skyway .nav-link { color: rgba(255,255,255,.85) !important; font-size: .88rem; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; padding: 20px 16px !important; transition: color .2s; }
-        .navbar-skyway .nav-link:hover, .navbar-skyway .nav-link.active { color: var(--gold) !important; }
-        .navbar-top-bar { background: var(--primary); padding: 6px 0; font-size: .78rem; color: #fff; }
-        .navbar-top-bar a { color: #fff; text-decoration: none; margin: 0 12px; }
-        .navbar-top-bar a:hover { color: var(--gold); }
-        .btn-book { background: var(--primary); color: #fff; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; padding: 8px 20px; border-radius: 4px; }
-        .btn-book:hover { background: #a00d26; color: #fff; }
-        .hero-section { background: linear-gradient(135deg, var(--secondary) 0%, #16213e 50%, #0f3460 100%); color: #fff; padding: 100px 0 80px; position: relative; overflow: hidden; }
-        .hero-section::before { content: ''; position: absolute; top: -50%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(200,16,46,.15) 0%, transparent 70%); }
-        .search-box { background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
-        .search-box .form-label { font-weight: 600; color: var(--secondary); font-size: .85rem; text-transform: uppercase; letter-spacing: .5px; }
-        .search-box .form-control, .search-box .form-select { border: 2px solid #e9ecef; border-radius: 8px; padding: 10px 14px; }
-        .search-box .form-control:focus, .search-box .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 .2rem rgba(200,16,46,.15); }
-        .btn-search { background: var(--primary); color: #fff; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 12px 36px; border-radius: 8px; font-size: 1rem; width: 100%; }
-        .btn-search:hover { background: #a00d26; color: #fff; }
-        .flight-card { background: #fff; border-radius: 10px; border: 1px solid #e9ecef; padding: 20px; margin-bottom: 16px; transition: all .3s; }
-        .flight-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,.1); transform: translateY(-2px); }
-        .flight-number { font-weight: 800; color: var(--primary); font-size: 1.1rem; }
-        .price-badge { background: var(--primary); color: #fff; padding: 6px 14px; border-radius: 20px; font-weight: 700; }
-        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: .78rem; font-weight: 700; text-transform: uppercase; }
-        .status-scheduled { background: #e3f2fd; color: #1565c0; }
-        .status-boarding { background: #e8f5e9; color: #2e7d32; }
-        .status-departed { background: #fff3e0; color: #e65100; }
-        .status-delayed { background: #fff8e1; color: #f57f17; }
-        .status-cancelled { background: #ffebee; color: #c62828; }
-        .status-arrived { background: #e8f5e9; color: #1b5e20; }
-        .footer-skyway { background: var(--secondary); color: rgba(255,255,255,.7); padding: 50px 0 20px; margin-top: 60px; }
-        .footer-skyway h6 { color: #fff; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
-        .footer-skyway a { color: rgba(255,255,255,.6); text-decoration: none; display: block; margin-bottom: 8px; font-size: .85rem; }
-        .footer-skyway a:hover { color: var(--gold); }
-        .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 20px; margin-top: 30px; font-size: .82rem; }
-        .lang-switcher a { color: rgba(255,255,255,.7); text-decoration: none; margin-left: 8px; font-size: .8rem; font-weight: 600; }
-        .lang-switcher a:hover, .lang-switcher a.active { color: var(--gold); }
-        .navbar-lang { display: flex; align-items: center; gap: 4px; }
-        .navbar-lang .lang-btn { background: transparent; border: 1px solid rgba(255,255,255,.3); color: rgba(255,255,255,.8); font-size: .75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer; text-decoration: none; transition: all .2s; }
-        .navbar-lang .lang-btn:hover, .navbar-lang .lang-btn.active-lang { border-color: var(--gold); color: var(--gold); background: rgba(212,160,23,.1); }
-        .alert-floating { position: fixed; top: 80px; right: 20px; z-index: 9999; min-width: 300px; animation: slideIn .3s ease; }
-        @@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        .seat-map { display: grid; gap: 4px; }
-        .seat-btn { width: 36px; height: 36px; border-radius: 6px; border: 2px solid; font-size: .7rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s; }
-        .seat-available { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; }
-        .seat-occupied { background: #ffebee; border-color: #ef9a9a; color: #b71c1c; cursor: not-allowed; }
-        .seat-selected { background: var(--primary); border-color: var(--primary); color: #fff; }
-        .seat-business { background: #e3f2fd; border-color: #1565c0; color: #1565c0; }
-        .seat-first { background: #fff8e1; border-color: #f57f17; color: #e65100; }
-    </style>
 </head>
 <body>
     <div class="navbar-top-bar">
         <div class="container d-flex justify-content-between align-items-center">
-            <div>
-                <a href="tel:+908501234567"><i class="fas fa-phone me-1"></i> +90 850 123 45 67</a>
-                <a href="mailto:info@skyway.com"><i class="fas fa-envelope me-1"></i> info@skyway.com</a>
+            <div class="d-none d-md-block">
+                <a href="@L["Footer_PhoneLink"]"><i class="fas fa-phone me-1"></i> @L["Footer_Phone"]</a>
+                <a href="mailto:@L["Footer_Email"]"><i class="fas fa-envelope me-1"></i> @L["Footer_Email"]</a>
             </div>
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center ms-auto ms-md-0">
                 @if (!string.IsNullOrEmpty(Context.Session.GetString("JwtToken")))
                 {
-                    <span class="me-3"><i class="fas fa-user-circle me-1"></i> @Context.Session.GetString("UserName")</span>
+                    <span class="me-3 d-none d-sm-inline"><i class="fas fa-user-circle me-1"></i> @Context.Session.GetString("UserName")</span>
                     @if (Context.Session.GetString("UserRole") == "Admin")
                     {
                         <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="me-2">@L["Nav_AdminPanel"]</a>
@@ -86,8 +50,8 @@
                 }
                 else
                 {
-                    <a asp-controller="Account" asp-action="Login" asp-area="" class="me-2">@L["Nav_Login"]</a>
-                    <a asp-controller="Account" asp-action="Register" asp-area="" class="btn btn-sm" style="background:var(--gold);color:#000;font-weight:700;">@L["Nav_Register"]</a>
+                    <a asp-controller="Account" asp-action="SignIn" asp-area="" class="me-2">@L["Nav_SignIn"]</a>
+                    <a asp-controller="Account" asp-action="SignUp" asp-area="" class="btn btn-sm" style="background:var(--gold);color:#000;font-weight:700;">@L["Nav_SignUp"]</a>
                 }
             </div>
         </div>
@@ -139,8 +103,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4">
-                    <h5 class="text-white mb-3"><i class="fas fa-plane me-2" style="color:var(--primary)"></i>SkyWay Airlines</h5>
-                    <p style="font-size:.85rem">Türkiye'nin güvenilir havayolu. Konfor, güvenlik ve uygun fiyatla uçuşun keyfini çıkarın.</p>
+                    <h5 class="text-white mb-3"><i class="fas fa-plane me-2 text-primary-color"></i>SkyWay Airlines</h5>
+                    <p class="footer-contact-item">@L["Footer_Description"]</p>
                     <div class="mt-3">
                         <a href="#" class="btn btn-sm me-1" style="background:rgba(255,255,255,.1);color:#fff"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="btn btn-sm me-1" style="background:rgba(255,255,255,.1);color:#fff"><i class="fab fa-twitter"></i></a>
@@ -154,24 +118,24 @@
                     <a asp-area="" asp-controller="Home" asp-action="About">@L["Nav_About"]</a>
                 </div>
                 <div class="col-lg-3 col-md-4 mb-4">
-                    <h6>Hizmetler</h6>
-                    <a href="#">Online Check-in</a>
-                    <a href="#">Bagaj Bilgisi</a>
-                    <a href="#">Yolcu Rehberi</a>
-                    <a href="#">Sık Sorulan Sorular</a>
+                    <h6>@L["Footer_Services"]</h6>
+                    <a href="#">@L["Footer_CheckIn"]</a>
+                    <a href="#">@L["Footer_Baggage"]</a>
+                    <a href="#">@L["Footer_PassengerGuide"]</a>
+                    <a href="#">@L["Footer_FAQ"]</a>
                 </div>
                 <div class="col-lg-3 col-md-4 mb-4">
-                    <h6>İletişim</h6>
-                    <p style="font-size:.85rem"><i class="fas fa-map-marker-alt me-2" style="color:var(--primary)"></i>İstanbul, Türkiye</p>
-                    <p style="font-size:.85rem"><i class="fas fa-phone me-2" style="color:var(--primary)"></i>+90 850 123 45 67</p>
-                    <p style="font-size:.85rem"><i class="fas fa-envelope me-2" style="color:var(--primary)"></i>info@skyway.com</p>
+                    <h6>@L["Footer_Contact"]</h6>
+                    <p class="footer-contact-item"><i class="fas fa-map-marker-alt me-2 text-primary-color"></i>@L["Footer_Location"]</p>
+                    <p class="footer-contact-item"><i class="fas fa-phone me-2 text-primary-color"></i>@L["Footer_Phone"]</p>
+                    <p class="footer-contact-item"><i class="fas fa-envelope me-2 text-primary-color"></i>@L["Footer_Email"]</p>
                 </div>
             </div>
             <div class="footer-bottom d-flex justify-content-between">
-                <span>&copy; 2026 SkyWay Airlines. Tüm hakları saklıdır.</span>
+                <span>&copy; 2026 SkyWay Airlines. @L["Footer_Copyright"]</span>
                 <span>
-                    <a href="#" class="me-3">Gizlilik Politikası</a>
-                    <a href="#">Kullanım Koşulları</a>
+                    <a href="#" class="me-3">@L["Footer_Privacy"]</a>
+                    <a href="#">@L["Footer_Terms"]</a>
                 </span>
             </div>
         </div>

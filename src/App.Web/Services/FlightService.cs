@@ -18,7 +18,7 @@ namespace App.Web.Services
         {
             try
             {
-                var response = await _http.GetAsync("api/flights");
+                var response = await _http.GetAsync("api/Flight");
                 var body = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<ApiResponseVM<List<FlightVM>>>(body, _opts);
                 return result?.IsSuccess == true && result.Data != null
@@ -37,7 +37,7 @@ namespace App.Web.Services
         {
             try
             {
-                var response = await _http.GetAsync($"api/flights/{id}");
+                var response = await _http.GetAsync($"api/Flight/{id}");
                 var body = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<ApiResponseVM<FlightVM>>(body, _opts);
                 return result?.IsSuccess == true && result.Data != null
@@ -56,7 +56,7 @@ namespace App.Web.Services
         {
             try
             {
-                var url = $"api/flights/search?origin={model.DepartureIata}&destination={model.ArrivalIata}&date={model.DepartureDate:yyyy-MM-dd}&passengers={model.Passengers}&class={(int)model.SeatClass}";
+                var url = $"api/Flight/search?DepartureIata={model.DepartureIata}&ArrivalIata={model.ArrivalIata}&DepartureDate={model.DepartureDate:yyyy-MM-dd}&Passengers={model.Passengers}&SeatClass={(int)model.SeatClass}";
                 var response = await _http.GetAsync(url);
                 var body = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<ApiResponseVM<List<FlightVM>>>(body, _opts);
@@ -76,8 +76,8 @@ namespace App.Web.Services
         {
             try
             {
-                var flightTask = _http.GetAsync($"api/flights/{id}");
-                var seatsTask = _http.GetAsync($"api/seats/flight/{id}");
+                var flightTask = _http.GetAsync($"api/Flight/{id}");
+                var seatsTask = _http.GetAsync($"api/Seat/flight/{id}");
                 await Task.WhenAll(flightTask, seatsTask);
 
                 var flightBody = await (await flightTask).Content.ReadAsStringAsync();
@@ -107,7 +107,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, "api/flights")
+                var req = new HttpRequestMessage(HttpMethod.Post, "api/Flight")
                 {
                     Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json")
                 };
@@ -131,7 +131,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Put, $"api/flights/{id}")
+                var req = new HttpRequestMessage(HttpMethod.Put, $"api/Flight/{id}")
                 {
                     Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json")
                 };
@@ -155,7 +155,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, $"api/flights/{id}/cancel");
+                var req = new HttpRequestMessage(HttpMethod.Post, $"api/Flight/{id}/cancel");
                 if (!string.IsNullOrEmpty(reason))
                     req.Content = new StringContent(JsonSerializer.Serialize(new { reason }), Encoding.UTF8, "application/json");
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -178,7 +178,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Delete, $"api/flights/{id}");
+                var req = new HttpRequestMessage(HttpMethod.Delete, $"api/Flight/{id}");
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();

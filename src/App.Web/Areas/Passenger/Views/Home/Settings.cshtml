@@ -1,17 +1,14 @@
-﻿@model PassengerSettingsPageVM
-@{
-    ViewData["Title"] = "Hesap Ayarları";
-}
+@model PassengerSettingsPageVM
 
 <ul class="nav nav-tabs mb-4" id="settingsTabs">
     <li class="nav-item">
         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profileTab">
-            <i class="fas fa-user me-1"></i> Profil Bilgileri
+            <i class="fas fa-user me-1"></i> @L["Account_ProfileInfo"]
         </button>
     </li>
     <li class="nav-item">
         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#passwordTab">
-            <i class="fas fa-lock me-1"></i> Şifre Değiştir
+            <i class="fas fa-lock me-1"></i> @L["Account_ChangePassword"]
         </button>
     </li>
     <li class="nav-item">
@@ -24,7 +21,7 @@
 <div class="tab-content">
     <div class="tab-pane fade show active" id="profileTab">
         <div class="pax-card">
-            <div class="pax-card-header"><i class="fas fa-user me-2"></i>@L["Account_Name"] / @L["Account_Surname"]</div>
+            <div class="pax-card-header"><i class="fas fa-user me-2"></i>@L["Account_ProfileInfo"]</div>
             <div class="p-4">
                 <div class="row mb-4">
                     <div class="col-md-6">
@@ -65,7 +62,6 @@
                                 <input asp-for="UpdateForm.PhoneNumber" class="form-control" placeholder="+90XXXXXXXXXX" />
                             </div>
                             <span asp-validation-for="UpdateForm.PhoneNumber" class="text-danger small"></span>
-                            <small class="text-muted">Format: +90XXXXXXXXXX</small>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-danger mt-3">
@@ -78,13 +74,13 @@
 
     <div class="tab-pane fade" id="passwordTab">
         <div class="pax-card">
-            <div class="pax-card-header"><i class="fas fa-lock me-2"></i>Şifre Değiştir</div>
+            <div class="pax-card-header"><i class="fas fa-lock me-2"></i>@L["Account_ChangePassword"]</div>
             <div class="p-4">
                 <form asp-area="Passenger" asp-controller="Home" asp-action="ChangePassword" method="post">
                     @Html.AntiForgeryToken()
                     <div class="row g-3" style="max-width:480px">
                         <div class="col-12">
-                            <label class="form-label fw-semibold">Mevcut Şifre</label>
+                            <label class="form-label fw-semibold">@L["Account_CurrentPassword"]</label>
                             <input asp-for="PasswordForm.CurrentPassword" type="password" class="form-control" />
                         </div>
                         <div class="col-12">
@@ -100,7 +96,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-danger mt-3">
-                        <i class="fas fa-key me-1"></i> Şifreyi Güncelle
+                        <i class="fas fa-key me-1"></i> @L["Account_UpdatePassword"]
                     </button>
                 </form>
             </div>
@@ -113,7 +109,7 @@
             <div class="p-4">
                 <form asp-area="Passenger" asp-controller="Home" asp-action="UpdateNotification" method="post">
                     @Html.AntiForgeryToken()
-                    <p class="text-muted mb-3">Uçuş hatırlatmaları ve rezervasyon bildirimlerini hangi kanallardan almak istediğinizi seçin.</p>
+                    <p class="text-muted mb-3">@L["Account_NotifDescription"]</p>
                     <div class="row g-3">
                         @foreach (var ch in new[] { NotificationChannel.Email, NotificationChannel.Sms, NotificationChannel.WhatsApp })
                         {
@@ -151,18 +147,3 @@
     </div>
 </div>
 
-@section Scripts {
-<script>
-document.querySelector('[name="PasswordForm.NewPassword"]')?.addEventListener('input', function() {
-    const pw = this.value;
-    let strength = 0;
-    if (pw.length >= 8) strength += 25;
-    if (/[A-Z]/.test(pw)) strength += 25;
-    if (/[0-9]/.test(pw)) strength += 25;
-    if (/[^A-Za-z0-9]/.test(pw)) strength += 25;
-    const bar = document.getElementById('pwStrength');
-    bar.style.width = strength + '%';
-    bar.className = 'progress-bar ' + (strength <= 25 ? 'bg-danger' : strength <= 50 ? 'bg-warning' : strength <= 75 ? 'bg-info' : 'bg-success');
-});
-</script>
-}

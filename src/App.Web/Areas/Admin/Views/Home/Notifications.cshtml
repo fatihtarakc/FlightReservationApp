@@ -1,8 +1,4 @@
 @model AdminNotificationListPageVM
-@{
-    ViewData["Title"] = "Bildirim Takibi";
-    ViewData["PageTitle"] = "Bildirim Takibi";
-}
 
 <div class="admin-card">
     <div class="admin-card-header d-flex justify-content-between align-items-center">
@@ -12,11 +8,12 @@
     <div class="p-3 border-bottom bg-light">
         <form method="get" class="row g-2">
             <div class="col-md-3">
-                <input type="text" name="search" value="@Model.Search" class="form-control form-control-sm" placeholder="Alıcı, konu ara..." />
+                <input type="text" name="search" value="@Model.Search" class="form-control form-control-sm"
+                       placeholder="@L["Placeholder_SearchNotif"]" />
             </div>
             <div class="col-md-2">
                 <select name="channel" class="form-select form-select-sm">
-                    <option value="">@L["Label_All"] Kanal</option>
+                    <option value="">@L["Notif_AllChannels"]</option>
                     @if (Model.Channel == "Email")
                     {
                         <option value="Email" selected>@L["Notif_Email"]</option>
@@ -45,7 +42,7 @@
             </div>
             <div class="col-md-2">
                 <select name="success" class="form-select form-select-sm">
-                    <option value="">Tüm Durumlar</option>
+                    <option value="">@L["Notif_AllStatuses"]</option>
                     <option value="true">@L["Notif_Success"]</option>
                     <option value="false">@L["Notif_Failed"]</option>
                 </select>
@@ -69,7 +66,7 @@
                     <th>@L["Notif_Subject"]</th>
                     <th>@L["Notif_SentAt"]</th>
                     <th>@L["Label_Status"]</th>
-                    <th>Hata</th>
+                    <th>@L["Notif_Error"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -120,7 +117,7 @@
                 else
                 {
                     <tr><td colspan="6" class="text-center text-muted py-4">
-                        <i class="fas fa-bell-slash fa-2x mb-2 d-block"></i>Bildirim kaydı bulunamadı
+                        <i class="fas fa-bell-slash fa-2x mb-2 d-block"></i>@L["Notif_NotFound"]
                     </td></tr>
                 }
             </tbody>
@@ -133,7 +130,7 @@
         <div class="admin-stat-card" style="border-left:4px solid #1565c0">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <div class="stat-label">E-posta Gönderildi</div>
+                    <div class="stat-label">@L["Notif_EmailSent"]</div>
                     <div class="stat-value">@Model.EmailCount</div>
                 </div>
                 <div class="stat-icon" style="background:rgba(21,101,192,.1);color:#1565c0"><i class="fas fa-envelope"></i></div>
@@ -144,7 +141,7 @@
         <div class="admin-stat-card" style="border-left:4px solid #2e7d32">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <div class="stat-label">SMS Gönderildi</div>
+                    <div class="stat-label">@L["Notif_SmsSent"]</div>
                     <div class="stat-value">@Model.SmsCount</div>
                 </div>
                 <div class="stat-icon" style="background:rgba(46,125,50,.1);color:#2e7d32"><i class="fas fa-sms"></i></div>
@@ -155,7 +152,7 @@
         <div class="admin-stat-card" style="border-left:4px solid #25d366">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <div class="stat-label">WhatsApp Gönderildi</div>
+                    <div class="stat-label">@L["Notif_WhatsAppSent"]</div>
                     <div class="stat-value">@Model.WhatsAppCount</div>
                 </div>
                 <div class="stat-icon" style="background:rgba(37,211,102,.1);color:#25d366"><i class="fab fa-whatsapp"></i></div>

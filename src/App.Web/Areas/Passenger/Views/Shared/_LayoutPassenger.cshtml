@@ -1,98 +1,135 @@
-﻿<!DOCTYPE html>
+@{
+    var paxCtrl = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var paxAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    var paxTitle = (paxCtrl, paxAction) switch {
+        ("Home", "Settings") => L["Nav_AccountSettings"].Value,
+        ("Home", _) => L["Passenger_Dashboard"].Value,
+        ("Booking", "MyBookings") => L["Booking_My"].Value,
+        ("Booking", "Detail") => L["Booking_Detail"].Value,
+        ("Booking", "Create") => L["Booking_Confirm"].Value,
+        _ => "SkyWay"
+    };
+    var paxLang = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
+<!DOCTYPE html>
 <html lang="@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SkyWay Hesabım</title>
+    <title>@paxTitle - SkyWay</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>
-        :root { --primary: #c8102e; --secondary: #1a1a2e; --gold: #d4a017; }
-        body { background: #f0f2f5; font-family: 'Segoe UI', sans-serif; }
-        .pax-topbar { background: var(--secondary); color: #fff; padding: 12px 0; }
-        .pax-topbar .brand { font-weight: 800; font-size: 1.2rem; }
-        .pax-topbar .brand span { color: var(--primary); }
-        .pax-sidebar { width: 250px; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.06); padding: 20px 0; }
-        .pax-sidebar .user-card { padding: 16px 20px; border-bottom: 1px solid #f0f2f5; }
-        .pax-sidebar .nav-link { color: #495057; padding: 10px 20px; display: flex; align-items: center; gap: 10px; font-size: .9rem; border-left: 3px solid transparent; transition: all .2s; }
-        .pax-sidebar .nav-link:hover, .pax-sidebar .nav-link.active { color: var(--primary); border-left-color: var(--primary); background: rgba(200,16,46,.04); }
-        .pax-sidebar .nav-link i { width: 16px; text-align: center; color: var(--primary); }
-        .pax-content { flex: 1; }
-        .pax-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 20px; overflow: hidden; }
-        .pax-card-header { background: var(--secondary); color: #fff; padding: 14px 20px; font-weight: 700; font-size: .9rem; }
-        .lang-row { display: flex; gap: 8px; padding: 10px 20px; }
-        .lang-row a { color: #6c757d; text-decoration: none; font-size: .75rem; font-weight: 700; border: 1px solid #dee2e6; padding: 2px 8px; border-radius: 3px; }
-        .lang-row a:hover, .lang-row a.active-lang { color: var(--primary); border-color: var(--primary); }
-        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: .78rem; font-weight: 700; text-transform: uppercase; display: inline-block; }
-        .status-scheduled { background: #e3f2fd; color: #1565c0; }
-        .status-boarding { background: #e8f5e9; color: #2e7d32; }
-        .status-departed { background: #fff3e0; color: #e65100; }
-        .status-delayed { background: #fff8e1; color: #f57f17; }
-        .status-cancelled { background: #ffebee; color: #c62828; }
-        .status-arrived { background: #e8f5e9; color: #1b5e20; }
-    </style>
+    <link rel="stylesheet" href="~/css/passenger.css" asp-append-version="true" />
 </head>
 <body>
     <div class="pax-topbar">
-        <div class="container d-flex justify-content-between align-items-center">
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="brand text-decoration-none text-white">
-                <i class="fas fa-plane me-2"></i>Sky<span>Way</span>
-            </a>
+        <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center gap-3">
-                @{
-                    var paxLang = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                }
-                <a asp-controller="Home" asp-action="SetLanguage" asp-route-lang="tr-TR" asp-route-returnUrl="@Context.Request.Path"
-                   class="@(paxLang == "tr" ? "text-warning" : "text-white-50") text-decoration-none fw-bold small">TR</a>
-                <a asp-controller="Home" asp-action="SetLanguage" asp-route-lang="en-US" asp-route-returnUrl="@Context.Request.Path"
-                   class="@(paxLang == "en" ? "text-warning" : "text-white-50") text-decoration-none fw-bold small">EN</a>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="text-white-50 text-decoration-none small">
-                    <i class="fas fa-home me-1"></i>@L["Nav_Home"]
+                <button class="btn-pax-toggle" onclick="togglePaxSidebar()" aria-label="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="brand">
+                    <i class="fas fa-plane me-2"></i>Sky<span>Way</span>
                 </a>
             </div>
-        </div>
-    </div>
-
-    <div class="container py-4">
-        <div class="d-flex gap-4 align-items-start">
-            <nav class="pax-sidebar flex-shrink-0">
-                <div class="user-card">
-                    <div class="fw-bold text-dark">@Context.Session.GetString("UserName")</div>
-                    <small class="text-muted">@L["Passenger_Dashboard"]</small>
-                </div>
-                <a asp-area="Passenger" asp-controller="Home" asp-action="Index"
-                   class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
-                    <i class="fas fa-tachometer-alt"></i> @L["Admin_Dashboard"]
+            <div class="d-flex align-items-center gap-3">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="topbar-link">
+                    <i class="fas fa-home"></i> @L["Nav_Home"]
                 </a>
-                <a asp-area="Passenger" asp-controller="Booking" asp-action="MyBookings"
-                   class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Booking" ? "active" : "")">
-                    <i class="fas fa-ticket-alt"></i> @L["Booking_My"]
-                </a>
-                <a asp-area="Passenger" asp-controller="Home" asp-action="Settings"
-                   class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Settings" ? "active" : "")">
-                    <i class="fas fa-cog"></i> Hesap Ayarları
-                </a>
-                <a asp-area="" asp-controller="Flight" asp-action="Index" class="nav-link">
+                <a asp-area="" asp-controller="Flight" asp-action="Index" class="topbar-link">
                     <i class="fas fa-search"></i> @L["Flight_Search"]
                 </a>
-                <div style="border-top:1px solid #f0f2f5;margin:10px 0"></div>
-                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="nav-link border-0 w-100 text-start" style="background:transparent">
-                        <i class="fas fa-sign-out-alt"></i> @L["Nav_Logout"]
-                    </button>
-                </form>
-            </nav>
-
-            <div class="pax-content">
-                @await Component.InvokeAsync("Notyf")
-                @RenderBody()
+                <div class="d-flex gap-1">
+                    <a asp-controller="Home" asp-action="SetLanguage" asp-route-lang="tr-TR" asp-route-returnUrl="@Context.Request.Path"
+                       class="lang-btn @(paxLang == "tr" ? "active-lang" : "")">TR</a>
+                    <a asp-controller="Home" asp-action="SetLanguage" asp-route-lang="en-US" asp-route-returnUrl="@Context.Request.Path"
+                       class="lang-btn @(paxLang == "en" ? "active-lang" : "")">EN</a>
+                </div>
+                <span class="text-white-50 small d-none d-md-inline">
+                    <i class="fas fa-user-circle me-1"></i>@Context.Session.GetString("UserName")
+                </span>
             </div>
         </div>
     </div>
+
+    <div class="pax-wrapper">
+        <nav class="pax-sidebar">
+            <div class="user-card d-flex align-items-center gap-3">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div>
+                    <div class="user-name">@Context.Session.GetString("UserName")</div>
+                    <div class="user-role">@L["Label_Passenger"]</div>
+                </div>
+            </div>
+
+            <div class="nav-section mt-1">@L["Admin_General"]</div>
+            <a asp-area="Passenger" asp-controller="Home" asp-action="Index"
+               class="nav-link @(paxCtrl == "Home" && paxAction != "Settings" ? "active" : "")">
+                <i class="fas fa-tachometer-alt"></i> @L["Passenger_Dashboard"]
+            </a>
+
+            <div class="nav-section">@L["Admin_Reservations"]</div>
+            <a asp-area="Passenger" asp-controller="Booking" asp-action="MyBookings"
+               class="nav-link @(paxCtrl == "Booking" ? "active" : "")">
+                <i class="fas fa-ticket-alt"></i> @L["Booking_My"]
+            </a>
+            <a asp-area="" asp-controller="Flight" asp-action="Index" class="nav-link">
+                <i class="fas fa-search"></i> @L["Nav_SearchTicket"]
+            </a>
+
+            <div class="nav-section">@L["Admin_AccountSection"]</div>
+            <a asp-area="Passenger" asp-controller="Home" asp-action="Settings"
+               class="nav-link @(paxAction == "Settings" ? "active" : "")">
+                <i class="fas fa-cog"></i> @L["Nav_AccountSettings"]
+            </a>
+
+            <div class="sidebar-divider"></div>
+            <div class="lang-row">
+                <a asp-area="" asp-controller="Home" asp-action="SetLanguage"
+                   asp-route-lang="tr-TR" asp-route-returnUrl="@Context.Request.Path"
+                   class="@(paxLang == "tr" ? "active-lang" : "")">TR</a>
+                <a asp-area="" asp-controller="Home" asp-action="SetLanguage"
+                   asp-route-lang="en-US" asp-route-returnUrl="@Context.Request.Path"
+                   class="@(paxLang == "en" ? "active-lang" : "")">EN</a>
+            </div>
+            <div class="sidebar-divider"></div>
+
+            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="d-inline w-100">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="nav-link border-0 w-100 text-start" style="background:transparent;color:#c8102e">
+                    <i class="fas fa-sign-out-alt"></i> @L["Nav_Logout"]
+                </button>
+            </form>
+        </nav>
+
+        <div class="pax-content">
+            <div class="pax-page-header">
+                <h5><i class="fas fa-angle-right me-2 text-danger"></i>@paxTitle</h5>
+            </div>
+
+            @await Component.InvokeAsync("Notyf")
+            @RenderBody()
+        </div>
+    </div>
+
+    <div class="pax-overlay" id="paxOverlay" onclick="togglePaxSidebar()"></div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+    <script>
+    function togglePaxSidebar() {
+        document.querySelector('.pax-sidebar').classList.toggle('sidebar-open');
+        document.getElementById('paxOverlay').classList.toggle('show');
+    }
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 992) {
+            document.querySelector('.pax-sidebar').classList.remove('sidebar-open');
+            document.getElementById('paxOverlay').classList.remove('show');
+        }
+    });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -18,7 +18,7 @@ namespace App.Web.Services
         {
             try
             {
-                var body = await _http.GetStringAsync($"api/seats/flight/{flightId}");
+                var body = await _http.GetStringAsync($"api/Seat/flight/{flightId}");
                 var result = JsonSerializer.Deserialize<ApiResponseVM<List<SeatVM>>>(body, _opts);
                 return result?.IsSuccess == true && result.Data != null
                     ? new SuccessDataResult<List<SeatVM>>(result.Data, _localizer[Messages.Data_LoadSuccess])
@@ -36,7 +36,7 @@ namespace App.Web.Services
         {
             try
             {
-                var body = await _http.GetStringAsync($"api/seats/{id}");
+                var body = await _http.GetStringAsync($"api/Seat/{id}");
                 var result = JsonSerializer.Deserialize<ApiResponseVM<SeatVM>>(body, _opts);
                 return result?.IsSuccess == true && result.Data != null
                     ? new SuccessDataResult<SeatVM>(result.Data, _localizer[Messages.Data_LoadSuccess])

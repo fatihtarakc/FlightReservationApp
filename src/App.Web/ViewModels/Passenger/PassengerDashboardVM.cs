@@ -19,6 +19,8 @@ namespace App.Web.ViewModels.Passenger
         public string Email { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
         public DateTime BirthDate { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("preferredNotificationChannel")]
         public NotificationChannel NotificationPreference { get; set; }
     }
 

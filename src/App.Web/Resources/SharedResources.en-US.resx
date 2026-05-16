@@ -26,8 +26,8 @@
   <data name="Nav_Flights"><value>Flights</value></data>
   <data name="Nav_About"><value>About Us</value></data>
   <data name="Nav_SearchTicket"><value>Search Ticket</value></data>
-  <data name="Nav_Login"><value>Sign In</value></data>
-  <data name="Nav_Register"><value>Sign Up</value></data>
+  <data name="Nav_SignIn"><value>Sign In</value></data>
+  <data name="Nav_SignUp"><value>Sign Up</value></data>
   <data name="Nav_Logout"><value>Sign Out</value></data>
   <data name="Nav_MyAccount"><value>My Account</value></data>
   <data name="Nav_AdminPanel"><value>Admin Panel</value></data>
@@ -147,8 +147,8 @@
   <data name="Booking_SeatMap"><value>Seat Map</value></data>
 
   <!-- Account -->
-  <data name="Account_Login"><value>Sign In</value></data>
-  <data name="Account_Register"><value>Sign Up</value></data>
+  <data name="Account_SignIn"><value>Sign In</value></data>
+  <data name="Account_SignUp"><value>Sign Up</value></data>
   <data name="Account_ForgotPassword"><value>Forgot Password</value></data>
   <data name="Account_ResetPassword"><value>Reset Password</value></data>
   <data name="Account_Username"><value>Username or Email</value></data>
@@ -221,13 +221,13 @@
   <data name="Home_ViewAll"><value>View All</value></data>
 
   <!-- Login / Account pages -->
-  <data name="Login_Title"><value>Sign In - SkyWay Airlines</value></data>
-  <data name="Login_Welcome"><value>Welcome</value></data>
-  <data name="Login_Subtitle"><value>Sign in to your account</value></data>
-  <data name="Login_ForgotPassword"><value>Forgot Password</value></data>
-  <data name="Login_NoAccount"><value>Don't have an account?</value></data>
-  <data name="Login_BackToLogin"><value>Back to Sign In</value></data>
-  <data name="Btn_Login"><value>Sign In</value></data>
+  <data name="SignIn_Title"><value>Sign In - SkyWay Airlines</value></data>
+  <data name="SignIn_Welcome"><value>Welcome</value></data>
+  <data name="SignIn_Subtitle"><value>Sign in to your account</value></data>
+  <data name="SignIn_ForgotPassword"><value>Forgot Password</value></data>
+  <data name="SignIn_NoAccount"><value>Don't have an account?</value></data>
+  <data name="SignIn_BackToSignIn"><value>Back to Sign In</value></data>
+  <data name="Btn_SignIn"><value>Sign In</value></data>
   <data name="Label_UsernameOrEmail"><value>Username or Email</value></data>
   <data name="Label_Password"><value>Password</value></data>
   <data name="Label_RememberMe"><value>Remember Me</value></data>
@@ -363,7 +363,22 @@
 
   <!-- Route form -->
   <data name="Route_Info"><value>Route Information</value></data>
+  <data name="Route_Edit"><value>Edit Route</value></data>
+  <data name="Route_Was_Updated"><value>Route has been updated successfully.</value></data>
   <data name="Error_SameAirport"><value>Origin and destination airports cannot be the same!</value></data>
+
+  <!-- Public page titles & access denied -->
+  <data name="Home_Tagline"><value>Freedom of Flight</value></data>
+  <data name="AccessDenied_Title"><value>Access Denied</value></data>
+  <data name="AccessDenied_Message"><value>You do not have permission to access this page.</value></data>
+  <data name="Btn_BackHome"><value>Back to Home</value></data>
+
+  <!-- Account settings extras -->
+  <data name="Account_ProfileInfo"><value>Profile Information</value></data>
+  <data name="Account_ChangePassword"><value>Change Password</value></data>
+  <data name="Account_CurrentPassword"><value>Current Password</value></data>
+  <data name="Account_UpdatePassword"><value>Update Password</value></data>
+  <data name="Account_NotifDescription"><value>Choose the channels through which you want to receive flight reminders and reservation notifications.</value></data>
 
   <!-- Messages (App.Core naming convention) -->
   <data name="UnexpectedError"><value>An unexpected error occurred. Please try again.</value></data>
@@ -465,4 +480,97 @@
   <data name="Status_Active"><value>Active</value></data>
   <data name="Status_Maintenance"><value>Maintenance</value></data>
   <data name="Status_Retired"><value>Retired</value></data>
+
+  <!-- Flight form labels -->
+  <data name="Flight_DepartureDateTime"><value>Departure Date/Time</value></data>
+  <data name="Flight_ArrivalDateTime"><value>Arrival Date/Time</value></data>
+  <data name="Label_MinAbbr"><value>min</value></data>
+  <data name="Label_HourAbbr"><value>h</value></data>
+  <data name="Label_SeatAbbr"><value>seats</value></data>
+  <data name="Btn_SaveChanges"><value>Save Changes</value></data>
+
+  <!-- Sign Up -->
+  <data name="SignUp_Title"><value>Create Account</value></data>
+  <data name="SignUp_Subtitle"><value>Quick and easy registration</value></data>
+  <data name="Label_Username"><value>Username</value></data>
+  <data name="Label_Nationality"><value>Nationality (Optional)</value></data>
+  <data name="Placeholder_SearchCountry"><value>Search country...</value></data>
+  <data name="Placeholder_PhoneFormat"><value>Format: +1XXXXXXXXXX</value></data>
+  <data name="Placeholder_Password"><value>Min. 8 characters</value></data>
+  <data name="Placeholder_ConfirmPassword"><value>Re-enter your password</value></data>
+  <data name="Placeholder_Name"><value>Your first name</value></data>
+  <data name="Placeholder_Surname"><value>Your last name</value></data>
+  <data name="Placeholder_Username"><value>username</value></data>
+
+  <!-- Reset Password -->
+  <data name="ResetPassword_Subtitle"><value>Enter the 6-digit code sent to your email and your new password</value></data>
+  <data name="Btn_ResetPassword"><value>Reset Password</value></data>
+
+  <!-- Footer -->
+  <data name="Footer_Description"><value>Turkey's trusted airline. Enjoy flying with comfort, safety and affordable prices.</value></data>
+  <data name="Footer_Services"><value>Services</value></data>
+  <data name="Footer_CheckIn"><value>Online Check-in</value></data>
+  <data name="Footer_Baggage"><value>Baggage Info</value></data>
+  <data name="Footer_PassengerGuide"><value>Passenger Guide</value></data>
+  <data name="Footer_FAQ"><value>Frequently Asked Questions</value></data>
+  <data name="Footer_Contact"><value>Contact</value></data>
+  <data name="Footer_Location"><value>Istanbul, Turkey</value></data>
+  <data name="Footer_Copyright"><value>All rights reserved.</value></data>
+  <data name="Footer_Privacy"><value>Privacy Policy</value></data>
+  <data name="Footer_Terms"><value>Terms of Use</value></data>
+
+  <!-- Home page -->
+  <data name="Home_TrustedAirline"><value>Trusted Airline</value></data>
+  <data name="Home_HeroHeading"><value>Fly Anywhere</value></data>
+  <data name="Home_HeroHeadingAccent"><value>in the World</value></data>
+  <data name="Home_HeroDescription"><value>The best flight experience at the most affordable prices. Reach your dream destination with SkyWay.</value></data>
+  <data name="Home_StatDestinations"><value>Destinations</value></data>
+  <data name="Home_StatPassengers"><value>Passengers</value></data>
+  <data name="Home_StatSatisfaction"><value>Satisfaction</value></data>
+  <data name="Home_DiscoverDestinations"><value>Destinations Waiting to Be Discovered</value></data>
+  <data name="Home_FindFlight"><value>Find Flights</value></data>
+  <data name="Home_CurrentFlights"><value>Current Flights</value></data>
+  <data name="Home_ViewAllFlights"><value>View All Flights</value></data>
+  <data name="Placeholder_DepartureAirport"><value>Istanbul (IST)</value></data>
+  <data name="Placeholder_ArrivalAirport"><value>Ankara (ESB)</value></data>
+
+  <!-- Features section -->
+  <data name="Feature_SafeFlight"><value>Safe Flight</value></data>
+  <data name="Feature_SafeFlight_Desc"><value>We serve you with the highest safety standards.</value></data>
+  <data name="Feature_AffordablePrice"><value>Affordable Price</value></data>
+  <data name="Feature_AffordablePrice_Desc"><value>The best flight experience at competitive prices.</value></data>
+  <data name="Feature_Support"><value>24/7 Support</value></data>
+  <data name="Feature_Support_Desc"><value>Always by your side, solution-oriented for every problem.</value></data>
+  <data name="Feature_Online"><value>Online Transactions</value></data>
+  <data name="Feature_Online_Desc"><value>Buy tickets, check-in, do everything online.</value></data>
+  <data name="Alert_InvalidIata"><value>Please enter a valid IATA code (e.g. IST, LHR)</value></data>
+
+  <!-- About page -->
+  <data name="About_Title"><value>About SkyWay Airlines</value></data>
+  <data name="About_Subtitle"><value>Turkey's trusted airline, serving since 2010</value></data>
+  <data name="About_Mission"><value>Our Mission</value></data>
+  <data name="About_MissionTitle"><value>Making the Joy of Flying Accessible to Everyone</value></data>
+  <data name="About_MissionText1"><value>At SkyWay Airlines, we aim to provide our passengers with a safe, comfortable and affordable flight experience.</value></data>
+  <data name="About_MissionText2"><value>With our years of high safety standards and customer satisfaction-focused service approach, we are among the most trusted airlines in the industry.</value></data>
+  <data name="About_StatDestinations"><value>Destinations</value></data>
+  <data name="About_StatPassengers"><value>Happy Passengers</value></data>
+  <data name="About_StatYears"><value>Years of Experience</value></data>
+  <data name="About_StatSupport"><value>Customer Support</value></data>
+  <data name="About_SafetyFirst"><value>Safety First</value></data>
+  <data name="About_SafetyFirst_Desc"><value>Full compliance with international safety standards. Comprehensive technical inspection before every flight.</value></data>
+  <data name="About_EcoFriendly"><value>Eco-Friendly</value></data>
+  <data name="About_EcoFriendly_Desc"><value>We're working to reduce our carbon footprint.</value></data>
+  <data name="About_AwardedService"><value>Award-Winning Service</value></data>
+  <data name="About_AwardedService_Desc"><value>Recognized and awarded quality in the industry.</value></data>
+
+  <!-- Flight search / index -->
+  <data name="Flight_SearchSubtitle"><value>Search flights by route, date and class</value></data>
+  <data name="Label_SelectOption"><value>— Select —</value></data>
+  <data name="Flight_Found"><value>flights found</value></data>
+  <data name="Flight_TryDifferent"><value>Try a different date or route.</value></data>
+
+  <!-- Contact info -->
+  <data name="Footer_Phone"><value>+90 850 123 45 67</value></data>
+  <data name="Footer_PhoneLink"><value>tel:+908501234567</value></data>
+  <data name="Footer_Email"><value>info@skyway.com</value></data>
 </root>

@@ -1,14 +1,10 @@
 @model AdminFlightFormPageVM
-@{
-    ViewData["Title"] = "Yeni Uçuş Ekle";
-    ViewData["PageTitle"] = "Yeni Uçuş Ekle";
-}
 
 <div class="row justify-content-center">
     <div class="col-xl-8">
         <div class="admin-card">
             <div class="admin-card-header">
-                <i class="fas fa-plus me-2"></i>Yeni Uçuş Bilgileri
+                <i class="fas fa-plus me-2"></i>@L["Flight_Add"]
             </div>
             <div class="p-4">
                 <form asp-action="Create" method="post" id="flightForm">
@@ -17,53 +13,53 @@
 
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label asp-for="Form.FlightNumber" class="form-label fw-semibold">Uçuş Numarası <span class="text-danger">*</span></label>
+                            <label asp-for="Form.FlightNumber" class="form-label fw-semibold">@L["Flight_Number"] <span class="text-danger">*</span></label>
                             <input asp-for="Form.FlightNumber" class="form-control" placeholder="SK001" />
                             <span asp-validation-for="Form.FlightNumber" class="text-danger small"></span>
                         </div>
 
                         <div class="col-md-8">
-                            <label asp-for="Form.RouteId" class="form-label fw-semibold">Güzergah <span class="text-danger">*</span></label>
+                            <label asp-for="Form.RouteId" class="form-label fw-semibold">@L["Flight_Route"] <span class="text-danger">*</span></label>
                             <select asp-for="Form.RouteId" class="form-select" id="routeSelect">
-                                <option value="">— Güzergah Seçin —</option>
+                                <option value="">— @L["Flight_SelectRoute"] —</option>
                                 @foreach (var r in Model.Routes)
                                 {
-                                    <option value="@r.Id">@r.OriginIata → @r.DestinationIata (@r.OriginCity - @r.DestinationCity) · @r.EstimatedDuration dk</option>
+                                    <option value="@r.Id" data-duration="@r.EstimatedDuration">@r.OriginIata → @r.DestinationIata (@r.OriginCity - @r.DestinationCity) · @r.EstimatedDuration @L["Label_MinAbbr"]</option>
                                 }
                             </select>
                             <span asp-validation-for="Form.RouteId" class="text-danger small"></span>
                         </div>
 
                         <div class="col-md-12">
-                            <label asp-for="Form.AircraftId" class="form-label fw-semibold">Uçak <span class="text-danger">*</span></label>
+                            <label asp-for="Form.AircraftId" class="form-label fw-semibold">@L["Flight_Aircraft"] <span class="text-danger">*</span></label>
                             <select asp-for="Form.AircraftId" class="form-select">
-                                <option value="">— Uçak Seçin —</option>
+                                <option value="">— @L["Flight_SelectAircraft"] —</option>
                                 @foreach (var a in Model.Aircraft)
                                 {
-                                    <option value="@a.Id">@a.RegistrationNumber · @a.Model · @a.Manufacturer (@a.TotalSeats koltuk) — @a.Status</option>
+                                    <option value="@a.Id">@a.RegistrationNumber · @a.Model · @a.Manufacturer (@a.TotalSeats @L["Label_SeatAbbr"]) — @a.Status</option>
                                 }
                             </select>
                             <span asp-validation-for="Form.AircraftId" class="text-danger small"></span>
                         </div>
 
                         <div class="col-md-6">
-                            <label asp-for="Form.DepartureTime" class="form-label fw-semibold">Kalkış Tarihi/Saati <span class="text-danger">*</span></label>
+                            <label asp-for="Form.DepartureTime" class="form-label fw-semibold">@L["Flight_DepartureDateTime"] <span class="text-danger">*</span></label>
                             <input asp-for="Form.DepartureTime" type="datetime-local" class="form-control" />
                             <span asp-validation-for="Form.DepartureTime" class="text-danger small"></span>
                         </div>
 
                         <div class="col-md-6">
-                            <label asp-for="Form.ArrivalTime" class="form-label fw-semibold">Varış Tarihi/Saati <span class="text-danger">*</span></label>
+                            <label asp-for="Form.ArrivalTime" class="form-label fw-semibold">@L["Flight_ArrivalDateTime"] <span class="text-danger">*</span></label>
                             <input asp-for="Form.ArrivalTime" type="datetime-local" class="form-control" />
                             <span asp-validation-for="Form.ArrivalTime" class="text-danger small"></span>
                         </div>
                     </div>
 
                     <hr class="my-4" />
-                    <h6 class="fw-bold mb-3"><i class="fas fa-tags me-2 text-danger"></i>Fiyatlandırma</h6>
+                    <h6 class="fw-bold mb-3"><i class="fas fa-tags me-2 text-danger"></i>@L["Flight_Pricing"]</h6>
                     <div class="row g-3">
                         <div class="col-md-3">
-                            <label asp-for="Form.EconomyPrice" class="form-label fw-semibold">Ekonomi (₺) <span class="text-danger">*</span></label>
+                            <label asp-for="Form.EconomyPrice" class="form-label fw-semibold">@L["Flight_Economy"] (₺) <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
                                 <input asp-for="Form.EconomyPrice" class="form-control" type="number" min="0" step="0.01" />
@@ -71,21 +67,21 @@
                             <span asp-validation-for="Form.EconomyPrice" class="text-danger small"></span>
                         </div>
                         <div class="col-md-3">
-                            <label asp-for="Form.PremiumEconomyPrice" class="form-label fw-semibold">Premium Ekonomi (₺)</label>
+                            <label asp-for="Form.PremiumEconomyPrice" class="form-label fw-semibold">@L["Flight_PremiumEconomy"] (₺)</label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
                                 <input asp-for="Form.PremiumEconomyPrice" class="form-control" type="number" min="0" step="0.01" />
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label asp-for="Form.BusinessPrice" class="form-label fw-semibold">Business (₺)</label>
+                            <label asp-for="Form.BusinessPrice" class="form-label fw-semibold">@L["Flight_Business"] (₺)</label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
                                 <input asp-for="Form.BusinessPrice" class="form-control" type="number" min="0" step="0.01" />
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label asp-for="Form.FirstClassPrice" class="form-label fw-semibold">First Class (₺)</label>
+                            <label asp-for="Form.FirstClassPrice" class="form-label fw-semibold">@L["Flight_First"] (₺)</label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
                                 <input asp-for="Form.FirstClassPrice" class="form-control" type="number" min="0" step="0.01" />
@@ -95,9 +91,9 @@
 
                     <div class="mt-4 d-flex gap-2">
                         <button type="submit" class="btn btn-danger px-4">
-                            <i class="fas fa-save me-1"></i> Uçuş Ekle
+                            <i class="fas fa-save me-1"></i> @L["Flight_Add"]
                         </button>
-                        <a asp-action="Index" class="btn btn-outline-secondary">İptal</a>
+                        <a asp-action="Index" class="btn btn-outline-secondary">@L["Btn_Cancel"]</a>
                     </div>
                 </form>
             </div>
@@ -105,24 +101,3 @@
     </div>
 </div>
 
-@section Scripts {
-<script>
-    document.getElementById('routeSelect').addEventListener('change', function() {
-        const opt = this.options[this.selectedIndex];
-        if (opt.value) {
-            const match = opt.text.match(/(\d+)\s*dk/);
-            if (match) {
-                const dep = document.querySelector('[name="Form.DepartureTime"]').value;
-                if (dep) {
-                    const d = new Date(dep);
-                    d.setMinutes(d.getMinutes() + parseInt(match[1]));
-                    document.querySelector('[name="Form.ArrivalTime"]').value = d.toISOString().slice(0,16);
-                }
-            }
-        }
-    });
-    document.querySelector('[name="Form.DepartureTime"]').addEventListener('change', function() {
-        document.getElementById('routeSelect').dispatchEvent(new Event('change'));
-    });
-</script>
-}

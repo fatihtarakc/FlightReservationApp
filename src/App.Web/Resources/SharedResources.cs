@@ -1,4 +1,4 @@
-﻿namespace App.Web.Resources
+﻿namespace App.Web
 {
     public class SharedResources { }
 }

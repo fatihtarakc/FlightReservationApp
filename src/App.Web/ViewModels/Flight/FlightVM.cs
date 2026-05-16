@@ -3,19 +3,46 @@
     public class FlightVM
     {
         public Guid Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("number")]
         public string FlightNumber { get; set; } = string.Empty;
+
+        [System.Text.Json.Serialization.JsonPropertyName("departureAirportIata")]
         public string OriginIata { get; set; } = string.Empty;
+
+        [System.Text.Json.Serialization.JsonPropertyName("arrivalAirportIata")]
         public string DestinationIata { get; set; } = string.Empty;
+
+        [System.Text.Json.Serialization.JsonPropertyName("departureCity")]
         public string OriginCity { get; set; } = string.Empty;
+
+        [System.Text.Json.Serialization.JsonPropertyName("arrivalCity")]
         public string DestinationCity { get; set; } = string.Empty;
+
+        [System.Text.Json.Serialization.JsonPropertyName("departureDateTime")]
         public DateTime DepartureTime { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("arrivalDateTime")]
         public DateTime ArrivalTime { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("modelName")]
         public string AircraftModel { get; set; } = string.Empty;
+
+        [System.Text.Json.Serialization.JsonPropertyName("baseEconomyPrice")]
         public decimal EconomyPrice { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("basePremiumEconomyPrice")]
         public decimal? PremiumEconomyPrice { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("baseBusinessPrice")]
         public decimal? BusinessPrice { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("baseFirstClassPrice")]
         public decimal? FirstClassPrice { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("flightStatus")]
         public FlightStatus Status { get; set; }
+
         public int AvailableEconomySeats { get; set; }
         public int AvailableBusinessSeats { get; set; }
 

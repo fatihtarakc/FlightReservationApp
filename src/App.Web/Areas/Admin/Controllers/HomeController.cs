@@ -1,4 +1,4 @@
-using App.Web.Controllers;
+﻿using App.Web.Controllers;
 
 namespace App.Web.Areas.Admin.Controllers
 {
@@ -18,7 +18,7 @@ namespace App.Web.Areas.Admin.Controllers
         private string? Token => TokenHelper.GetToken(_httpContextAccessor);
 
         private IActionResult RedirectToLogin() =>
-            RedirectToAction("Login", "Account", new { area = "" });
+            RedirectToAction("SignIn", "Account", new { area = "" });
 
         public async Task<IActionResult> Index()
         {

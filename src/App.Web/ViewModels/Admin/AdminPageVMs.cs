@@ -25,6 +25,14 @@
     {
         public RouteAddVM Form { get; set; } = new();
         public List<AirportVM> Airports { get; set; } = new();
+        public Guid? EditId { get; set; }
+    }
+
+    public class AdminRouteEditPageVM
+    {
+        public RouteUpdateVM Form { get; set; } = new();
+        public List<AirportVM> Airports { get; set; } = new();
+        public Guid EditId { get; set; }
     }
 
     public class AdminAircraftListPageVM

@@ -53,6 +53,54 @@ namespace App.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var routeResult = await _routeService.GetByIdAsync(id);
+            if (!routeResult.IsSuccess)
+            {
+                NotifyErrorLocalized(routeResult.Message);
+                return RedirectToAction(nameof(Index));
+            }
+            var r = routeResult.Data!;
+            var airportsResult = await _airportService.GetAllAsync();
+            var airports = airportsResult.IsSuccess ? airportsResult.Data ?? new() : new();
+            var origin = airports.FirstOrDefault(a => a.IataCode == r.OriginIata);
+            var destination = airports.FirstOrDefault(a => a.IataCode == r.DestinationIata);
+            var vm = new AdminRouteEditPageVM
+            {
+                EditId = id,
+                Form = new RouteUpdateVM
+                {
+                    OriginAirportId = origin?.Id ?? Guid.Empty,
+                    DestinationAirportId = destination?.Id ?? Guid.Empty,
+                    DistanceKm = r.DistanceKm,
+                    EstimatedDuration = r.DurationMinutes
+                },
+                Airports = airports
+            };
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid id, AdminRouteEditPageVM page)
+        {
+            if (!ModelState.IsValid)
+            {
+                var airports = await _airportService.GetAllAsync();
+                page.EditId = id;
+                page.Airports = airports.IsSuccess ? airports.Data ?? new() : new();
+                return View(page);
+            }
+            var result = await _routeService.UpdateAsync(id, page.Form, Token!);
+            if (!result.IsSuccess)
+                NotifyErrorLocalized(result.Message);
+            else
+                NotifySuccessLocalized(result.Message);
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)

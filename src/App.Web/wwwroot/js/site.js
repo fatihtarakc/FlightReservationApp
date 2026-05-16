@@ -1,4 +1,7 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+// Toggle password field visibility
+function togglePassword(id, btn) {
+    const input = document.getElementById(id);
+    const isText = input.type === 'text';
+    input.type = isText ? 'password' : 'text';
+    btn.innerHTML = isText ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+}

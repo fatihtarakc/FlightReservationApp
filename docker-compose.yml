@@ -69,38 +69,21 @@ services:
     volumes:
       - mssql_data:/var/opt/mssql
 
-  api:
-    build:
-      context: .
-      dockerfile: src/App.Api/Dockerfile
-    image: flightreservationapi:latest
-    container_name: FlightReservationApi
+  seq:
+    image: datalust/seq:latest
+    container_name: 2025SeqLogs
     network_mode: bridge
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    ports:
-      - "5000:5000"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - Connections__DatabaseProvider=PostgreSql
-      - Connections__PostgreSql=Host=host.docker.internal;Port=5433;Database=FlightReservationDb;Username=postgres;Password=Dockerpostgresqldb2024+-!?
-      - Connections__Hangfire=Host=host.docker.internal;Port=5433;Database=FlightReservationDb;Username=postgres;Password=Dockerpostgresqldb2024+-!?
-      - Connections__Redis=host.docker.internal:6380,user=admin,password=Dockerredisdb2024+-!?
-      - RabbitMqConfiguration__Host=host.docker.internal
-      - RabbitMqConfiguration__Port=5672
-      - RabbitMqConfiguration__VirtualHost=FlightReservationApp
-      - RabbitMqConfiguration__Username=FlightReservationApp-admin
-      - RabbitMqConfiguration__Password=Dockerrabbitmq2025+-!?
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
+      ACCEPT_EULA: "Y"
+    ports:
+      - "5341:5341"
+      - "8082:80"
+    volumes:
+      - seq_data:/data
 
 volumes:
   postgres_data:
   redis_data:
   rabbitmq_data:
   mssql_data:
+  seq_data:

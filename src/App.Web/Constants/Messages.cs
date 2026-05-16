@@ -35,6 +35,7 @@ namespace App.Web.Constants
         #region Route
         public const string Route_Was_Not_Found = nameof(Route_Was_Not_Found);
         public const string Route_HasBeen_Added = nameof(Route_HasBeen_Added);
+        public const string Route_Was_Updated = nameof(Route_Was_Updated);
         public const string Route_Was_Deleted = nameof(Route_Was_Deleted);
         #endregion
 

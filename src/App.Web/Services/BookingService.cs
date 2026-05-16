@@ -25,7 +25,7 @@ namespace App.Web.Services
         {
             try
             {
-                var response = await _http.SendAsync(AuthorizedGet("api/bookings", token));
+                var response = await _http.SendAsync(AuthorizedGet("api/Booking", token));
                 var body = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<ApiResponseVM<List<BookingVM>>>(body, _opts);
                 return result?.IsSuccess == true && result.Data != null
@@ -44,7 +44,7 @@ namespace App.Web.Services
         {
             try
             {
-                var response = await _http.SendAsync(AuthorizedGet("api/bookings/my", token));
+                var response = await _http.SendAsync(AuthorizedGet("api/Booking/my-bookings", token));
                 var body = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<ApiResponseVM<List<BookingVM>>>(body, _opts);
                 return result?.IsSuccess == true && result.Data != null
@@ -63,7 +63,7 @@ namespace App.Web.Services
         {
             try
             {
-                var response = await _http.SendAsync(AuthorizedGet($"api/bookings/{id}", token));
+                var response = await _http.SendAsync(AuthorizedGet($"api/Booking/{id}", token));
                 var body = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<ApiResponseVM<BookingVM>>(body, _opts);
                 return result?.IsSuccess == true && result.Data != null
@@ -82,7 +82,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, "api/bookings")
+                var req = new HttpRequestMessage(HttpMethod.Post, "api/Booking")
                 { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
@@ -104,7 +104,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, $"api/bookings/{id}/cancel");
+                var req = new HttpRequestMessage(HttpMethod.Post, $"api/Booking/{id}/cancel");
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();
@@ -125,7 +125,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, $"api/bookings/{id}/checkin");
+                var req = new HttpRequestMessage(HttpMethod.Post, $"api/Booking/{id}/check-in");
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();

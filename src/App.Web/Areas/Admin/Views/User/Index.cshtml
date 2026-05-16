@@ -50,8 +50,22 @@
             <div class="col-md-2">
                 <select name="role" class="form-select form-select-sm">
                     <option value="">@L["Label_All"] @L["Label_Role"]</option>
-                    <option value="Admin" @(Model.RoleFilter == "Admin" ? "selected" : "")>Admin</option>
-                    <option value="Passenger" @(Model.RoleFilter == "Passenger" ? "selected" : "")>@L["Label_Passenger"]</option>
+                    @if (Model.RoleFilter == "Admin")
+                    {
+                        <option value="Admin" selected>Admin</option>
+                    }
+                    else
+                    {
+                        <option value="Admin">Admin</option>
+                    }
+                    @if (Model.RoleFilter == "Passenger")
+                    {
+                        <option value="Passenger" selected>@L["Label_Passenger"]</option>
+                    }
+                    else
+                    {
+                        <option value="Passenger">@L["Label_Passenger"]</option>
+                    }
                 </select>
             </div>
             <div class="col-md-2">
