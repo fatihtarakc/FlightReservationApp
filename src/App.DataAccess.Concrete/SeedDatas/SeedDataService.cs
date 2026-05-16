@@ -47,6 +47,7 @@ namespace App.DataAccess.Concrete.SeedDatas
             await SeedAircraftsAsync(db);
             await SeedSeatsAsync(db);
             await SeedFlightsAsync(db);
+            await SeedBookingsAsync(db);
         }
 
         // ── Roles ─────────────────────────────────────────────────────────────────
@@ -677,6 +678,81 @@ namespace App.DataAccess.Concrete.SeedDatas
 
             db.Flights.AddRange(flights);
             await db.SaveChangesAsync();
+        }
+
+        // ── Bookings ──────────────────────────────────────────────────────────────
+
+        private static async Task SeedBookingsAsync(FlightReservationDbContext db)
+        {
+            if (await db.Bookings.AnyAsync()) return;
+
+            var flights = await db.Flights
+                .Include(f => f.Aircraft)
+                    .ThenInclude(a => a!.Seats)
+                .ToListAsync();
+
+            var rng = new Random(42);
+            var bookings = new List<Booking>();
+            var bookedByFlight = new Dictionary<Guid, HashSet<Guid>>();
+            int userIdx = 0;
+
+            foreach (var flight in flights)
+            {
+                var seats = flight.Aircraft?.Seats?.ToList() ?? new List<Seat>();
+                if (seats.Count == 0) continue;
+
+                if (!bookedByFlight.ContainsKey(flight.Id))
+                    bookedByFlight[flight.Id] = new HashSet<Guid>();
+
+                var taken = bookedByFlight[flight.Id];
+                var available = seats.Where(s => !taken.Contains(s.Id)).ToList();
+
+                bool isPast = flight.FlightStatus == FlightStatus.Arrived;
+                int count = Math.Min(rng.Next(3, 7), available.Count);
+
+                for (int i = 0; i < count && available.Count > 0; i++)
+                {
+                    int idx = rng.Next(available.Count);
+                    var seat = available[idx];
+                    available.RemoveAt(idx);
+                    taken.Add(seat.Id);
+
+                    var status = isPast
+                        ? (rng.Next(6) == 0 ? BookingStatus.Cancelled : BookingStatus.Completed)
+                        : (rng.Next(5) == 0 ? BookingStatus.CheckedIn : BookingStatus.Confirmed);
+
+                    var price = seat.SeatClass switch
+                    {
+                        SeatClass.Economy        => flight.BaseEconomyPrice,
+                        SeatClass.PremiumEconomy => flight.BasePremiumEconomyPrice,
+                        SeatClass.Business       => flight.BaseBusinessPrice,
+                        SeatClass.First          => flight.BaseFirstClassPrice,
+                        _                        => flight.BaseEconomyPrice
+                    };
+
+                    bookings.Add(new Booking
+                    {
+                        PnrNumber     = GeneratePnr(rng),
+                        AppUserId     = UserIds.Ids[userIdx % 20],
+                        FlightId      = flight.Id,
+                        SeatId        = seat.Id,
+                        TotalPrice    = price,
+                        Currency      = flight.Currency,
+                        BookingStatus = status,
+                        CreatedBy     = "system"
+                    });
+                    userIdx++;
+                }
+            }
+
+            db.Bookings.AddRange(bookings);
+            await db.SaveChangesAsync();
+        }
+
+        private static string GeneratePnr(Random rng)
+        {
+            const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            return new string(Enumerable.Range(0, 6).Select(_ => chars[rng.Next(chars.Length)]).ToArray());
         }
 
         // ── ID Constants ──────────────────────────────────────────────────────────

@@ -1,5 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Localization;
 
 namespace App.Web.Controllers
@@ -20,11 +22,11 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult SignIn(string? returnUrl = null) => View(new LoginVM { ReturnUrl = returnUrl });
+        public IActionResult SignIn(string? returnUrl = null) => View(new SignInVM { ReturnUrl = returnUrl });
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignIn(LoginVM model)
+        public async Task<IActionResult> SignIn(SignInVM model)
         {
             if (!ModelState.IsValid) return View(model);
 
@@ -48,6 +50,16 @@ namespace App.Web.Controllers
             TokenHelper.SetRole(_httpContextAccessor, role);
             TokenHelper.SetUserName(_httpContextAccessor, name);
 
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Name, name),
+                new(ClaimTypes.Role, role)
+            };
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,
+                new AuthenticationProperties { IsPersistent = model.RememberMe });
+
             NotifySuccessLocalized(result.Message);
 
             if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
@@ -60,14 +72,14 @@ namespace App.Web.Controllers
 
         [HttpPost("api/account/signin-panel")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignInPanel([FromForm] LoginVM model)
+        public async Task<IActionResult> SignInPanel([FromForm] SignInVM model)
         {
             if (!ModelState.IsValid)
-                return Json(new { success = false, message = _localizer["Account_LoginError"].Value });
+                return Json(new { success = false, message = _localizer["Account_SignInError"].Value });
 
             var result = await _accountService.SignInAsync(model);
             if (!result.IsSuccess)
-                return Json(new { success = false, message = result.Message ?? _localizer["Account_LoginError"].Value });
+                return Json(new { success = false, message = result.Message ?? _localizer["Account_SignInError"].Value });
 
             var token = result.Data!.AccessToken;
             TokenHelper.SetToken(_httpContextAccessor, token);
@@ -82,6 +94,14 @@ namespace App.Web.Controllers
             TokenHelper.SetRole(_httpContextAccessor, role);
             TokenHelper.SetUserName(_httpContextAccessor, name);
 
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Name, name),
+                new(ClaimTypes.Role, role)
+            };
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
             var redirectUrl = role == "Admin"
                 ? Url.Action("Index", "Home", new { area = "Admin" })
                 : Url.Action("Index", "Home", new { area = "Passenger" });
@@ -90,11 +110,11 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult SignUp() => View(new RegisterVM());
+        public IActionResult SignUp() => View(new SignUpVM());
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignUp(RegisterVM model)
+        public async Task<IActionResult> SignUp(SignUpVM model)
         {
             if (!ModelState.IsValid) return View(model);
 
@@ -150,13 +170,14 @@ namespace App.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignOut()
+        public new async Task<IActionResult> SignOut()
         {
             var token = TokenHelper.GetToken(_httpContextAccessor);
             if (!string.IsNullOrEmpty(token))
                 await _accountService.SignOutAsync(token);
             TokenHelper.ClearSession(_httpContextAccessor);
-            return RedirectToAction(Url.Action("Index", "Home", new { area = "" }));
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
 
         [HttpGet]

@@ -2,7 +2,7 @@ namespace App.Business.Abstract.Services
 {
     public interface IAccountService
     {
-        Task<IResult> RegisterAsync(RegisterDto dto);
+        Task<IResult> SignUpAsync(SignUpDto dto);
         Task<IDataResult<TokenDto>> SignInAsync(SignInDto dto);
         Task<IResult> SignOutAsync(string identityId);
         Task<IResult> SendVerificationCodeAsync(string email, VerificationCodePurpose purpose, VerificationCodeChannel channel);

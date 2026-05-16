@@ -1,4 +1,3 @@
-global using App.Dtos.AdminDtos;
 global using App.BackgroundJobs.Extensions;
 global using App.BackgroundJobs.Filters;
 global using App.Business.Abstract.Services;

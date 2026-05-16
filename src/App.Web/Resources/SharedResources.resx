@@ -795,19 +795,19 @@
   <data name="Dashboard_LoadError" xml:space="preserve">
     <value>Dashboard bilgileri yüklenemedi.</value>
   </data>
-  <data name="Account_LoginSuccess" xml:space="preserve">
+  <data name="Account_SignInSuccess" xml:space="preserve">
     <value>Giriş başarıyla yapıldı.</value>
   </data>
-  <data name="Account_RegisterSuccess" xml:space="preserve">
+  <data name="Account_SignUpSuccess" xml:space="preserve">
     <value>Kayıt başarıyla tamamlandı. Giriş yapabilirsiniz.</value>
   </data>
-  <data name="Account_LogoutSuccess" xml:space="preserve">
+  <data name="Account_SignOutSuccess" xml:space="preserve">
     <value>Çıkış yapıldı.</value>
   </data>
-  <data name="Account_LoginError" xml:space="preserve">
+  <data name="Account_SignInError" xml:space="preserve">
     <value>Giriş başarısız. Kullanıcı adı veya şifre hatalı.</value>
   </data>
-  <data name="Account_RegisterError" xml:space="preserve">
+  <data name="Account_SignUpError" xml:space="preserve">
     <value>Kayıt işlemi başarısız.</value>
   </data>
   <data name="UnexpectedError" xml:space="preserve">
@@ -924,7 +924,7 @@
   <data name="Val_Password_TooShort" xml:space="preserve">
     <value>Şifre en az 6 karakter olmalıdır.</value>
   </data>
-  <data name="Val_Password_Register_TooShort" xml:space="preserve">
+  <data name="Val_Password_SignUp_TooShort" xml:space="preserve">
     <value>Şifre en az 8 karakter olmalıdır.</value>
   </data>
   <data name="Val_Password_Uppercase" xml:space="preserve">
@@ -1059,7 +1059,7 @@
   <data name="Label_BookingCount" xml:space="preserve">
     <value>Rezervasyon</value>
   </data>
-  <data name="Label_RegisterDate" xml:space="preserve">
+  <data name="Label_SignUpDate" xml:space="preserve">
     <value>Kayıt Tarihi</value>
   </data>
   <data name="Label_Type" xml:space="preserve">

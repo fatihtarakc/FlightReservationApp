@@ -1,11 +1,9 @@
-﻿
-using App.Web.ViewModels.Account;
-using FluentValidation;
+﻿using FluentValidation;
 namespace App.Web.ValidationRules
 {
-    public class LoginVMValidator : AbstractBaseValidator<LoginVM>
+    public class SignInVMValidator : AbstractBaseValidator<SignInVM>
     {
-        public LoginVMValidator(IStringLocalizer<SharedResources> localizer) : base(localizer)
+        public SignInVMValidator(IStringLocalizer<SharedResources> localizer) : base(localizer)
         {
             RuleFor(x => x.UsernameOrEmail)
                 .NotEmpty().WithMessage(localizer[Messages.Val_UsernameOrEmail_Required])

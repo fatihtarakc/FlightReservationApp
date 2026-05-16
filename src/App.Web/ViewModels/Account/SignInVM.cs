@@ -1,6 +1,6 @@
 ﻿namespace App.Web.ViewModels.Account
 {
-    public class LoginVM
+    public class SignInVM
     {
         public string UsernameOrEmail { get; set; } = null!;
         public string Password { get; set; } = null!;

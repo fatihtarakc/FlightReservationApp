@@ -40,6 +40,15 @@ namespace App.Web.Extensions
             services.AddValidatorsFromAssemblyContaining<Program>();
             services.AddHttpContextAccessor();
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Account/SignIn";
+                    options.AccessDeniedPath = "/Account/AccessDenied";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    options.SlidingExpiration = true;
+                });
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromHours(2);

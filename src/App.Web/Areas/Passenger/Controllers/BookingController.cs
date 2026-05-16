@@ -3,7 +3,7 @@
 namespace App.Web.Areas.Passenger.Controllers
 {
     [Area("Passenger")]
-    [Authorize]
+    [Authorize(Roles = "AppUser")]
     public class BookingController : BaseController
     {
         private readonly IBookingService _bookingService;

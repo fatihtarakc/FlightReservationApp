@@ -3,7 +3,7 @@ using App.Web.Controllers;
 namespace App.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AirportController : BaseController
     {
         private readonly IAirportService _airportService;

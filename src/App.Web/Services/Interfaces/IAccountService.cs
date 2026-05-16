@@ -2,8 +2,8 @@
 {
     public interface IAccountService
     {
-        Task<IDataResult<TokenResponseVM>> SignInAsync(LoginVM model);
-        Task<IResult> SignUpAsync(RegisterVM model);
+        Task<IDataResult<TokenResponseVM>> SignInAsync(SignInVM model);
+        Task<IResult> SignUpAsync(SignUpVM model);
         Task<IResult> ForgotPasswordAsync(ForgotPasswordVM model);
         Task<IResult> ResetPasswordAsync(ResetPasswordVM model);
         Task<IResult> SignOutAsync(string token);

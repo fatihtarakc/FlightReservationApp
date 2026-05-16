@@ -1,4 +1,4 @@
-﻿namespace App.Business.Concrete.Services
+namespace App.Business.Concrete.Services
 {
     public class AccountService : IAccountService
     {
@@ -34,177 +34,247 @@
             _logger = logger;
         }
 
-        public async Task<IResult> RegisterAsync(RegisterDto dto)
+        public async Task<IResult> SignUpAsync(SignUpDto dto)
         {
-            var existingUser = await _userManager.FindByEmailAsync(dto.Email);
-            if (existingUser != null)
-                return new ErrorResult(_localizer[Messages.Account_Email_Has_Already_Existed]);
-
-            var identityUser = new IdentityUser
+            try
             {
-                Id = Guid.NewGuid().ToString(),
-                UserName = dto.Username,
-                Email = dto.Email,
-                EmailConfirmed = false
-            };
+                var existingUser = await _userManager.FindByEmailAsync(dto.Email);
+                if (existingUser != null)
+                    return new ErrorResult(_localizer[Messages.Account_Email_Has_Already_Existed]);
 
-            var result = await _userManager.CreateAsync(identityUser, dto.Password);
-            if (!result.Succeeded)
-                return new ErrorResult(string.Join(", ", result.Errors.Select(e => e.Description)));
+                IResult result = new ErrorResult(_localizer[Messages.UnexpectedError]);
+                var strategy = await _unitOfWork.CreateExecutionStrategy();
 
-            await _userManager.AddToRoleAsync(identityUser, "AppUser");
+                await strategy.ExecuteAsync(async () =>
+                {
+                    await using var transaction = await _unitOfWork.BeginTransactionAsync();
+                    try
+                    {
+                        var identityUser = new IdentityUser
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            UserName = dto.Username,
+                            Email = dto.Email,
+                            EmailConfirmed = false
+                        };
 
-            var appUser = new AppUser
+                        var createResult = await _userManager.CreateAsync(identityUser, dto.Password);
+                        if (!createResult.Succeeded)
+                        {
+                            result = new ErrorResult(string.Join(", ", createResult.Errors.Select(e => e.Description)));
+                            await transaction.RollbackAsync();
+                            return;
+                        }
+
+                        await _userManager.AddToRoleAsync(identityUser, "AppUser");
+
+                        var appUser = new AppUser
+                        {
+                            Name = dto.Name,
+                            Surname = dto.Surname,
+                            Email = dto.Email,
+                            PhoneNumber = dto.PhoneNumber,
+                            BirthDate = dto.BirthDate,
+                            UserStatus = UserStatus.Active,
+                            PreferredNotificationChannel = dto.PreferredNotificationChannel,
+                            Nationality = dto.Nationality,
+                            IdentityId = identityUser.Id,
+                            CreatedBy = dto.Email
+                        };
+
+                        await _appUserRepository.AddAsync(appUser);
+                        await _unitOfWork.SaveChangesAsync();
+                        await transaction.CommitAsync();
+
+                        await _publishEndpoint.Publish(new UserSignedUpEvent
+                        {
+                            AppUserId = appUser.Id,
+                            Name = appUser.Name,
+                            Surname = appUser.Surname,
+                            Email = appUser.Email,
+                            PhoneNumber = appUser.PhoneNumber,
+                            PreferredChannel = appUser.PreferredNotificationChannel
+                        });
+
+                        var codeResult = await _verificationCodeService.GenerateAndSaveAsync(
+                            appUser.Id, VerificationCodePurpose.EmailConfirmation, VerificationCodeChannel.Email);
+
+                        if (codeResult.IsSuccess)
+                        {
+                            await _publishEndpoint.Publish(new VerificationCodeEvent
+                            {
+                                Name = appUser.Name,
+                                Email = appUser.Email,
+                                PhoneNumber = appUser.PhoneNumber,
+                                Code = codeResult.Data!,
+                                Purpose = VerificationCodePurpose.EmailConfirmation,
+                                Channel = VerificationCodeChannel.Email
+                            });
+                        }
+
+                        _logger.LogInformation("{Message} Email: {Email}", _localizer[Messages.AppUser_HasBeen_Added].Value, dto.Email);
+                        result = new SuccessResult(_localizer[Messages.AppUser_HasBeen_Added]);
+                    }
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        _logger.LogError(ex, "{Message} Email: {Email}", _localizer[Messages.UnexpectedError].Value, dto.Email);
+                        result = new ErrorResult(_localizer[Messages.UnexpectedError]);
+                    }
+                });
+
+                return result;
+            }
+            catch (Exception ex)
             {
-                Name = dto.Name,
-                Surname = dto.Surname,
-                Email = dto.Email,
-                PhoneNumber = dto.PhoneNumber,
-                BirthDate = dto.BirthDate,
-                UserStatus = UserStatus.Active,
-                PreferredNotificationChannel = dto.PreferredNotificationChannel,
-                Nationality = dto.Nationality,
-                IdentityId = identityUser.Id,
-                CreatedBy = dto.Email
-            };
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
+            }
+        }
 
-            await _appUserRepository.AddAsync(appUser);
-            await _unitOfWork.SaveChangesAsync();
-
-            await _publishEndpoint.Publish(new UserRegisteredEvent
+        public async Task<IDataResult<TokenDto>> SignInAsync(SignInDto dto)
+        {
+            try
             {
-                AppUserId = appUser.Id,
-                Name = appUser.Name,
-                Surname = appUser.Surname,
-                Email = appUser.Email,
-                PhoneNumber = appUser.PhoneNumber,
-                PreferredChannel = appUser.PreferredNotificationChannel
-            });
+                var identityUser = dto.UsernameOrEmail.Contains('@')
+                    ? await _userManager.FindByEmailAsync(dto.UsernameOrEmail)
+                    : await _userManager.FindByNameAsync(dto.UsernameOrEmail);
 
-            var codeResult = await _verificationCodeService.GenerateAndSaveAsync(
-                appUser.Id, VerificationCodePurpose.EmailConfirmation, VerificationCodeChannel.Email);
+                if (identityUser == null)
+                    return new ErrorDataResult<TokenDto>(_localizer[Messages.Account_SignIn_Failed]);
 
-            if (codeResult.IsSuccess)
+                var signInResult = await _signInManager.CheckPasswordSignInAsync(identityUser, dto.Password, lockoutOnFailure: false);
+                if (!signInResult.Succeeded)
+                    return new ErrorDataResult<TokenDto>(_localizer[Messages.Account_SignIn_Failed]);
+
+                var roles = await _userManager.GetRolesAsync(identityUser);
+                var tokenResult = _tokenService.GenerateToken(identityUser, roles);
+
+                if (!tokenResult.IsSuccess)
+                    return new ErrorDataResult<TokenDto>(_localizer[Messages.Token_Could_Not_Generated]);
+
+                _logger.LogInformation("{Message} UserId: {UserId}", _localizer[Messages.Account_SignIn_Successful].Value, identityUser.Id);
+                return new SuccessDataResult<TokenDto>(tokenResult.Data!, _localizer[Messages.Account_SignIn_Successful]);
+            }
+            catch (Exception ex)
             {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorDataResult<TokenDto>(_localizer[Messages.UnexpectedError]);
+            }
+        }
+
+        public async Task<IResult> SignOutAsync(string identityId)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(identityId);
+                if (user == null)
+                    return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
+
+                await _userManager.UpdateSecurityStampAsync(user);
+                _logger.LogInformation("{Message} IdentityId: {Id}", _localizer[Messages.Account_SignOut_Successful].Value, identityId);
+                return new SuccessResult(_localizer[Messages.Account_SignOut_Successful]);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
+            }
+        }
+
+        public async Task<IResult> SendVerificationCodeAsync(string email, VerificationCodePurpose purpose, VerificationCodeChannel channel)
+        {
+            try
+            {
+                var appUser = await _appUserRepository.GetByEmailAsync(email, tracking: false);
+                if (appUser == null)
+                    return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
+
+                var codeResult = await _verificationCodeService.GenerateAndSaveAsync(appUser.Id, purpose, channel);
+                if (!codeResult.IsSuccess)
+                    return new ErrorResult(codeResult.Message);
+
                 await _publishEndpoint.Publish(new VerificationCodeEvent
                 {
                     Name = appUser.Name,
                     Email = appUser.Email,
                     PhoneNumber = appUser.PhoneNumber,
                     Code = codeResult.Data!,
-                    Purpose = VerificationCodePurpose.EmailConfirmation,
-                    Channel = VerificationCodeChannel.Email
+                    Purpose = purpose,
+                    Channel = channel
                 });
+
+                return new SuccessResult();
             }
-
-            _logger.LogInformation("{Message} Email: {Email}", _localizer[Messages.AppUser_HasBeen_Added].Value, dto.Email);
-            return new SuccessResult(_localizer[Messages.AppUser_HasBeen_Added]);
-        }
-
-        public async Task<IDataResult<TokenDto>> SignInAsync(SignInDto dto)
-        {
-            var identityUser = dto.UsernameOrEmail.Contains('@')
-                ? await _userManager.FindByEmailAsync(dto.UsernameOrEmail)
-                : await _userManager.FindByNameAsync(dto.UsernameOrEmail);
-
-            if (identityUser == null)
-                return new ErrorDataResult<TokenDto>(_localizer[Messages.Account_SignIn_Failed]);
-
-            var signInResult = await _signInManager.CheckPasswordSignInAsync(identityUser, dto.Password, lockoutOnFailure: false);
-            if (!signInResult.Succeeded)
-                return new ErrorDataResult<TokenDto>(_localizer[Messages.Account_SignIn_Failed]);
-
-            var roles = await _userManager.GetRolesAsync(identityUser);
-            var tokenResult = _tokenService.GenerateToken(identityUser, roles);
-
-            if (!tokenResult.IsSuccess)
-                return new ErrorDataResult<TokenDto>(_localizer[Messages.Token_Could_Not_Generated]);
-
-            _logger.LogInformation("{Message} UserId: {UserId}", _localizer[Messages.Account_SignIn_Successful].Value, identityUser.Id);
-            return new SuccessDataResult<TokenDto>(tokenResult.Data!, _localizer[Messages.Account_SignIn_Successful]);
-        }
-
-        public async Task<IResult> SignOutAsync(string identityId)
-        {
-            var user = await _userManager.FindByIdAsync(identityId);
-            if (user == null)
-                return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
-
-            await _userManager.UpdateSecurityStampAsync(user);
-            _logger.LogInformation("{Message} IdentityId: {Id}", _localizer[Messages.Account_SignOut_Successful].Value, identityId);
-            return new SuccessResult(_localizer[Messages.Account_SignOut_Successful]);
-        }
-
-        public async Task<IResult> SendVerificationCodeAsync(string email, VerificationCodePurpose purpose, VerificationCodeChannel channel)
-        {
-            var appUser = await _appUserRepository.GetByEmailAsync(email, tracking: false);
-            if (appUser == null)
-                return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
-
-            var codeResult = await _verificationCodeService.GenerateAndSaveAsync(appUser.Id, purpose, channel);
-            if (!codeResult.IsSuccess)
-                return new ErrorResult(codeResult.Message);
-
-            await _publishEndpoint.Publish(new VerificationCodeEvent
+            catch (Exception ex)
             {
-                Name = appUser.Name,
-                Email = appUser.Email,
-                PhoneNumber = appUser.PhoneNumber,
-                Code = codeResult.Data!,
-                Purpose = purpose,
-                Channel = channel
-            });
-
-            return new SuccessResult();
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
+            }
         }
 
         public async Task<IResult> VerifyCodeAsync(string email, string code, VerificationCodePurpose purpose)
         {
-            var appUser = await _appUserRepository.GetByEmailAsync(email, tracking: false);
-            if (appUser == null)
-                return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
-
-            var result = await _verificationCodeService.ValidateAsync(appUser.Id, code, purpose);
-            if (!result.IsSuccess)
-                return result;
-
-            if (purpose == VerificationCodePurpose.EmailConfirmation)
+            try
             {
-                var identityUser = await _userManager.FindByEmailAsync(email);
-                if (identityUser != null && !identityUser.EmailConfirmed)
-                {
-                    identityUser.EmailConfirmed = true;
-                    await _userManager.UpdateAsync(identityUser);
-                    _logger.LogInformation("{Message} Email: {Email}", _localizer[Messages.Account_Email_Was_Confirmed].Value, email);
-                }
-            }
+                var appUser = await _appUserRepository.GetByEmailAsync(email, tracking: false);
+                if (appUser == null)
+                    return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
 
-            return new SuccessResult(_localizer[Messages.Account_ConfirmEmail_Successful]);
+                var result = await _verificationCodeService.ValidateAsync(appUser.Id, code, purpose);
+                if (!result.IsSuccess)
+                    return result;
+
+                if (purpose == VerificationCodePurpose.EmailConfirmation)
+                {
+                    var identityUser = await _userManager.FindByEmailAsync(email);
+                    if (identityUser != null && !identityUser.EmailConfirmed)
+                    {
+                        identityUser.EmailConfirmed = true;
+                        await _userManager.UpdateAsync(identityUser);
+                        _logger.LogInformation("{Message} Email: {Email}", _localizer[Messages.Account_Email_Was_Confirmed].Value, email);
+                    }
+                }
+
+                return new SuccessResult(_localizer[Messages.Account_ConfirmEmail_Successful]);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
+            }
         }
 
         public async Task<IResult> ResetPasswordAsync(ResetPasswordDto dto)
         {
-            var appUser = await _appUserRepository.GetByEmailAsync(dto.Email, tracking: false);
-            if (appUser == null)
-                return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
+            try
+            {
+                var appUser = await _appUserRepository.GetByEmailAsync(dto.Email, tracking: false);
+                if (appUser == null)
+                    return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
 
-            var validateResult = await _verificationCodeService.ValidateAsync(appUser.Id, dto.Code, VerificationCodePurpose.PasswordReset);
-            if (!validateResult.IsSuccess)
-                return validateResult;
+                var validateResult = await _verificationCodeService.ValidateAsync(appUser.Id, dto.Code, VerificationCodePurpose.PasswordReset);
+                if (!validateResult.IsSuccess)
+                    return validateResult;
 
-            var identityUser = await _userManager.FindByEmailAsync(dto.Email);
-            if (identityUser == null)
-                return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
+                var identityUser = await _userManager.FindByEmailAsync(dto.Email);
+                if (identityUser == null)
+                    return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
 
-            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(identityUser);
-            var result = await _userManager.ResetPasswordAsync(identityUser, resetToken, dto.NewPassword);
+                var resetToken = await _userManager.GeneratePasswordResetTokenAsync(identityUser);
+                var result = await _userManager.ResetPasswordAsync(identityUser, resetToken, dto.NewPassword);
 
-            if (!result.Succeeded)
-                return new ErrorResult(_localizer[Messages.Account_ResetPassword_Failed]);
+                if (!result.Succeeded)
+                    return new ErrorResult(_localizer[Messages.Account_ResetPassword_Failed]);
 
-            _logger.LogInformation("{Message} Email: {Email}", _localizer[Messages.Account_ResetPassword_Successful].Value, dto.Email);
-            return new SuccessResult(_localizer[Messages.Account_ResetPassword_Successful]);
+                _logger.LogInformation("{Message} Email: {Email}", _localizer[Messages.Account_ResetPassword_Successful].Value, dto.Email);
+                return new SuccessResult(_localizer[Messages.Account_ResetPassword_Successful]);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
+            }
         }
     }
 }
-

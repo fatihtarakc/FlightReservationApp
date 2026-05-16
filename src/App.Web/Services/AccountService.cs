@@ -15,7 +15,7 @@ namespace App.Web.Services
             _logger = logger;
         }
 
-        public async Task<IDataResult<TokenResponseVM>> SignInAsync(LoginVM model)
+        public async Task<IDataResult<TokenResponseVM>> SignInAsync(SignInVM model)
         {
             try
             {
@@ -36,11 +36,11 @@ namespace App.Web.Services
             }
         }
 
-        public async Task<IResult> SignUpAsync(RegisterVM model)
+        public async Task<IResult> SignUpAsync(SignUpVM model)
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, "api/Account/register")
+                var req = new HttpRequestMessage(HttpMethod.Post, "api/Account/sign-up")
                 { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();

@@ -15,7 +15,7 @@ namespace App.Queue.Extensions
 
             services.AddMassTransit(configure =>
             {
-                configure.AddConsumer<UserRegisteredConsumer>();
+                configure.AddConsumer<UserSignedUpConsumer>();
                 configure.AddConsumer<BookingConfirmedConsumer>();
                 configure.AddConsumer<BookingCancelledConsumer>();
                 configure.AddConsumer<FlightCancelledConsumer>();
@@ -30,11 +30,11 @@ namespace App.Queue.Extensions
                         host.Password(rabbitMq.Password);
                     });
 
-                    cfg.ReceiveEndpoint(QueueNames.UserRegistered, endpoint =>
+                    cfg.ReceiveEndpoint(QueueNames.UserSignedUp, endpoint =>
                     {
                         endpoint.PrefetchCount = 16;
                         endpoint.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(5)));
-                        endpoint.ConfigureConsumer<UserRegisteredConsumer>(ctx);
+                        endpoint.ConfigureConsumer<UserSignedUpConsumer>(ctx);
                     });
 
                     cfg.ReceiveEndpoint(QueueNames.BookingConfirmed, endpoint =>

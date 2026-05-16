@@ -1,6 +1,6 @@
 namespace App.Queue.Events
 {
-    public record UserRegisteredEvent
+    public record UserSignedUpEvent
     {
         public Guid AppUserId { get; init; }
         public string? Name { get; init; }

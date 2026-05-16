@@ -1,11 +1,9 @@
-﻿
-using App.Web.ViewModels.Account;
-using FluentValidation;
+﻿using FluentValidation;
 namespace App.Web.ValidationRules
 {
-    public class RegisterVMValidator : AbstractBaseValidator<RegisterVM>
+    public class SignUpVMValidator : AbstractBaseValidator<SignUpVM>
     {
-        public RegisterVMValidator(IStringLocalizer<SharedResources> localizer) : base(localizer)
+        public SignUpVMValidator(IStringLocalizer<SharedResources> localizer) : base(localizer)
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage(localizer[Messages.Val_Name_Required])
@@ -24,7 +22,7 @@ namespace App.Web.ValidationRules
                 .EmailAddress().WithMessage(localizer[Messages.Val_Email_Invalid]);
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage(localizer[Messages.Val_Password_Required])
-                .MinimumLength(8).WithMessage(localizer[Messages.Val_Password_Register_TooShort])
+                .MinimumLength(8).WithMessage(localizer[Messages.Val_Password_SignUp_TooShort])
                 .Matches(@"[A-Z]").WithMessage(localizer[Messages.Val_Password_Uppercase])
                 .Matches(@"[a-z]").WithMessage(localizer[Messages.Val_Password_Lowercase])
                 .Matches(@"[0-9]").WithMessage(localizer[Messages.Val_Password_Digit])

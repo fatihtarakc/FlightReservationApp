@@ -76,7 +76,7 @@ namespace App.Web.Constants
         public const string Val_UsernameOrEmail_MinLength = nameof(Val_UsernameOrEmail_MinLength);
         public const string Val_Password_Required = nameof(Val_Password_Required);
         public const string Val_Password_TooShort = nameof(Val_Password_TooShort);
-        public const string Val_Password_Register_TooShort = nameof(Val_Password_Register_TooShort);
+        public const string Val_Password_SignUp_TooShort = nameof(Val_Password_SignUp_TooShort);
         public const string Val_Password_Uppercase = nameof(Val_Password_Uppercase);
         public const string Val_Password_Lowercase = nameof(Val_Password_Lowercase);
         public const string Val_Password_Digit = nameof(Val_Password_Digit);

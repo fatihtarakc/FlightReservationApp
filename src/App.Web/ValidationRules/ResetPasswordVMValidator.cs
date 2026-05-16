@@ -15,7 +15,7 @@ namespace App.Web.ValidationRules
                 .Length(6).WithMessage(localizer[Messages.Val_Code_Length]);
             RuleFor(x => x.NewPassword)
                 .NotEmpty().WithMessage(localizer[Messages.Val_Password_Required])
-                .MinimumLength(8).WithMessage(localizer[Messages.Val_Password_Register_TooShort])
+                .MinimumLength(8).WithMessage(localizer[Messages.Val_Password_SignUp_TooShort])
                 .Matches(@"[A-Z]").WithMessage(localizer[Messages.Val_Password_Uppercase])
                 .Matches(@"[0-9]").WithMessage(localizer[Messages.Val_Password_Digit])
                 .Matches(@"[^a-zA-Z0-9]").WithMessage(localizer[Messages.Val_Password_Special]);

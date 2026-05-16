@@ -1,8 +1,8 @@
 namespace App.Api.Validators
 {
-    public class RegisterDtoValidator : AbstractValidator<RegisterDto>
+    public class SignUpDtoValidator : AbstractValidator<SignUpDto>
     {
-        public RegisterDtoValidator()
+        public SignUpDtoValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage(Messages.Account_Please_Enter_Your_Name)

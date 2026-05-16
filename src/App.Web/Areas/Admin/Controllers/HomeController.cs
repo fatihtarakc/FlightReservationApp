@@ -3,7 +3,7 @@
 namespace App.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class HomeController : BaseController
     {
         private readonly IAdminService _adminService;

@@ -1,6 +1,6 @@
 namespace App.Dtos.AccountDtos
 {
-    public class RegisterDto
+    public class SignUpDto
     {
         public string Name { get; set; } = null!;
         public string Surname { get; set; } = null!;

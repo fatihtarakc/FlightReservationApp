@@ -11,11 +11,11 @@
             _accountService = accountService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("sign-up")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] RegisterDto dto)
+        public async Task<IActionResult> SignUp([FromBody] SignUpDto dto)
         {
-            var result = await _accountService.RegisterAsync(dto);
+            var result = await _accountService.SignUpAsync(dto);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 

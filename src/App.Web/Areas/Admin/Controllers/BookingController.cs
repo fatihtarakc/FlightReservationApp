@@ -3,7 +3,7 @@ using App.Web.Controllers;
 namespace App.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class BookingController : BaseController
     {
         private readonly IBookingService _bookingService;

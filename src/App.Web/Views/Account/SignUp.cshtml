@@ -1,4 +1,4 @@
-﻿@model App.Web.ViewModels.Account.RegisterVM
+﻿@model App.Web.ViewModels.Account.SignUpVM
 @{
     Layout = "_Layout";
 }
@@ -35,7 +35,7 @@
                               data-val-phone="@L["Val_Phone_Format"]"
                               data-val-birthdate="@L["Val_BirthDate_Required"]"
                               data-val-birthdate-age="@L["Val_BirthDate_MinAge"]"
-                              data-val-password="@L["Val_Password_Register_TooShort"]"
+                              data-val-password="@L["Val_Password_SignUp_TooShort"]"
                               data-val-confirm="@L["Val_ConfirmPassword_Match"]">
                             @Html.AntiForgeryToken()
 

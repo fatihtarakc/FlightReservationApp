@@ -1,7 +1,6 @@
-﻿using App.Web.Enums;
-namespace App.Web.ViewModels.Account
+﻿namespace App.Web.ViewModels.Account
 {
-    public class RegisterVM
+    public class SignUpVM
     {
         public string Name { get; set; } = null!;
         public string Surname { get; set; } = null!;

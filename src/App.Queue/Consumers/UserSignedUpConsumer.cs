@@ -1,17 +1,17 @@
 ﻿namespace App.Queue.Consumers
 {
-    public class UserRegisteredConsumer : IConsumer<UserRegisteredEvent>
+    public class UserSignedUpConsumer : IConsumer<UserSignedUpEvent>
     {
         private readonly IEmailSenderService _emailSenderService;
         private readonly ISmsSenderService _smsSenderService;
         private readonly IStringLocalizer<MessageResources> _localizer;
-        private readonly ILogger<UserRegisteredConsumer> _logger;
+        private readonly ILogger<UserSignedUpConsumer> _logger;
 
-        public UserRegisteredConsumer(
+        public UserSignedUpConsumer(
             IEmailSenderService emailSenderService,
             ISmsSenderService smsSenderService,
             IStringLocalizer<MessageResources> localizer,
-            ILogger<UserRegisteredConsumer> logger)
+            ILogger<UserSignedUpConsumer> logger)
         {
             _emailSenderService = emailSenderService;
             _smsSenderService = smsSenderService;
@@ -19,10 +19,10 @@
             _logger = logger;
         }
 
-        public async Task Consume(ConsumeContext<UserRegisteredEvent> context)
+        public async Task Consume(ConsumeContext<UserSignedUpEvent> context)
         {
             var message = context.Message;
-            _logger.LogInformation("Processing UserRegisteredEvent for AppUserId: {AppUserId}", message.AppUserId);
+            _logger.LogInformation("Processing UserSignedUpEvent for AppUserId: {AppUserId}", message.AppUserId);
 
             var tasks = new List<Task>();
 
@@ -39,7 +39,7 @@
             _logger.LogInformation("{Message} AppUserId: {AppUserId}", _localizer[Messages.MassTransit_Consume_Was_Successful].Value, message.AppUserId);
         }
 
-        private async Task SendWelcomeEmailAsync(UserRegisteredEvent message)
+        private async Task SendWelcomeEmailAsync(UserSignedUpEvent message)
         {
             var body = $@"<!DOCTYPE html>
 <html>
@@ -75,13 +75,13 @@
             });
         }
 
-        private async Task SendWelcomeSmsAsync(UserRegisteredEvent message)
+        private async Task SendWelcomeSmsAsync(UserSignedUpEvent message)
         {
             var smsBody = $"Welcome to FlightReservation, {message.Name} {message.Surname}! Your account has been created. Start exploring flights now.";
             await _smsSenderService.SendSmsAsync(message.PhoneNumber, smsBody);
         }
 
-        private async Task SendWelcomeWhatsAppAsync(UserRegisteredEvent message)
+        private async Task SendWelcomeWhatsAppAsync(UserSignedUpEvent message)
         {
             var whatsAppBody = $"✈ Welcome to FlightReservation, {message.Name} {message.Surname}!\n\nYour account has been successfully created.\n\nStart exploring flights and making reservations at any time.";
             await _smsSenderService.SendWhatsAppAsync(message.PhoneNumber, whatsAppBody);
