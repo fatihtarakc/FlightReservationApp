@@ -229,6 +229,90 @@ namespace App.Core.Constants
         public const string EmailTitle_PasswordReset = "EmailTitle_PasswordReset";
         public const string EmailSubject_PasswordReset = "EmailSubject_PasswordReset";
         public const string EmailContent_PasswordReset = "EmailContent_PasswordReset";
+
+        public const string EmailTitle_PasswordChanged = "EmailTitle_PasswordChanged";
+        public const string EmailSubject_PasswordChanged = "EmailSubject_PasswordChanged";
+        public const string EmailContent_PasswordChanged = "EmailContent_PasswordChanged";
+
+        // Shared email labels
+        public const string Email_Dear = "Email_Dear";
+        public const string Email_Footer = "Email_Footer";
+        public const string Email_Label_PnrNumber = "Email_Label_PnrNumber";
+        public const string Email_Label_Flight = "Email_Label_Flight";
+        public const string Email_Label_Route = "Email_Label_Route";
+        public const string Email_Label_Departure = "Email_Label_Departure";
+        public const string Email_Label_ScheduledDeparture = "Email_Label_ScheduledDeparture";
+        public const string Email_Label_Seat = "Email_Label_Seat";
+        public const string Email_Label_TotalAmount = "Email_Label_TotalAmount";
+        public const string Email_Label_CancellationReason = "Email_Label_CancellationReason";
+        public const string Email_Label_FullName = "Email_Label_FullName";
+        public const string Email_Label_Email = "Email_Label_Email";
+        public const string Email_Label_OperationTime = "Email_Label_OperationTime";
+
+        // BookingConfirmed email body
+        public const string Email_BookingConfirmed_HeaderSubtitle = "Email_BookingConfirmed_HeaderSubtitle";
+        public const string Email_BookingConfirmed_Heading = "Email_BookingConfirmed_Heading";
+        public const string Email_BookingConfirmed_Intro = "Email_BookingConfirmed_Intro";
+        public const string Email_BookingConfirmed_SectionTitle = "Email_BookingConfirmed_SectionTitle";
+        public const string Email_BookingConfirmed_Note = "Email_BookingConfirmed_Note";
+
+        // BookingCancelled email body
+        public const string Email_BookingCancelled_HeaderSubtitle = "Email_BookingCancelled_HeaderSubtitle";
+        public const string Email_BookingCancelled_Heading = "Email_BookingCancelled_Heading";
+        public const string Email_BookingCancelled_Intro = "Email_BookingCancelled_Intro";
+        public const string Email_BookingCancelled_SectionTitle = "Email_BookingCancelled_SectionTitle";
+        public const string Email_BookingCancelled_ContactNote = "Email_BookingCancelled_ContactNote";
+
+        // FlightCancelled email body
+        public const string Email_FlightCancelled_HeaderSubtitle = "Email_FlightCancelled_HeaderSubtitle";
+        public const string Email_FlightCancelled_Heading = "Email_FlightCancelled_Heading";
+        public const string Email_FlightCancelled_Intro = "Email_FlightCancelled_Intro";
+        public const string Email_FlightCancelled_SectionTitle = "Email_FlightCancelled_SectionTitle";
+        public const string Email_FlightCancelled_Warning = "Email_FlightCancelled_Warning";
+
+        // FlightReminder email body
+        public const string Email_FlightReminder_HeaderSubtitle = "Email_FlightReminder_HeaderSubtitle";
+        public const string Email_FlightReminder_SectionTitle = "Email_FlightReminder_SectionTitle";
+        public const string Email_FlightReminder_Closing = "Email_FlightReminder_Closing";
+        public const string Email_FlightReminder_7Days_Badge = "Email_FlightReminder_7Days_Badge";
+        public const string Email_FlightReminder_7Days_Desc = "Email_FlightReminder_7Days_Desc";
+        public const string Email_FlightReminder_24Hours_Badge = "Email_FlightReminder_24Hours_Badge";
+        public const string Email_FlightReminder_24Hours_Desc = "Email_FlightReminder_24Hours_Desc";
+
+        // VerificationCode email body
+        public const string Email_VerificationCode_HeaderSubtitle = "Email_VerificationCode_HeaderSubtitle";
+        public const string Email_VerificationCode_Intro = "Email_VerificationCode_Intro";
+        public const string Email_VerificationCode_Warning = "Email_VerificationCode_Warning";
+        public const string Email_VerificationCode_NotRequested = "Email_VerificationCode_NotRequested";
+
+        // UserSignedUp email body
+        public const string Email_UserSignedUp_HeaderSubtitle = "Email_UserSignedUp_HeaderSubtitle";
+        public const string Email_UserSignedUp_Intro = "Email_UserSignedUp_Intro";
+        public const string Email_UserSignedUp_ButtonText = "Email_UserSignedUp_ButtonText";
+        public const string Email_UserSignedUp_AccountInfo = "Email_UserSignedUp_AccountInfo";
+        public const string Email_UserSignedUp_Note = "Email_UserSignedUp_Note";
+
+        // PasswordChanged email body
+        public const string Email_PasswordChanged_HeaderSubtitle = "Email_PasswordChanged_HeaderSubtitle";
+        public const string Email_PasswordChanged_Heading = "Email_PasswordChanged_Heading";
+        public const string Email_PasswordChanged_Intro = "Email_PasswordChanged_Intro";
+        public const string Email_PasswordChanged_Warning = "Email_PasswordChanged_Warning";
+
+        // SMS / WhatsApp templates
+        public const string Sms_BookingConfirmed = "Sms_BookingConfirmed";
+        public const string Sms_BookingCancelled = "Sms_BookingCancelled";
+        public const string Sms_FlightCancelled = "Sms_FlightCancelled";
+        public const string Sms_FlightReminder = "Sms_FlightReminder";
+        public const string Sms_VerificationCode = "Sms_VerificationCode";
+        public const string Sms_UserSignedUp = "Sms_UserSignedUp";
+        public const string Sms_PasswordChanged = "Sms_PasswordChanged";
+        public const string WhatsApp_BookingConfirmed = "WhatsApp_BookingConfirmed";
+        public const string WhatsApp_BookingCancelled = "WhatsApp_BookingCancelled";
+        public const string WhatsApp_FlightCancelled = "WhatsApp_FlightCancelled";
+        public const string WhatsApp_FlightReminder = "WhatsApp_FlightReminder";
+        public const string WhatsApp_VerificationCode = "WhatsApp_VerificationCode";
+        public const string WhatsApp_UserSignedUp = "WhatsApp_UserSignedUp";
+        public const string WhatsApp_PasswordChanged = "WhatsApp_PasswordChanged";
         #endregion
 
         #region Sms

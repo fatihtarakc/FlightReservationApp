@@ -209,6 +209,91 @@
   <data name="EmailTitle_PasswordReset"><value>Password Reset</value></data>
   <data name="EmailSubject_PasswordReset"><value>Password Reset Request</value></data>
   <data name="EmailContent_PasswordReset"><value>Hello {0}, your password reset code is: {1}. This code is valid for 15 minutes.</value></data>
+  <data name="EmailTitle_PasswordChanged"><value>Password Change Notice</value></data>
+  <data name="EmailSubject_PasswordChanged"><value>Your Password Has Been Changed</value></data>
+  <data name="EmailContent_PasswordChanged"><value>Hello {0}, your account password has been changed successfully.</value></data>
+
+  <!-- Shared email labels -->
+  <data name="Email_Dear"><value>Dear</value></data>
+  <data name="Email_Footer"><value>© 2026 Flight Reservation System. All rights reserved.</value></data>
+  <data name="Email_Label_PnrNumber"><value>PNR Number</value></data>
+  <data name="Email_Label_Flight"><value>Flight</value></data>
+  <data name="Email_Label_Route"><value>Route</value></data>
+  <data name="Email_Label_Departure"><value>Departure</value></data>
+  <data name="Email_Label_ScheduledDeparture"><value>Scheduled Departure</value></data>
+  <data name="Email_Label_Seat"><value>Seat</value></data>
+  <data name="Email_Label_TotalAmount"><value>Total Amount</value></data>
+  <data name="Email_Label_CancellationReason"><value>Cancellation Reason</value></data>
+  <data name="Email_Label_FullName"><value>Full Name</value></data>
+  <data name="Email_Label_Email"><value>Email</value></data>
+  <data name="Email_Label_OperationTime"><value>Operation Time</value></data>
+
+  <!-- BookingConfirmed body -->
+  <data name="Email_BookingConfirmed_HeaderSubtitle"><value>Booking Confirmation</value></data>
+  <data name="Email_BookingConfirmed_Heading"><value>Your booking is confirmed!</value></data>
+  <data name="Email_BookingConfirmed_Intro"><value>your booking has been successfully created.</value></data>
+  <data name="Email_BookingConfirmed_SectionTitle"><value>Booking Summary</value></data>
+  <data name="Email_BookingConfirmed_Note"><value>Keep your PNR number. You will need it for check-in and booking changes.</value></data>
+
+  <!-- BookingCancelled body -->
+  <data name="Email_BookingCancelled_HeaderSubtitle"><value>Booking Cancellation</value></data>
+  <data name="Email_BookingCancelled_Heading"><value>Your booking has been cancelled</value></data>
+  <data name="Email_BookingCancelled_Intro"><value>your booking has been cancelled.</value></data>
+  <data name="Email_BookingCancelled_SectionTitle"><value>Cancellation Details</value></data>
+  <data name="Email_BookingCancelled_ContactNote"><value>For questions or rebooking support, please contact our team.</value></data>
+
+  <!-- FlightCancelled body -->
+  <data name="Email_FlightCancelled_HeaderSubtitle"><value>Important: Flight Cancellation Notice</value></data>
+  <data name="Email_FlightCancelled_Heading"><value>Your flight has been cancelled</value></data>
+  <data name="Email_FlightCancelled_Intro"><value>we regret to inform you that the flight in your reservation has been cancelled.</value></data>
+  <data name="Email_FlightCancelled_SectionTitle"><value>Flight Information</value></data>
+  <data name="Email_FlightCancelled_Warning"><value>Our team will contact you as soon as possible to help arrange an alternative flight or initiate a refund. We apologize for the inconvenience.</value></data>
+
+  <!-- FlightReminder body -->
+  <data name="Email_FlightReminder_HeaderSubtitle"><value>Flight Reminder</value></data>
+  <data name="Email_FlightReminder_SectionTitle"><value>Your Flight Details</value></data>
+  <data name="Email_FlightReminder_Closing"><value>Have a wonderful journey!</value></data>
+  <data name="Email_FlightReminder_7Days_Badge"><value>7 Days Until Departure</value></data>
+  <data name="Email_FlightReminder_7Days_Desc"><value>Your flight is just 7 days away! Please make sure your travel documents are ready.</value></data>
+  <data name="Email_FlightReminder_24Hours_Badge"><value>24 Hours Until Departure</value></data>
+  <data name="Email_FlightReminder_24Hours_Desc"><value>Your flight departs tomorrow! We recommend checking in online and having your boarding pass ready.</value></data>
+
+  <!-- VerificationCode body -->
+  <data name="Email_VerificationCode_HeaderSubtitle"><value>Verification Code</value></data>
+  <data name="Email_VerificationCode_Intro"><value>use the following verification code to complete your operation:</value></data>
+  <data name="Email_VerificationCode_Warning"><value>This code is valid for 10 minutes. Do not share it with anyone.</value></data>
+  <data name="Email_VerificationCode_NotRequested"><value>If you did not request this code, please disregard this email or contact our support team.</value></data>
+
+  <!-- UserSignedUp body -->
+  <data name="Email_UserSignedUp_HeaderSubtitle"><value>Welcome</value></data>
+  <data name="Email_UserSignedUp_Intro"><value>Welcome to Flight Reservation! A verification code has also been sent to your email address to activate your account.</value></data>
+  <data name="Email_UserSignedUp_ButtonText"><value>Check Your Email Verification Code</value></data>
+  <data name="Email_UserSignedUp_AccountInfo"><value>Account Information</value></data>
+  <data name="Email_UserSignedUp_Note"><value>The verification code is valid for 10 minutes.</value></data>
+
+  <!-- PasswordChanged body -->
+  <data name="Email_PasswordChanged_HeaderSubtitle"><value>Password Change Notice</value></data>
+  <data name="Email_PasswordChanged_Heading"><value>Your password has been changed</value></data>
+  <data name="Email_PasswordChanged_Intro"><value>your account password has been changed successfully.</value></data>
+  <data name="Email_PasswordChanged_Warning"><value>If you did not make this change, please contact our support team immediately and secure your account.</value></data>
+
+  <!-- SMS templates -->
+  <data name="Sms_BookingConfirmed"><value>Booking confirmed! PNR: {0} | Flight: {1} | {2}-{3} | {4} | Seat: {5} | Amount: {6}</value></data>
+  <data name="Sms_BookingCancelled"><value>Booking cancelled. PNR: {0} | Flight: {1} | {2}-{3} | {4}.{5}</value></data>
+  <data name="Sms_FlightCancelled"><value>IMPORTANT: Flight {0} ({1}-{2}) scheduled for {3} has been cancelled. PNR: {4}.{5} We will contact you to arrange an alternative flight.</value></data>
+  <data name="Sms_FlightReminder"><value>Reminder: Flight {0} ({1}-{2}) departs in {3} on {4}. PNR: {5}. Have a great trip!</value></data>
+  <data name="Sms_VerificationCode"><value>Flight Reservation - {0} code: {1}. Valid for 10 minutes. Do not share this code.</value></data>
+  <data name="Sms_UserSignedUp"><value>Hello {0} {1}, welcome to Flight Reservation! Your account has been created. You can sign in to start searching for flights.</value></data>
+  <data name="Sms_PasswordChanged"><value>Flight Reservation: Your account password was changed on {0}. If you did not make this change, please contact our support team immediately.</value></data>
+
+  <!-- WhatsApp templates -->
+  <data name="WhatsApp_BookingConfirmed"><value>✈ *Booking Confirmed!*\n\n*PNR:* {0}\n*Flight:* {1}\n*Route:* {2} → {3}\n*Departure:* {4}\n*Seat:* {5} ({6})\n*Total:* {7}\n\nKeep your PNR number for check-in.</value></data>
+  <data name="WhatsApp_BookingCancelled"><value>✈ *Booking Cancelled*\n\n*PNR:* {0}\n*Flight:* {1}\n*Route:* {2} → {3}\n*Departure:* {4}{5}\n\nPlease contact our support team to rebook.</value></data>
+  <data name="WhatsApp_FlightCancelled"><value>⚠️ *Flight Cancellation Notice*\n\n*Flight:* {0}\n*Route:* {1} → {2}\n*Scheduled Departure:* {3}\n*PNR:* {4}{5}\n\nOur team will contact you to arrange an alternative flight or refund. We apologize for the inconvenience.</value></data>
+  <data name="WhatsApp_FlightReminder"><value>✈ *Flight Reminder*\n\nYour flight departs in {0}!\n\n*Flight:* {1}\n*Route:* {2} → {3}\n*Departure:* {4}\n*PNR:* {5}\n\nHave a wonderful journey! 🌍</value></data>
+  <data name="WhatsApp_VerificationCode"><value>✈ *Flight Reservation - {0}*\n\nYour verification code:\n\n*{1}*\n\n⚠️ This code is valid for 10 minutes. Do not share it with anyone.</value></data>
+  <data name="WhatsApp_UserSignedUp"><value>✈ *Flight Reservation — Welcome!*\n\nYour account has been successfully created.\n\nYou can sign in to search and book flights.</value></data>
+  <data name="WhatsApp_PasswordChanged"><value>✈ *Flight Reservation — Password Changed*\n\nYour account password was changed on *{0}*.\n\n⚠️ If you did not make this change, please contact our support team immediately.</value></data>
 
   <!-- SMS -->
   <data name="Sms_SendingProcess_Was_Failed"><value>SMS sending failed.</value></data>

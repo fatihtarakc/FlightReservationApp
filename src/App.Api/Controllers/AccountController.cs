@@ -5,10 +5,12 @@
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private readonly IStringLocalizer<MessageResources> _localizer;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, IStringLocalizer<MessageResources> localizer)
         {
             _accountService = accountService;
+            _localizer = localizer;
         }
 
         [HttpPost("sign-up")]
@@ -24,7 +26,13 @@
         public async Task<IActionResult> SignIn([FromBody] SignInDto dto)
         {
             var result = await _accountService.SignInAsync(dto);
-            return result.IsSuccess ? Ok(result) : Unauthorized(result);
+            if (!result.IsSuccess)
+            {
+                if (result.Message == _localizer[Messages.Account_Email_Has_Not_Confirmed])
+                    return StatusCode(StatusCodes.Status403Forbidden, result);
+                return Unauthorized(result);
+            }
+            return Ok(result);
         }
 
         [HttpPost("sign-out")]

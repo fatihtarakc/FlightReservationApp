@@ -1,4 +1,4 @@
-﻿namespace App.Queue.Consumers
+namespace App.Queue.Consumers
 {
     public class FlightReminderConsumer : IConsumer<FlightReminderEvent>
     {
@@ -22,6 +22,8 @@
         public async Task Consume(ConsumeContext<FlightReminderEvent> context)
         {
             var message = context.Message;
+            CultureInfo.CurrentUICulture = new CultureInfo(message.Language);
+
             var reminderType = message.Is7DayReminder ? "7-Day" : "24-Hour";
             _logger.LogInformation("Processing FlightReminderEvent ({ReminderType}) for BookingId: {BookingId}", reminderType, message.BookingId);
 
@@ -43,9 +45,14 @@
 
         private async Task SendReminderEmailAsync(FlightReminderEvent message)
         {
+            var footer = _localizer[Messages.Email_Footer].Value;
             var (subjectKey, headerColor, reminderBadge, reminderDesc) = message.Is7DayReminder
-                ? (Messages.EmailSubject_FlightReminder_7Days, "#2980b9", "7 Days Until Departure", "Your flight is just 7 days away! Please make sure your travel documents are ready.")
-                : (Messages.EmailSubject_FlightReminder_24Hours, "#e67e22", "24 Hours Until Departure", "Your flight departs tomorrow! Please check in online and have your boarding pass ready.");
+                ? (Messages.EmailSubject_FlightReminder_7Days, "#2980b9",
+                   _localizer[Messages.Email_FlightReminder_7Days_Badge].Value,
+                   _localizer[Messages.Email_FlightReminder_7Days_Desc].Value)
+                : (Messages.EmailSubject_FlightReminder_24Hours, "#e67e22",
+                   _localizer[Messages.Email_FlightReminder_24Hours_Badge].Value,
+                   _localizer[Messages.Email_FlightReminder_24Hours_Desc].Value);
 
             var body = $@"<!DOCTYPE html>
 <html>
@@ -53,28 +60,28 @@
 <body style=""font-family:Arial,sans-serif;background-color:#f4f4f4;margin:0;padding:20px;"">
   <div style=""max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1);"">
     <div style=""background-color:{headerColor};padding:30px;text-align:center;"">
-      <h1 style=""color:#ffffff;margin:0;font-size:24px;"">&#9992; FlightReservation</h1>
-      <p style=""color:rgba(255,255,255,.8);margin:8px 0 0;"">Flight Reminder</p>
+      <h1 style=""color:#ffffff;margin:0;font-size:24px;"">&#9992; Flight Reservation</h1>
+      <p style=""color:rgba(255,255,255,.8);margin:8px 0 0;"">{_localizer[Messages.Email_FlightReminder_HeaderSubtitle]}</p>
     </div>
     <div style=""padding:30px;"">
       <div style=""text-align:center;margin-bottom:20px;"">
         <span style=""display:inline-block;background-color:{headerColor};color:#fff;padding:8px 20px;border-radius:20px;font-weight:bold;font-size:14px;"">{reminderBadge}</span>
       </div>
-      <h2 style=""color:#333;"">Reminder: {message.PassengerName}</h2>
+      <h2 style=""color:#333;"">{_localizer[Messages.Email_Dear]} {message.PassengerName},</h2>
       <p style=""color:#555;line-height:1.7;"">{reminderDesc}</p>
       <div style=""margin:20px 0;padding:20px;background-color:#f8f9ff;border-radius:6px;border:1px solid #d0deff;"">
-        <h3 style=""color:#003580;margin:0 0 15px;"">Your Flight Details</h3>
+        <h3 style=""color:#003580;margin:0 0 15px;"">{_localizer[Messages.Email_FlightReminder_SectionTitle]}</h3>
         <table style=""width:100%;border-collapse:collapse;"">
-          <tr><td style=""color:#777;padding:6px 0;"">PNR Number</td><td style=""color:#222;font-weight:bold;text-align:right;"">{message.PnrNumber}</td></tr>
-          <tr><td style=""color:#777;padding:6px 0;"">Flight</td><td style=""color:#222;font-weight:bold;text-align:right;"">{message.FlightNumber}</td></tr>
-          <tr><td style=""color:#777;padding:6px 0;"">Route</td><td style=""color:#222;font-weight:bold;text-align:right;"">{message.DepartureAirport} &#8594; {message.ArrivalAirport}</td></tr>
-          <tr><td style=""color:#777;padding:6px 0;"">Departure</td><td style=""color:#222;font-weight:bold;text-align:right;font-size:16px;"">{message.DepartureDateTime:dd MMM yyyy HH:mm}</td></tr>
+          <tr><td style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_PnrNumber]}</td><td style=""color:#222;font-weight:bold;text-align:right;"">{message.PnrNumber}</td></tr>
+          <tr><td style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_Flight]}</td><td style=""color:#222;font-weight:bold;text-align:right;"">{message.FlightNumber}</td></tr>
+          <tr><td style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_Route]}</td><td style=""color:#222;font-weight:bold;text-align:right;"">{message.DepartureAirport} &#8594; {message.ArrivalAirport}</td></tr>
+          <tr><td style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_Departure]}</td><td style=""color:#222;font-weight:bold;text-align:right;font-size:16px;"">{message.DepartureDateTime:dd MMM yyyy HH:mm}</td></tr>
         </table>
       </div>
-      <p style=""color:#555;font-size:13px;"">Have a wonderful journey! &#127758;</p>
+      <p style=""color:#555;font-size:13px;"">{_localizer[Messages.Email_FlightReminder_Closing]} &#127758;</p>
     </div>
     <div style=""background-color:#f8f8f8;padding:20px;text-align:center;border-top:1px solid #eee;"">
-      <p style=""color:#999;font-size:12px;margin:0;"">&#169; 2026 FlightReservation. All rights reserved.</p>
+      <p style=""color:#999;font-size:12px;margin:0;"">{footer}</p>
     </div>
   </div>
 </body>
@@ -91,24 +98,27 @@
 
         private async Task SendReminderSmsAsync(FlightReminderEvent message)
         {
-            var timeLabel = message.Is7DayReminder ? "7 days" : "TOMORROW";
-            var smsBody = $"Reminder: Flight {message.FlightNumber} ({message.DepartureAirport}-{message.ArrivalAirport}) departs in {timeLabel} on {message.DepartureDateTime:dd MMM yyyy HH:mm}. PNR: {message.PnrNumber}. Have a great trip!";
+            var isEn = CultureInfo.CurrentUICulture.Name.StartsWith("en");
+            var timeLabel = message.Is7DayReminder
+                ? (isEn ? "7 days" : "7 gün")
+                : (isEn ? "24 hours" : "24 saat");
+            var smsBody = string.Format(_localizer[Messages.Sms_FlightReminder].Value,
+                message.FlightNumber, message.DepartureAirport, message.ArrivalAirport,
+                timeLabel, message.DepartureDateTime.ToString("dd MMM yyyy HH:mm"), message.PnrNumber);
             await _smsSenderService.SendSmsAsync(message.PhoneNumber, smsBody);
         }
 
         private async Task SendReminderWhatsAppAsync(FlightReminderEvent message)
         {
-            var timeLabel = message.Is7DayReminder ? "7 days" : "*TOMORROW*";
-            var whatsAppBody = $"✈ *Flight Reminder*\n\n" +
-                               $"Dear {message.PassengerName},\n\n" +
-                               $"Your flight departs in {timeLabel}!\n\n" +
-                               $"*Flight:* {message.FlightNumber}\n" +
-                               $"*Route:* {message.DepartureAirport} → {message.ArrivalAirport}\n" +
-                               $"*Departure:* {message.DepartureDateTime:dd MMM yyyy HH:mm}\n" +
-                               $"*PNR:* {message.PnrNumber}\n\n" +
-                               $"Have a wonderful journey! 🌍";
+            var isEn = CultureInfo.CurrentUICulture.Name.StartsWith("en");
+            var timeLabel = message.Is7DayReminder
+                ? (isEn ? "7 days" : "7 gün")
+                : (isEn ? "24 hours" : "24 saat");
+            var whatsAppBody = string.Format(_localizer[Messages.WhatsApp_FlightReminder].Value,
+                timeLabel, message.FlightNumber, message.DepartureAirport, message.ArrivalAirport,
+                message.DepartureDateTime.ToString("dd MMM yyyy HH:mm"), message.PnrNumber)
+                .Replace("\\n", "\n");
             await _smsSenderService.SendWhatsAppAsync(message.PhoneNumber, whatsAppBody);
         }
     }
 }
-

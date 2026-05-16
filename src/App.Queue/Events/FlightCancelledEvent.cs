@@ -9,6 +9,7 @@ namespace App.Queue.Events
         public string? ArrivalCity { get; init; }
         public string? CancellationReason { get; init; }
         public IEnumerable<AffectedPassenger> AffectedPassengers { get; init; } = new List<AffectedPassenger>();
+        public string Language { get; init; } = "tr-TR";
     }
 
     public record AffectedPassenger
@@ -20,3 +21,4 @@ namespace App.Queue.Events
         public NotificationChannel PreferredChannel { get; init; }
     }
 }
+

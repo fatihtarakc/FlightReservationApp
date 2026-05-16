@@ -13,5 +13,6 @@ namespace App.Queue.Events
         public string? ArrivalCity { get; init; }
         public string? CancellationReason { get; init; }
         public NotificationChannel PreferredChannel { get; init; }
+        public string Language { get; init; } = "tr-TR";
     }
 }

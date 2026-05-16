@@ -254,7 +254,8 @@ namespace App.Business.Concrete.Services
                                 DepartureCity      = flightFull?.Schedule?.Route?.DepartureAirport?.City ?? string.Empty,
                                 ArrivalCity        = flightFull?.Schedule?.Route?.ArrivalAirport?.City ?? string.Empty,
                                 CancellationReason = reason,
-                                AffectedPassengers = affectedPassengers
+                                AffectedPassengers = affectedPassengers,
+                                Language           = CultureInfo.CurrentUICulture.Name
                             });
                         }
 

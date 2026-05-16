@@ -21,6 +21,7 @@ namespace App.Queue.Extensions
                 configure.AddConsumer<FlightCancelledConsumer>();
                 configure.AddConsumer<FlightReminderConsumer>();
                 configure.AddConsumer<VerificationCodeConsumer>();
+                configure.AddConsumer<PasswordChangedConsumer>();
 
                 configure.UsingRabbitMq((ctx, cfg) =>
                 {
@@ -70,6 +71,13 @@ namespace App.Queue.Extensions
                         endpoint.PrefetchCount = 16;
                         endpoint.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(5)));
                         endpoint.ConfigureConsumer<VerificationCodeConsumer>(ctx);
+                    });
+
+                    cfg.ReceiveEndpoint(QueueNames.PasswordChanged, endpoint =>
+                    {
+                        endpoint.PrefetchCount = 16;
+                        endpoint.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(5)));
+                        endpoint.ConfigureConsumer<PasswordChangedConsumer>(ctx);
                     });
                 });
             });

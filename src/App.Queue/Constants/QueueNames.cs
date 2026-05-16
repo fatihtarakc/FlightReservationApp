@@ -5,11 +5,12 @@ namespace App.Queue.Constants
         public const string SendEmail = "flight-reservation-send-email";
         public const string SendSms = "flight-reservation-send-sms";
         public const string SendWhatsApp = "flight-reservation-send-whatsapp";
-        public const string UserSignedUp = "flight-reservation-user-signedup,";
+        public const string UserSignedUp = "flight-reservation-user-signedup";
         public const string BookingConfirmed = "flight-reservation-booking-confirmed";
         public const string BookingCancelled = "flight-reservation-booking-cancelled";
         public const string FlightCancelled = "flight-reservation-flight-cancelled";
         public const string FlightReminder = "flight-reservation-flight-reminder";
         public const string VerificationCode = "flight-reservation-verification-code";
+        public const string PasswordChanged = "flight-reservation-password-changed";
     }
 }

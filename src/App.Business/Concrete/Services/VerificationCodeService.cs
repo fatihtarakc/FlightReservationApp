@@ -46,7 +46,7 @@ namespace App.Business.Concrete.Services
             await _verificationCodeRepository.AddAsync(verificationCode);
             await _unitOfWork.SaveChangesAsync();
 
-            return new SuccessDataResult<string>(code);
+            return new SuccessDataResult<string>(data: code);
         }
 
         public async Task<IResult> ValidateAsync(Guid userId, string code, VerificationCodePurpose purpose)

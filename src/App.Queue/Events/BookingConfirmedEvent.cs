@@ -15,5 +15,6 @@ namespace App.Queue.Events
         public SeatClass SeatClass { get; init; }
         public decimal TotalPrice { get; init; }
         public NotificationChannel PreferredChannel { get; init; }
+        public string Language { get; init; } = "tr-TR";
     }
 }

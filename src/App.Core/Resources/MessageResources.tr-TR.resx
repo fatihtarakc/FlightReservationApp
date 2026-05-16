@@ -209,6 +209,91 @@
   <data name="EmailTitle_PasswordReset"><value>Şifre Sıfırlama</value></data>
   <data name="EmailSubject_PasswordReset"><value>Şifre Sıfırlama Talebi</value></data>
   <data name="EmailContent_PasswordReset"><value>Merhaba {0}, şifre sıfırlama kodunuz: {1}. Bu kod 15 dakika geçerlidir.</value></data>
+  <data name="EmailTitle_PasswordChanged"><value>Şifre Değişikliği Bildirimi</value></data>
+  <data name="EmailSubject_PasswordChanged"><value>Şifreniz Değiştirildi</value></data>
+  <data name="EmailContent_PasswordChanged"><value>Merhaba {0}, hesabınızın şifresi başarıyla değiştirildi.</value></data>
+
+  <!-- Shared email labels -->
+  <data name="Email_Dear"><value>Sayın</value></data>
+  <data name="Email_Footer"><value>© 2026 Flight Reservation System. Tüm hakları saklıdır.</value></data>
+  <data name="Email_Label_PnrNumber"><value>PNR Numarası</value></data>
+  <data name="Email_Label_Flight"><value>Uçuş</value></data>
+  <data name="Email_Label_Route"><value>Güzergah</value></data>
+  <data name="Email_Label_Departure"><value>Kalkış</value></data>
+  <data name="Email_Label_ScheduledDeparture"><value>Planlanmış Kalkış</value></data>
+  <data name="Email_Label_Seat"><value>Koltuk</value></data>
+  <data name="Email_Label_TotalAmount"><value>Toplam Tutar</value></data>
+  <data name="Email_Label_CancellationReason"><value>İptal Nedeni</value></data>
+  <data name="Email_Label_FullName"><value>Ad Soyad</value></data>
+  <data name="Email_Label_Email"><value>E-posta</value></data>
+  <data name="Email_Label_OperationTime"><value>İşlem Zamanı</value></data>
+
+  <!-- BookingConfirmed body -->
+  <data name="Email_BookingConfirmed_HeaderSubtitle"><value>Rezervasyon Onayı</value></data>
+  <data name="Email_BookingConfirmed_Heading"><value>Rezervasyonunuz onaylandı!</value></data>
+  <data name="Email_BookingConfirmed_Intro"><value>rezervasyonunuz başarıyla oluşturuldu.</value></data>
+  <data name="Email_BookingConfirmed_SectionTitle"><value>Rezervasyon Özeti</value></data>
+  <data name="Email_BookingConfirmed_Note"><value>PNR numaranızı saklayın. Check-in ve rezervasyon değişikliklerinde ihtiyacınız olacak.</value></data>
+
+  <!-- BookingCancelled body -->
+  <data name="Email_BookingCancelled_HeaderSubtitle"><value>Rezervasyon İptali</value></data>
+  <data name="Email_BookingCancelled_Heading"><value>Rezervasyonunuz iptal edildi</value></data>
+  <data name="Email_BookingCancelled_Intro"><value>rezervasyonunuz iptal edildi.</value></data>
+  <data name="Email_BookingCancelled_SectionTitle"><value>İptal Detayları</value></data>
+  <data name="Email_BookingCancelled_ContactNote"><value>Sorularınız veya yeniden rezervasyon ile ilgili destek almak için ekibimizle iletişime geçin.</value></data>
+
+  <!-- FlightCancelled body -->
+  <data name="Email_FlightCancelled_HeaderSubtitle"><value>Önemli: Uçuş İptali Bildirimi</value></data>
+  <data name="Email_FlightCancelled_Heading"><value>Uçuşunuz iptal edildi</value></data>
+  <data name="Email_FlightCancelled_Intro"><value>rezervasyonunuzdaki uçuşun iptal edildiğini bildirmekten üzüntü duyarız.</value></data>
+  <data name="Email_FlightCancelled_SectionTitle"><value>Uçuş Bilgileri</value></data>
+  <data name="Email_FlightCancelled_Warning"><value>Ekibimiz en kısa sürede sizinle iletişime geçerek alternatif uçuş ayarlamak veya iade işlemini başlatmak için yardımcı olacaktır. Yaşanan aksaklık için özür dileriz.</value></data>
+
+  <!-- FlightReminder body -->
+  <data name="Email_FlightReminder_HeaderSubtitle"><value>Uçuş Hatırlatıcısı</value></data>
+  <data name="Email_FlightReminder_SectionTitle"><value>Uçuş Bilgileriniz</value></data>
+  <data name="Email_FlightReminder_Closing"><value>İyi yolculuklar dileriz!</value></data>
+  <data name="Email_FlightReminder_7Days_Badge"><value>Kalkışa 7 Gün Kaldı</value></data>
+  <data name="Email_FlightReminder_7Days_Desc"><value>Uçuşunuza 7 gün kaldı! Seyahat belgelerinizin hazır olduğundan emin olun.</value></data>
+  <data name="Email_FlightReminder_24Hours_Badge"><value>Kalkışa 24 Saat Kaldı</value></data>
+  <data name="Email_FlightReminder_24Hours_Desc"><value>Uçuşunuz yarın! Online check-in yapmanızı ve biniş kartınızı hazır bulundurmanızı öneririz.</value></data>
+
+  <!-- VerificationCode body -->
+  <data name="Email_VerificationCode_HeaderSubtitle"><value>Doğrulama Kodu</value></data>
+  <data name="Email_VerificationCode_Intro"><value>işleminizi tamamlamak için aşağıdaki doğrulama kodunu kullanın:</value></data>
+  <data name="Email_VerificationCode_Warning"><value>Bu kod 10 dakika geçerlidir. Kodu kimseyle paylaşmayın.</value></data>
+  <data name="Email_VerificationCode_NotRequested"><value>Bu kodu siz talep etmediyseniz bu e-postayı dikkate almayın ya da destek ekibimizle iletişime geçin.</value></data>
+
+  <!-- UserSignedUp body -->
+  <data name="Email_UserSignedUp_HeaderSubtitle"><value>Hoş Geldiniz</value></data>
+  <data name="Email_UserSignedUp_Intro"><value>Flight Reservation'a hoş geldiniz! Hesabınızı etkinleştirmek için e-posta adresinize ayrıca bir doğrulama kodu gönderilmiştir.</value></data>
+  <data name="Email_UserSignedUp_ButtonText"><value>E-posta Doğrulama Kodunuzu Kontrol Edin</value></data>
+  <data name="Email_UserSignedUp_AccountInfo"><value>Hesap Bilgileri</value></data>
+  <data name="Email_UserSignedUp_Note"><value>Doğrulama kodu 10 dakika geçerlidir.</value></data>
+
+  <!-- PasswordChanged body -->
+  <data name="Email_PasswordChanged_HeaderSubtitle"><value>Şifre Değişikliği Bildirimi</value></data>
+  <data name="Email_PasswordChanged_Heading"><value>Şifreniz değiştirildi</value></data>
+  <data name="Email_PasswordChanged_Intro"><value>hesabınızın şifresi başarıyla değiştirildi.</value></data>
+  <data name="Email_PasswordChanged_Warning"><value>Bu işlemi siz yapmadıysanız, lütfen hemen destek ekibimizle iletişime geçin ve hesabınızı güvence altına alın.</value></data>
+
+  <!-- SMS templates -->
+  <data name="Sms_BookingConfirmed"><value>Rezervasyon onaylandı! PNR: {0} | Uçuş: {1} | {2}-{3} | {4} | Koltuk: {5} | Tutar: {6}</value></data>
+  <data name="Sms_BookingCancelled"><value>Rezervasyon iptal edildi. PNR: {0} | Uçuş: {1} | {2}-{3} | {4}.{5}</value></data>
+  <data name="Sms_FlightCancelled"><value>ÖNEMLİ: {0} ({1}-{2}) uçuşu {3} tarihinde iptal edildi. PNR: {4}.{5} Alternatif uçuş için sizinle iletişime geçeceğiz.</value></data>
+  <data name="Sms_FlightReminder"><value>Hatırlatma: {0} ({1}-{2}) uçuşunuz {3} sonra {4} tarihinde kalkıyor. PNR: {5}. İyi yolculuklar!</value></data>
+  <data name="Sms_VerificationCode"><value>Flight Reservation - {0} kodu: {1}. 10 dakika geçerlidir. Kodu kimseyle paylaşmayın.</value></data>
+  <data name="Sms_UserSignedUp"><value>Merhaba {0} {1}, Flight Reservation'a hoş geldiniz! Hesabınız başarıyla oluşturuldu. Uçuş aramaya başlamak için giriş yapabilirsiniz.</value></data>
+  <data name="Sms_PasswordChanged"><value>Flight Reservation: Hesabınızın şifresi {0} tarihinde değiştirildi. Bu işlemi siz yapmadıysanız hemen destek ekibimizle iletişime geçin.</value></data>
+
+  <!-- WhatsApp templates -->
+  <data name="WhatsApp_BookingConfirmed"><value>✈ *Rezervasyon Onaylandı!*\n\n*PNR:* {0}\n*Uçuş:* {1}\n*Güzergah:* {2} → {3}\n*Kalkış:* {4}\n*Koltuk:* {5} ({6})\n*Toplam:* {7}\n\nPNR numaranızı check-in için saklayın.</value></data>
+  <data name="WhatsApp_BookingCancelled"><value>✈ *Rezervasyon İptal Edildi*\n\n*PNR:* {0}\n*Uçuş:* {1}\n*Güzergah:* {2} → {3}\n*Kalkış:* {4}{5}\n\nYeniden rezervasyon için destek ekibimizle iletişime geçin.</value></data>
+  <data name="WhatsApp_FlightCancelled"><value>⚠️ *Uçuş İptali Bildirimi*\n\n*Uçuş:* {0}\n*Güzergah:* {1} → {2}\n*Planlanan Kalkış:* {3}\n*PNR:* {4}{5}\n\nAlternatif uçuş veya iade için en kısa sürede sizinle iletişime geçeceğiz. Yaşanan aksaklık için özür dileriz.</value></data>
+  <data name="WhatsApp_FlightReminder"><value>✈ *Uçuş Hatırlatması*\n\nUçuşunuza {0} kaldı!\n\n*Uçuş:* {1}\n*Güzergah:* {2} → {3}\n*Kalkış:* {4}\n*PNR:* {5}\n\nİyi yolculuklar dileriz! 🌍</value></data>
+  <data name="WhatsApp_VerificationCode"><value>✈ *Flight Reservation - {0}*\n\nDoğrulama kodunuz:\n\n*{1}*\n\n⚠️ Bu kod 10 dakika geçerlidir. Kodu kimseyle paylaşmayın.</value></data>
+  <data name="WhatsApp_UserSignedUp"><value>✈ *Flight Reservation — Hoş Geldiniz!*\n\nHesabınız başarıyla oluşturuldu.\n\nUçuş aramak ve rezervasyon yapmak için giriş yapabilirsiniz.</value></data>
+  <data name="WhatsApp_PasswordChanged"><value>✈ *Flight Reservation — Şifre Değişikliği*\n\nHesabınızın şifresi *{0}* tarihinde başarıyla değiştirildi.\n\n⚠️ Bu işlemi siz yapmadıysanız hemen destek ekibimizle iletişime geçin.</value></data>
 
   <!-- SMS -->
   <data name="Sms_SendingProcess_Was_Failed"><value>SMS gönderimi başarısız.</value></data>

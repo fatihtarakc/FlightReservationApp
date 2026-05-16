@@ -93,7 +93,8 @@ namespace App.Business.Concrete.Services
                             Surname = appUser.Surname,
                             Email = appUser.Email,
                             PhoneNumber = appUser.PhoneNumber,
-                            PreferredChannel = appUser.PreferredNotificationChannel
+                            PreferredChannel = appUser.PreferredNotificationChannel,
+                            Language = CultureInfo.CurrentUICulture.Name
                         });
 
                         var codeResult = await _verificationCodeService.GenerateAndSaveAsync(
@@ -108,7 +109,8 @@ namespace App.Business.Concrete.Services
                                 PhoneNumber = appUser.PhoneNumber,
                                 Code = codeResult.Data!,
                                 Purpose = VerificationCodePurpose.EmailConfirmation,
-                                Channel = VerificationCodeChannel.Email
+                                Channel = VerificationCodeChannel.Email,
+                                Language = CultureInfo.CurrentUICulture.Name
                             });
                         }
 
@@ -146,6 +148,9 @@ namespace App.Business.Concrete.Services
                 var signInResult = await _signInManager.CheckPasswordSignInAsync(identityUser, dto.Password, lockoutOnFailure: false);
                 if (!signInResult.Succeeded)
                     return new ErrorDataResult<TokenDto>(_localizer[Messages.Account_SignIn_Failed]);
+
+                if (!identityUser.EmailConfirmed)
+                    return new ErrorDataResult<TokenDto>(_localizer[Messages.Account_Email_Has_Not_Confirmed]);
 
                 var roles = await _userManager.GetRolesAsync(identityUser);
                 var tokenResult = _tokenService.GenerateToken(identityUser, roles);
@@ -201,7 +206,8 @@ namespace App.Business.Concrete.Services
                     PhoneNumber = appUser.PhoneNumber,
                     Code = codeResult.Data!,
                     Purpose = purpose,
-                    Channel = channel
+                    Channel = channel,
+                    Language = CultureInfo.CurrentUICulture.Name
                 });
 
                 return new SuccessResult();
@@ -266,6 +272,16 @@ namespace App.Business.Concrete.Services
 
                 if (!result.Succeeded)
                     return new ErrorResult(_localizer[Messages.Account_ResetPassword_Failed]);
+
+                await _publishEndpoint.Publish(new PasswordChangedEvent
+                {
+                    Name = appUser.Name,
+                    Email = appUser.Email,
+                    PhoneNumber = appUser.PhoneNumber,
+                    ChangedAt = DateTime.UtcNow,
+                    PreferredChannel = appUser.PreferredNotificationChannel,
+                    Language = CultureInfo.CurrentUICulture.Name
+                });
 
                 _logger.LogInformation("{Message} Email: {Email}", _localizer[Messages.Account_ResetPassword_Successful].Value, dto.Email);
                 return new SuccessResult(_localizer[Messages.Account_ResetPassword_Successful]);

@@ -13,5 +13,6 @@ namespace App.Queue.Events
         public string? ArrivalAirport { get; init; }
         public NotificationChannel PreferredChannel { get; init; }
         public bool Is7DayReminder { get; init; }
+        public string Language { get; init; } = "tr-TR";
     }
 }

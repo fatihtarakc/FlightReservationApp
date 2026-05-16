@@ -20,12 +20,13 @@ namespace App.Web.Extensions
         public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
         {
             var apiBaseUrl = configuration["ApiSettings:BaseUrl"] ?? "https://localhost:5000/";
+            services.AddTransient<CultureDelegatingHandler>();
             services.AddHttpClient("ApiClient", client =>
             {
                 client.BaseAddress = new Uri(apiBaseUrl);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
                 client.Timeout = TimeSpan.FromSeconds(30);
-            });
+            }).AddHttpMessageHandler<CultureDelegatingHandler>();
 
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IFlightService, FlightService>();

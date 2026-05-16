@@ -186,7 +186,8 @@ namespace App.Business.Concrete.Services
                             SeatNumber        = seatNumber,
                             SeatClass         = seat.SeatClass,
                             TotalPrice        = price,
-                            PreferredChannel  = user.PreferredNotificationChannel
+                            PreferredChannel  = user.PreferredNotificationChannel,
+                            Language          = CultureInfo.CurrentUICulture.Name
                         });
 
                         var saved = await _bookingRepository.IncludeGetByIdAsync(booking.Id, tracking: false);
@@ -251,7 +252,8 @@ namespace App.Business.Concrete.Services
                             DepartureCity      = booking.Flight?.Schedule?.Route?.DepartureAirport?.City ?? string.Empty,
                             ArrivalCity        = booking.Flight?.Schedule?.Route?.ArrivalAirport?.City ?? string.Empty,
                             CancellationReason = reason,
-                            PreferredChannel   = booking.AppUser.PreferredNotificationChannel
+                            PreferredChannel   = booking.AppUser.PreferredNotificationChannel,
+                            Language           = CultureInfo.CurrentUICulture.Name
                         });
 
                         _logger.LogInformation("{Message} BookingId: {Id}", _localizer[Messages.Booking_Was_Cancelled].Value, id);

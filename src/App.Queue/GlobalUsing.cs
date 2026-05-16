@@ -1,4 +1,5 @@
 global using App.Core.Constants;
+global using System.Globalization;
 global using App.Core.Options;
 global using App.Core.Resources;
 global using App.Core.Utilities.Results.Abstract;

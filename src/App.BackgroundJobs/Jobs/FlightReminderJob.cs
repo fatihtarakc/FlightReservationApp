@@ -57,7 +57,8 @@ namespace App.BackgroundJobs.Jobs
                         DepartureAirport = booking.Flight.Schedule.Route.DepartureAirport.IataCode,
                         ArrivalAirport = booking.Flight.Schedule.Route.ArrivalAirport.IataCode,
                         PreferredChannel = booking.AppUser.PreferredNotificationChannel,
-                        Is7DayReminder = is7DayReminder
+                        Is7DayReminder = is7DayReminder,
+                        Language = "tr-TR"
                     };
 
                     await _publishEndpoint.Publish(reminderEvent);
