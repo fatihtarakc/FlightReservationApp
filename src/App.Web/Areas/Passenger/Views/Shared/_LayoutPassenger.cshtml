@@ -22,6 +22,14 @@
     <link rel="stylesheet" href="~/css/passenger.css" asp-append-version="true" />
 </head>
 <body>
+    <div id="pageLoader">
+        <div class="loader-brand"><i class="fas fa-plane me-2"></i>Sky<span>Way</span></div>
+        <div class="loader-runway">
+            <div class="loader-bar"></div>
+            <i class="fas fa-plane loader-plane-icon"></i>
+        </div>
+    </div>
+
     <div class="pax-topbar">
         <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center gap-3">
@@ -94,10 +102,10 @@
             </div>
             <div class="sidebar-divider"></div>
 
-            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="d-inline w-100">
+            <form asp-area="" asp-controller="Account" asp-action="SignOut" method="post" class="d-inline w-100">
                 @Html.AntiForgeryToken()
                 <button type="submit" class="nav-link border-0 w-100 text-start" style="background:transparent;color:#c8102e">
-                    <i class="fas fa-sign-out-alt"></i> @L["Nav_Logout"]
+                    <i class="fas fa-sign-out-alt"></i> @L["Nav_SignOut"]
                 </button>
             </form>
         </nav>

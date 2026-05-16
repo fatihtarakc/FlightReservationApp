@@ -25,6 +25,14 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
+    <div id="pageLoader">
+        <div class="loader-brand"><i class="fas fa-plane me-2"></i>Sky<span>Way</span></div>
+        <div class="loader-runway">
+            <div class="loader-bar"></div>
+            <i class="fas fa-plane loader-plane-icon"></i>
+        </div>
+    </div>
+
     <div class="navbar-top-bar">
         <div class="container d-flex justify-content-between align-items-center">
             <div class="d-none d-md-block">
@@ -43,15 +51,15 @@
                     {
                         <a asp-area="Passenger" asp-controller="Home" asp-action="Index" class="me-2">@L["Nav_MyAccount"]</a>
                     }
-                    <form asp-controller="Account" asp-action="Logout" asp-area="" method="post" class="d-inline">
+                    <form asp-controller="Account" asp-action="SignOut" asp-area="" method="post" class="d-inline">
                         @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-outline-light">@L["Nav_Logout"]</button>
+                        <button type="submit" class="btn btn-sm btn-outline-light">@L["Nav_SignOut"]</button>
                     </form>
                 }
                 else
                 {
-                    <a asp-controller="Account" asp-action="SignIn" asp-area="" class="me-2">@L["Nav_SignIn"]</a>
-                    <a asp-controller="Account" asp-action="SignUp" asp-area="" class="btn btn-sm" style="background:var(--gold);color:#000;font-weight:700;">@L["Nav_SignUp"]</a>
+                    <a asp-controller="Account" asp-action="SignUp" asp-area="" class="me-2">@L["Nav_SignUp"]</a>
+                    <button type="button" id="signInPanelBtn" class="btn btn-sm" style="background:var(--gold);color:#000;font-weight:700;">@L["Nav_SignIn"]</button>
                 }
             </div>
         </div>
@@ -141,9 +149,46 @@
         </div>
     </footer>
 
+    <div id="signInPanel" class="signin-panel" style="display:none"
+         data-error-generic="@L["Error_Generic"]"
+         data-redirect-admin="@Url.Action("Index","Home",new{area="Admin"})"
+         data-redirect-passenger="@Url.Action("Index","Home",new{area="Passenger"})">
+        <div class="signin-panel-header">
+            <span class="signin-panel-title"><i class="fas fa-user-circle me-2" style="color:var(--primary)"></i>@L["Nav_SignIn"]</span>
+            <button type="button" id="signInPanelClose" class="signin-panel-close" aria-label="close">&times;</button>
+        </div>
+        <form id="signInPanelForm" novalidate autocomplete="on">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label class="form-label small fw-bold">@L["Label_UsernameOrEmail"]</label>
+                <input type="text" name="UsernameOrEmail" id="siUsername" class="form-control" autocomplete="username" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label small fw-bold">@L["Label_Password"]</label>
+                <input type="password" name="Password" id="siPassword" class="form-control" autocomplete="current-password" required />
+            </div>
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <div class="form-check mb-0">
+                    <input class="form-check-input" type="checkbox" name="RememberMe" id="siRememberMe" value="true" />
+                    <label class="form-check-label small" for="siRememberMe">@L["Label_RememberMe"]</label>
+                </div>
+                <a asp-controller="Account" asp-action="ForgotPassword" asp-area="" class="small link-primary-color">@L["SignIn_ForgotPassword"]</a>
+            </div>
+            <div id="signInPanelError" class="alert alert-danger py-2 small mb-3" style="display:none"></div>
+            <button type="submit" id="signInPanelSubmit" class="btn w-100 fw-bold" style="background:var(--gold);color:#000">
+                <i class="fas fa-sign-in-alt me-1"></i> @L["Btn_SignIn"]
+            </button>
+            <div class="text-center mt-3">
+                <span class="small text-muted">@L["SignIn_NoAccount"]</span>
+                <a asp-controller="Account" asp-action="SignUp" asp-area="" class="small link-primary-color ms-1 fw-bold">@L["Nav_SignUp"]</a>
+            </div>
+        </form>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/signin-panel.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

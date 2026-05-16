@@ -1,6 +1,7 @@
 using App.Web.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 namespace App.Web.Extensions
 {
     public static class ServiceRegistration

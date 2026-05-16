@@ -38,39 +38,39 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">@L["Flight_Departure"]</label>
-                                <select id="departureSelect" name="DepartureIata" class="form-select" required>
-                                    <option value="">@L["Label_SelectOption"]</option>
-                                    @foreach (var a in Model.Airports)
-                                    {
-                                        <option value="@a.IataCode">@a.IataCode - @a.City</option>
-                                    }
-                                </select>
+                                <button type="button" id="departurePicker" class="airport-toggle-btn"
+                                        data-placeholder="@L["Label_SelectOption"]">
+                                    <span id="departureText" class="airport-placeholder">@L["Label_SelectOption"]</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <input type="hidden" name="DepartureIata" id="departureIataInput">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">@L["Flight_Arrival"]</label>
-                                <select id="arrivalSelect" name="ArrivalIata" class="form-select" required
-                                        data-select-label="@L["Label_SelectOption"]">
-                                    <option value="">@L["Label_SelectOption"]</option>
-                                </select>
+                                <button type="button" id="arrivalPicker" class="airport-toggle-btn"
+                                        data-placeholder="@L["Label_SelectOption"]">
+                                    <span id="arrivalText" class="airport-placeholder">@L["Label_SelectOption"]</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                                <input type="hidden" name="ArrivalIata" id="arrivalIataInput">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">@L["Flight_Date"]</label>
                                 <input type="date" name="DepartureDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
                             </div>
-                            <div class="col-md-3">
-                                <label class="form-label">@L["Flight_Passengers"]</label>
-                                <select name="Passengers" class="form-select">
-                                    @for (int i = 1; i <= 9; i++) { <option value="@i">@i @L["Label_Passenger"]</option> }
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">@L["Flight_Class"]</label>
-                                <select name="SeatClass" class="form-select">
-                                    <option value="1">@L["Flight_Economy"]</option>
-                                    <option value="2">@L["Flight_PremiumEconomy"]</option>
-                                    <option value="3">@L["Flight_Business"]</option>
-                                    <option value="4">@L["Flight_First"]</option>
-                                </select>
+                            <div class="col-md-6">
+                                <label class="form-label">@L["Label_CabinAndPassenger"]</label>
+                                <div id="passengerPicker"
+                                     data-label-passenger="@L["Label_Passenger"]"
+                                     data-label-economy="@L["Flight_Economy"]"
+                                     data-label-business="@L["Flight_Business"]">
+                                    <button type="button" id="passengerToggle" class="pax-toggle-btn">
+                                        <span id="passengerSummary">1 @L["Label_Passenger"] · @L["Flight_Economy"]</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <input type="hidden" name="Passengers" id="passengersInput" value="1">
+                                    <input type="hidden" name="SeatClass" id="seatClassInput" value="1">
+                                </div>
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-search">
@@ -246,7 +246,34 @@
     </div>
 </section>
 
+<div id="passengerPanel" class="pax-panel" style="display:none">
+    <div class="pax-cabin-row">
+        <div class="pax-cabin-opt active" data-cabin="1">@L["Flight_Economy"]</div>
+        <div class="pax-cabin-opt" data-cabin="3">@L["Flight_Business"]</div>
+    </div>
+    <div class="pax-row-item">
+        <div class="pax-label"><strong>@L["Flight_Passengers"]</strong></div>
+        <div class="pax-counter">
+            <button type="button" class="pax-btn" id="paxMinus">−</button>
+            <span class="pax-num" id="passengerCount">1</span>
+            <button type="button" class="pax-btn" id="paxPlus">+</button>
+        </div>
+    </div>
+    <button type="button" id="passengerConfirm" class="pax-confirm-btn">@L["Btn_Ok"]</button>
+</div>
+
+<div id="airportPanel" class="airport-panel" style="display:none">
+    <div class="airport-panel-header">
+        <button type="button" id="airportPanelClose" class="airport-panel-close" aria-label="close">&times;</button>
+    </div>
+    <div class="airport-panel-body">
+        <div id="countryList" class="country-list"></div>
+        <div id="airportList" class="airport-list"></div>
+    </div>
+</div>
+
 @section Scripts {
+<script src="~/js/airport-picker.js" asp-append-version="true"></script>
 <script src="~/js/home-search.js" asp-append-version="true"></script>
 }
 

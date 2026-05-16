@@ -17,12 +17,12 @@ namespace App.Web.Areas.Admin.Controllers
 
         private string? Token => TokenHelper.GetToken(_httpContextAccessor);
 
-        private IActionResult RedirectToLogin() =>
+        private IActionResult RedirectToSignIn() =>
             RedirectToAction("SignIn", "Account", new { area = "" });
 
         public async Task<IActionResult> Index()
         {
-            if (string.IsNullOrEmpty(Token)) return RedirectToLogin();
+            if (string.IsNullOrEmpty(Token)) return RedirectToSignIn();
             var result = await _adminService.GetDashboardAsync(Token);
             if (!result.IsSuccess)
                 NotifyErrorLocalized(result.Message);
@@ -31,7 +31,7 @@ namespace App.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Notifications(string? search, string? channel, string? date)
         {
-            if (string.IsNullOrEmpty(Token)) return RedirectToLogin();
+            if (string.IsNullOrEmpty(Token)) return RedirectToSignIn();
             var result = await _adminService.GetNotificationLogsAsync(Token, search, channel, date);
             var vm = new AdminNotificationListPageVM
             {
@@ -45,7 +45,7 @@ namespace App.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Logs(string? search, string? level, string? date)
         {
-            if (string.IsNullOrEmpty(Token)) return RedirectToLogin();
+            if (string.IsNullOrEmpty(Token)) return RedirectToSignIn();
             var result = await _adminService.GetAppLogsAsync(Token, search, level, date);
             var vm = new AdminLogListPageVM
             {
@@ -59,7 +59,7 @@ namespace App.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Hangfire()
         {
-            if (string.IsNullOrEmpty(Token)) return RedirectToLogin();
+            if (string.IsNullOrEmpty(Token)) return RedirectToSignIn();
             var result = await _adminService.GetHangfireStatsAsync(Token);
             var vm = new AdminHangfirePageVM
             {

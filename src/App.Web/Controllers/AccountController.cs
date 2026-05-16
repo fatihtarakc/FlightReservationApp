@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.Extensions.Localization;
 
 namespace App.Web.Controllers
 {
@@ -8,11 +9,14 @@ namespace App.Web.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
-        public AccountController(IAccountService accountService, IHttpContextAccessor httpContextAccessor)
+        public AccountController(IAccountService accountService, IHttpContextAccessor httpContextAccessor,
+            IStringLocalizer<SharedResources> localizer)
         {
             _accountService = accountService;
             _httpContextAccessor = httpContextAccessor;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -24,7 +28,7 @@ namespace App.Web.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var result = await _accountService.LoginAsync(model);
+            var result = await _accountService.SignInAsync(model);
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError("", result.Message ?? "");
@@ -54,6 +58,37 @@ namespace App.Web.Controllers
                 : RedirectToAction("Index", "Home", new { area = "Passenger" });
         }
 
+        [HttpPost("api/account/signin-panel")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignInPanel([FromForm] LoginVM model)
+        {
+            if (!ModelState.IsValid)
+                return Json(new { success = false, message = _localizer["Account_LoginError"].Value });
+
+            var result = await _accountService.SignInAsync(model);
+            if (!result.IsSuccess)
+                return Json(new { success = false, message = result.Message ?? _localizer["Account_LoginError"].Value });
+
+            var token = result.Data!.AccessToken;
+            TokenHelper.SetToken(_httpContextAccessor, token);
+
+            var handler = new JwtSecurityTokenHandler();
+            var jwt = handler.ReadJwtToken(token);
+            var role = jwt.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value
+                       ?? jwt.Claims.FirstOrDefault(c => c.Type == "role")?.Value ?? "AppUser";
+            var name = jwt.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value
+                       ?? jwt.Claims.FirstOrDefault(c => c.Type == "name")?.Value ?? "";
+
+            TokenHelper.SetRole(_httpContextAccessor, role);
+            TokenHelper.SetUserName(_httpContextAccessor, name);
+
+            var redirectUrl = role == "Admin"
+                ? Url.Action("Index", "Home", new { area = "Admin" })
+                : Url.Action("Index", "Home", new { area = "Passenger" });
+
+            return Json(new { success = true, redirectUrl });
+        }
+
         [HttpGet]
         public IActionResult SignUp() => View(new RegisterVM());
 
@@ -63,7 +98,7 @@ namespace App.Web.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var result = await _accountService.RegisterAsync(model);
+            var result = await _accountService.SignUpAsync(model);
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError("", result.Message ?? "");
@@ -115,13 +150,13 @@ namespace App.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> SignOut()
         {
             var token = TokenHelper.GetToken(_httpContextAccessor);
             if (!string.IsNullOrEmpty(token))
-                await _accountService.LogoutAsync(token);
+                await _accountService.SignOutAsync(token);
             TokenHelper.ClearSession(_httpContextAccessor);
-            return RedirectToAction(nameof(SignIn));
+            return RedirectToAction(Url.Action("Index", "Home", new { area = "" }));
         }
 
         [HttpGet]

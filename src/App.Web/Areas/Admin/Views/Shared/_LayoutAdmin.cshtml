@@ -34,6 +34,14 @@
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
 </head>
 <body>
+    <div id="pageLoader">
+        <div class="loader-brand"><i class="fas fa-plane me-2"></i>Sky<span>Way</span></div>
+        <div class="loader-runway">
+            <div class="loader-bar"></div>
+            <i class="fas fa-plane loader-plane-icon"></i>
+        </div>
+    </div>
+
     <nav class="admin-sidebar">
         <div class="brand">
             <a asp-area="" asp-controller="Home" asp-action="Index">
@@ -104,10 +112,10 @@
         </div>
 
         <div class="nav-section">@L["Admin_AccountSection"]</div>
-        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="d-inline w-100">
+        <form asp-area="" asp-controller="Account" asp-action="SignOut" method="post" class="d-inline w-100">
             @Html.AntiForgeryToken()
             <button type="submit" class="nav-link border-0 w-100 text-start" style="background:transparent">
-                <i class="fas fa-sign-out-alt"></i> @L["Nav_Logout"]
+                <i class="fas fa-sign-out-alt"></i> @L["Nav_SignOut"]
             </button>
         </form>
     </nav>

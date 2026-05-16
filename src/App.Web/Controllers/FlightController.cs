@@ -44,7 +44,13 @@ namespace App.Web.Controllers
             else
             {
                 var result = await _flightService.GetAllAsync();
-                vm.Flights = result.IsSuccess ? result.Data ?? new() : new();
+                var now = DateTime.UtcNow;
+                vm.Flights = result.IsSuccess
+                    ? (result.Data ?? new())
+                        .Where(f => f.DepartureTime > now)
+                        .OrderBy(f => f.DepartureTime)
+                        .ToList()
+                    : new();
             }
 
             return View(vm);

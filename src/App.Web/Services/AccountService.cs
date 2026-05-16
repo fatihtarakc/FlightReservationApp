@@ -15,7 +15,7 @@ namespace App.Web.Services
             _logger = logger;
         }
 
-        public async Task<IDataResult<TokenResponseVM>> LoginAsync(LoginVM model)
+        public async Task<IDataResult<TokenResponseVM>> SignInAsync(LoginVM model)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace App.Web.Services
             }
         }
 
-        public async Task<IResult> RegisterAsync(RegisterVM model)
+        public async Task<IResult> SignUpAsync(RegisterVM model)
         {
             try
             {
@@ -99,7 +99,7 @@ namespace App.Web.Services
             }
         }
 
-        public async Task<IResult> LogoutAsync(string token)
+        public async Task<IResult> SignOutAsync(string token)
         {
             try
             {
