@@ -1,4 +1,5 @@
 using App.Web.Controllers;
+using Microsoft.Extensions.Localization;
 
 namespace App.Web.Areas.Admin.Controllers
 {
@@ -11,15 +12,18 @@ namespace App.Web.Areas.Admin.Controllers
         private readonly IRouteService _routeService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
+        private readonly IStringLocalizer<SharedResources> _localizer;
 
         public FlightController(IFlightService flightService, IAircraftService aircraftService,
-            IRouteService routeService, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+            IRouteService routeService, IHttpContextAccessor httpContextAccessor, IMapper mapper,
+            IStringLocalizer<SharedResources> localizer)
         {
             _flightService = flightService;
             _aircraftService = aircraftService;
             _routeService = routeService;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
+            _localizer = localizer;
         }
 
         private string? Token => TokenHelper.GetToken(_httpContextAccessor);
@@ -79,6 +83,11 @@ namespace App.Web.Areas.Admin.Controllers
         {
             var result = await _flightService.GetByIdAsync(id);
             if (!result.IsSuccess) return NotFound();
+            if (result.Data!.Status == FlightStatus.Arrived)
+            {
+                NotifyWarning(_localizer["Flight_ArrivedNoAction"]);
+                return RedirectToAction(nameof(Index));
+            }
             var pageVm = await BuildFormPageVm(id);
             pageVm.Form = _mapper.Map<FlightAddVM>(result.Data!);
             return View(pageVm);
@@ -88,6 +97,12 @@ namespace App.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, AdminFlightFormPageVM model)
         {
+            var flight = await _flightService.GetByIdAsync(id);
+            if (flight.IsSuccess && flight.Data?.Status == FlightStatus.Arrived)
+            {
+                NotifyWarning(_localizer["Flight_ArrivedNoAction"]);
+                return RedirectToAction(nameof(Index));
+            }
             if (!ModelState.IsValid)
             {
                 var filled = await BuildFormPageVm(id);
@@ -108,6 +123,12 @@ namespace App.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cancel(Guid id)
         {
+            var flight = await _flightService.GetByIdAsync(id);
+            if (flight.IsSuccess && flight.Data?.Status == FlightStatus.Arrived)
+            {
+                NotifyWarning(_localizer["Flight_ArrivedNoAction"]);
+                return RedirectToAction(nameof(Index));
+            }
             var result = await _flightService.CancelAsync(id, null, Token!);
             if (!result.IsSuccess)
                 NotifyErrorLocalized(result.Message);
@@ -120,6 +141,12 @@ namespace App.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
+            var flight = await _flightService.GetByIdAsync(id);
+            if (flight.IsSuccess && flight.Data?.Status == FlightStatus.Arrived)
+            {
+                NotifyWarning(_localizer["Flight_ArrivedNoAction"]);
+                return RedirectToAction(nameof(Index));
+            }
             var result = await _flightService.DeleteAsync(id, Token!);
             if (!result.IsSuccess)
                 NotifyErrorLocalized(result.Message);

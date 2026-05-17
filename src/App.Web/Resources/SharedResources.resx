@@ -849,6 +849,9 @@
   <data name="AppUser_Was_Deactivated" xml:space="preserve">
     <value>Kullanıcı hesabı pasife alındı.</value>
   </data>
+  <data name="Flight_ArrivedNoAction" xml:space="preserve">
+    <value>Ulaşmış uçuşlar üzerinde işlem yapılamaz.</value>
+  </data>
   <data name="Flight_Was_Not_Found" xml:space="preserve">
     <value>Uçuş bulunamadı.</value>
   </data>
@@ -1021,7 +1024,7 @@
     <value>Uçuş numarası boş olamaz.</value>
   </data>
   <data name="Val_FlightNumber_MaxLength" xml:space="preserve">
-    <value>En fazla 10 karakter olabilir.</value>
+    <value>En fazla 6 karakter olabilir.</value>
   </data>
   <data name="Val_DepartureTime_Future" xml:space="preserve">
     <value>Kalkış tarihi gelecekte olmalıdır.</value>
@@ -1055,6 +1058,54 @@
   </data>
   <data name="Val_SeatId_Required" xml:space="preserve">
     <value>Koltuk seçimi gereklidir.</value>
+  </data>
+  <data name="Val_FlightNumber_Format" xml:space="preserve">
+    <value>Uçuş numarası yalnızca büyük harf ve rakamlardan oluşmalı ve 3-6 karakter uzunluğunda olmalıdır.</value>
+  </data>
+  <data name="Val_TailNumber_Format" xml:space="preserve">
+    <value>Kuyruk numarası yalnızca büyük harf, rakam ve tire (-) içerebilir.</value>
+  </data>
+  <data name="Val_TailNumber_MinLength" xml:space="preserve">
+    <value>Kuyruk numarası en az 2 karakter olmalıdır.</value>
+  </data>
+  <data name="Val_AirportName_Required" xml:space="preserve">
+    <value>Havalimanı adı en az 3 karakter olmalıdır.</value>
+  </data>
+  <data name="Val_IataCode_Required" xml:space="preserve">
+    <value>IATA kodu gereklidir.</value>
+  </data>
+  <data name="Val_IataCode_Format" xml:space="preserve">
+    <value>IATA kodu tam olarak 3 büyük harf olmalıdır (ör: IST).</value>
+  </data>
+  <data name="Val_IcaoCode_Format" xml:space="preserve">
+    <value>ICAO kodu tam olarak 4 büyük harf olmalıdır (ör: LTFM).</value>
+  </data>
+  <data name="Val_City_Required" xml:space="preserve">
+    <value>Şehir adı en az 2 karakter olmalıdır.</value>
+  </data>
+  <data name="Val_Country_Required" xml:space="preserve">
+    <value>Ülke seçimi gereklidir.</value>
+  </data>
+  <data name="Val_Timezone_Required" xml:space="preserve">
+    <value>Saat dilimi seçimi gereklidir.</value>
+  </data>
+  <data name="Val_OriginAirportId_Required" xml:space="preserve">
+    <value>Kalkış havalimanı seçimi gereklidir.</value>
+  </data>
+  <data name="Val_DestinationAirportId_Required" xml:space="preserve">
+    <value>Varış havalimanı seçimi gereklidir.</value>
+  </data>
+  <data name="Val_DistanceKm_Positive" xml:space="preserve">
+    <value>Mesafe sıfırdan büyük olmalıdır.</value>
+  </data>
+  <data name="Val_EstimatedDuration_Positive" xml:space="preserve">
+    <value>Tahmini süre sıfırdan büyük olmalıdır.</value>
+  </data>
+  <data name="Val_SameAirport" xml:space="preserve">
+    <value>Kalkış ve varış havalimanları aynı olamaz.</value>
+  </data>
+  <data name="Val_CurrentPassword_Required" xml:space="preserve">
+    <value>Mevcut şifre gereklidir.</value>
   </data>
   <data name="Label_Active" xml:space="preserve">
     <value>Aktif</value>

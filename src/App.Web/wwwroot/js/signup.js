@@ -1,58 +1,105 @@
 var countries = [
-    { code: '+90', flag: '🇹🇷', name: 'Türkiye' },
-    { code: '+1', flag: '🇺🇸', name: 'ABD / Kanada' },
-    { code: '+44', flag: '🇬🇧', name: 'İngiltere' },
-    { code: '+49', flag: '🇩🇪', name: 'Almanya' },
-    { code: '+33', flag: '🇫🇷', name: 'Fransa' },
-    { code: '+39', flag: '🇮🇹', name: 'İtalya' },
-    { code: '+34', flag: '🇪🇸', name: 'İspanya' },
-    { code: '+31', flag: '🇳🇱', name: 'Hollanda' },
-    { code: '+32', flag: '🇧🇪', name: 'Belçika' },
-    { code: '+41', flag: '🇨🇭', name: 'İsviçre' },
-    { code: '+43', flag: '🇦🇹', name: 'Avusturya' },
-    { code: '+46', flag: '🇸🇪', name: 'İsveç' },
-    { code: '+47', flag: '🇳🇴', name: 'Norveç' },
-    { code: '+45', flag: '🇩🇰', name: 'Danimarka' },
-    { code: '+358', flag: '🇫🇮', name: 'Finlandiya' },
-    { code: '+30', flag: '🇬🇷', name: 'Yunanistan' },
-    { code: '+7', flag: '🇷🇺', name: 'Rusya' },
-    { code: '+380', flag: '🇺🇦', name: 'Ukrayna' },
-    { code: '+48', flag: '🇵🇱', name: 'Polonya' },
-    { code: '+36', flag: '🇭🇺', name: 'Macaristan' },
-    { code: '+40', flag: '🇷🇴', name: 'Romanya' },
-    { code: '+420', flag: '🇨🇿', name: 'Çekya' },
-    { code: '+971', flag: '🇦🇪', name: 'Birleşik Arap Emirlikleri' },
-    { code: '+966', flag: '🇸🇦', name: 'Suudi Arabistan' },
-    { code: '+20', flag: '🇪🇬', name: 'Mısır' },
-    { code: '+212', flag: '🇲🇦', name: 'Fas' },
-    { code: '+213', flag: '🇩🇿', name: 'Cezayir' },
-    { code: '+216', flag: '🇹🇳', name: 'Tunus' },
-    { code: '+98', flag: '🇮🇷', name: 'İran' },
-    { code: '+964', flag: '🇮🇶', name: 'Irak' },
-    { code: '+962', flag: '🇯🇴', name: 'Ürdün' },
-    { code: '+961', flag: '🇱🇧', name: 'Lübnan' },
-    { code: '+90392', flag: '🇨🇾', name: 'Kıbrıs' },
-    { code: '+994', flag: '🇦🇿', name: 'Azerbaycan' },
-    { code: '+995', flag: '🇬🇪', name: 'Gürcistan' },
-    { code: '+374', flag: '🇦🇲', name: 'Ermenistan' },
-    { code: '+86', flag: '🇨🇳', name: 'Çin' },
-    { code: '+81', flag: '🇯🇵', name: 'Japonya' },
-    { code: '+82', flag: '🇰🇷', name: 'Güney Kore' },
-    { code: '+91', flag: '🇮🇳', name: 'Hindistan' },
-    { code: '+92', flag: '🇵🇰', name: 'Pakistan' },
-    { code: '+880', flag: '🇧🇩', name: 'Bangladeş' },
-    { code: '+27', flag: '🇿🇦', name: 'Güney Afrika' },
-    { code: '+234', flag: '🇳🇬', name: 'Nijerya' },
-    { code: '+254', flag: '🇰🇪', name: 'Kenya' },
-    { code: '+55', flag: '🇧🇷', name: 'Brezilya' },
-    { code: '+54', flag: '🇦🇷', name: 'Arjantin' },
-    { code: '+52', flag: '🇲🇽', name: 'Meksika' },
-    { code: '+57', flag: '🇨🇴', name: 'Kolombiya' },
-    { code: '+61', flag: '🇦🇺', name: 'Avustralya' },
-    { code: '+64', flag: '🇳🇿', name: 'Yeni Zelanda' }
+    { code: '+90',  flag: '🇹🇷', nameTr: 'Türkiye',                      nameEn: 'Turkey' },
+    { code: '+1',   flag: '🇺🇸', nameTr: 'ABD',                           nameEn: 'United States' },
+    { code: '+1',   flag: '🇨🇦', nameTr: 'Kanada',                        nameEn: 'Canada' },
+    { code: '+44',  flag: '🇬🇧', nameTr: 'Birleşik Krallık',              nameEn: 'United Kingdom' },
+    { code: '+49',  flag: '🇩🇪', nameTr: 'Almanya',                       nameEn: 'Germany' },
+    { code: '+33',  flag: '🇫🇷', nameTr: 'Fransa',                        nameEn: 'France' },
+    { code: '+39',  flag: '🇮🇹', nameTr: 'İtalya',                        nameEn: 'Italy' },
+    { code: '+34',  flag: '🇪🇸', nameTr: 'İspanya',                       nameEn: 'Spain' },
+    { code: '+31',  flag: '🇳🇱', nameTr: 'Hollanda',                      nameEn: 'Netherlands' },
+    { code: '+32',  flag: '🇧🇪', nameTr: 'Belçika',                       nameEn: 'Belgium' },
+    { code: '+41',  flag: '🇨🇭', nameTr: 'İsviçre',                       nameEn: 'Switzerland' },
+    { code: '+43',  flag: '🇦🇹', nameTr: 'Avusturya',                     nameEn: 'Austria' },
+    { code: '+46',  flag: '🇸🇪', nameTr: 'İsveç',                         nameEn: 'Sweden' },
+    { code: '+47',  flag: '🇳🇴', nameTr: 'Norveç',                        nameEn: 'Norway' },
+    { code: '+45',  flag: '🇩🇰', nameTr: 'Danimarka',                     nameEn: 'Denmark' },
+    { code: '+358', flag: '🇫🇮', nameTr: 'Finlandiya',                    nameEn: 'Finland' },
+    { code: '+30',  flag: '🇬🇷', nameTr: 'Yunanistan',                    nameEn: 'Greece' },
+    { code: '+351', flag: '🇵🇹', nameTr: 'Portekiz',                      nameEn: 'Portugal' },
+    { code: '+353', flag: '🇮🇪', nameTr: 'İrlanda',                       nameEn: 'Ireland' },
+    { code: '+48',  flag: '🇵🇱', nameTr: 'Polonya',                       nameEn: 'Poland' },
+    { code: '+36',  flag: '🇭🇺', nameTr: 'Macaristan',                    nameEn: 'Hungary' },
+    { code: '+40',  flag: '🇷🇴', nameTr: 'Romanya',                       nameEn: 'Romania' },
+    { code: '+420', flag: '🇨🇿', nameTr: 'Çekya',                         nameEn: 'Czech Republic' },
+    { code: '+421', flag: '🇸🇰', nameTr: 'Slovakya',                      nameEn: 'Slovakia' },
+    { code: '+386', flag: '🇸🇮', nameTr: 'Slovenya',                      nameEn: 'Slovenia' },
+    { code: '+385', flag: '🇭🇷', nameTr: 'Hırvatistan',                   nameEn: 'Croatia' },
+    { code: '+381', flag: '🇷🇸', nameTr: 'Sırbistan',                     nameEn: 'Serbia' },
+    { code: '+387', flag: '🇧🇦', nameTr: 'Bosna-Hersek',                  nameEn: 'Bosnia and Herzegovina' },
+    { code: '+389', flag: '🇲🇰', nameTr: 'Kuzey Makedonya',               nameEn: 'North Macedonia' },
+    { code: '+355', flag: '🇦🇱', nameTr: 'Arnavutluk',                    nameEn: 'Albania' },
+    { code: '+382', flag: '🇲🇪', nameTr: 'Karadağ',                       nameEn: 'Montenegro' },
+    { code: '+7',   flag: '🇷🇺', nameTr: 'Rusya',                         nameEn: 'Russia' },
+    { code: '+380', flag: '🇺🇦', nameTr: 'Ukrayna',                       nameEn: 'Ukraine' },
+    { code: '+375', flag: '🇧🇾', nameTr: 'Belarus',                       nameEn: 'Belarus' },
+    { code: '+373', flag: '🇲🇩', nameTr: 'Moldova',                       nameEn: 'Moldova' },
+    { code: '+995', flag: '🇬🇪', nameTr: 'Gürcistan',                     nameEn: 'Georgia' },
+    { code: '+374', flag: '🇦🇲', nameTr: 'Ermenistan',                    nameEn: 'Armenia' },
+    { code: '+994', flag: '🇦🇿', nameTr: 'Azerbaycan',                    nameEn: 'Azerbaijan' },
+    { code: '+7',   flag: '🇰🇿', nameTr: 'Kazakistan',                    nameEn: 'Kazakhstan' },
+    { code: '+998', flag: '🇺🇿', nameTr: 'Özbekistan',                    nameEn: 'Uzbekistan' },
+    { code: '+993', flag: '🇹🇲', nameTr: 'Türkmenistan',                  nameEn: 'Turkmenistan' },
+    { code: '+996', flag: '🇰🇬', nameTr: 'Kırgızistan',                   nameEn: 'Kyrgyzstan' },
+    { code: '+992', flag: '🇹🇯', nameTr: 'Tacikistan',                    nameEn: 'Tajikistan' },
+    { code: '+971', flag: '🇦🇪', nameTr: 'Birleşik Arap Emirlikleri',     nameEn: 'United Arab Emirates' },
+    { code: '+966', flag: '🇸🇦', nameTr: 'Suudi Arabistan',               nameEn: 'Saudi Arabia' },
+    { code: '+974', flag: '🇶🇦', nameTr: 'Katar',                         nameEn: 'Qatar' },
+    { code: '+965', flag: '🇰🇼', nameTr: 'Kuveyt',                        nameEn: 'Kuwait' },
+    { code: '+973', flag: '🇧🇭', nameTr: 'Bahreyn',                       nameEn: 'Bahrain' },
+    { code: '+968', flag: '🇴🇲', nameTr: 'Umman',                         nameEn: 'Oman' },
+    { code: '+962', flag: '🇯🇴', nameTr: 'Ürdün',                         nameEn: 'Jordan' },
+    { code: '+961', flag: '🇱🇧', nameTr: 'Lübnan',                        nameEn: 'Lebanon' },
+    { code: '+964', flag: '🇮🇶', nameTr: 'Irak',                          nameEn: 'Iraq' },
+    { code: '+98',  flag: '🇮🇷', nameTr: 'İran',                          nameEn: 'Iran' },
+    { code: '+972', flag: '🇮🇱', nameTr: 'İsrail',                        nameEn: 'Israel' },
+    { code: '+90',  flag: '🇨🇾', nameTr: 'Kıbrıs',                        nameEn: 'Cyprus' },
+    { code: '+20',  flag: '🇪🇬', nameTr: 'Mısır',                         nameEn: 'Egypt' },
+    { code: '+212', flag: '🇲🇦', nameTr: 'Fas',                           nameEn: 'Morocco' },
+    { code: '+213', flag: '🇩🇿', nameTr: 'Cezayir',                       nameEn: 'Algeria' },
+    { code: '+216', flag: '🇹🇳', nameTr: 'Tunus',                         nameEn: 'Tunisia' },
+    { code: '+218', flag: '🇱🇾', nameTr: 'Libya',                         nameEn: 'Libya' },
+    { code: '+249', flag: '🇸🇩', nameTr: 'Sudan',                         nameEn: 'Sudan' },
+    { code: '+251', flag: '🇪🇹', nameTr: 'Etiyopya',                      nameEn: 'Ethiopia' },
+    { code: '+254', flag: '🇰🇪', nameTr: 'Kenya',                         nameEn: 'Kenya' },
+    { code: '+255', flag: '🇹🇿', nameTr: 'Tanzanya',                      nameEn: 'Tanzania' },
+    { code: '+256', flag: '🇺🇬', nameTr: 'Uganda',                        nameEn: 'Uganda' },
+    { code: '+234', flag: '🇳🇬', nameTr: 'Nijerya',                       nameEn: 'Nigeria' },
+    { code: '+233', flag: '🇬🇭', nameTr: 'Gana',                          nameEn: 'Ghana' },
+    { code: '+221', flag: '🇸🇳', nameTr: 'Senegal',                       nameEn: 'Senegal' },
+    { code: '+27',  flag: '🇿🇦', nameTr: 'Güney Afrika',                  nameEn: 'South Africa' },
+    { code: '+86',  flag: '🇨🇳', nameTr: 'Çin',                           nameEn: 'China' },
+    { code: '+81',  flag: '🇯🇵', nameTr: 'Japonya',                       nameEn: 'Japan' },
+    { code: '+82',  flag: '🇰🇷', nameTr: 'Güney Kore',                    nameEn: 'South Korea' },
+    { code: '+91',  flag: '🇮🇳', nameTr: 'Hindistan',                     nameEn: 'India' },
+    { code: '+92',  flag: '🇵🇰', nameTr: 'Pakistan',                      nameEn: 'Pakistan' },
+    { code: '+880', flag: '🇧🇩', nameTr: 'Bangladeş',                     nameEn: 'Bangladesh' },
+    { code: '+94',  flag: '🇱🇰', nameTr: 'Sri Lanka',                     nameEn: 'Sri Lanka' },
+    { code: '+977', flag: '🇳🇵', nameTr: 'Nepal',                         nameEn: 'Nepal' },
+    { code: '+66',  flag: '🇹🇭', nameTr: 'Tayland',                       nameEn: 'Thailand' },
+    { code: '+84',  flag: '🇻🇳', nameTr: 'Vietnam',                       nameEn: 'Vietnam' },
+    { code: '+60',  flag: '🇲🇾', nameTr: 'Malezya',                       nameEn: 'Malaysia' },
+    { code: '+65',  flag: '🇸🇬', nameTr: 'Singapur',                      nameEn: 'Singapore' },
+    { code: '+62',  flag: '🇮🇩', nameTr: 'Endonezya',                     nameEn: 'Indonesia' },
+    { code: '+63',  flag: '🇵🇭', nameTr: 'Filipinler',                    nameEn: 'Philippines' },
+    { code: '+93',  flag: '🇦🇫', nameTr: 'Afganistan',                    nameEn: 'Afghanistan' },
+    { code: '+55',  flag: '🇧🇷', nameTr: 'Brezilya',                      nameEn: 'Brazil' },
+    { code: '+54',  flag: '🇦🇷', nameTr: 'Arjantin',                      nameEn: 'Argentina' },
+    { code: '+52',  flag: '🇲🇽', nameTr: 'Meksika',                       nameEn: 'Mexico' },
+    { code: '+57',  flag: '🇨🇴', nameTr: 'Kolombiya',                     nameEn: 'Colombia' },
+    { code: '+56',  flag: '🇨🇱', nameTr: 'Şili',                          nameEn: 'Chile' },
+    { code: '+51',  flag: '🇵🇪', nameTr: 'Peru',                          nameEn: 'Peru' },
+    { code: '+58',  flag: '🇻🇪', nameTr: 'Venezuela',                     nameEn: 'Venezuela' },
+    { code: '+61',  flag: '🇦🇺', nameTr: 'Avustralya',                    nameEn: 'Australia' },
+    { code: '+64',  flag: '🇳🇿', nameTr: 'Yeni Zelanda',                  nameEn: 'New Zealand' },
 ];
 
 var selectedCountryCode = '+90';
+var pageLang = document.documentElement.lang || 'tr';
+
+function countryName(c) {
+    return pageLang === 'en' ? (c.nameEn || c.name) : (c.nameTr || c.name);
+}
 
 // ── Nationality picker ────────────────────────────────────────────────────────
 var _natAll = [];
@@ -68,21 +115,24 @@ function renderNat(list) {
     var $ul = $('#natDropdown');
     $ul.empty();
     if (!list.length) {
-        $ul.append('<li style="padding:10px 14px;color:#6c757d;font-size:.85rem">Sonuç bulunamadı</li>');
+        var noResult = pageLang === 'en' ? 'No results found' : 'Sonuç bulunamadı';
+        $ul.append('<li style="padding:10px 14px;color:#6c757d;font-size:.85rem">' + noResult + '</li>');
     } else {
         list.forEach(function (c) {
             var flag = isoFlag(c.code);
+            var name = countryName(c);
             $('<li></li>')
                 .html('<span style="margin-right:8px;font-size:1.15rem">' + flag + '</span>' +
-                      '<span>' + c.name + '</span>' +
+                      '<span>' + name + '</span>' +
                       '<span style="float:right;color:#6c757d;font-size:.8rem">' + c.code + '</span>')
                 .css({ padding: '9px 14px', cursor: 'pointer', fontSize: '.875rem' })
                 .on('mouseenter', function () { $(this).css('background', '#f0f4ff'); })
                 .on('mouseleave', function () { $(this).css('background', ''); })
                 .on('mousedown', function (e) {
                     e.preventDefault();
+                    var name = countryName(c);
                     $('#natCode').val(c.code);
-                    $('#natSearch').val(c.name).removeClass('is-invalid');
+                    $('#natSearch').val(name).removeClass('is-invalid');
                     $('#natFlag').text(flag);
                     $('#natDropdown').hide();
                     $('#natValidation').text('');
@@ -101,19 +151,19 @@ function initNatPicker() {
             var preCode = $('#natCode').val();
             if (preCode) {
                 var found = data.find(function (c) { return c.code === preCode; });
-                if (found) { $('#natSearch').val(found.name); $('#natFlag').text(isoFlag(found.code)); }
+                if (found) { $('#natSearch').val(countryName(found)); $('#natFlag').text(isoFlag(found.code)); }
             }
         });
 
     $('#natSearch')
         .on('focus', function () {
             var q = $(this).val().toLowerCase();
-            renderNat(q ? _natAll.filter(function (c) { return c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q); }) : _natAll);
+            renderNat(q ? _natAll.filter(function (c) { return countryName(c).toLowerCase().includes(q) || c.code.toLowerCase().includes(q); }) : _natAll);
         })
         .on('input', function () {
             var q = $(this).val().toLowerCase();
             if (!q) { renderNat(_natAll); return; }
-            renderNat(_natAll.filter(function (c) { return c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q); }));
+            renderNat(_natAll.filter(function (c) { return countryName(c).toLowerCase().includes(q) || c.code.toLowerCase().includes(q); }));
         })
         .on('blur', function () { setTimeout(function () { $('#natDropdown').hide(); }, 150); });
 }
@@ -123,9 +173,10 @@ function renderCountries(list) {
     var $ul = $('#countryList');
     $ul.find('li:not(:first-child)').remove();
     list.forEach(function (c) {
+        var name = countryName(c);
         var li = $('<li></li>');
         var a = $('<a class="dropdown-item" href="#"></a>')
-            .html('<span class="me-2">' + c.flag + '</span><span>' + c.name + '</span><span class="float-end text-muted">' + c.code + '</span>')
+            .html('<span class="me-2">' + c.flag + '</span><span>' + name + '</span><span class="float-end text-muted">' + c.code + '</span>')
             .on('click', function (e) {
                 e.preventDefault();
                 selectedCountryCode = c.code;
@@ -167,7 +218,7 @@ $(document).ready(function () {
     $('#countrySearch').on('input', function () {
         var q = $(this).val().toLowerCase();
         renderCountries(countries.filter(function (c) {
-            return c.name.toLowerCase().includes(q) || c.code.includes(q);
+            return countryName(c).toLowerCase().includes(q) || c.code.includes(q);
         }));
     });
 

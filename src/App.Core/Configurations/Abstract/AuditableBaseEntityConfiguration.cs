@@ -1,22 +1,19 @@
 namespace App.Core.Configurations.Abstract
 {
-    public abstract class AuditableBaseEntityConfiguration<TEntity> : BaseEntityConfiguration<TEntity>
-        where TEntity : AuditableBaseEntity
+    public abstract class AuditableBaseEntityConfiguration<T> : BaseEntityConfiguration<T> where T : AuditableBaseEntity
     {
-        public override void Configure(EntityTypeBuilder<TEntity> builder)
+        public override void Configure(EntityTypeBuilder<T> builder)
         {
             base.Configure(builder);
 
-            builder.Property(e => e.CreatedBy).IsRequired().HasMaxLength(150);
-            builder.ToTable(t => t.HasCheckConstraint(
-                $"CK_{typeof(TEntity).Name}_CreatedBy_MinLength",
-                "char_length(created_by) >= 5"));
+            builder.Property(auditableBaseEntity => auditableBaseEntity.CreatedBy).HasMaxLength(50).IsRequired();
+            builder.ToTable(auditableBaseEntity => auditableBaseEntity.HasCheckConstraint($"CK_{typeof(T).Name}_CreatedBy_MinLength_Control", "char_length(created_by) >= 5"));
 
-            builder.Property(e => e.CreatedDate).IsRequired()
-                .HasDefaultValueSql("NOW()");
+            builder.Property(auditableBaseEntity => auditableBaseEntity.CreatedDate).HasDefaultValueSql("NOW()").IsRequired();
 
-            builder.Property(e => e.ModifiedBy).HasMaxLength(150);
-            builder.Property(e => e.DeletedBy).HasMaxLength(150);
+            builder.Property(auditableBaseEntity => auditableBaseEntity.DeletedBy).HasMaxLength(50);
+
+            builder.Property(auditableBaseEntity => auditableBaseEntity.ModifiedBy).HasMaxLength(50);
         }
     }
 }

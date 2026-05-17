@@ -9,7 +9,8 @@ namespace App.Web.ValidationRules
         {
             RuleFor(x => x.FlightNumber)
                 .NotEmpty().WithMessage(localizer[Messages.Val_FlightNumber_Required])
-                .MaximumLength(10).WithMessage(localizer[Messages.Val_FlightNumber_MaxLength]);
+                .MaximumLength(6).WithMessage(localizer[Messages.Val_FlightNumber_MaxLength])
+                .Matches(@"^[A-Z0-9]{3,6}$").WithMessage(localizer[Messages.Val_FlightNumber_Format]);
             RuleFor(x => x.DepartureTime)
                 .GreaterThan(DateTime.Now).WithMessage(localizer[Messages.Val_DepartureTime_Future]);
             RuleFor(x => x.ArrivalTime)

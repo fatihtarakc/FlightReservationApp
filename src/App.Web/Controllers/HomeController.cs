@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Globalization;
 using App.Web.Models;
 using App.Web.ViewModels.Flight;
 using App.Web.Enums;
@@ -42,16 +43,10 @@ namespace App.Web.Controllers
         [HttpGet("api/countries")]
         public IActionResult Countries()
         {
-            var seen = new HashSet<string>();
-            var list = System.Globalization.CultureInfo
-                .GetCultures(System.Globalization.CultureTypes.SpecificCultures)
-                .Select(c => {
-                    try { return new System.Globalization.RegionInfo(c.Name); }
-                    catch { return null; }
-                })
-                .Where(r => r != null && seen.Add(r!.TwoLetterISORegionName))
-                .OrderBy(r => r!.DisplayName)
-                .Select(r => new { code = r!.TwoLetterISORegionName, name = r!.DisplayName })
+            var isEn = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "en";
+            var list = HelperCountry.GetAll
+                .Select(c => new { code = c.IsoCode, name = isEn ? c.NameEn : c.NameTr })
+                .OrderBy(c => c.name)
                 .ToList();
             return Json(list);
         }

@@ -77,22 +77,29 @@
                                 <span class="status-badge @sc">@L["Status_" + f.Status.ToString()]</span>
                             </td>
                             <td class="text-center">
-                                <div class="btn-group btn-group-sm">
-                                    <a asp-action="Edit" asp-route-id="@f.Id" class="btn btn-outline-primary"><i class="fas fa-edit"></i></a>
-                                    @if (f.Status != FlightStatus.Cancelled)
-                                    {
-                                        <button type="button" class="btn btn-outline-warning confirm-action-btn"
-                                                data-action-url="@Url.Action("Cancel", new { id = f.Id })"
-                                                data-confirm-msg="@L["Confirm_Cancel"]">
-                                            <i class="fas fa-ban"></i>
+                                @if (f.Status == FlightStatus.Arrived)
+                                {
+                                    <span class="text-muted small"><i class="fas fa-lock me-1"></i>@L["Status_Arrived"]</span>
+                                }
+                                else
+                                {
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-action="Edit" asp-route-id="@f.Id" class="btn btn-outline-primary"><i class="fas fa-edit"></i></a>
+                                        @if (f.Status != FlightStatus.Cancelled)
+                                        {
+                                            <button type="button" class="btn btn-outline-warning confirm-action-btn"
+                                                    data-action-url="@Url.Action("Cancel", new { id = f.Id })"
+                                                    data-confirm-msg="@L["Confirm_Cancel"]">
+                                                <i class="fas fa-ban"></i>
+                                            </button>
+                                        }
+                                        <button type="button" class="btn btn-outline-danger confirm-action-btn"
+                                                data-action-url="@Url.Action("Delete", new { id = f.Id })"
+                                                data-confirm-msg="@L["Confirm_Delete"]">
+                                            <i class="fas fa-trash"></i>
                                         </button>
-                                    }
-                                    <button type="button" class="btn btn-outline-danger confirm-action-btn"
-                                            data-action-url="@Url.Action("Delete", new { id = f.Id })"
-                                            data-confirm-msg="@L["Confirm_Delete"]">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
+                                    </div>
+                                }
                             </td>
                         </tr>
                     }

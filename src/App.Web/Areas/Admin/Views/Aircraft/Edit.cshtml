@@ -8,7 +8,7 @@
         <div class="admin-card">
             <div class="admin-card-header"><i class="fas fa-fighter-jet me-2"></i>@L["Aircraft_Management"] — @L["Btn_Edit"]</div>
             <div class="p-4">
-                <form asp-action="Edit" asp-route-id="@editId" method="post">
+                <form asp-action="Edit" asp-route-id="@editId" method="post" novalidate>
                     @Html.AntiForgeryToken()
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
                     <div class="row g-3">
@@ -60,4 +60,5 @@
 
 @section Scripts {
     <script src="~/js/aircraft-form.js"></script>
+    <script src="~/js/admin-form-validation.js"></script>
 }

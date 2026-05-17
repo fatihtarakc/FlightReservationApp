@@ -284,6 +284,10 @@ namespace App.Business.Concrete.Services
                 if (flight == null)
                     return new ErrorResult(_localizer[Messages.Flight_Was_Not_Found]);
 
+                var activeBookings = await _bookingRepository.GetActiveBookingsByFlightIdAsync(id, tracking: false);
+                if (activeBookings.Any())
+                    return new ErrorResult(_localizer[Messages.Flight_Has_Active_Bookings]);
+
                 IResult result = new ErrorResult(_localizer[Messages.UnexpectedError]);
                 var strategy = await _unitOfWork.CreateExecutionStrategy();
 

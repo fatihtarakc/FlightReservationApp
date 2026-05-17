@@ -82,7 +82,7 @@
                                         <ul class="dropdown-menu" id="countryList" style="max-height:250px;overflow-y:auto;min-width:280px">
                                             <li><div class="px-2 py-1"><input type="text" class="form-control form-control-sm" id="countrySearch" placeholder="@L["Placeholder_SearchCountry"]" /></div></li>
                                         </ul>
-                                        <input type="text" id="phoneNumber" class="form-control" placeholder="5XX XXX XX XX" maxlength="15" />
+                                        <input type="text" id="phoneNumber" class="form-control" placeholder="5XXXXXXXXX" maxlength="10" />
                                         <input asp-for="PhoneNumber" type="hidden" id="fullPhoneNumber" required/>
                                     </div>
                                     <span asp-validation-for="PhoneNumber" class="text-danger small"></span>

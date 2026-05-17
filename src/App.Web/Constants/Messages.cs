@@ -120,6 +120,22 @@ namespace App.Web.Constants
         public const string Val_RouteId_Required          = nameof(Val_RouteId_Required);
         public const string Val_FlightId_Required = nameof(Val_FlightId_Required);
         public const string Val_SeatId_Required = nameof(Val_SeatId_Required);
+        public const string Val_FlightNumber_Format = nameof(Val_FlightNumber_Format);
+        public const string Val_TailNumber_Format = nameof(Val_TailNumber_Format);
+        public const string Val_TailNumber_MinLength = nameof(Val_TailNumber_MinLength);
+        public const string Val_AirportName_Required = nameof(Val_AirportName_Required);
+        public const string Val_IataCode_Required = nameof(Val_IataCode_Required);
+        public const string Val_IataCode_Format = nameof(Val_IataCode_Format);
+        public const string Val_IcaoCode_Format = nameof(Val_IcaoCode_Format);
+        public const string Val_City_Required = nameof(Val_City_Required);
+        public const string Val_Country_Required = nameof(Val_Country_Required);
+        public const string Val_Timezone_Required = nameof(Val_Timezone_Required);
+        public const string Val_OriginAirportId_Required = nameof(Val_OriginAirportId_Required);
+        public const string Val_DestinationAirportId_Required = nameof(Val_DestinationAirportId_Required);
+        public const string Val_DistanceKm_Positive = nameof(Val_DistanceKm_Positive);
+        public const string Val_EstimatedDuration_Positive = nameof(Val_EstimatedDuration_Positive);
+        public const string Val_SameAirport = nameof(Val_SameAirport);
+        public const string Val_CurrentPassword_Required = nameof(Val_CurrentPassword_Required);
         #endregion
     }
 }

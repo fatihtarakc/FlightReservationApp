@@ -849,6 +849,9 @@
   <data name="AppUser_Was_Deactivated" xml:space="preserve">
     <value>User account has been deactivated.</value>
   </data>
+  <data name="Flight_ArrivedNoAction" xml:space="preserve">
+    <value>No actions can be performed on arrived flights.</value>
+  </data>
   <data name="Flight_Was_Not_Found" xml:space="preserve">
     <value>Flight not found.</value>
   </data>
@@ -1021,7 +1024,7 @@
     <value>Flight number cannot be empty.</value>
   </data>
   <data name="Val_FlightNumber_MaxLength" xml:space="preserve">
-    <value>Maximum 10 characters allowed.</value>
+    <value>Maximum 6 characters allowed.</value>
   </data>
   <data name="Val_DepartureTime_Future" xml:space="preserve">
     <value>Departure time must be in the future.</value>
@@ -1055,6 +1058,54 @@
   </data>
   <data name="Val_SeatId_Required" xml:space="preserve">
     <value>Seat selection is required.</value>
+  </data>
+  <data name="Val_FlightNumber_Format" xml:space="preserve">
+    <value>Flight number must contain only uppercase letters and digits, 3-6 characters (e.g. SK001).</value>
+  </data>
+  <data name="Val_TailNumber_Format" xml:space="preserve">
+    <value>Tail number may only contain uppercase letters, digits, and hyphens.</value>
+  </data>
+  <data name="Val_TailNumber_MinLength" xml:space="preserve">
+    <value>Tail number must be at least 2 characters.</value>
+  </data>
+  <data name="Val_AirportName_Required" xml:space="preserve">
+    <value>Airport name must be at least 3 characters.</value>
+  </data>
+  <data name="Val_IataCode_Required" xml:space="preserve">
+    <value>IATA code is required.</value>
+  </data>
+  <data name="Val_IataCode_Format" xml:space="preserve">
+    <value>IATA code must be exactly 3 uppercase letters (e.g. IST).</value>
+  </data>
+  <data name="Val_IcaoCode_Format" xml:space="preserve">
+    <value>ICAO code must be exactly 4 uppercase letters (e.g. LTFM).</value>
+  </data>
+  <data name="Val_City_Required" xml:space="preserve">
+    <value>City name must be at least 2 characters.</value>
+  </data>
+  <data name="Val_Country_Required" xml:space="preserve">
+    <value>Country selection is required.</value>
+  </data>
+  <data name="Val_Timezone_Required" xml:space="preserve">
+    <value>Timezone selection is required.</value>
+  </data>
+  <data name="Val_OriginAirportId_Required" xml:space="preserve">
+    <value>Origin airport selection is required.</value>
+  </data>
+  <data name="Val_DestinationAirportId_Required" xml:space="preserve">
+    <value>Destination airport selection is required.</value>
+  </data>
+  <data name="Val_DistanceKm_Positive" xml:space="preserve">
+    <value>Distance must be greater than zero.</value>
+  </data>
+  <data name="Val_EstimatedDuration_Positive" xml:space="preserve">
+    <value>Estimated duration must be greater than zero.</value>
+  </data>
+  <data name="Val_SameAirport" xml:space="preserve">
+    <value>Origin and destination airports cannot be the same.</value>
+  </data>
+  <data name="Val_CurrentPassword_Required" xml:space="preserve">
+    <value>Current password is required.</value>
   </data>
   <data name="Label_Active" xml:space="preserve">
     <value>Active</value>

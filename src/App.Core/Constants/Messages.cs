@@ -169,6 +169,7 @@ namespace App.Core.Constants
         public const string Flight_Number_Already_Exists = "Flight_Number_Already_Exists";
         public const string Flight_No_Available_Seats = "Flight_No_Available_Seats";
         public const string Flight_Seat_Is_Already_Booked = "Flight_Seat_Is_Already_Booked";
+        public const string Flight_Has_Active_Bookings = "Flight_Has_Active_Bookings";
         #endregion
 
         #region Seat

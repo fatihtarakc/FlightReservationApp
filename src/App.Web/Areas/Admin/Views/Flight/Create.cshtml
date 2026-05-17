@@ -7,7 +7,8 @@
                 <i class="fas fa-plus me-2"></i>@L["Flight_Add"]
             </div>
             <div class="p-4">
-                <form asp-action="Create" method="post" id="flightForm">
+                <form asp-action="Create" method="post" id="flightForm" novalidate
+                      data-arrival-msg="@L["Val_ArrivalTime_AfterDeparture"]">
                     @Html.AntiForgeryToken()
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
@@ -101,3 +102,6 @@
     </div>
 </div>
 
+@section Scripts {
+    <script src="~/js/admin-form-validation.js"></script>
+}

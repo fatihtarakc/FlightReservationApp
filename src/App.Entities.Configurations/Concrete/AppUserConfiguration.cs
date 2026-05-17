@@ -9,11 +9,11 @@
 
             builder.Property(u => u.Name).IsRequired().HasMaxLength(50);
             builder.ToTable(t => t.HasCheckConstraint("CK_AppUser_Name_Pattern",
-                "name ~ '^[A-Za-z -]+$' AND char_length(name) >= 2"));
+                "name !~ '[^A-Za-zğüşıöçĞÜŞİÖÇ -]' and char_length(name) >= 2"));
 
             builder.Property(u => u.Surname).IsRequired().HasMaxLength(50);
             builder.ToTable(t => t.HasCheckConstraint("CK_AppUser_Surname_Pattern",
-                "surname ~ '^[A-Za-z -]+$' AND char_length(surname) >= 2"));
+                "surname !~ '[^A-Za-zğüşıöçĞÜŞİÖÇ -]' and char_length(surname) >= 2"));
 
             builder.HasIndex(u => u.PhoneNumber).IsUnique();
             builder.Property(u => u.PhoneNumber).IsRequired().HasMaxLength(16);

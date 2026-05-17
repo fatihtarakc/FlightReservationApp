@@ -21,20 +21,21 @@ namespace App.DataAccess.Migrations
                     surname = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     is_super_admin = table.Column<bool>(type: "boolean", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    identity_id = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false)
+                    email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    identity_id = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_admins", x => x.id);
-                    table.CheckConstraint("CK_Admin_CreatedBy_MinLength", "char_length(created_by) >= 5");
-                    table.CheckConstraint("CK_Admin_Email_MinLength", "char_length(email) >= 5 AND email ~ '@'");
+                    table.CheckConstraint("CK_Admin_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_Admin_Email_Pattern_Control", "email ~ '@' and char_length(email) >= 5");
+                    table.CheckConstraint("CK_Admin_IdentityId_Length_Control", "char_length(identity_id) = 36");
                     table.CheckConstraint("CK_Admin_Name_MinLength", "char_length(name) >= 2");
                     table.CheckConstraint("CK_Admin_Surname_MinLength", "char_length(surname) >= 2");
                 });
@@ -51,17 +52,17 @@ namespace App.DataAccess.Migrations
                     logo_url = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     website = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_airlines", x => x.id);
-                    table.CheckConstraint("CK_Airline_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_Airline_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
                     table.CheckConstraint("CK_Airline_IataCode_Pattern", "iata_code ~ '^[A-Z0-9]{2}$'");
                     table.CheckConstraint("CK_Airline_IcaoCode_Pattern", "icao_code ~ '^[A-Z]{3}$'");
                     table.CheckConstraint("CK_Airline_Name_Pattern", "name ~ '^[A-Za-z0-9 &-]+$' AND char_length(name) >= 2");
@@ -81,11 +82,11 @@ namespace App.DataAccess.Migrations
                     latitude = table.Column<double>(type: "double precision", nullable: false),
                     longitude = table.Column<double>(type: "double precision", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
@@ -93,7 +94,7 @@ namespace App.DataAccess.Migrations
                     table.PrimaryKey("pk_airports", x => x.id);
                     table.CheckConstraint("CK_Airport_City_MinLength", "char_length(city) >= 2");
                     table.CheckConstraint("CK_Airport_Country_MinLength", "char_length(country) >= 2");
-                    table.CheckConstraint("CK_Airport_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_Airport_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
                     table.CheckConstraint("CK_Airport_IataCode_Pattern", "iata_code ~ '^[A-Z]{3}$'");
                     table.CheckConstraint("CK_Airport_IcaoCode_Pattern", "icao_code ~ '^[A-Z]{4}$'");
                     table.CheckConstraint("CK_Airport_Name_MinLength", "char_length(name) >= 3");
@@ -114,24 +115,25 @@ namespace App.DataAccess.Migrations
                     national_id = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     nationality = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    identity_id = table.Column<string>(type: "character varying(450)", maxLength: 450, nullable: false)
+                    email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    identity_id = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_app_users", x => x.id);
                     table.CheckConstraint("CK_AppUser_BirthDate_Age", "birth_date <= CURRENT_DATE - INTERVAL '18 years'");
-                    table.CheckConstraint("CK_AppUser_CreatedBy_MinLength", "char_length(created_by) >= 5");
-                    table.CheckConstraint("CK_AppUser_Email_MinLength", "char_length(email) >= 5 AND email ~ '@'");
-                    table.CheckConstraint("CK_AppUser_Name_Pattern", "name ~ '^[A-Za-z -]+$' AND char_length(name) >= 2");
+                    table.CheckConstraint("CK_AppUser_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_AppUser_Email_Pattern_Control", "email ~ '@' and char_length(email) >= 5");
+                    table.CheckConstraint("CK_AppUser_IdentityId_Length_Control", "char_length(identity_id) = 36");
+                    table.CheckConstraint("CK_AppUser_Name_Pattern", "name !~ '[^A-Za-zğüşıöçĞÜŞİÖÇ -]' and char_length(name) >= 2");
                     table.CheckConstraint("CK_AppUser_PhoneNumber_Pattern", "phone_number ~ '^\\+[0-9]+$' AND char_length(phone_number) >= 8");
-                    table.CheckConstraint("CK_AppUser_Surname_Pattern", "surname ~ '^[A-Za-z -]+$' AND char_length(surname) >= 2");
+                    table.CheckConstraint("CK_AppUser_Surname_Pattern", "surname !~ '[^A-Za-zğüşıöçĞÜŞİÖÇ -]' and char_length(surname) >= 2");
                 });
 
             migrationBuilder.CreateTable(
@@ -182,18 +184,18 @@ namespace App.DataAccess.Migrations
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_manufacturers", x => x.id);
                     table.CheckConstraint("CK_Manufacturer_Country_MinLength", "char_length(country) >= 2");
-                    table.CheckConstraint("CK_Manufacturer_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_Manufacturer_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
                     table.CheckConstraint("CK_Manufacturer_Name_MinLength", "char_length(name) >= 2");
                 });
 
@@ -207,17 +209,17 @@ namespace App.DataAccess.Migrations
                     departure_airport_id = table.Column<Guid>(type: "uuid", nullable: false),
                     arrival_airport_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_routes", x => x.id);
-                    table.CheckConstraint("CK_Route_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_Route_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
                     table.CheckConstraint("CK_Route_DifferentAirports", "departure_airport_id <> arrival_airport_id");
                     table.CheckConstraint("CK_Route_DistanceKm_Positive", "distance_km > 0");
                     table.CheckConstraint("CK_Route_EstimatedDuration_Positive", "estimated_duration > '00:00:00'::interval");
@@ -248,11 +250,11 @@ namespace App.DataAccess.Migrations
                     attempt_count = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     app_user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
@@ -260,7 +262,7 @@ namespace App.DataAccess.Migrations
                     table.PrimaryKey("pk_verification_codes", x => x.id);
                     table.CheckConstraint("CK_VerificationCode_AttemptCount_Range", "attempt_count BETWEEN 0 AND 3");
                     table.CheckConstraint("CK_VerificationCode_Code_Pattern", "code ~ '^[0-9]{6}$'");
-                    table.CheckConstraint("CK_VerificationCode_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_VerificationCode_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
                     table.CheckConstraint("CK_VerificationCode_ExpiresAt", "expires_at > created_date");
                     table.ForeignKey(
                         name: "fk_verification_codes_app_users_app_user_id",
@@ -391,17 +393,17 @@ namespace App.DataAccess.Migrations
                     max_range_km = table.Column<decimal>(type: "numeric(10,2)", precision: 10, scale: 2, nullable: false),
                     manufacturer_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_models", x => x.id);
-                    table.CheckConstraint("CK_Model_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_Model_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
                     table.CheckConstraint("CK_Model_MaxPassengerCapacity_Range", "max_passenger_capacity BETWEEN 1 AND 1000");
                     table.CheckConstraint("CK_Model_MaxRangeKm_Positive", "max_range_km > 0");
                     table.CheckConstraint("CK_Model_Name_MinLength", "char_length(name) >= 2");
@@ -427,18 +429,18 @@ namespace App.DataAccess.Migrations
                     time_zone = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     route_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_schedules", x => x.id);
                     table.CheckConstraint("CK_Schedule_Code_Pattern", "code ~ '^[A-Za-z0-9 .&-]+$' AND char_length(code) >= 3");
-                    table.CheckConstraint("CK_Schedule_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_Schedule_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
                     table.CheckConstraint("CK_Schedule_ValidFromValidTo", "valid_to IS NULL OR valid_to > valid_from");
                     table.ForeignKey(
                         name: "fk_schedules_routes_route_id",
@@ -459,27 +461,27 @@ namespace App.DataAccess.Migrations
                     airline_id = table.Column<Guid>(type: "uuid", nullable: false),
                     model_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_aircrafts", x => x.id);
-                    table.CheckConstraint("CK_Aircraft_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_Aircraft_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
                     table.CheckConstraint("CK_Aircraft_ManufactureYear_Range", "manufacture_year >= 1950 AND manufacture_year <= EXTRACT(YEAR FROM NOW())::int + 2");
                     table.CheckConstraint("CK_Aircraft_TailNumber_Pattern", "tail_number ~ '^[A-Z0-9-]+$' AND char_length(tail_number) >= 2");
                     table.ForeignKey(
-                        name: "fk_aircrafts_airlines_airline_id",
+                        name: "fk_aircrafts_airline_airline_id",
                         column: x => x.airline_id,
                         principalTable: "airlines",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "fk_aircrafts_models_model_id",
+                        name: "fk_aircrafts_model_model_id",
                         column: x => x.model_id,
                         principalTable: "models",
                         principalColumn: "id",
@@ -508,17 +510,17 @@ namespace App.DataAccess.Migrations
                     airline_id = table.Column<Guid>(type: "uuid", nullable: false),
                     schedule_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_flights", x => x.id);
-                    table.CheckConstraint("CK_Flight_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_Flight_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
                     table.CheckConstraint("CK_Flight_Duration", "arrival_date_time > departure_date_time");
                     table.CheckConstraint("CK_Flight_Number_Pattern", "number ~ '^[A-Z0-9]{3,6}$'");
                     table.CheckConstraint("CK_Flight_Prices_Positive", "base_economy_price > 0 AND base_premium_economy_price > 0 AND base_business_price > 0 AND base_first_class_price > 0");
@@ -535,7 +537,7 @@ namespace App.DataAccess.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "fk_flights_schedules_schedule_id",
+                        name: "fk_flights_schedule_schedule_id",
                         column: x => x.schedule_id,
                         principalTable: "schedules",
                         principalColumn: "id",
@@ -555,17 +557,17 @@ namespace App.DataAccess.Migrations
                     has_extra_leg_room = table.Column<bool>(type: "boolean", nullable: false),
                     aircraft_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_seats", x => x.id);
-                    table.CheckConstraint("CK_Seat_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_Seat_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
                     table.CheckConstraint("CK_Seat_Row_Range", "row BETWEEN 1 AND 200");
                     table.ForeignKey(
                         name: "fk_seats_aircrafts_aircraft_id",
@@ -593,17 +595,17 @@ namespace App.DataAccess.Migrations
                     flight_id = table.Column<Guid>(type: "uuid", nullable: false),
                     seat_id = table.Column<Guid>(type: "uuid", nullable: false),
                     entity_status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    created_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    created_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "NOW()"),
-                    deleted_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    deleted_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     deleted_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    modified_by = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    modified_by = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     modified_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_bookings", x => x.id);
-                    table.CheckConstraint("CK_Booking_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                    table.CheckConstraint("CK_Booking_CreatedBy_MinLength_Control", "char_length(created_by) >= 5");
                     table.CheckConstraint("CK_Booking_PnrNumber_Pattern", "pnr_number ~ '^[A-Z0-9]{6}$'");
                     table.CheckConstraint("CK_Booking_TotalPrice_Positive", "total_price > 0");
                     table.ForeignKey(
@@ -613,13 +615,13 @@ namespace App.DataAccess.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "fk_bookings_flights_flight_id",
+                        name: "fk_bookings_flight_flight_id",
                         column: x => x.flight_id,
                         principalTable: "flights",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "fk_bookings_seats_seat_id",
+                        name: "fk_bookings_seat_seat_id",
                         column: x => x.seat_id,
                         principalTable: "seats",
                         principalColumn: "id",

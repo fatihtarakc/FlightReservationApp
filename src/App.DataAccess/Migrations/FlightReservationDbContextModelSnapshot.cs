@@ -17,7 +17,7 @@ namespace App.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "8.0.26")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -31,8 +31,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -42,8 +42,8 @@ namespace App.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -52,8 +52,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("email");
 
                     b.Property<int>("EntityStatus")
@@ -64,8 +64,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("IdentityId")
                         .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnName("identity_id");
 
                     b.Property<bool>("IsSuperAdmin")
@@ -73,8 +73,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("is_super_admin");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -106,9 +106,11 @@ namespace App.DataAccess.Migrations
 
                     b.ToTable("admins", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Admin_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_Admin_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
-                            t.HasCheckConstraint("CK_Admin_Email_MinLength", "char_length(email) >= 5 AND email ~ '@'");
+                            t.HasCheckConstraint("CK_Admin_Email_Pattern_Control", "Email ~ '@' and Len(Email) >= 5");
+
+                            t.HasCheckConstraint("CK_Admin_IdentityId_Length_Control", "Len(IdentityId) = 36");
 
                             t.HasCheckConstraint("CK_Admin_Name_MinLength", "char_length(name) >= 2");
 
@@ -135,8 +137,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -146,8 +148,8 @@ namespace App.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -169,8 +171,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("model_id");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -198,7 +200,7 @@ namespace App.DataAccess.Migrations
 
                     b.ToTable("aircrafts", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Aircraft_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_Aircraft_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
                             t.HasCheckConstraint("CK_Aircraft_ManufactureYear_Range", "manufacture_year >= 1950 AND manufacture_year <= EXTRACT(YEAR FROM NOW())::int + 2");
 
@@ -221,8 +223,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -232,8 +234,8 @@ namespace App.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -264,8 +266,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("logo_url");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -300,7 +302,7 @@ namespace App.DataAccess.Migrations
 
                     b.ToTable("airlines", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Airline_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_Airline_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
                             t.HasCheckConstraint("CK_Airline_IataCode_Pattern", "iata_code ~ '^[A-Z0-9]{2}$'");
 
@@ -331,8 +333,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -342,8 +344,8 @@ namespace App.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -377,8 +379,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("longitude");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -418,7 +420,7 @@ namespace App.DataAccess.Migrations
 
                             t.HasCheckConstraint("CK_Airport_Country_MinLength", "char_length(country) >= 2");
 
-                            t.HasCheckConstraint("CK_Airport_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_Airport_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
                             t.HasCheckConstraint("CK_Airport_IataCode_Pattern", "iata_code ~ '^[A-Z]{3}$'");
 
@@ -441,8 +443,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -452,8 +454,8 @@ namespace App.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -462,8 +464,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("email");
 
                     b.Property<int>("EntityStatus")
@@ -474,13 +476,13 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("IdentityId")
                         .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("character varying(450)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnName("identity_id");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -551,9 +553,11 @@ namespace App.DataAccess.Migrations
                         {
                             t.HasCheckConstraint("CK_AppUser_BirthDate_Age", "birth_date <= CURRENT_DATE - INTERVAL '18 years'");
 
-                            t.HasCheckConstraint("CK_AppUser_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_AppUser_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
-                            t.HasCheckConstraint("CK_AppUser_Email_MinLength", "char_length(email) >= 5 AND email ~ '@'");
+                            t.HasCheckConstraint("CK_AppUser_Email_Pattern_Control", "Email ~ '@' and Len(Email) >= 5");
+
+                            t.HasCheckConstraint("CK_AppUser_IdentityId_Length_Control", "Len(IdentityId) = 36");
 
                             t.HasCheckConstraint("CK_AppUser_Name_Pattern", "name ~ '^[A-Za-z -]+$' AND char_length(name) >= 2");
 
@@ -596,8 +600,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -611,8 +615,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("currency");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -638,8 +642,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("is_reminder_sent7days");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -681,7 +685,7 @@ namespace App.DataAccess.Migrations
 
                     b.ToTable("bookings", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Booking_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_Booking_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
                             t.HasCheckConstraint("CK_Booking_PnrNumber_Pattern", "pnr_number ~ '^[A-Z0-9]{6}$'");
 
@@ -735,8 +739,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -752,8 +756,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("currency");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -786,8 +790,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("gate");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -827,7 +831,7 @@ namespace App.DataAccess.Migrations
 
                     b.ToTable("flights", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Flight_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_Flight_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
                             t.HasCheckConstraint("CK_Flight_Duration", "arrival_date_time > departure_date_time");
 
@@ -852,8 +856,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -863,8 +867,8 @@ namespace App.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -878,8 +882,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("entity_status");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -903,7 +907,7 @@ namespace App.DataAccess.Migrations
                         {
                             t.HasCheckConstraint("CK_Manufacturer_Country_MinLength", "char_length(country) >= 2");
 
-                            t.HasCheckConstraint("CK_Manufacturer_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_Manufacturer_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
                             t.HasCheckConstraint("CK_Manufacturer_Name_MinLength", "char_length(name) >= 2");
                         });
@@ -926,8 +930,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -937,8 +941,8 @@ namespace App.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -973,8 +977,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("max_range_km");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -1000,7 +1004,7 @@ namespace App.DataAccess.Migrations
 
                     b.ToTable("models", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Model_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_Model_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
                             t.HasCheckConstraint("CK_Model_MaxPassengerCapacity_Range", "max_passenger_capacity BETWEEN 1 AND 1000");
 
@@ -1025,8 +1029,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -1036,8 +1040,8 @@ namespace App.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -1064,8 +1068,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("estimated_duration");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -1084,7 +1088,7 @@ namespace App.DataAccess.Migrations
 
                     b.ToTable("routes", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Route_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_Route_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
                             t.HasCheckConstraint("CK_Route_DifferentAirports", "departure_airport_id <> arrival_airport_id");
 
@@ -1109,8 +1113,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -1124,8 +1128,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("days_of_week");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -1143,8 +1147,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("entity_status");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -1183,7 +1187,7 @@ namespace App.DataAccess.Migrations
                         {
                             t.HasCheckConstraint("CK_Schedule_Code_Pattern", "code ~ '^[A-Za-z0-9 .&-]+$' AND char_length(code) >= 3");
 
-                            t.HasCheckConstraint("CK_Schedule_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_Schedule_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
                             t.HasCheckConstraint("CK_Schedule_ValidFromValidTo", "valid_to IS NULL OR valid_to > valid_from");
                         });
@@ -1206,8 +1210,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -1217,8 +1221,8 @@ namespace App.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -1244,8 +1248,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("is_window_seat");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -1271,7 +1275,7 @@ namespace App.DataAccess.Migrations
 
                     b.ToTable("seats", null, t =>
                         {
-                            t.HasCheckConstraint("CK_Seat_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_Seat_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
                             t.HasCheckConstraint("CK_Seat_Row_Range", "row BETWEEN 1 AND 200");
                         });
@@ -1308,8 +1312,8 @@ namespace App.DataAccess.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("CreatedDate")
@@ -1319,8 +1323,8 @@ namespace App.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("DeletedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("deleted_by");
 
                     b.Property<DateTime?>("DeletedDate")
@@ -1338,8 +1342,8 @@ namespace App.DataAccess.Migrations
                         .HasColumnName("expires_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("modified_by");
 
                     b.Property<DateTime?>("ModifiedDate")
@@ -1368,7 +1372,7 @@ namespace App.DataAccess.Migrations
 
                             t.HasCheckConstraint("CK_VerificationCode_Code_Pattern", "code ~ '^[0-9]{6}$'");
 
-                            t.HasCheckConstraint("CK_VerificationCode_CreatedBy_MinLength", "char_length(created_by) >= 5");
+                            t.HasCheckConstraint("CK_VerificationCode_CreatedBy_MinLength_Control", "Len(CreatedBy) >= 5");
 
                             t.HasCheckConstraint("CK_VerificationCode_ExpiresAt", "expires_at > created_date");
                         });
@@ -1632,14 +1636,14 @@ namespace App.DataAccess.Migrations
                         .HasForeignKey("AirlineId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_aircrafts_airlines_airline_id");
+                        .HasConstraintName("fk_aircrafts_airline_airline_id");
 
                     b.HasOne("App.Entity.Entities.Model", "Model")
                         .WithMany("Aircrafts")
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_aircrafts_models_model_id");
+                        .HasConstraintName("fk_aircrafts_model_model_id");
 
                     b.Navigation("Airline");
 
@@ -1660,14 +1664,14 @@ namespace App.DataAccess.Migrations
                         .HasForeignKey("FlightId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_bookings_flights_flight_id");
+                        .HasConstraintName("fk_bookings_flight_flight_id");
 
                     b.HasOne("App.Entity.Entities.Seat", "Seat")
                         .WithMany("Bookings")
                         .HasForeignKey("SeatId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_bookings_seats_seat_id");
+                        .HasConstraintName("fk_bookings_seat_seat_id");
 
                     b.Navigation("AppUser");
 
@@ -1697,7 +1701,7 @@ namespace App.DataAccess.Migrations
                         .HasForeignKey("ScheduleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_flights_schedules_schedule_id");
+                        .HasConstraintName("fk_flights_schedule_schedule_id");
 
                     b.Navigation("Aircraft");
 

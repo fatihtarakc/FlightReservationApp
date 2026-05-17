@@ -1,16 +1,15 @@
 ﻿namespace App.Core.Configurations.Abstract
 {
-    public abstract class BaseEntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
-        where TEntity : AuditableBaseEntity
+    public abstract class BaseEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseEntity
     {
-        public virtual void Configure(EntityTypeBuilder<TEntity> builder)
+        public virtual void Configure(EntityTypeBuilder<T> builder)
         {
-            builder.HasKey(e => e.Id);
-            builder.Property(e => e.Id).ValueGeneratedOnAdd();
-            builder.Property(e => e.EntityStatus).IsRequired()
-                .HasDefaultValue(EntityStatus.Added);
+            builder.HasKey(baseEntity => baseEntity.Id);
+            builder.Property(baseEntity => baseEntity.Id).ValueGeneratedOnAdd();
 
-            builder.HasQueryFilter(e => e.EntityStatus != EntityStatus.Deleted);
+            builder.Property(baseEntity => baseEntity.EntityStatus).HasDefaultValue(EntityStatus.Added).IsRequired();
+
+            builder.HasQueryFilter(baseEntity => baseEntity.EntityStatus != EntityStatus.Deleted);
         }
     }
 }

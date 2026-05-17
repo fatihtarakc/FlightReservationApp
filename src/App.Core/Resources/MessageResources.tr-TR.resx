@@ -162,6 +162,7 @@
   <data name="Flight_Was_Cancelled"><value>Uçuş iptal edildi.</value></data>
   <data name="Flight_Number_Already_Exists"><value>Bu uçuş numarası zaten kullanımda.</value></data>
   <data name="Flight_No_Available_Seats"><value>Bu uçuş için müsait koltuk bulunmamaktadır.</value></data>
+  <data name="Flight_Has_Active_Bookings"><value>Bu uçuşa ait aktif rezervasyonlar bulunmaktadır. Silme işlemi gerçekleştirilemiyor.</value></data>
   <data name="Flight_Seat_Is_Already_Booked"><value>Bu koltuk zaten rezerve edilmiş.</value></data>
 
   <!-- Seat -->

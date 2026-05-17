@@ -162,6 +162,7 @@
   <data name="Flight_Was_Cancelled"><value>Flight has been cancelled.</value></data>
   <data name="Flight_Number_Already_Exists"><value>This flight number is already in use.</value></data>
   <data name="Flight_No_Available_Seats"><value>No available seats on this flight.</value></data>
+  <data name="Flight_Has_Active_Bookings"><value>This flight has active bookings. Deletion is not allowed.</value></data>
   <data name="Flight_Seat_Is_Already_Booked"><value>This seat is already booked.</value></data>
 
   <!-- Seat -->
