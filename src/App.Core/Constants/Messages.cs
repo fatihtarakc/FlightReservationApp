@@ -347,5 +347,135 @@ namespace App.Core.Constants
         public const string Unauthorized = "Unauthorized";
         public const string Forbidden = "Forbidden";
         #endregion
+
+        #region Validation — Aircraft
+        public const string Aircraft_Please_Enter_TailNumber = "Aircraft_Please_Enter_TailNumber";
+        public const string Aircraft_TailNumber_Cannot_Be_LessThan_2Characters = "Aircraft_TailNumber_Cannot_Be_LessThan_2Characters";
+        public const string Aircraft_TailNumber_Cannot_Be_GreaterThan_10Characters = "Aircraft_TailNumber_Cannot_Be_GreaterThan_10Characters";
+        public const string Aircraft_TailNumber_Format_Invalid = "Aircraft_TailNumber_Format_Invalid";
+        public const string Aircraft_ManufactureYear_Invalid = "Aircraft_ManufactureYear_Invalid";
+        public const string Aircraft_Please_Select_Airline = "Aircraft_Please_Select_Airline";
+        public const string Aircraft_Please_Select_Model = "Aircraft_Please_Select_Model";
+        public const string Aircraft_Please_Select_Status = "Aircraft_Please_Select_Status";
+        #endregion
+
+        #region Validation — Airline
+        public const string Airline_Please_Enter_Name = "Airline_Please_Enter_Name";
+        public const string Airline_Name_Cannot_Be_LessThan_2Characters = "Airline_Name_Cannot_Be_LessThan_2Characters";
+        public const string Airline_Name_Cannot_Be_GreaterThan_50Characters = "Airline_Name_Cannot_Be_GreaterThan_50Characters";
+        public const string Airline_Name_Format_Invalid = "Airline_Name_Format_Invalid";
+        public const string Airline_Please_Enter_IataCode = "Airline_Please_Enter_IataCode";
+        public const string Airline_IataCode_Must_Be_2Characters = "Airline_IataCode_Must_Be_2Characters";
+        public const string Airline_IataCode_Format_Invalid = "Airline_IataCode_Format_Invalid";
+        public const string Airline_Please_Enter_IcaoCode = "Airline_Please_Enter_IcaoCode";
+        public const string Airline_IcaoCode_Must_Be_3Characters = "Airline_IcaoCode_Must_Be_3Characters";
+        public const string Airline_IcaoCode_Format_Invalid = "Airline_IcaoCode_Format_Invalid";
+        public const string Airline_Please_Enter_Country = "Airline_Please_Enter_Country";
+        public const string Airline_Country_Cannot_Be_GreaterThan_50Characters = "Airline_Country_Cannot_Be_GreaterThan_50Characters";
+        #endregion
+
+        #region Validation — Airport
+        public const string Airport_Please_Enter_Name = "Airport_Please_Enter_Name";
+        public const string Airport_Name_Cannot_Be_GreaterThan_150Characters = "Airport_Name_Cannot_Be_GreaterThan_150Characters";
+        public const string Airport_Please_Enter_IataCode = "Airport_Please_Enter_IataCode";
+        public const string Airport_IataCode_Must_Be_3Characters = "Airport_IataCode_Must_Be_3Characters";
+        public const string Airport_IataCode_Format_Invalid = "Airport_IataCode_Format_Invalid";
+        public const string Airport_Please_Enter_IcaoCode = "Airport_Please_Enter_IcaoCode";
+        public const string Airport_IcaoCode_Must_Be_4Characters = "Airport_IcaoCode_Must_Be_4Characters";
+        public const string Airport_IcaoCode_Format_Invalid = "Airport_IcaoCode_Format_Invalid";
+        public const string Airport_Please_Enter_City = "Airport_Please_Enter_City";
+        public const string Airport_City_Cannot_Be_GreaterThan_100Characters = "Airport_City_Cannot_Be_GreaterThan_100Characters";
+        public const string Airport_Please_Enter_Country = "Airport_Please_Enter_Country";
+        public const string Airport_Country_Cannot_Be_GreaterThan_100Characters = "Airport_Country_Cannot_Be_GreaterThan_100Characters";
+        public const string Airport_Please_Enter_TimeZone = "Airport_Please_Enter_TimeZone";
+        public const string Airport_Latitude_Invalid = "Airport_Latitude_Invalid";
+        public const string Airport_Longitude_Invalid = "Airport_Longitude_Invalid";
+        #endregion
+
+        #region Validation — Flight
+        public const string Flight_Please_Enter_Number = "Flight_Please_Enter_Number";
+        public const string Flight_Number_Cannot_Be_GreaterThan_6Characters = "Flight_Number_Cannot_Be_GreaterThan_6Characters";
+        public const string Flight_Number_Format_Invalid = "Flight_Number_Format_Invalid";
+        public const string Flight_DepartureDateTime_Required = "Flight_DepartureDateTime_Required";
+        public const string Flight_DepartureDateTime_Must_Be_Future = "Flight_DepartureDateTime_Must_Be_Future";
+        public const string Flight_ArrivalDateTime_Required = "Flight_ArrivalDateTime_Required";
+        public const string Flight_ArrivalDateTime_Must_Be_After_Departure = "Flight_ArrivalDateTime_Must_Be_After_Departure";
+        public const string Flight_EconomyPrice_Must_Be_Positive = "Flight_EconomyPrice_Must_Be_Positive";
+        public const string Flight_PremiumEconomyPrice_Must_Be_Positive = "Flight_PremiumEconomyPrice_Must_Be_Positive";
+        public const string Flight_BusinessPrice_Must_Be_Positive = "Flight_BusinessPrice_Must_Be_Positive";
+        public const string Flight_FirstClassPrice_Must_Be_Positive = "Flight_FirstClassPrice_Must_Be_Positive";
+        public const string Flight_Please_Select_Aircraft = "Flight_Please_Select_Aircraft";
+        public const string Flight_Please_Select_Airline = "Flight_Please_Select_Airline";
+        public const string Flight_Please_Select_Schedule = "Flight_Please_Select_Schedule";
+        public const string Flight_Please_Select_Currency = "Flight_Please_Select_Currency";
+        public const string Flight_Please_Select_Status = "Flight_Please_Select_Status";
+        public const string Flight_Gate_Cannot_Be_GreaterThan_10Characters = "Flight_Gate_Cannot_Be_GreaterThan_10Characters";
+        public const string Flight_Terminal_Cannot_Be_GreaterThan_10Characters = "Flight_Terminal_Cannot_Be_GreaterThan_10Characters";
+        public const string Flight_CancellationReason_Cannot_Be_GreaterThan_500Characters = "Flight_CancellationReason_Cannot_Be_GreaterThan_500Characters";
+        #endregion
+
+        #region Validation — FlightSearch
+        public const string FlightSearch_DepartureIata_Required = "FlightSearch_DepartureIata_Required";
+        public const string FlightSearch_DepartureIata_Format_Invalid = "FlightSearch_DepartureIata_Format_Invalid";
+        public const string FlightSearch_ArrivalIata_Required = "FlightSearch_ArrivalIata_Required";
+        public const string FlightSearch_ArrivalIata_Format_Invalid = "FlightSearch_ArrivalIata_Format_Invalid";
+        public const string FlightSearch_DepartureDate_Required = "FlightSearch_DepartureDate_Required";
+        public const string FlightSearch_Passengers_Invalid = "FlightSearch_Passengers_Invalid";
+        public const string FlightSearch_SeatClass_Invalid = "FlightSearch_SeatClass_Invalid";
+        #endregion
+
+        #region Validation — Manufacturer
+        public const string Manufacturer_Please_Enter_Name = "Manufacturer_Please_Enter_Name";
+        public const string Manufacturer_Name_Cannot_Be_LessThan_2Characters = "Manufacturer_Name_Cannot_Be_LessThan_2Characters";
+        public const string Manufacturer_Name_Cannot_Be_GreaterThan_100Characters = "Manufacturer_Name_Cannot_Be_GreaterThan_100Characters";
+        public const string Manufacturer_Please_Enter_Country = "Manufacturer_Please_Enter_Country";
+        public const string Manufacturer_Country_Cannot_Be_LessThan_2Characters = "Manufacturer_Country_Cannot_Be_LessThan_2Characters";
+        public const string Manufacturer_Country_Cannot_Be_GreaterThan_100Characters = "Manufacturer_Country_Cannot_Be_GreaterThan_100Characters";
+        #endregion
+
+        #region Validation — Model
+        public const string Model_Please_Enter_Name = "Model_Please_Enter_Name";
+        public const string Model_Name_Cannot_Be_LessThan_2Characters = "Model_Name_Cannot_Be_LessThan_2Characters";
+        public const string Model_Name_Cannot_Be_GreaterThan_100Characters = "Model_Name_Cannot_Be_GreaterThan_100Characters";
+        public const string Model_Please_Select_BodyType = "Model_Please_Select_BodyType";
+        public const string Model_MaxPassengerCapacity_Invalid = "Model_MaxPassengerCapacity_Invalid";
+        public const string Model_Seats_Cannot_Be_Negative = "Model_Seats_Cannot_Be_Negative";
+        public const string Model_MaxRangeKm_Must_Be_Positive = "Model_MaxRangeKm_Must_Be_Positive";
+        public const string Model_Please_Select_Manufacturer = "Model_Please_Select_Manufacturer";
+        #endregion
+
+        #region Validation — Route
+        public const string Route_Please_Select_DepartureAirport = "Route_Please_Select_DepartureAirport";
+        public const string Route_Please_Select_ArrivalAirport = "Route_Please_Select_ArrivalAirport";
+        public const string Route_SameAirport_Invalid = "Route_SameAirport_Invalid";
+        public const string Route_DistanceKm_Must_Be_Positive = "Route_DistanceKm_Must_Be_Positive";
+        public const string Route_EstimatedDuration_Must_Be_Positive = "Route_EstimatedDuration_Must_Be_Positive";
+        #endregion
+
+        #region Validation — Schedule
+        public const string Schedule_Please_Enter_Code = "Schedule_Please_Enter_Code";
+        public const string Schedule_Code_Cannot_Be_LessThan_3Characters = "Schedule_Code_Cannot_Be_LessThan_3Characters";
+        public const string Schedule_Code_Cannot_Be_GreaterThan_20Characters = "Schedule_Code_Cannot_Be_GreaterThan_20Characters";
+        public const string Schedule_Code_Format_Invalid = "Schedule_Code_Format_Invalid";
+        public const string Schedule_ValidFrom_Required = "Schedule_ValidFrom_Required";
+        public const string Schedule_ValidTo_Must_Be_After_ValidFrom = "Schedule_ValidTo_Must_Be_After_ValidFrom";
+        public const string Schedule_Please_Select_DaysOfWeek = "Schedule_Please_Select_DaysOfWeek";
+        public const string Schedule_DepartureTime_Required = "Schedule_DepartureTime_Required";
+        public const string Schedule_Please_Enter_TimeZone = "Schedule_Please_Enter_TimeZone";
+        public const string Schedule_TimeZone_Cannot_Be_GreaterThan_100Characters = "Schedule_TimeZone_Cannot_Be_GreaterThan_100Characters";
+        public const string Schedule_Please_Select_Route = "Schedule_Please_Select_Route";
+        #endregion
+
+        #region Validation — Seat
+        public const string Seat_Row_Invalid = "Seat_Row_Invalid";
+        public const string Seat_Please_Select_Column = "Seat_Please_Select_Column";
+        public const string Seat_Please_Select_Class = "Seat_Please_Select_Class";
+        public const string Seat_Please_Select_Aircraft = "Seat_Please_Select_Aircraft";
+        #endregion
+
+        #region Validation — Booking
+        public const string Booking_Please_Select_Flight = "Booking_Please_Select_Flight";
+        public const string Booking_Please_Select_Seat = "Booking_Please_Select_Seat";
+        #endregion
     }
 }

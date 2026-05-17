@@ -1,9 +1,12 @@
 namespace App.Api.Validators
 {
-    public class AirlineAddDtoValidator : AbstractValidator<AirlineAddDto>
+    public class AirlineUpdateDtoValidator : AbstractValidator<AirlineUpdateDto>
     {
-        public AirlineAddDtoValidator()
+        public AirlineUpdateDtoValidator()
         {
+            RuleFor(x => x.Id)
+                .NotEmpty();
+
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage(Messages.Airline_Please_Enter_Name)
                 .MinimumLength(2).WithMessage(Messages.Airline_Name_Cannot_Be_LessThan_2Characters)

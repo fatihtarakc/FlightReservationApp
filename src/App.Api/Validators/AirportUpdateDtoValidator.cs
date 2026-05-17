@@ -1,9 +1,12 @@
 namespace App.Api.Validators
 {
-    public class AirportAddDtoValidator : AbstractValidator<AirportAddDto>
+    public class AirportUpdateDtoValidator : AbstractValidator<AirportUpdateDto>
     {
-        public AirportAddDtoValidator()
+        public AirportUpdateDtoValidator()
         {
+            RuleFor(x => x.Id)
+                .NotEmpty();
+
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage(Messages.Airport_Please_Enter_Name)
                 .MaximumLength(150).WithMessage(Messages.Airport_Name_Cannot_Be_GreaterThan_150Characters);
