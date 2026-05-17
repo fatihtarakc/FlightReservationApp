@@ -8,13 +8,11 @@ namespace App.Web.Areas.Admin.Controllers
     {
         private readonly IAirportService _airportService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IMapper _mapper;
 
-        public AirportController(IAirportService airportService, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+        public AirportController(IAirportService airportService, IHttpContextAccessor httpContextAccessor)
         {
             _airportService = airportService;
             _httpContextAccessor = httpContextAccessor;
-            _mapper = mapper;
         }
 
         private string? Token => TokenHelper.GetToken(_httpContextAccessor);
@@ -59,20 +57,23 @@ namespace App.Web.Areas.Admin.Controllers
                 NotifyErrorLocalized(result.Message);
                 return RedirectToAction(nameof(Index));
             }
-            var model = _mapper.Map<AirportAddVM>(result.Data!);
-            ViewBag.EditId = id;
-            return View(model);
+            var vm = result.Data;
+            return View(new AirportAddVM
+            {
+                Name     = vm.Name,
+                IataCode = vm.IataCode,
+                IcaoCode = vm.IcaoCode,
+                City     = vm.City,
+                Country  = vm.Country,
+                Timezone = vm.Timezone
+            });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, AirportAddVM model)
         {
-            if (!ModelState.IsValid)
-            {
-                ViewBag.EditId = id;
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
             var result = await _airportService.UpdateAsync(id, model, Token!);
             if (!result.IsSuccess)
                 NotifyErrorLocalized(result.Message);

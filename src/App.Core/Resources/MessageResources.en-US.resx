@@ -35,6 +35,7 @@
   <data name="Account_ResetPassword_Successful"><value>Password reset successfully.</value></data>
   <data name="Account_Was_Not_Found"><value>Account not found.</value></data>
   <data name="Account_Was_Found"><value>Account found.</value></data>
+  <data name="Account_Privileged_Cannot_Use_This_Feature"><value>This operation cannot be performed for privileged accounts.</value></data>
   <data name="Account_Has_Already_Been_Activated"><value>Account is already active.</value></data>
   <data name="Account_Has_Not_Activated"><value>Account has not been activated yet.</value></data>
   <data name="Account_Email_Has_Already_Been_Confirmed"><value>Email address is already confirmed.</value></data>

@@ -5,19 +5,26 @@ namespace App.Business.Concrete.Services
         private readonly IScheduleRepository _scheduleRepository;
         private readonly IRouteRepository _routeRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICacheService<Schedule> _cacheService;
         private readonly IStringLocalizer<MessageResources> _localizer;
         private readonly ILogger<ScheduleService> _logger;
+
+        private const string CacheKeyAll = "Schedules:All";
+        private static string CacheKeyById(Guid id) => $"Schedule:{id}";
+        private static string CacheKeyByRoute(Guid routeId) => $"Schedules:Route:{routeId}";
 
         public ScheduleService(
             IScheduleRepository scheduleRepository,
             IRouteRepository routeRepository,
             IUnitOfWork unitOfWork,
+            ICacheService<Schedule> cacheService,
             IStringLocalizer<MessageResources> localizer,
             ILogger<ScheduleService> logger)
         {
             _scheduleRepository = scheduleRepository;
             _routeRepository = routeRepository;
             _unitOfWork = unitOfWork;
+            _cacheService = cacheService;
             _localizer = localizer;
             _logger = logger;
         }
@@ -26,10 +33,13 @@ namespace App.Business.Concrete.Services
         {
             try
             {
-                var schedule = await _scheduleRepository.GetByIdAsync(id, tracking: false);
-                if (schedule == null)
-                    return new ErrorDataResult<ScheduleDto>(_localizer[Messages.Schedule_Was_Not_Found]);
+                var cached = await _cacheService.GetByAsync(CacheKeyById(id));
+                if (cached.IsSuccess && cached.Data is not null) return new SuccessDataResult<ScheduleDto>(cached.Data.Adapt<ScheduleDto>(), _localizer[Messages.Schedule_Was_Found]);
 
+                var schedule = await _scheduleRepository.GetByIdAsync(id, tracking: false);
+                if (schedule is null) return new ErrorDataResult<ScheduleDto>(_localizer[Messages.Schedule_Was_Not_Found]);
+
+                await _cacheService.AddAsync(CacheKeyById(id), schedule);
                 return new SuccessDataResult<ScheduleDto>(schedule.Adapt<ScheduleDto>(), _localizer[Messages.Schedule_Was_Found]);
             }
             catch (Exception ex)
@@ -43,8 +53,13 @@ namespace App.Business.Concrete.Services
         {
             try
             {
+                var cachedList = await _cacheService.GetListByAsync(CacheKeyAll);
+                if (cachedList.IsSuccess && cachedList.Data is not null) return new SuccessDataResult<IEnumerable<ScheduleDto>>(cachedList.Data.Select(x => x.Adapt<ScheduleDto>()));
+
                 var schedules = await _scheduleRepository.GetAllAsync(tracking: false);
-                return new SuccessDataResult<IEnumerable<ScheduleDto>>(schedules.Select(x => x.Adapt<ScheduleDto>()));
+                var list = schedules.ToList();
+                await _cacheService.AddListAsync(CacheKeyAll, list);
+                return new SuccessDataResult<IEnumerable<ScheduleDto>>(list.Select(x => x.Adapt<ScheduleDto>()));
             }
             catch (Exception ex)
             {
@@ -57,8 +72,14 @@ namespace App.Business.Concrete.Services
         {
             try
             {
+                var cachedList = await _cacheService.GetListByAsync(CacheKeyByRoute(routeId));
+                if (cachedList.IsSuccess && cachedList.Data != null)
+                    return new SuccessDataResult<IEnumerable<ScheduleDto>>(cachedList.Data.Select(x => x.Adapt<ScheduleDto>()));
+
                 var schedules = await _scheduleRepository.GetByRouteIdAsync(routeId, tracking: false);
-                return new SuccessDataResult<IEnumerable<ScheduleDto>>(schedules.Select(x => x.Adapt<ScheduleDto>()));
+                var list = schedules.ToList();
+                await _cacheService.AddListAsync(CacheKeyByRoute(routeId), list);
+                return new SuccessDataResult<IEnumerable<ScheduleDto>>(list.Select(x => x.Adapt<ScheduleDto>()));
             }
             catch (Exception ex)
             {
@@ -81,18 +102,21 @@ namespace App.Business.Concrete.Services
                     {
                         var schedule = new Schedule
                         {
-                            Code          = dto.Code,
-                            ValidFrom     = dto.ValidFrom,
-                            ValidTo       = dto.ValidTo,
-                            DaysOfWeek    = dto.DaysOfWeek,
+                            Code = dto.Code,
+                            ValidFrom = dto.ValidFrom,
+                            ValidTo = dto.ValidTo,
+                            DaysOfWeek = dto.DaysOfWeek,
                             DepartureTime = dto.DepartureTime,
-                            TimeZone      = dto.TimeZone,
-                            RouteId       = dto.RouteId
+                            TimeZone = dto.TimeZone,
+                            RouteId = dto.RouteId
                         };
 
                         await _scheduleRepository.AddAsync(schedule);
                         await _unitOfWork.SaveChangesAsync();
                         await transaction.CommitAsync();
+
+                        await _cacheService.DeleteAsync(CacheKeyAll);
+                        await _cacheService.DeleteAsync(CacheKeyByRoute(dto.RouteId));
 
                         _logger.LogInformation("{Message} Code: {Code}", _localizer[Messages.Schedule_HasBeen_Added].Value, dto.Code);
                         result = new SuccessDataResult<ScheduleDto>(schedule.Adapt<ScheduleDto>(), _localizer[Messages.Schedule_HasBeen_Added]);
@@ -130,15 +154,19 @@ namespace App.Business.Concrete.Services
                     await using var transaction = await _unitOfWork.BeginTransactionAsync();
                     try
                     {
-                        schedule.ValidFrom     = dto.ValidFrom;
-                        schedule.ValidTo       = dto.ValidTo;
-                        schedule.DaysOfWeek    = dto.DaysOfWeek;
+                        schedule.ValidFrom = dto.ValidFrom;
+                        schedule.ValidTo = dto.ValidTo;
+                        schedule.DaysOfWeek = dto.DaysOfWeek;
                         schedule.DepartureTime = dto.DepartureTime;
-                        schedule.TimeZone      = dto.TimeZone;
+                        schedule.TimeZone = dto.TimeZone;
 
                         await _scheduleRepository.UpdateAsync(schedule);
                         await _unitOfWork.SaveChangesAsync();
                         await transaction.CommitAsync();
+
+                        await _cacheService.DeleteAsync(CacheKeyById(id));
+                        await _cacheService.DeleteAsync(CacheKeyAll);
+                        await _cacheService.DeleteAsync(CacheKeyByRoute(schedule.RouteId));
 
                         _logger.LogInformation("{Message} ScheduleId: {Id}", _localizer[Messages.Schedule_Was_Updated].Value, id);
                         result = new SuccessResult(_localizer[Messages.Schedule_Was_Updated]);
@@ -179,6 +207,10 @@ namespace App.Business.Concrete.Services
                         await _scheduleRepository.DeleteAsync(schedule);
                         await _unitOfWork.SaveChangesAsync();
                         await transaction.CommitAsync();
+
+                        await _cacheService.DeleteAsync(CacheKeyById(id));
+                        await _cacheService.DeleteAsync(CacheKeyAll);
+                        await _cacheService.DeleteAsync(CacheKeyByRoute(schedule.RouteId));
 
                         _logger.LogInformation("{Message} ScheduleId: {Id}", _localizer[Messages.Schedule_Was_Deleted].Value, id);
                         result = new SuccessResult(_localizer[Messages.Schedule_Was_Deleted]);

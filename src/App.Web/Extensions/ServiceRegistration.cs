@@ -44,7 +44,7 @@ namespace App.Web.Extensions
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/Account/SignIn";
+                    options.LoginPath = "/";
                     options.AccessDeniedPath = "/Account/AccessDenied";
                     options.ExpireTimeSpan = TimeSpan.FromHours(2);
                     options.SlidingExpiration = true;

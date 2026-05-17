@@ -14,12 +14,12 @@
                     <div class="row g-3">
                         <div class="col-md-4">
                             <label asp-for="Form.FlightNumber" class="form-label fw-semibold">@L["Flight_Number"]</label>
-                            <input asp-for="Form.FlightNumber" class="form-control" readonly />
+                            <input asp-for="Form.FlightNumber" class="form-control" readonly required/>
                         </div>
 
                         <div class="col-md-8">
                             <label asp-for="Form.RouteId" class="form-label fw-semibold">@L["Flight_Route"] <span class="text-danger">*</span></label>
-                            <select asp-for="Form.RouteId" class="form-select">
+                            <select asp-for="Form.RouteId" class="form-select" required>
                                 <option value="">— @L["Flight_SelectRoute"] —</option>
                                 @foreach (var r in Model.Routes)
                                 {
@@ -33,12 +33,12 @@
 
                         <div class="col-md-12">
                             <label asp-for="Form.AircraftId" class="form-label fw-semibold">@L["Flight_Aircraft"] <span class="text-danger">*</span></label>
-                            <select asp-for="Form.AircraftId" class="form-select">
+                            <select asp-for="Form.AircraftId" class="form-select" required>
                                 <option value="">— @L["Flight_SelectAircraft"] —</option>
                                 @foreach (var a in Model.Aircraft)
                                 {
                                     <option value="@a.Id">
-                                        @a.RegistrationNumber · @a.Model · @a.Manufacturer (@a.TotalSeats @L["Label_SeatAbbr"]) — @a.Status
+                                        @a.RegistrationNumber · @a.Model · @a.Manufacturer — @L["Status_" + a.Status.ToString()]
                                     </option>
                                 }
                             </select>
@@ -47,13 +47,13 @@
 
                         <div class="col-md-6">
                             <label asp-for="Form.DepartureTime" class="form-label fw-semibold">@L["Flight_DepartureDateTime"]</label>
-                            <input asp-for="Form.DepartureTime" type="datetime-local" class="form-control" />
+                            <input asp-for="Form.DepartureTime" type="datetime-local" class="form-control" required/>
                             <span asp-validation-for="Form.DepartureTime" class="text-danger small"></span>
                         </div>
 
                         <div class="col-md-6">
                             <label asp-for="Form.ArrivalTime" class="form-label fw-semibold">@L["Flight_ArrivalDateTime"]</label>
-                            <input asp-for="Form.ArrivalTime" type="datetime-local" class="form-control" />
+                            <input asp-for="Form.ArrivalTime" type="datetime-local" class="form-control" required/>
                             <span asp-validation-for="Form.ArrivalTime" class="text-danger small"></span>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                             <label asp-for="Form.EconomyPrice" class="form-label fw-semibold">@L["Flight_Economy"] (₺)</label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
-                                <input asp-for="Form.EconomyPrice" class="form-control" type="number" min="0" step="0.01" />
+                                <input asp-for="Form.EconomyPrice" class="form-control" type="number" min="0" step="0.01" required/>
                             </div>
                             <span asp-validation-for="Form.EconomyPrice" class="text-danger small"></span>
                         </div>
@@ -73,21 +73,21 @@
                             <label asp-for="Form.PremiumEconomyPrice" class="form-label fw-semibold">@L["Flight_PremiumEconomy"] (₺)</label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
-                                <input asp-for="Form.PremiumEconomyPrice" class="form-control" type="number" min="0" step="0.01" />
+                                <input asp-for="Form.PremiumEconomyPrice" class="form-control" type="number" min="0" step="0.01" required/>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label asp-for="Form.BusinessPrice" class="form-label fw-semibold">@L["Flight_Business"] (₺)</label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
-                                <input asp-for="Form.BusinessPrice" class="form-control" type="number" min="0" step="0.01" />
+                                <input asp-for="Form.BusinessPrice" class="form-control" type="number" min="0" step="0.01" required/>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label asp-for="Form.FirstClassPrice" class="form-label fw-semibold">@L["Flight_First"] (₺)</label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
-                                <input asp-for="Form.FirstClassPrice" class="form-control" type="number" min="0" step="0.01" />
+                                <input asp-for="Form.FirstClassPrice" class="form-control" type="number" min="0" step="0.01" required/>
                             </div>
                         </div>
                     </div>

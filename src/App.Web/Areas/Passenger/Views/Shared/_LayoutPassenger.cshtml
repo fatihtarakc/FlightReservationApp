@@ -44,9 +44,6 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="topbar-link">
                     <i class="fas fa-home"></i> @L["Nav_Home"]
                 </a>
-                <a asp-area="" asp-controller="Flight" asp-action="Index" class="topbar-link">
-                    <i class="fas fa-search"></i> @L["Flight_Search"]
-                </a>
                 <div class="d-flex gap-1">
                     <a asp-controller="Home" asp-action="SetLanguage" asp-route-lang="tr-TR" asp-route-returnUrl="@Context.Request.Path"
                        class="lang-btn @(paxLang == "tr" ? "active-lang" : "")">TR</a>
@@ -81,10 +78,6 @@
                class="nav-link @(paxCtrl == "Booking" ? "active" : "")">
                 <i class="fas fa-ticket-alt"></i> @L["Booking_My"]
             </a>
-            <a asp-area="" asp-controller="Flight" asp-action="Index" class="nav-link">
-                <i class="fas fa-search"></i> @L["Nav_SearchTicket"]
-            </a>
-
             <div class="nav-section">@L["Admin_AccountSection"]</div>
             <a asp-area="Passenger" asp-controller="Home" asp-action="Settings"
                class="nav-link @(paxAction == "Settings" ? "active" : "")">

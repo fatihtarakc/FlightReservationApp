@@ -5,6 +5,8 @@ namespace App.DataAccess.Abstract.Repositories.Abstract
         IAsyncUpdatableRepository<Airport>, IAsyncQueryableRepository<Airport>,
         IAsyncOrderableRepository<Airport>
     {
-        Task<Airport> GetByIataCodeAsync(string iataCode, bool tracking = true);
+        Task<Airport>              GetByIataCodeAsync(string iataCode, bool tracking = true);
+        Task<IEnumerable<string>> GetDistinctCountriesAsync();
+        Task<IEnumerable<string>> GetDistinctTimezonesAsync();
     }
 }

@@ -61,8 +61,8 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, "api/Account/send-verification-code")
-                { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
+                var url = $"api/Account/send-verification-code?email={Uri.EscapeDataString(model.Email)}&purpose=2&channel=1";
+                var req = new HttpRequestMessage(HttpMethod.Post, url);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();
                 var result = JsonSerializer.Deserialize<ApiResponseVM<object>>(body, _opts);

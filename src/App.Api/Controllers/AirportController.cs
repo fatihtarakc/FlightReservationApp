@@ -12,6 +12,22 @@
             _airportService = airportService;
         }
 
+        [HttpGet("countries")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetDistinctCountries()
+        {
+            var result = await _airportService.GetDistinctCountriesAsync();
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet("timezones")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetDistinctTimezones()
+        {
+            var result = await _airportService.GetDistinctTimezonesAsync();
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAll()

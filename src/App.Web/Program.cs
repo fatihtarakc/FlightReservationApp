@@ -54,6 +54,8 @@ app.UseRequestLocalization(localizationOptions);
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapGet("/hangfire", () => Results.Redirect("https://localhost:5000/hangfire", permanent: false));
+
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

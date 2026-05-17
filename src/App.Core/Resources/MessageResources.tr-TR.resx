@@ -35,6 +35,7 @@
   <data name="Account_ResetPassword_Successful"><value>Şifre başarıyla sıfırlandı.</value></data>
   <data name="Account_Was_Not_Found"><value>Hesap bulunamadı.</value></data>
   <data name="Account_Was_Found"><value>Hesap bulundu.</value></data>
+  <data name="Account_Privileged_Cannot_Use_This_Feature"><value>Yetkili hesaplar için bu işlem yapılamaz.</value></data>
   <data name="Account_Has_Already_Been_Activated"><value>Hesap zaten aktif durumda.</value></data>
   <data name="Account_Has_Not_Activated"><value>Hesap henüz aktive edilmemiş.</value></data>
   <data name="Account_Email_Has_Already_Been_Confirmed"><value>E-posta adresi zaten doğrulanmış.</value></data>

@@ -4,15 +4,13 @@ namespace App.Cache.Extensions
     {
         public static IServiceCollection AddCacheServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionOptions = configuration.GetSection(ConnectionOptions.Connections).Get<ConnectionOptions>();
-
-            services.AddStackExchangeRedisCache(opts =>
-            {
-                opts.Configuration = connectionOptions?.Redis;
-                opts.InstanceName = "FlightReservation:";
-            });
-
             services.AddScoped(typeof(ICacheService<>), typeof(CacheService<>));
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = (configuration.GetSection(ConnectionOptions.Connections).Get<ConnectionOptions>())?.Redis;
+                options.InstanceName = "FlightReservationApp:";
+            });
 
             return services;
         }

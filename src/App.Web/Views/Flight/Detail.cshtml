@@ -174,9 +174,11 @@
                                     }
                                     else
                                     {
-                                        <a asp-controller="Account" asp-action="SignIn" asp-route-returnUrl="@Context.Request.Path" class="btn btn-book">
+                                        <button type="button" id="signInBookBtn" class="btn btn-book"
+                                                data-flight-id="@Model.Flight.Id"
+                                                data-please-select="@L["Seat_PleaseSelect"]">
                                             @L["Nav_SignIn"] &amp; @L["Booking_Proceed"]
-                                        </a>
+                                        </button>
                                     }
                                 </div>
                             </div>

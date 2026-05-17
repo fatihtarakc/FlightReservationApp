@@ -990,6 +990,9 @@
   <data name="Val_BirthDate_Valid" xml:space="preserve">
     <value>Geçerli bir doğum tarihi giriniz.</value>
   </data>
+  <data name="Val_Nationality_Required" xml:space="preserve">
+    <value>Lütfen uyruğunuzu seçiniz.</value>
+  </data>
   <data name="Val_Code_Required" xml:space="preserve">
     <value>Doğrulama kodu boş olamaz.</value>
   </data>
@@ -1028,6 +1031,18 @@
   </data>
   <data name="Val_EconomyPrice_Positive" xml:space="preserve">
     <value>Ekonomi fiyatı sıfırdan büyük olmalıdır.</value>
+  </data>
+  <data name="Val_TailNumber_Required" xml:space="preserve">
+    <value>Kuyruk numarası gereklidir.</value>
+  </data>
+  <data name="Val_ManufactureYear_Range" xml:space="preserve">
+    <value>Üretim yılı 1950 ile 2030 arasında olmalıdır.</value>
+  </data>
+  <data name="Val_AirlineId_Required" xml:space="preserve">
+    <value>Havayolu seçimi gereklidir.</value>
+  </data>
+  <data name="Val_ModelId_Required" xml:space="preserve">
+    <value>Model seçimi gereklidir.</value>
   </data>
   <data name="Val_AircraftId_Required" xml:space="preserve">
     <value>Uçak seçimi gereklidir.</value>

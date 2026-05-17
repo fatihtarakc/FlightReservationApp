@@ -22,7 +22,15 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult SignIn(string? returnUrl = null) => View(new SignInVM { ReturnUrl = returnUrl });
+        public IActionResult SignIn(string? returnUrl = null, Guid? pendingFlightId = null, Guid? pendingSeatId = null)
+        {
+            if (pendingFlightId.HasValue && pendingSeatId.HasValue)
+            {
+                HttpContext.Session.SetString("PendingFlightId", pendingFlightId.Value.ToString());
+                HttpContext.Session.SetString("PendingSeatId", pendingSeatId.Value.ToString());
+            }
+            return View(new SignInVM { ReturnUrl = returnUrl });
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -61,6 +69,15 @@ namespace App.Web.Controllers
                 new AuthenticationProperties { IsPersistent = model.RememberMe });
 
             NotifySuccessLocalized(result.Message);
+
+            var pendingFlightId = HttpContext.Session.GetString("PendingFlightId");
+            var pendingSeatId   = HttpContext.Session.GetString("PendingSeatId");
+            if (!string.IsNullOrEmpty(pendingFlightId) && !string.IsNullOrEmpty(pendingSeatId))
+            {
+                HttpContext.Session.Remove("PendingFlightId");
+                HttpContext.Session.Remove("PendingSeatId");
+                return Redirect($"/Passenger/Booking/Create?flightId={pendingFlightId}&seatId={pendingSeatId}");
+            }
 
             if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                 return Redirect(model.ReturnUrl);
@@ -126,7 +143,7 @@ namespace App.Web.Controllers
             }
 
             NotifySuccessLocalized(result.Message);
-            return RedirectToAction(nameof(SignIn));
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
 
         [HttpGet]
@@ -140,7 +157,7 @@ namespace App.Web.Controllers
             var result = await _accountService.ForgotPasswordAsync(model);
             if (!result.IsSuccess)
             {
-                ModelState.AddModelError("", result.Message ?? "Hata.");
+                ModelState.AddModelError("", result.Message ?? _localizer[Messages.UnexpectedError]);
                 return View(model);
             }
             NotifyInfoLocalized(result.Message);
@@ -161,11 +178,11 @@ namespace App.Web.Controllers
             var result = await _accountService.ResetPasswordAsync(model);
             if (!result.IsSuccess)
             {
-                ModelState.AddModelError("", result.Message ?? "İşlem başarısız.");
+                ModelState.AddModelError("", result.Message ?? _localizer[Messages.UnexpectedError]);
                 return View(model);
             }
-            NotifySuccessLocalized(result.Message);
-            return RedirectToAction(nameof(SignIn));
+            NotifySuccessLocalized(_localizer[Messages.Account_ResetPassword_Successful]);
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
 
         [HttpPost]

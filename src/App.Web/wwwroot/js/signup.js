@@ -54,6 +54,71 @@ var countries = [
 
 var selectedCountryCode = '+90';
 
+// ── Nationality picker ────────────────────────────────────────────────────────
+var _natAll = [];
+
+function isoFlag(code) {
+    if (!code || code.length !== 2) return '🌍';
+    return [...code.toUpperCase()].map(function (c) {
+        return String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65);
+    }).join('');
+}
+
+function renderNat(list) {
+    var $ul = $('#natDropdown');
+    $ul.empty();
+    if (!list.length) {
+        $ul.append('<li style="padding:10px 14px;color:#6c757d;font-size:.85rem">Sonuç bulunamadı</li>');
+    } else {
+        list.forEach(function (c) {
+            var flag = isoFlag(c.code);
+            $('<li></li>')
+                .html('<span style="margin-right:8px;font-size:1.15rem">' + flag + '</span>' +
+                      '<span>' + c.name + '</span>' +
+                      '<span style="float:right;color:#6c757d;font-size:.8rem">' + c.code + '</span>')
+                .css({ padding: '9px 14px', cursor: 'pointer', fontSize: '.875rem' })
+                .on('mouseenter', function () { $(this).css('background', '#f0f4ff'); })
+                .on('mouseleave', function () { $(this).css('background', ''); })
+                .on('mousedown', function (e) {
+                    e.preventDefault();
+                    $('#natCode').val(c.code);
+                    $('#natSearch').val(c.name).removeClass('is-invalid');
+                    $('#natFlag').text(flag);
+                    $('#natDropdown').hide();
+                    $('#natValidation').text('');
+                })
+                .appendTo($ul);
+        });
+    }
+    $ul.show();
+}
+
+function initNatPicker() {
+    fetch('/api/countries')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            _natAll = data;
+            var preCode = $('#natCode').val();
+            if (preCode) {
+                var found = data.find(function (c) { return c.code === preCode; });
+                if (found) { $('#natSearch').val(found.name); $('#natFlag').text(isoFlag(found.code)); }
+            }
+        });
+
+    $('#natSearch')
+        .on('focus', function () {
+            var q = $(this).val().toLowerCase();
+            renderNat(q ? _natAll.filter(function (c) { return c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q); }) : _natAll);
+        })
+        .on('input', function () {
+            var q = $(this).val().toLowerCase();
+            if (!q) { renderNat(_natAll); return; }
+            renderNat(_natAll.filter(function (c) { return c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q); }));
+        })
+        .on('blur', function () { setTimeout(function () { $('#natDropdown').hide(); }, 150); });
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 function renderCountries(list) {
     var $ul = $('#countryList');
     $ul.find('li:not(:first-child)').remove();
@@ -92,9 +157,11 @@ $(document).ready(function () {
         birthdate: form.dataset.valBirthdate || '',
         birthdateAge: form.dataset.valBirthdateAge || '',
         password: form.dataset.valPassword || '',
-        confirm: form.dataset.valConfirm || ''
+        confirm: form.dataset.valConfirm || '',
+        nationality: form.dataset.valNationality || ''
     };
 
+    initNatPicker();
     renderCountries(countries);
 
     $('#countrySearch').on('input', function () {
@@ -175,6 +242,12 @@ $(document).ready(function () {
 
         if ($('#regConfirmPassword').val() !== pwd)
             { setError('regConfirmPassword', 'confirmPasswordError', msgs.confirm); valid = false; }
+
+        if (!$('#natCode').val()) {
+            $('#natSearch').addClass('is-invalid');
+            $('#natValidation').text(msgs.nationality);
+            valid = false;
+        }
 
         if (!valid) e.preventDefault();
         else updateFullPhone();

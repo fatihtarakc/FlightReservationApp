@@ -63,16 +63,20 @@ namespace App.DataAccess.Concrete.SeedDatas
 
         private static async Task SeedAdminAsync(FlightReservationDbContext db, UserManager<IdentityUser> userManager)
         {
-            if (await userManager.FindByEmailAsync(AdminEmail) != null) return;
-            var identity = new IdentityUser
+            var identity = await userManager.FindByEmailAsync(AdminEmail);
+            if (identity == null)
             {
-                Email = AdminEmail, UserName = AdminUsername,
-                NormalizedEmail = AdminEmail.ToUpperInvariant(),
-                NormalizedUserName = AdminUsername.ToUpperInvariant(),
-                EmailConfirmed = true
-            };
-            await userManager.CreateAsync(identity, AdminPassword);
-            await userManager.AddToRoleAsync(identity, "Admin");
+                identity = new IdentityUser
+                {
+                    Email = AdminEmail, UserName = AdminUsername,
+                    NormalizedEmail = AdminEmail.ToUpperInvariant(),
+                    NormalizedUserName = AdminUsername.ToUpperInvariant(),
+                    EmailConfirmed = true
+                };
+                await userManager.CreateAsync(identity, AdminPassword);
+                await userManager.AddToRoleAsync(identity, "Admin");
+            }
+
             if (!await db.Admins.AnyAsync(a => a.Email == AdminEmail))
             {
                 db.Admins.Add(new Admin { Name = "Super", Surname = "Admin", Email = AdminEmail, IdentityId = identity.Id, IsSuperAdmin = true, CreatedBy = "system" });
@@ -84,7 +88,7 @@ namespace App.DataAccess.Concrete.SeedDatas
 
         private static async Task SeedAppUsersAsync(FlightReservationDbContext db, UserManager<IdentityUser> userManager)
         {
-            if (await db.AppUsers.CountAsync() >= 20) return;
+            if (await db.AppUsers.AnyAsync()) return;
 
             for (int i = 0; i < UserData.Length; i++)
             {

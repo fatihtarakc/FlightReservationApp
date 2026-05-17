@@ -23,7 +23,7 @@ namespace App.Web.Areas.Passenger.Controllers
         public async Task<IActionResult> Index()
         {
             var token = Token;
-            if (string.IsNullOrEmpty(token)) return RedirectToAction("SignIn", "Account", new { area = "" });
+            if (string.IsNullOrEmpty(token)) return RedirectToAction("Index", "Home", new { area = "" });
 
             var result = await _bookingService.GetMyBookingsAsync(token);
             var bookings = result.IsSuccess ? result.Data ?? new() : new List<BookingVM>();
@@ -48,7 +48,7 @@ namespace App.Web.Areas.Passenger.Controllers
         public async Task<IActionResult> Settings()
         {
             var token = Token;
-            if (string.IsNullOrEmpty(token)) return RedirectToAction("SignIn", "Account", new { area = "" });
+            if (string.IsNullOrEmpty(token)) return RedirectToAction("Index", "Home", new { area = "" });
 
             var profileResult = await _accountService.GetProfileAsync(token);
             var profile = profileResult.IsSuccess && profileResult.Data != null ? profileResult.Data : new PassengerProfileVM
@@ -75,7 +75,7 @@ namespace App.Web.Areas.Passenger.Controllers
         public async Task<IActionResult> UpdateProfile(PassengerSettingsPageVM model)
         {
             var token = Token;
-            if (string.IsNullOrEmpty(token)) return RedirectToAction("SignIn", "Account", new { area = "" });
+            if (string.IsNullOrEmpty(token)) return RedirectToAction("Index", "Home", new { area = "" });
 
             var result = await _accountService.UpdateProfileAsync(model.UpdateForm, token);
             if (!result.IsSuccess)
@@ -89,7 +89,7 @@ namespace App.Web.Areas.Passenger.Controllers
         public async Task<IActionResult> ChangePassword(PassengerSettingsPageVM model)
         {
             var token = Token;
-            if (string.IsNullOrEmpty(token)) return RedirectToAction("SignIn", "Account", new { area = "" });
+            if (string.IsNullOrEmpty(token)) return RedirectToAction("Index", "Home", new { area = "" });
 
             var result = await _accountService.ChangePasswordAsync(model.PasswordForm, token);
             if (!result.IsSuccess)
@@ -103,7 +103,7 @@ namespace App.Web.Areas.Passenger.Controllers
         public async Task<IActionResult> UpdateNotification(IFormCollection form)
         {
             var token = Token;
-            if (string.IsNullOrEmpty(token)) return RedirectToAction("SignIn", "Account", new { area = "" });
+            if (string.IsNullOrEmpty(token)) return RedirectToAction("Index", "Home", new { area = "" });
 
             var channels = form["channels"].Select(int.Parse).Aggregate(0, (a, b) => a | b);
             var result = await _accountService.UpdateNotificationPreferenceAsync((NotificationChannel)channels, token);

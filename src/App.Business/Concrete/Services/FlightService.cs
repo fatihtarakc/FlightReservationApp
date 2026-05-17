@@ -36,12 +36,10 @@ namespace App.Business.Concrete.Services
             try
             {
                 var cached = await _cacheService.GetByAsync(CacheKeyById(id));
-                if (cached.IsSuccess && cached.Data != null)
-                    return new SuccessDataResult<FlightDto>(cached.Data.Adapt<FlightDto>(), _localizer[Messages.Flight_Was_Found]);
+                if (cached.IsSuccess && cached.Data is not null) return new SuccessDataResult<FlightDto>(cached.Data.Adapt<FlightDto>(), _localizer[Messages.Flight_Was_Found]);
 
                 var flight = await _flightRepository.IncludeGetByIdAsync(id, tracking: false);
-                if (flight == null)
-                    return new ErrorDataResult<FlightDto>(_localizer[Messages.Flight_Was_Not_Found]);
+                if (flight is null) return new ErrorDataResult<FlightDto>(_localizer[Messages.Flight_Was_Not_Found]);
 
                 await _cacheService.AddAsync(CacheKeyById(id), flight);
                 return new SuccessDataResult<FlightDto>(flight.Adapt<FlightDto>(), _localizer[Messages.Flight_Was_Found]);
@@ -57,15 +55,14 @@ namespace App.Business.Concrete.Services
         {
             try
             {
-                var cachedList = await _cacheService.GetListByAsync(CacheKeyAll);
-                if (cachedList.IsSuccess && cachedList.Data != null)
-                    return new SuccessDataResult<IEnumerable<FlightListDto>>(cachedList.Data.Select(x => x.Adapt<FlightListDto>()));
+                var cached = await _cacheService.GetListByAsync(CacheKeyAll);
+                if (cached.IsSuccess && cached.Data is not null) return new SuccessDataResult<IEnumerable<FlightListDto>>(cached.Data.Select(x => x.Adapt<FlightListDto>()));
 
                 var flights = await _flightRepository.GetAllAsync(tracking: false);
-                var list = flights.ToList();
-                await _cacheService.AddListAsync(CacheKeyAll, list);
+                var list = flights.Select(f => f.Adapt<FlightListDto>()).ToList();
+                await _cacheService.AddListAsync(CacheKeyAll, flights);
 
-                return new SuccessDataResult<IEnumerable<FlightListDto>>(list.Select(x => x.Adapt<FlightListDto>()));
+                return new SuccessDataResult<IEnumerable<FlightListDto>>(list);
             }
             catch (Exception ex)
             {

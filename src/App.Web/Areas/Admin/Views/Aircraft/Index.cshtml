@@ -13,8 +13,7 @@
                 <tr>
                     <th>@L["Aircraft_Registration"]</th>
                     <th>@L["Aircraft_ModelManufacturer"]</th>
-                    <th>@L["Aircraft_BodyType"]</th>
-                    <th>@L["Aircraft_TotalSeats"]</th>
+                    <th>@L["Aircraft_ManufactureYear"]</th>
                     <th>@L["Label_Status"]</th>
                     <th class="text-center">@L["Label_Actions"]</th>
                 </tr>
@@ -30,15 +29,14 @@
                                 @a.Model<br />
                                 <small class="text-muted">@a.Manufacturer</small>
                             </td>
-                            <td><span class="badge bg-secondary">@a.BodyType</span></td>
-                            <td>@a.TotalSeats</td>
+                            <td>@a.ManufactureYear</td>
                             <td>
                                 @{
                                     var sc = a.Status switch {
-                                        AircraftStatus.Active => "bg-success",
+                                        AircraftStatus.Active      => "bg-success",
                                         AircraftStatus.Maintenance => "bg-warning text-dark",
-                                        AircraftStatus.Retired => "bg-secondary",
-                                        _ => "bg-secondary"
+                                        AircraftStatus.Retired     => "bg-secondary",
+                                        _                          => "bg-secondary"
                                     };
                                 }
                                 <span class="badge @sc">@L["Status_" + a.Status.ToString()]</span>
@@ -62,7 +60,7 @@
                 }
                 else
                 {
-                    <tr><td colspan="6" class="text-center text-muted py-4">
+                    <tr><td colspan="5" class="text-center text-muted py-4">
                         <i class="fas fa-fighter-jet fa-2x mb-2 d-block"></i>@L["Aircraft_NotFound"]
                     </td></tr>
                 }

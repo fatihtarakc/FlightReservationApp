@@ -8,18 +8,20 @@ namespace App.Web.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly IFlightService _flightService;
-        private readonly IRouteService _routeService;
+        private readonly IFlightService  _flightService;
+        private readonly IRouteService   _routeService;
         private readonly IAirportService _airportService;
-        private readonly ISeatService _seatService;
+        private readonly ISeatService    _seatService;
+        private readonly IAircraftService _aircraftService;
 
         public HomeController(IFlightService flightService, IRouteService routeService,
-            IAirportService airportService, ISeatService seatService)
+            IAirportService airportService, ISeatService seatService, IAircraftService aircraftService)
         {
-            _flightService = flightService;
-            _routeService = routeService;
-            _airportService = airportService;
-            _seatService = seatService;
+            _flightService   = flightService;
+            _routeService    = routeService;
+            _airportService  = airportService;
+            _seatService     = seatService;
+            _aircraftService = aircraftService;
         }
 
         public async Task<IActionResult> Index()
@@ -35,6 +37,51 @@ namespace App.Web.Controllers
                 Airports = airportsTask.Result.IsSuccess ? airportsTask.Result.Data ?? new() : new()
             };
             return View(vm);
+        }
+
+        [HttpGet("api/countries")]
+        public IActionResult Countries()
+        {
+            var seen = new HashSet<string>();
+            var list = System.Globalization.CultureInfo
+                .GetCultures(System.Globalization.CultureTypes.SpecificCultures)
+                .Select(c => {
+                    try { return new System.Globalization.RegionInfo(c.Name); }
+                    catch { return null; }
+                })
+                .Where(r => r != null && seen.Add(r!.TwoLetterISORegionName))
+                .OrderBy(r => r!.DisplayName)
+                .Select(r => new { code = r!.TwoLetterISORegionName, name = r!.DisplayName })
+                .ToList();
+            return Json(list);
+        }
+
+        [HttpGet("api/airport-countries")]
+        public async Task<IActionResult> AirportCountries()
+        {
+            var list = await _airportService.GetCountriesAsync();
+            return Json(list);
+        }
+
+        [HttpGet("api/airport-timezones")]
+        public async Task<IActionResult> AirportTimezones()
+        {
+            var list = await _airportService.GetTimezonesAsync();
+            return Json(list);
+        }
+
+        [HttpGet("api/aircraft-airlines")]
+        public async Task<IActionResult> AircraftAirlines()
+        {
+            var list = await _aircraftService.GetAirlinesAsync();
+            return Json(list);
+        }
+
+        [HttpGet("api/aircraft-models")]
+        public async Task<IActionResult> AircraftModels()
+        {
+            var list = await _aircraftService.GetModelsAsync();
+            return Json(list);
         }
 
         [HttpGet("api/airports-list")]

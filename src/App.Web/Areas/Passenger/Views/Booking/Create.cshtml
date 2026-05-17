@@ -68,8 +68,8 @@
 
                 <form asp-area="Passenger" asp-controller="Booking" asp-action="Create" method="post">
                     @Html.AntiForgeryToken()
-                    <input type="hidden" asp-for="Form.FlightId" />
-                    <input type="hidden" asp-for="Form.SeatId" />
+                    <input type="hidden" asp-for="Form.FlightId" required/>
+                    <input type="hidden" asp-for="Form.SeatId" required/>
                     <button type="submit" class="btn btn-danger w-100 py-3 fw-bold">
                         <i class="fas fa-check me-2"></i>@L["Booking_Confirm"]
                     </button>

@@ -990,6 +990,9 @@
   <data name="Val_BirthDate_Valid" xml:space="preserve">
     <value>Please enter a valid date of birth.</value>
   </data>
+  <data name="Val_Nationality_Required" xml:space="preserve">
+    <value>Please select your nationality.</value>
+  </data>
   <data name="Val_Code_Required" xml:space="preserve">
     <value>Verification code cannot be empty.</value>
   </data>
@@ -1028,6 +1031,18 @@
   </data>
   <data name="Val_EconomyPrice_Positive" xml:space="preserve">
     <value>Economy price must be greater than zero.</value>
+  </data>
+  <data name="Val_TailNumber_Required" xml:space="preserve">
+    <value>Tail number is required.</value>
+  </data>
+  <data name="Val_ManufactureYear_Range" xml:space="preserve">
+    <value>Manufacture year must be between 1950 and 2030.</value>
+  </data>
+  <data name="Val_AirlineId_Required" xml:space="preserve">
+    <value>Airline selection is required.</value>
+  </data>
+  <data name="Val_ModelId_Required" xml:space="preserve">
+    <value>Model selection is required.</value>
   </data>
   <data name="Val_AircraftId_Required" xml:space="preserve">
     <value>Aircraft selection is required.</value>

@@ -98,6 +98,7 @@ namespace App.Web.Constants
         public const string Val_BirthDate_Required = nameof(Val_BirthDate_Required);
         public const string Val_BirthDate_MinAge = nameof(Val_BirthDate_MinAge);
         public const string Val_BirthDate_Valid = nameof(Val_BirthDate_Valid);
+        public const string Val_Nationality_Required = nameof(Val_Nationality_Required);
         public const string Val_Code_Required = nameof(Val_Code_Required);
         public const string Val_Code_Length = nameof(Val_Code_Length);
         public const string Val_DepartureIata_Required = nameof(Val_DepartureIata_Required);
@@ -111,8 +112,12 @@ namespace App.Web.Constants
         public const string Val_DepartureTime_Future = nameof(Val_DepartureTime_Future);
         public const string Val_ArrivalTime_AfterDeparture = nameof(Val_ArrivalTime_AfterDeparture);
         public const string Val_EconomyPrice_Positive = nameof(Val_EconomyPrice_Positive);
-        public const string Val_AircraftId_Required = nameof(Val_AircraftId_Required);
-        public const string Val_RouteId_Required = nameof(Val_RouteId_Required);
+        public const string Val_TailNumber_Required       = nameof(Val_TailNumber_Required);
+        public const string Val_ManufactureYear_Range     = nameof(Val_ManufactureYear_Range);
+        public const string Val_AirlineId_Required        = nameof(Val_AirlineId_Required);
+        public const string Val_ModelId_Required          = nameof(Val_ModelId_Required);
+        public const string Val_AircraftId_Required       = nameof(Val_AircraftId_Required);
+        public const string Val_RouteId_Required          = nameof(Val_RouteId_Required);
         public const string Val_FlightId_Required = nameof(Val_FlightId_Required);
         public const string Val_SeatId_Required = nameof(Val_SeatId_Required);
         #endregion

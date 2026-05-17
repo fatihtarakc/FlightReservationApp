@@ -26,13 +26,54 @@ namespace App.Business.Concrete.Services
         {
             try
             {
-                var users = await _appUserRepository.GetAllAsync(tracking: false);
-                var flights = await _flightRepository.GetAllAsync(tracking: false);
-                var bookings = await _bookingRepository.GetAllAsync(tracking: false);
+                var users    = await _appUserRepository.GetAllAsync(tracking: false);
+                var flights  = await _flightRepository.GetAllWithStatsAsync(tracking: false);
+                var bookings = await _bookingRepository.GetAllWithDetailsAsync(tracking: false);
 
-                var flightList = flights.ToList();
+                var flightList  = flights.ToList();
                 var bookingList = bookings.ToList();
                 var now = DateTime.UtcNow;
+
+                var recentFlights = flightList
+                    .OrderByDescending(f => f.DepartureDateTime)
+                    .Take(5)
+                    .Select(f => new FlightListDto(
+                        f.Id,
+                        f.Number ?? string.Empty,
+                        f.DepartureDateTime,
+                        f.ArrivalDateTime,
+                        f.Airline?.Name ?? string.Empty,
+                        f.Schedule?.Route?.DepartureAirport?.IataCode ?? string.Empty,
+                        f.Schedule?.Route?.DepartureAirport?.City ?? string.Empty,
+                        f.Schedule?.Route?.ArrivalAirport?.IataCode ?? string.Empty,
+                        f.Schedule?.Route?.ArrivalAirport?.City ?? string.Empty,
+                        f.BaseEconomyPrice,
+                        f.Currency,
+                        f.FlightStatus,
+                        0))
+                    .ToList();
+
+                var recentBookings = bookingList
+                    .Take(5)
+                    .Select(b => new BookingDto(
+                        b.Id,
+                        b.PnrNumber ?? string.Empty,
+                        b.TotalPrice,
+                        b.Currency,
+                        b.BookingStatus,
+                        b.CheckInTime,
+                        b.BoardingPassNumber,
+                        b.AppUserId,
+                        $"{b.AppUser?.Name} {b.AppUser?.Surname}".Trim(),
+                        b.FlightId,
+                        b.Flight?.Number ?? string.Empty,
+                        b.Flight?.DepartureDateTime ?? DateTime.MinValue,
+                        b.Flight?.Schedule?.Route?.DepartureAirport?.City ?? string.Empty,
+                        b.Flight?.Schedule?.Route?.ArrivalAirport?.City ?? string.Empty,
+                        $"{b.Seat?.Row}{b.Seat?.Column}",
+                        b.Seat?.SeatClass ?? SeatClass.Economy,
+                        b.CreatedDate))
+                    .ToList();
 
                 var dashboard = new AdminDashboardDto
                 {
@@ -54,7 +95,9 @@ namespace App.Business.Concrete.Services
                     UpcomingFlightsNext24Hours = flightList.Count(f =>
                         f.FlightStatus == FlightStatus.Scheduled &&
                         f.DepartureDateTime >= now &&
-                        f.DepartureDateTime <= now.AddHours(24))
+                        f.DepartureDateTime <= now.AddHours(24)),
+                    RecentFlights  = recentFlights,
+                    RecentBookings = recentBookings
                 };
 
                 return new SuccessDataResult<AdminDashboardDto>(dashboard);

@@ -8,8 +8,12 @@ namespace App.Business.Concrete.Services
         private readonly IAppUserRepository _appUserRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ICacheService<Seat> _seatCacheService;
         private readonly IStringLocalizer<MessageResources> _localizer;
         private readonly ILogger<BookingService> _logger;
+
+        private static string CacheKeyAllByFlight(Guid flightId)   => $"Seats:Flight:{flightId}";
+        private static string CacheKeyAvailByFlight(Guid flightId) => $"Seats:Available:Flight:{flightId}";
 
         public BookingService(
             IBookingRepository bookingRepository,
@@ -18,6 +22,7 @@ namespace App.Business.Concrete.Services
             IAppUserRepository appUserRepository,
             IUnitOfWork unitOfWork,
             IPublishEndpoint publishEndpoint,
+            ICacheService<Seat> seatCacheService,
             IStringLocalizer<MessageResources> localizer,
             ILogger<BookingService> logger)
         {
@@ -27,6 +32,7 @@ namespace App.Business.Concrete.Services
             _appUserRepository = appUserRepository;
             _unitOfWork = unitOfWork;
             _publishEndpoint = publishEndpoint;
+            _seatCacheService = seatCacheService;
             _localizer = localizer;
             _logger = logger;
         }
@@ -171,6 +177,9 @@ namespace App.Business.Concrete.Services
                         await _unitOfWork.SaveChangesAsync();
                         await transaction.CommitAsync();
 
+                        await _seatCacheService.DeleteAsync(CacheKeyAvailByFlight(dto.FlightId));
+                        await _seatCacheService.DeleteAsync(CacheKeyAllByFlight(dto.FlightId));
+
                         var seatNumber = $"{seat.Row}{seat.Column}";
                         await _publishEndpoint.Publish(new BookingConfirmedEvent
                         {
@@ -239,6 +248,9 @@ namespace App.Business.Concrete.Services
                         await _bookingRepository.UpdateAsync(booking);
                         await _unitOfWork.SaveChangesAsync();
                         await transaction.CommitAsync();
+
+                        await _seatCacheService.DeleteAsync(CacheKeyAvailByFlight(booking.FlightId));
+                        await _seatCacheService.DeleteAsync(CacheKeyAllByFlight(booking.FlightId));
 
                         await _publishEndpoint.Publish(new BookingCancelledEvent
                         {

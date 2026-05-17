@@ -8,8 +8,10 @@ namespace App.Business.Concrete.Services
         private readonly IStringLocalizer<MessageResources> _localizer;
         private readonly ILogger<SeatService> _logger;
 
-        private static string CacheKeyById(Guid id)               => $"Seat:{id}";
-        private static string CacheKeyByAircraft(Guid aircraftId) => $"Seats:Aircraft:{aircraftId}";
+        private static string CacheKeyById(Guid id)                 => $"Seat:{id}";
+        private static string CacheKeyByAircraft(Guid aircraftId)  => $"Seats:Aircraft:{aircraftId}";
+        private static string CacheKeyAllByFlight(Guid flightId)   => $"Seats:Flight:{flightId}";
+        private static string CacheKeyAvailByFlight(Guid flightId) => $"Seats:Available:Flight:{flightId}";
 
         public SeatService(
             ISeatRepository seatRepository,
@@ -72,8 +74,14 @@ namespace App.Business.Concrete.Services
         {
             try
             {
+                var cachedList = await _cacheService.GetListByAsync(CacheKeyAvailByFlight(flightId));
+                if (cachedList.IsSuccess && cachedList.Data != null)
+                    return new SuccessDataResult<IEnumerable<SeatDto>>(cachedList.Data.Select(s => s.Adapt<SeatDto>() with { IsAvailable = true }));
+
                 var seats = await _seatRepository.GetAvailableSeatsByFlightIdAsync(flightId, tracking: false);
-                return new SuccessDataResult<IEnumerable<SeatDto>>(seats.Select(s => s.Adapt<SeatDto>() with { IsAvailable = true }));
+                var list = seats.ToList();
+                await _cacheService.AddListAsync(CacheKeyAvailByFlight(flightId), list);
+                return new SuccessDataResult<IEnumerable<SeatDto>>(list.Select(s => s.Adapt<SeatDto>() with { IsAvailable = true }));
             }
             catch (Exception ex)
             {
@@ -86,11 +94,24 @@ namespace App.Business.Concrete.Services
         {
             try
             {
-                var allSeats = await _seatRepository.GetAllByFlightAircraftAsync(flightId, tracking: false);
+                var cachedAll   = await _cacheService.GetListByAsync(CacheKeyAllByFlight(flightId));
+                var cachedAvail = await _cacheService.GetListByAsync(CacheKeyAvailByFlight(flightId));
+                if (cachedAll.IsSuccess && cachedAll.Data != null && cachedAvail.IsSuccess && cachedAvail.Data != null)
+                {
+                    var availableIds = cachedAvail.Data.Select(s => s.Id).ToHashSet();
+                    return new SuccessDataResult<IEnumerable<SeatDto>>(cachedAll.Data.Select(s => s.Adapt<SeatDto>() with { IsAvailable = availableIds.Contains(s.Id) }));
+                }
+
+                var allSeats  = await _seatRepository.GetAllByFlightAircraftAsync(flightId, tracking: false);
                 var available = await _seatRepository.GetAvailableSeatsByFlightIdAsync(flightId, tracking: false);
-                var availableIds = available.Select(s => s.Id).ToHashSet();
-                var dtos = allSeats.Select(s => s.Adapt<SeatDto>() with { IsAvailable = availableIds.Contains(s.Id) });
-                return new SuccessDataResult<IEnumerable<SeatDto>>(dtos);
+                var allList   = allSeats.ToList();
+                var availList = available.ToList();
+
+                await _cacheService.AddListAsync(CacheKeyAllByFlight(flightId), allList);
+                await _cacheService.AddListAsync(CacheKeyAvailByFlight(flightId), availList);
+
+                var availIds = availList.Select(s => s.Id).ToHashSet();
+                return new SuccessDataResult<IEnumerable<SeatDto>>(allList.Select(s => s.Adapt<SeatDto>() with { IsAvailable = availIds.Contains(s.Id) }));
             }
             catch (Exception ex)
             {

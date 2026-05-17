@@ -18,7 +18,7 @@ namespace App.Web.Areas.Admin.Controllers
         private string? Token => TokenHelper.GetToken(_httpContextAccessor);
 
         private IActionResult RedirectToSignIn() =>
-            RedirectToAction("SignIn", "Account", new { area = "" });
+            RedirectToAction("Index", "Home", new { area = "" });
 
         public async Task<IActionResult> Index()
         {

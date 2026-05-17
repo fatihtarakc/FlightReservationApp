@@ -174,6 +174,56 @@ namespace App.Business.Concrete.Services
             }
         }
 
+        public async Task<IDataResult<IEnumerable<string>>> GetDistinctCountriesAsync()
+        {
+            try
+            {
+                var cachedList = await _cacheService.GetListByAsync(CacheKeyAll);
+                if (cachedList.IsSuccess && cachedList.Data != null)
+                {
+                    var cached = cachedList.Data
+                        .Where(a => a.Country != null)
+                        .Select(a => a.Country!)
+                        .Distinct()
+                        .OrderBy(c => c);
+                    return new SuccessDataResult<IEnumerable<string>>(cached);
+                }
+
+                var countries = await _airportRepository.GetDistinctCountriesAsync();
+                return new SuccessDataResult<IEnumerable<string>>(countries);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorDataResult<IEnumerable<string>>(_localizer[Messages.UnexpectedError]);
+            }
+        }
+
+        public async Task<IDataResult<IEnumerable<string>>> GetDistinctTimezonesAsync()
+        {
+            try
+            {
+                var cachedList = await _cacheService.GetListByAsync(CacheKeyAll);
+                if (cachedList.IsSuccess && cachedList.Data != null)
+                {
+                    var cached = cachedList.Data
+                        .Where(a => a.TimeZone != null)
+                        .Select(a => a.TimeZone!)
+                        .Distinct()
+                        .OrderBy(t => t);
+                    return new SuccessDataResult<IEnumerable<string>>(cached);
+                }
+
+                var timezones = await _airportRepository.GetDistinctTimezonesAsync();
+                return new SuccessDataResult<IEnumerable<string>>(timezones);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorDataResult<IEnumerable<string>>(_localizer[Messages.UnexpectedError]);
+            }
+        }
+
         public async Task<IResult> DeleteAsync(Guid id)
         {
             try

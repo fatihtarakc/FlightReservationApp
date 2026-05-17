@@ -114,5 +114,35 @@ namespace App.Web.Services
                 return new ErrorResult(message);
             }
         }
+
+        public async Task<List<string>> GetCountriesAsync()
+        {
+            try
+            {
+                var body = await _http.GetStringAsync("api/Airport/countries");
+                var result = JsonSerializer.Deserialize<ApiResponseVM<List<string>>>(body, _opts);
+                return result?.IsSuccess == true && result.Data != null ? result.Data : new List<string>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new List<string>();
+            }
+        }
+
+        public async Task<List<string>> GetTimezonesAsync()
+        {
+            try
+            {
+                var body = await _http.GetStringAsync("api/Airport/timezones");
+                var result = JsonSerializer.Deserialize<ApiResponseVM<List<string>>>(body, _opts);
+                return result?.IsSuccess == true && result.Data != null ? result.Data : new List<string>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new List<string>();
+            }
+        }
     }
 }

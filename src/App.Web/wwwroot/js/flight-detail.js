@@ -29,4 +29,12 @@ $(document).ready(function () {
             window.location.href = this.dataset.bookingUrl + '&seatId=' + selectedSeatId;
         });
     }
+
+    var signInBookBtn = document.getElementById('signInBookBtn');
+    if (signInBookBtn) {
+        signInBookBtn.addEventListener('click', function () {
+            if (!selectedSeatId) { alert(this.dataset.pleaseSelect || ''); return; }
+            window.location.href = '/Account/SignIn?pendingFlightId=' + this.dataset.flightId + '&pendingSeatId=' + selectedSeatId;
+        });
+    }
 });

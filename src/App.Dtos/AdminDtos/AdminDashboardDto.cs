@@ -16,6 +16,8 @@ namespace App.Dtos.AdminDtos
         public int CheckedInBookings { get; set; }
         public decimal TotalRevenue { get; set; }
         public int UpcomingFlightsNext24Hours { get; set; }
+        public List<FlightListDto> RecentFlights { get; set; } = new();
+        public List<BookingDto> RecentBookings { get; set; } = new();
     }
 
     public class FlightPassengerStatDto

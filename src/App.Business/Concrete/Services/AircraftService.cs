@@ -30,12 +30,10 @@ namespace App.Business.Concrete.Services
             try
             {
                 var cached = await _cacheService.GetByAsync(CacheKeyById(id));
-                if (cached.IsSuccess && cached.Data != null)
-                    return new SuccessDataResult<AircraftDto>(cached.Data.Adapt<AircraftDto>(), _localizer[Messages.Aircraft_Was_Found]);
+                if (cached.IsSuccess && cached.Data is not null) return new SuccessDataResult<AircraftDto>(cached.Data.Adapt<AircraftDto>(), _localizer[Messages.Aircraft_Was_Found]);
 
                 var aircraft = await _aircraftRepository.IncludeGetByIdAsync(id, tracking: false);
-                if (aircraft == null)
-                    return new ErrorDataResult<AircraftDto>(_localizer[Messages.Aircraft_Was_Not_Found]);
+                if (aircraft is null) return new ErrorDataResult<AircraftDto>(_localizer[Messages.Aircraft_Was_Not_Found]);
 
                 await _cacheService.AddAsync(CacheKeyById(id), aircraft);
                 return new SuccessDataResult<AircraftDto>(aircraft.Adapt<AircraftDto>(), _localizer[Messages.Aircraft_Was_Found]);
@@ -52,8 +50,7 @@ namespace App.Business.Concrete.Services
             try
             {
                 var cachedList = await _cacheService.GetListByAsync(CacheKeyAll);
-                if (cachedList.IsSuccess && cachedList.Data != null)
-                    return new SuccessDataResult<IEnumerable<AircraftListDto>>(cachedList.Data.Select(a => a.Adapt<AircraftListDto>()));
+                if (cachedList.IsSuccess && cachedList.Data is not null) return new SuccessDataResult<IEnumerable<AircraftListDto>>(cachedList.Data.Select(x => x.Adapt<AircraftListDto>()));
 
                 var aircrafts = await _aircraftRepository.GetAllAsync(tracking: false);
                 var list = aircrafts.ToList();

@@ -1,39 +1,44 @@
 @{
-    var ctrl = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
-    var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    var ctrl   = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var action = ViewContext.RouteData.Values["action"]?.ToString()    ?? "";
     var pageTitle = (ctrl, action) switch {
-        ("Home", "Hangfire") => L["Admin_Hangfire"].Value,
-        ("Home", "Logs") => L["Admin_Logs"].Value,
+        ("Home", "Hangfire")      => L["Admin_Hangfire"].Value,
+        ("Home", "Logs")          => L["Admin_Logs"].Value,
         ("Home", "Notifications") => L["Admin_Notifications"].Value,
-        ("Home", _) => L["Admin_Dashboard"].Value,
-        ("Flight", "Create") => L["Flight_Add"].Value,
-        ("Flight", "Edit") => L["Flight_Edit"].Value,
-        ("Flight", _) => L["Flight_Management"].Value,
-        ("Aircraft", "Create") => L["Aircraft_Add"].Value,
-        ("Aircraft", "Edit") => L["Aircraft_Edit"].Value,
-        ("Aircraft", _) => L["Aircraft_Management"].Value,
-        ("Airport", "Create") => L["Airport_Add"].Value,
-        ("Airport", "Edit") => L["Airport_Edit"].Value,
-        ("Airport", _) => L["Airport_Management"].Value,
-        ("Route", "Create") => L["Route_Add"].Value,
-        ("Route", "Edit") => L["Route_Edit"].Value,
-        ("Route", _) => L["Route_Management"].Value,
-        ("Booking", _) => L["Booking_Management"].Value,
-        ("User", _) => L["Admin_UserManagement"].Value,
-        _ => "SkyWay Admin"
+        ("Home", _)               => L["Admin_Dashboard"].Value,
+        ("Flight", "Create")      => L["Flight_Add"].Value,
+        ("Flight", "Edit")        => L["Flight_Edit"].Value,
+        ("Flight", _)             => L["Flight_Management"].Value,
+        ("Aircraft", "Create")    => L["Aircraft_Add"].Value,
+        ("Aircraft", "Edit")      => L["Aircraft_Edit"].Value,
+        ("Aircraft", _)           => L["Aircraft_Management"].Value,
+        ("Airport", "Create")     => L["Airport_Add"].Value,
+        ("Airport", "Edit")       => L["Airport_Edit"].Value,
+        ("Airport", _)            => L["Airport_Management"].Value,
+        ("Route", "Create")       => L["Route_Add"].Value,
+        ("Route", "Edit")         => L["Route_Edit"].Value,
+        ("Route", _)              => L["Route_Management"].Value,
+        ("Booking", _)            => L["Booking_Management"].Value,
+        ("User", _)               => L["Admin_UserManagement"].Value,
+        _                         => "SkyWay Admin"
     };
+    var adminLang    = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var adminUser    = Context.Session.GetString("UserName") ?? "Admin";
+    var returnUrl    = Context.Request.Path.ToString();
 }
 <!DOCTYPE html>
 <html lang="@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@pageTitle - SkyWay Admin</title>
+    <title>@pageTitle — SkyWay Admin</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
 </head>
 <body>
+
+    <!-- ── Page loader ── -->
     <div id="pageLoader">
         <div class="loader-brand"><i class="fas fa-plane me-2"></i>Sky<span>Way</span></div>
         <div class="loader-runway">
@@ -42,121 +47,210 @@
         </div>
     </div>
 
-    <nav class="admin-sidebar">
-        <div class="brand">
-            <a asp-area="" asp-controller="Home" asp-action="Index">
-                <i class="fas fa-plane me-2"></i>Sky<span>Way</span> <small style="font-size:.65rem;opacity:.5;font-weight:400">Admin</small>
+    <!-- ── Sidebar ── -->
+    <aside class="admin-sidebar" id="adminSidebar">
+
+        <div class="sidebar-brand">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="brand-link">
+                <div class="brand-icon"><i class="fas fa-plane"></i></div>
+                <div class="brand-text">Sky<span>Way</span> <em>Admin</em></div>
             </a>
         </div>
 
-        <div class="nav-section mt-2">@L["Admin_General"]</div>
-        <a asp-area="Admin" asp-controller="Home" asp-action="Index"
-           class="nav-link @(ctrl == "Home" && (action == "Index" || action == "") ? "active" : "")">
-            <i class="fas fa-tachometer-alt"></i> @L["Admin_Dashboard"]
-        </a>
+        <nav class="sidebar-nav">
 
-        <div class="nav-section">@L["Flight_Management"]</div>
-        <a asp-area="Admin" asp-controller="Flight" asp-action="Index"
-           class="nav-link @(ctrl == "Flight" ? "active" : "")">
-            <i class="fas fa-plane-departure"></i> @L["Nav_Flights"]
-        </a>
-        <a asp-area="Admin" asp-controller="Route" asp-action="Index"
-           class="nav-link @(ctrl == "Route" ? "active" : "")">
-            <i class="fas fa-route"></i> @L["Route_Management"]
-        </a>
-        <a asp-area="Admin" asp-controller="Aircraft" asp-action="Index"
-           class="nav-link @(ctrl == "Aircraft" ? "active" : "")">
-            <i class="fas fa-helicopter"></i> @L["Aircraft_Management"]
-        </a>
-        <a asp-area="Admin" asp-controller="Airport" asp-action="Index"
-           class="nav-link @(ctrl == "Airport" ? "active" : "")">
-            <i class="fas fa-building"></i> @L["Airport_Management"]
-        </a>
+            <div class="nav-group-label">@L["Admin_General"]</div>
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index"
+               class="sidebar-link @(ctrl == "Home" && action is "Index" or "" ? "active" : "")">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>@L["Admin_Dashboard"]</span>
+            </a>
 
-        <div class="nav-section">@L["Admin_Reservations"]</div>
-        <a asp-area="Admin" asp-controller="Booking" asp-action="Index"
-           class="nav-link @(ctrl == "Booking" ? "active" : "")">
-            <i class="fas fa-ticket-alt"></i> @L["Booking_All"]
-        </a>
-        <a asp-area="Admin" asp-controller="User" asp-action="Index"
-           class="nav-link @(ctrl == "User" ? "active" : "")">
-            <i class="fas fa-users"></i> @L["Admin_Users"]
-        </a>
+            <div class="nav-group-label">@L["Flight_Management"]</div>
+            <a asp-area="Admin" asp-controller="Flight" asp-action="Index"
+               class="sidebar-link @(ctrl == "Flight" ? "active" : "")">
+                <i class="fas fa-plane-departure"></i>
+                <span>@L["Nav_Flights"]</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Route" asp-action="Index"
+               class="sidebar-link @(ctrl == "Route" ? "active" : "")">
+                <i class="fas fa-route"></i>
+                <span>@L["Route_Management"]</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Aircraft" asp-action="Index"
+               class="sidebar-link @(ctrl == "Aircraft" ? "active" : "")">
+                <i class="fas fa-helicopter"></i>
+                <span>@L["Aircraft_Management"]</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Airport" asp-action="Index"
+               class="sidebar-link @(ctrl == "Airport" ? "active" : "")">
+                <i class="fas fa-building"></i>
+                <span>@L["Airport_Management"]</span>
+            </a>
 
-        <div class="nav-section">@L["Admin_System"]</div>
-        <a asp-area="Admin" asp-controller="Home" asp-action="Hangfire"
-           class="nav-link @(action == "Hangfire" ? "active" : "")">
-            <i class="fas fa-cogs"></i> @L["Admin_Hangfire"]
-        </a>
-        <a asp-area="Admin" asp-controller="Home" asp-action="Logs"
-           class="nav-link @(action == "Logs" ? "active" : "")">
-            <i class="fas fa-file-alt"></i> @L["Admin_Logs"]
-        </a>
-        <a asp-area="Admin" asp-controller="Home" asp-action="Notifications"
-           class="nav-link @(action == "Notifications" ? "active" : "")">
-            <i class="fas fa-bell"></i> @L["Admin_Notifications"]
-        </a>
+            <div class="nav-group-label">@L["Admin_Reservations"]</div>
+            <a asp-area="Admin" asp-controller="Booking" asp-action="Index"
+               class="sidebar-link @(ctrl == "Booking" ? "active" : "")">
+                <i class="fas fa-ticket-alt"></i>
+                <span>@L["Booking_All"]</span>
+            </a>
+            <a asp-area="Admin" asp-controller="User" asp-action="Index"
+               class="sidebar-link @(ctrl == "User" ? "active" : "")">
+                <i class="fas fa-users"></i>
+                <span>@L["Admin_Users"]</span>
+            </a>
 
-        <div class="sidebar-divider"></div>
-        <div class="nav-section">@L["Nav_Language"]</div>
-        <div class="lang-row">
-            @{
-                var adminLang = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            }
-            <a asp-area="" asp-controller="Home" asp-action="SetLanguage"
-               asp-route-lang="tr-TR" asp-route-returnUrl="@Context.Request.Path"
-               class="@(adminLang == "tr" ? "active-lang" : "")">TR</a>
-            <a asp-area="" asp-controller="Home" asp-action="SetLanguage"
-               asp-route-lang="en-US" asp-route-returnUrl="@Context.Request.Path"
-               class="@(adminLang == "en" ? "active-lang" : "")">EN</a>
+            <div class="nav-group-label">@L["Admin_System"]</div>
+            <a asp-area="Admin" asp-controller="Home" asp-action="Hangfire"
+               class="sidebar-link @(action == "Hangfire" ? "active" : "")">
+                <i class="fas fa-cogs"></i>
+                <span>@L["Admin_Hangfire"]</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Home" asp-action="Logs"
+               class="sidebar-link @(action == "Logs" ? "active" : "")">
+                <i class="fas fa-file-alt"></i>
+                <span>@L["Admin_Logs"]</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Home" asp-action="Notifications"
+               class="sidebar-link @(action == "Notifications" ? "active" : "")">
+                <i class="fas fa-bell"></i>
+                <span>@L["Admin_Notifications"]</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-footer-avatar"><i class="fas fa-user-shield"></i></div>
+            <div class="sidebar-footer-info">
+                <div class="sidebar-footer-name">@adminUser</div>
+                <div class="sidebar-footer-role">Administrator</div>
+            </div>
         </div>
 
-        <div class="nav-section">@L["Admin_AccountSection"]</div>
-        <form asp-area="" asp-controller="Account" asp-action="SignOut" method="post" class="d-inline w-100">
-            @Html.AntiForgeryToken()
-            <button type="submit" class="nav-link border-0 w-100 text-start" style="background:transparent">
-                <i class="fas fa-sign-out-alt"></i> @L["Nav_SignOut"]
-            </button>
-        </form>
-    </nav>
+    </aside>
 
-    <div class="admin-content">
-        <div class="admin-topbar">
-            <div class="d-flex align-items-center gap-3">
-                <button class="btn-sidebar-toggle" onclick="toggleAdminSidebar()" aria-label="Menu">
+    <!-- ── Overlay (mobile) ── -->
+    <div class="admin-overlay" id="adminOverlay" onclick="closeSidebar()"></div>
+
+    <!-- ── Main content ── -->
+    <div class="admin-content" id="adminContent">
+
+        <!-- Topbar -->
+        <header class="admin-topbar">
+            <div class="topbar-left">
+                <button class="topbar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle menu">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h6 class="mb-0 fw-bold text-truncate" style="color:#1a1a2e;max-width:200px">@pageTitle</h6>
+                <div class="topbar-breadcrumb">
+                    <span class="topbar-page-title">@pageTitle</span>
+                </div>
             </div>
-            <div class="d-flex align-items-center gap-3">
-                <span class="badge d-none d-sm-inline-flex" style="background:var(--admin-accent)"><i class="fas fa-user-shield me-1"></i>Admin</span>
-                <span class="text-muted small d-none d-md-inline">@Context.Session.GetString("UserName")</span>
-            </div>
-        </div>
 
+            <div class="topbar-right">
+
+                <!-- Language switcher -->
+                <div class="lang-switcher" role="group" aria-label="Language">
+                    <a asp-area="" asp-controller="Home" asp-action="SetLanguage"
+                       asp-route-lang="tr-TR" asp-route-returnUrl="@returnUrl"
+                       class="lang-btn @(adminLang == "tr" ? "lang-active" : "")"
+                       title="Türkçe">TR</a>
+                    <a asp-area="" asp-controller="Home" asp-action="SetLanguage"
+                       asp-route-lang="en-US" asp-route-returnUrl="@returnUrl"
+                       class="lang-btn @(adminLang == "en" ? "lang-active" : "")"
+                       title="English">EN</a>
+                </div>
+
+                <!-- Notifications shortcut -->
+                <a asp-area="Admin" asp-controller="Home" asp-action="Notifications"
+                   class="topbar-icon-btn @(action == "Notifications" ? "active" : "")"
+                   title="@L["Admin_Notifications"]">
+                    <i class="fas fa-bell"></i>
+                </a>
+
+                <!-- User dropdown -->
+                <div class="dropdown">
+                    <button class="user-menu-btn dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="user-avatar-circle">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="user-meta d-none d-md-block">
+                            <span class="user-name-text">@adminUser</span>
+                            <span class="user-role-text">Administrator</span>
+                        </div>
+                        <i class="fas fa-chevron-down chevron-icon d-none d-md-inline"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end user-dropdown">
+                        <li class="dropdown-header-item">
+                            <div class="dropdown-user-avatar"><i class="fas fa-user-shield"></i></div>
+                            <div>
+                                <div class="fw-bold">@adminUser</div>
+                                <small class="text-muted">Administrator</small>
+                            </div>
+                        </li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li>
+                            <a asp-area="Admin" asp-controller="Home" asp-action="Index"
+                               class="dropdown-item">
+                                <i class="fas fa-tachometer-alt me-2 text-primary"></i>@L["Admin_Dashboard"]
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="Admin" asp-controller="Home" asp-action="Notifications"
+                               class="dropdown-item">
+                                <i class="fas fa-bell me-2 text-warning"></i>@L["Admin_Notifications"]
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li>
+                            <form asp-area="" asp-controller="Account" asp-action="SignOut" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fas fa-sign-out-alt me-2"></i>@L["Nav_SignOut"]
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- Notifications -->
         @await Component.InvokeAsync("Notyf")
 
-        <div class="admin-body">
+        <!-- Page body -->
+        <main class="admin-body">
             @RenderBody()
-        </div>
-    </div>
+        </main>
 
-    <div class="admin-overlay" id="adminOverlay" onclick="toggleAdminSidebar()"></div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/admin.js" asp-append-version="true"></script>
     <script>
-    function toggleAdminSidebar() {
-        document.querySelector('.admin-sidebar').classList.toggle('sidebar-open');
-        document.getElementById('adminOverlay').classList.toggle('show');
-    }
-    window.addEventListener('resize', function() {
-        if (window.innerWidth >= 992) {
-            document.querySelector('.admin-sidebar').classList.remove('sidebar-open');
-            document.getElementById('adminOverlay').classList.remove('show');
+    var _sidebarCollapsed = false;
+
+    function toggleSidebar() {
+        if (window.innerWidth < 992) {
+            document.getElementById('adminSidebar').classList.toggle('sidebar-open');
+            document.getElementById('adminOverlay').classList.toggle('show');
+        } else {
+            _sidebarCollapsed = !_sidebarCollapsed;
+            document.getElementById('adminSidebar').classList.toggle('sidebar-collapsed', _sidebarCollapsed);
+            document.getElementById('adminContent').classList.toggle('content-expanded', _sidebarCollapsed);
         }
+    }
+
+    function closeSidebar() {
+        document.getElementById('adminSidebar').classList.remove('sidebar-open');
+        document.getElementById('adminOverlay').classList.remove('show');
+    }
+
+    window.addEventListener('resize', function () {
+        if (window.innerWidth >= 992) closeSidebar();
     });
     </script>
     @await RenderSectionAsync("Scripts", required: false)

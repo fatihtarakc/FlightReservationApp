@@ -37,6 +37,10 @@
         panel.style.display === 'block' ? closePanel() : openPanel();
     });
 
+    window.openSignInPanel = function () {
+        openPanel();
+    };
+
     if (closeBtn) closeBtn.addEventListener('click', closePanel);
 
     document.addEventListener('click', function (e) {

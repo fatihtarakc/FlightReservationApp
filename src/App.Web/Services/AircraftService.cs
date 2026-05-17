@@ -72,7 +72,7 @@ namespace App.Web.Services
             }
         }
 
-        public async Task<IDataResult<AircraftVM>> UpdateAsync(Guid id, AircraftAddVM model, string token)
+        public async Task<IDataResult<AircraftVM>> UpdateAsync(Guid id, AircraftUpdateVM model, string token)
         {
             try
             {
@@ -91,6 +91,36 @@ namespace App.Web.Services
                 var message = _localizer[Messages.UnexpectedError];
                 _logger.LogError(ex, message);
                 return new ErrorDataResult<AircraftVM>(message);
+            }
+        }
+
+        public async Task<List<AircraftSelectItemVM>> GetAirlinesAsync()
+        {
+            try
+            {
+                var body = await _http.GetStringAsync("api/Airline");
+                var result = JsonSerializer.Deserialize<ApiResponseVM<List<AircraftSelectItemVM>>>(body, _opts);
+                return result?.IsSuccess == true && result.Data != null ? result.Data : new();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new();
+            }
+        }
+
+        public async Task<List<AircraftSelectItemVM>> GetModelsAsync()
+        {
+            try
+            {
+                var body = await _http.GetStringAsync("api/Model");
+                var result = JsonSerializer.Deserialize<ApiResponseVM<List<AircraftSelectItemVM>>>(body, _opts);
+                return result?.IsSuccess == true && result.Data != null ? result.Data : new();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new();
             }
         }
 

@@ -18,6 +18,7 @@ namespace App.Core.Constants
 
         public const string Account_Was_Not_Found = "Account_Was_Not_Found";
         public const string Account_Was_Found = "Account_Was_Found";
+        public const string Account_Privileged_Cannot_Use_This_Feature = "Account_Privileged_Cannot_Use_This_Feature";
 
         public const string Account_Has_Already_Been_Activated = "Account_Has_Already_Been_Activated";
         public const string Account_Has_Not_Activated = "Account_Has_Not_Activated";

@@ -193,7 +193,13 @@ namespace App.Business.Concrete.Services
             {
                 var appUser = await _appUserRepository.GetByEmailAsync(email, tracking: false);
                 if (appUser == null)
+                {
+                    var identityUser = await _userManager.FindByEmailAsync(email);
+                    if (identityUser != null && await _userManager.IsInRoleAsync(identityUser, "Admin"))
+                        return new ErrorResult(_localizer[Messages.Account_Privileged_Cannot_Use_This_Feature]);
+
                     return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
+                }
 
                 var codeResult = await _verificationCodeService.GenerateAndSaveAsync(appUser.Id, purpose, channel);
                 if (!codeResult.IsSuccess)

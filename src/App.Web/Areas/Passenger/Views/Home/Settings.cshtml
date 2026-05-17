@@ -42,24 +42,24 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">@L["Account_Name"]</label>
-                            <input asp-for="UpdateForm.Name" class="form-control" />
+                            <input asp-for="UpdateForm.Name" class="form-control" required/>
                             <span asp-validation-for="UpdateForm.Name" class="text-danger small"></span>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">@L["Account_Surname"]</label>
-                            <input asp-for="UpdateForm.Surname" class="form-control" />
+                            <input asp-for="UpdateForm.Surname" class="form-control" required/>
                             <span asp-validation-for="UpdateForm.Surname" class="text-danger small"></span>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">@L["Account_Email"]</label>
-                            <input asp-for="UpdateForm.Email" class="form-control" type="email" />
+                            <input asp-for="UpdateForm.Email" class="form-control" type="email" required/>
                             <span asp-validation-for="UpdateForm.Email" class="text-danger small"></span>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">@L["Account_Phone"]</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                <input asp-for="UpdateForm.PhoneNumber" class="form-control" placeholder="+90XXXXXXXXXX" />
+                                <input asp-for="UpdateForm.PhoneNumber" class="form-control" placeholder="+90XXXXXXXXXX" required/>
                             </div>
                             <span asp-validation-for="UpdateForm.PhoneNumber" class="text-danger small"></span>
                         </div>
@@ -81,18 +81,18 @@
                     <div class="row g-3" style="max-width:480px">
                         <div class="col-12">
                             <label class="form-label fw-semibold">@L["Account_CurrentPassword"]</label>
-                            <input asp-for="PasswordForm.CurrentPassword" type="password" class="form-control" />
+                            <input asp-for="PasswordForm.CurrentPassword" type="password" class="form-control" required/>
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-semibold">@L["Account_Password"]</label>
-                            <input asp-for="PasswordForm.NewPassword" type="password" class="form-control" />
+                            <input asp-for="PasswordForm.NewPassword" type="password" class="form-control" required/>
                             <div class="progress mt-1" style="height:4px">
                                 <div id="pwStrength" class="progress-bar" style="width:0%"></div>
                             </div>
                         </div>
                         <div class="col-12">
                             <label class="form-label fw-semibold">@L["Account_ConfirmPassword"]</label>
-                            <input asp-for="PasswordForm.ConfirmPassword" type="password" class="form-control" />
+                            <input asp-for="PasswordForm.ConfirmPassword" type="password" class="form-control" required/>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-danger mt-3">

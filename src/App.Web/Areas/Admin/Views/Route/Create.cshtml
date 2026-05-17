@@ -12,7 +12,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label asp-for="Form.OriginAirportId" class="form-label fw-semibold">@L["Route_Origin"] <span class="text-danger">*</span></label>
-                            <select asp-for="Form.OriginAirportId" class="form-select" id="originSelect">
+                            <select asp-for="Form.OriginAirportId" class="form-select" id="originSelect" required>
                                 <option value="">— @L["Route_SelectOrigin"] —</option>
                                 @foreach (var a in Model.Airports)
                                 {
@@ -26,7 +26,7 @@
 
                         <div class="col-md-6">
                             <label asp-for="Form.DestinationAirportId" class="form-label fw-semibold">@L["Route_Destination"] <span class="text-danger">*</span></label>
-                            <select asp-for="Form.DestinationAirportId" class="form-select" id="destinationSelect">
+                            <select asp-for="Form.DestinationAirportId" class="form-select" id="destinationSelect" required>
                                 <option value="">— @L["Route_SelectDestination"] —</option>
                                 @foreach (var a in Model.Airports)
                                 {
@@ -41,7 +41,7 @@
                         <div class="col-md-6">
                             <label asp-for="Form.DistanceKm" class="form-label fw-semibold">@L["Route_Distance"] <span class="text-danger">*</span></label>
                             <div class="input-group">
-                                <input asp-for="Form.DistanceKm" class="form-control" type="number" min="1" />
+                                <input asp-for="Form.DistanceKm" class="form-control" type="number" min="1" required/>
                                 <span class="input-group-text">km</span>
                             </div>
                             <span asp-validation-for="Form.DistanceKm" class="text-danger small"></span>
@@ -50,7 +50,7 @@
                         <div class="col-md-6">
                             <label asp-for="Form.EstimatedDuration" class="form-label fw-semibold">@L["Route_Duration"] <span class="text-danger">*</span></label>
                             <div class="input-group">
-                                <input asp-for="Form.EstimatedDuration" class="form-control" type="number" min="1" />
+                                <input asp-for="Form.EstimatedDuration" class="form-control" type="number" min="1" required/>
                                 <span class="input-group-text">dk</span>
                             </div>
                             <span asp-validation-for="Form.EstimatedDuration" class="text-danger small"></span>
