@@ -144,7 +144,7 @@
                                     <label asp-for="PreferredNotificationChannel" class="form-label fw-semibold text-muted small text-uppercase">@L["Account_Notification"]</label>
                                     <div class="d-flex gap-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="PreferredNotificationChannel" value="@((int)NotificationChannel.Email)" id="notifEmail" checked />
+                                            <input class="form-check-input" type="radio" name="PreferredNotificationChannel" value="@((int)NotificationChannel.Email)" id="notifEmail" checked required />
                                             <label class="form-check-label" for="notifEmail"><i class="fas fa-envelope me-1"></i>@L["Notif_Email"]</label>
                                         </div>
                                         <div class="form-check">
