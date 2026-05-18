@@ -39,9 +39,9 @@
 
     <div class="navbar-top-bar">
         <div class="container d-flex justify-content-between align-items-center">
-            <div class="d-none d-md-block">
-                <a href="@L["Footer_PhoneLink"]"><i class="fas fa-phone me-1"></i> @L["Footer_Phone"]</a>
-                <a href="mailto:@L["Footer_Email"]"><i class="fas fa-envelope me-1"></i> @L["Footer_Email"]</a>
+            <div class="d-flex align-items-center gap-2">
+                <a href="@L["Footer_PhoneLink"]"><i class="fas fa-phone"></i><span class="d-none d-sm-inline ms-1">@L["Footer_Phone"]</span></a>
+                <a href="mailto:@L["Footer_Email"]"><i class="fas fa-envelope"></i><span class="d-none d-sm-inline ms-1">@L["Footer_Email"]</span></a>
             </div>
             <div class="d-flex align-items-center ms-auto ms-md-0">
                 @if (!string.IsNullOrEmpty(Context.Session.GetString("JwtToken")))
@@ -49,23 +49,23 @@
                     @if (Context.Session.GetString("UserRole") == "Admin")
                     {
                         <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="me-2">
-                            <span class="me-3 d-none d-sm-inline"><i class="fas fa-user-circle me-1"></i> @Context.Session.GetString("UserName")</span>
+                            <span class="me-3 d-none d-sm-inline" style="font-family:'Comic Sans MS'"><i class="fas fa-user-circle me-1"></i> @Context.Session.GetString("UserName")</span>
                         </a>
                     }
                     else
                     {
                         <a asp-area="Passenger" asp-controller="Home" asp-action="Index" class="me-2">
-                            <span class="me-3 d-none d-sm-inline"><i class="fas fa-user-circle me-1"></i> @Context.Session.GetString("UserName")</span>
+                            <span class="me-3 d-none d-sm-inline" style="font-family:'Comic Sans MS'"><i class="fas fa-user-circle me-1"></i> @Context.Session.GetString("UserName")</span>
                         </a>
                     }
                     <form asp-controller="Account" asp-action="SignOut" asp-area="" method="post" class="d-inline">
                         @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-outline" style="background:var(--gold);font-weight:700;">@L["Nav_SignOut"]</button>
+                        <button type="submit" class="btn btn-sm btn-outline" style="background:var(--gold);font-weight:700; font-family:'Comic Sans MS'">@L["Nav_SignOut"]</button>
                     </form>
                 }
                 else
                 {
-                    <button type="button" id="signInPanelBtn" class="btn btn-sm btn-outline" style="background:var(--gold);font-weight:700;">@L["Nav_SignIn"]</button>
+                    <button type="button" id="signInPanelBtn" class="btn btn-sm btn-outline" style="background:var(--gold);font-weight:800; font-family:'Comic Sans MS'; padding:0.5rem">@L["Nav_SignIn"]</button>
                 }
             </div>
         </div>
@@ -73,7 +73,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-skyway sticky-top">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="font-family:'Comic Sans MS'">
                 <i class="fas fa-plane me-2"></i>Sky<span>Way</span>
             </a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
@@ -82,16 +82,16 @@
             <div class="collapse navbar-collapse" id="navMain">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">@L["Nav_Home"]</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" style="font-family:'Comic Sans MS'">@L["Nav_Home"]</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Flight" asp-action="Index">@L["Nav_Flights"]</a>
+                        <a class="nav-link" asp-area="" asp-controller="Flight" asp-action="Index" style="font-family:'Comic Sans MS'">@L["Nav_Flights"]</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Route" asp-action="Popular">@L["Nav_PopularRoutes"]</a>
+                        <a class="nav-link" asp-area="" asp-controller="Route" asp-action="Popular" style="font-family:'Comic Sans MS'">@L["Nav_PopularRoutes"]</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">@L["Nav_About"]</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About" style="font-family:'Comic Sans MS'">@L["Nav_About"]</a>
                     </li>
                 </ul>
                 <div class="navbar-lang ms-3">

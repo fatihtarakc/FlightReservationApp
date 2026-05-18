@@ -18,15 +18,15 @@
                 </div>
                 <div class="row mt-5">
                     <div class="col-4 text-center">
-                        <h3 class="fw-bold mb-0" style="color:var(--gold)">50+</h3>
+                        <h3 class="fw-bold mb-0" style="color:var(--gold)" data-counter="50" data-suffix="+">50+</h3>
                         <small style="color:rgba(255,255,255,.7)">@L["Home_StatDestinations"]</small>
                     </div>
                     <div class="col-4 text-center">
-                        <h3 class="fw-bold mb-0" style="color:var(--gold)">1M+</h3>
+                        <h3 class="fw-bold mb-0" style="color:var(--gold)" data-counter="10" data-suffix="M+">10M+</h3>
                         <small style="color:rgba(255,255,255,.7)">@L["Home_StatPassengers"]</small>
                     </div>
                     <div class="col-4 text-center">
-                        <h3 class="fw-bold mb-0" style="color:var(--gold)">99%</h3>
+                        <h3 class="fw-bold mb-0" style="color:var(--gold)" data-counter="99" data-suffix="%">99%</h3>
                         <small style="color:rgba(255,255,255,.7)">@L["Home_StatSatisfaction"]</small>
                     </div>
                 </div>
@@ -158,5 +158,43 @@
 @section Scripts {
 <script src="~/js/airport-picker.js" asp-append-version="true"></script>
 <script src="~/js/home-search.js" asp-append-version="true"></script>
+<script>
+(function () {
+    var counters = document.querySelectorAll('[data-counter]');
+    if (!counters.length) return;
+
+    function animateCounter(el) {
+        var target   = parseInt(el.dataset.counter);
+        var suffix   = el.dataset.suffix || '';
+        var duration = 1600;
+        var start    = null;
+        function step(ts) {
+            if (!start) start = ts;
+            var p = Math.min((ts - start) / duration, 1);
+            el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target) + suffix;
+            if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    function startAll() {
+        counters.forEach(animateCounter);
+    }
+
+    var loader = document.getElementById('pageLoader');
+    if (!loader) { startAll(); return; }
+
+    var mo = new MutationObserver(function () {
+        if (!loader.classList.contains('loader-hide')) return;
+        mo.disconnect();
+        loader.addEventListener('transitionend', function onEnd(e) {
+            if (e.propertyName !== 'opacity') return;
+            loader.removeEventListener('transitionend', onEnd);
+            startAll();
+        });
+    });
+    mo.observe(loader, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
 }
 
