@@ -1797,4 +1797,31 @@
   <data name="Day_Sun" xml:space="preserve">
     <value>Paz</value>
   </data>
+  <data name="Account_Email_Has_Not_Confirmed" xml:space="preserve">
+    <value>E-posta adresiniz henüz doğrulanmamış. Lütfen gelen kutunuzu kontrol edin.</value>
+  </data>
+  <data name="Account_ConfirmEmail_Successful" xml:space="preserve">
+    <value>E-posta adresiniz başarıyla doğrulandı. Giriş yapabilirsiniz.</value>
+  </data>
+  <data name="Account_ResendCode_Successful" xml:space="preserve">
+    <value>Doğrulama kodu e-posta adresinize gönderildi.</value>
+  </data>
+  <data name="Account_VerifyEmail" xml:space="preserve">
+    <value>E-posta Doğrulama</value>
+  </data>
+  <data name="Account_VerifyEmail_Subtitle" xml:space="preserve">
+    <value>E-posta adresinize gönderilen 6 haneli kodu girin.</value>
+  </data>
+  <data name="Account_VerifyEmail_Btn" xml:space="preserve">
+    <value>Doğrula</value>
+  </data>
+  <data name="Account_CodeNotReceived" xml:space="preserve">
+    <value>Kodu almadınız mı?</value>
+  </data>
+  <data name="Account_ResendCode" xml:space="preserve">
+    <value>Tekrar Gönder</value>
+  </data>
+  <data name="Account_BackToSignIn" xml:space="preserve">
+    <value>Giriş sayfasına dön</value>
+  </data>
 </root>

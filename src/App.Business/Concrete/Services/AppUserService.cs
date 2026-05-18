@@ -3,17 +3,20 @@ namespace App.Business.Concrete.Services
     public class AppUserService : IAppUserService
     {
         private readonly IAppUserRepository _appUserRepository;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IStringLocalizer<MessageResources> _localizer;
         private readonly ILogger<AppUserService> _logger;
 
         public AppUserService(
             IAppUserRepository appUserRepository,
+            UserManager<IdentityUser> userManager,
             IUnitOfWork unitOfWork,
             IStringLocalizer<MessageResources> localizer,
             ILogger<AppUserService> logger)
         {
             _appUserRepository = appUserRepository;
+            _userManager = userManager;
             _unitOfWork = unitOfWork;
             _localizer = localizer;
             _logger = logger;
@@ -132,6 +135,34 @@ namespace App.Business.Concrete.Services
                     : _localizer[Messages.AppUser_Was_Deactivated];
                 _logger.LogInformation("{Message} UserId: {Id}", msg.Value, id);
                 return new SuccessResult(msg);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
+            }
+        }
+
+        public async Task<IResult> ConfirmEmailAsync(Guid id)
+        {
+            try
+            {
+                var appUser = await _appUserRepository.GetByIdAsync(id, tracking: false);
+                if (appUser == null)
+                    return new ErrorResult(_localizer[Messages.AppUser_Was_Not_Found]);
+
+                var identityUser = await _userManager.FindByEmailAsync(appUser.Email);
+                if (identityUser == null)
+                    return new ErrorResult(_localizer[Messages.AppUser_Was_Not_Found]);
+
+                if (identityUser.EmailConfirmed)
+                    return new SuccessResult(_localizer[Messages.Account_Email_Was_Confirmed]);
+
+                identityUser.EmailConfirmed = true;
+                await _userManager.UpdateAsync(identityUser);
+
+                _logger.LogInformation("{Message} UserId: {Id}", _localizer[Messages.Account_Email_Was_Confirmed].Value, id);
+                return new SuccessResult(_localizer[Messages.Account_Email_Was_Confirmed]);
             }
             catch (Exception ex)
             {

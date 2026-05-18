@@ -1,3 +1,4 @@
+using System.Reflection;
 using App.Web.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -46,7 +47,7 @@ namespace App.Web.Extensions
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IScheduleService, ScheduleService>();
 
-            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationAutoValidation().AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssemblyContaining<Program>();
             services.AddHttpContextAccessor();
 

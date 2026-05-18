@@ -58,8 +58,10 @@
                     arrInput.setCustomValidity('');
                     return;
                 }
-                var dep = new Date(depInput.value);
-                var arr = new Date(arrInput.value);
+                var depVal = depInput.value.length === 16 ? depInput.value + ':00' : depInput.value;
+                var arrVal = arrInput.value.length === 16 ? arrInput.value + ':00' : arrInput.value;
+                var dep = new Date(depVal);
+                var arr = new Date(arrVal);
                 if (isNaN(dep.getTime()) || isNaN(arr.getTime())) {
                     arrInput.setCustomValidity('');
                     return;
@@ -68,7 +70,13 @@
             }
 
             depInput.addEventListener('change', validateFlightTimes);
+            depInput.addEventListener('input',  validateFlightTimes);
             arrInput.addEventListener('change', validateFlightTimes);
+            arrInput.addEventListener('input',  validateFlightTimes);
+
+            if (flightForm) {
+                flightForm.addEventListener('submit', validateFlightTimes, true);
+            }
         }
 
         // Password strength bar (passenger settings)

@@ -23,6 +23,8 @@ namespace App.Web.Services
                 { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();
+                if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                    return new ErrorDataResult<TokenResponseVM>(_localizer[Messages.Account_Email_Has_Not_Confirmed]);
                 var result = JsonSerializer.Deserialize<ApiResponseVM<TokenResponseVM>>(body, _opts);
                 if (result?.IsSuccess == true && result.Data != null)
                     return new SuccessDataResult<TokenResponseVM>(result.Data, _localizer[Messages.Account_SignIn_Successful]);
@@ -201,6 +203,46 @@ namespace App.Web.Services
                 var message = _localizer[Messages.UnexpectedError];
                 _logger.LogError(ex, message);
                 return new ErrorResult(message);
+            }
+        }
+
+        public async Task<IResult> SendEmailConfirmationCodeAsync(string email)
+        {
+            try
+            {
+                var url = $"api/Account/send-verification-code?email={Uri.EscapeDataString(email)}&purpose=1&channel=1";
+                var response = await _http.SendAsync(new HttpRequestMessage(HttpMethod.Post, url));
+                var body = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<ApiResponseVM<object>>(body, _opts);
+                return result?.IsSuccess == true
+                    ? new SuccessResult(_localizer[Messages.Account_ResendCode_Successful])
+                    : new ErrorResult(result?.Message ?? _localizer[Messages.UnexpectedError]);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
+            }
+        }
+
+        public async Task<IResult> VerifyEmailAsync(string email, string code)
+        {
+            try
+            {
+                var payload = new { Email = email, Code = code };
+                var req = new HttpRequestMessage(HttpMethod.Post, "api/Account/verify-code")
+                { Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json") };
+                var response = await _http.SendAsync(req);
+                var body = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<ApiResponseVM<object>>(body, _opts);
+                return result?.IsSuccess == true
+                    ? new SuccessResult(_localizer[Messages.Account_ConfirmEmail_Successful])
+                    : new ErrorResult(result?.Message ?? _localizer[Messages.UnexpectedError]);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
             }
         }
 

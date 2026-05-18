@@ -83,7 +83,6 @@ window.swToastClient = function (type, message) {
             function sync() {
                 var txt = span.textContent.trim();
                 if (txt) {
-                    span.style.display = 'none';
                     showValidationIcon(input, txt);
                 } else {
                     span.style.display = '';
@@ -95,25 +94,37 @@ window.swToastClient = function (type, message) {
         });
     }
 
-    // Show icon when input fires invalid (from form.checkValidity())
+    // Show icon + span text when input fires invalid (from form.checkValidity())
     document.addEventListener('invalid', function (e) {
         var input = e.target;
         if (!input || !input.name) return;
         var msg = input.validationMessage;
-        if (msg) showValidationIcon(input, msg);
+        if (msg) {
+            showValidationIcon(input, msg);
+            var span = document.querySelector('[data-valmsg-for="' + input.name + '"]');
+            if (span) { span.textContent = msg; span.style.display = ''; }
+        }
     }, true);
 
-    // Hide icon when input becomes valid again
+    // Hide icon + clear span text when input becomes valid again
     document.addEventListener('change', function (e) {
         var input = e.target;
         if (!input || !_icons.has(input)) return;
-        if (input.checkValidity()) hideValidationIcon(input);
+        if (input.checkValidity()) {
+            hideValidationIcon(input);
+            var span = document.querySelector('[data-valmsg-for="' + input.name + '"]');
+            if (span) span.textContent = '';
+        }
     });
 
     document.addEventListener('input', function (e) {
         var input = e.target;
         if (!input || !_icons.has(input)) return;
-        if (input.checkValidity()) hideValidationIcon(input);
+        if (input.checkValidity()) {
+            hideValidationIcon(input);
+            var span = document.querySelector('[data-valmsg-for="' + input.name + '"]');
+            if (span) span.textContent = '';
+        }
     });
 
     document.addEventListener('DOMContentLoaded', wireServerErrors);

@@ -21,13 +21,13 @@ namespace App.Api.Validators
                 .GreaterThan(0).WithMessage(Messages.Flight_EconomyPrice_Must_Be_Positive);
 
             RuleFor(x => x.BasePremiumEconomyPrice)
-                .GreaterThan(0).WithMessage(Messages.Flight_PremiumEconomyPrice_Must_Be_Positive);
+                .GreaterThanOrEqualTo(0).WithMessage(Messages.Flight_PremiumEconomyPrice_Must_Be_Positive);
 
             RuleFor(x => x.BaseBusinessPrice)
-                .GreaterThan(0).WithMessage(Messages.Flight_BusinessPrice_Must_Be_Positive);
+                .GreaterThanOrEqualTo(0).WithMessage(Messages.Flight_BusinessPrice_Must_Be_Positive);
 
             RuleFor(x => x.BaseFirstClassPrice)
-                .GreaterThan(0).WithMessage(Messages.Flight_FirstClassPrice_Must_Be_Positive);
+                .GreaterThanOrEqualTo(0).WithMessage(Messages.Flight_FirstClassPrice_Must_Be_Positive);
 
             RuleFor(x => x.Currency)
                 .IsInEnum().WithMessage(Messages.Flight_Please_Select_Currency);

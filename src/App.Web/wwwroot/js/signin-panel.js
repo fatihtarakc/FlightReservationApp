@@ -55,6 +55,7 @@
     if (form) {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
+            e.stopPropagation();
             if (errorEl) errorEl.style.display = 'none';
             if (submitBtn) { submitBtn.disabled = true; submitBtn.style.opacity = '.7'; }
 

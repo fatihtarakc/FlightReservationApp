@@ -71,8 +71,104 @@
                                 @L["Schedule_TimeZone"] <span class="text-danger">*</span>
                             </label>
                             <input asp-for="Form.TimeZone" class="form-control"
-                                   placeholder="Europe/Istanbul" maxlength="100" required />
-                            <div class="form-text">IANA tz: Europe/Istanbul, UTC, America/New_York…</div>
+                                   list="timezoneList" placeholder="Europe/Istanbul"
+                                   maxlength="100" required autocomplete="off" />
+                            <datalist id="timezoneList">
+                                <option value="UTC" />
+                                <option value="Europe/London" />
+                                <option value="Europe/Dublin" />
+                                <option value="Europe/Lisbon" />
+                                <option value="Europe/Paris" />
+                                <option value="Europe/Berlin" />
+                                <option value="Europe/Rome" />
+                                <option value="Europe/Madrid" />
+                                <option value="Europe/Amsterdam" />
+                                <option value="Europe/Brussels" />
+                                <option value="Europe/Vienna" />
+                                <option value="Europe/Warsaw" />
+                                <option value="Europe/Prague" />
+                                <option value="Europe/Budapest" />
+                                <option value="Europe/Bucharest" />
+                                <option value="Europe/Sofia" />
+                                <option value="Europe/Athens" />
+                                <option value="Europe/Helsinki" />
+                                <option value="Europe/Tallinn" />
+                                <option value="Europe/Riga" />
+                                <option value="Europe/Vilnius" />
+                                <option value="Europe/Kiev" />
+                                <option value="Europe/Istanbul" />
+                                <option value="Europe/Moscow" />
+                                <option value="Europe/Samara" />
+                                <option value="Europe/Minsk" />
+                                <option value="Asia/Nicosia" />
+                                <option value="Asia/Beirut" />
+                                <option value="Asia/Jerusalem" />
+                                <option value="Asia/Amman" />
+                                <option value="Asia/Baghdad" />
+                                <option value="Asia/Riyadh" />
+                                <option value="Asia/Kuwait" />
+                                <option value="Asia/Dubai" />
+                                <option value="Asia/Muscat" />
+                                <option value="Asia/Tbilisi" />
+                                <option value="Asia/Yerevan" />
+                                <option value="Asia/Baku" />
+                                <option value="Asia/Kabul" />
+                                <option value="Asia/Karachi" />
+                                <option value="Asia/Kolkata" />
+                                <option value="Asia/Kathmandu" />
+                                <option value="Asia/Dhaka" />
+                                <option value="Asia/Colombo" />
+                                <option value="Asia/Yangon" />
+                                <option value="Asia/Bangkok" />
+                                <option value="Asia/Ho_Chi_Minh" />
+                                <option value="Asia/Jakarta" />
+                                <option value="Asia/Kuala_Lumpur" />
+                                <option value="Asia/Singapore" />
+                                <option value="Asia/Shanghai" />
+                                <option value="Asia/Hong_Kong" />
+                                <option value="Asia/Taipei" />
+                                <option value="Asia/Manila" />
+                                <option value="Asia/Tokyo" />
+                                <option value="Asia/Seoul" />
+                                <option value="Asia/Vladivostok" />
+                                <option value="Asia/Magadan" />
+                                <option value="Asia/Kamchatka" />
+                                <option value="Australia/Perth" />
+                                <option value="Australia/Darwin" />
+                                <option value="Australia/Adelaide" />
+                                <option value="Australia/Brisbane" />
+                                <option value="Australia/Sydney" />
+                                <option value="Australia/Melbourne" />
+                                <option value="Pacific/Auckland" />
+                                <option value="Pacific/Fiji" />
+                                <option value="Pacific/Honolulu" />
+                                <option value="Pacific/Midway" />
+                                <option value="America/Anchorage" />
+                                <option value="America/Los_Angeles" />
+                                <option value="America/Denver" />
+                                <option value="America/Phoenix" />
+                                <option value="America/Chicago" />
+                                <option value="America/New_York" />
+                                <option value="America/Toronto" />
+                                <option value="America/Vancouver" />
+                                <option value="America/Halifax" />
+                                <option value="America/St_Johns" />
+                                <option value="America/Sao_Paulo" />
+                                <option value="America/Argentina/Buenos_Aires" />
+                                <option value="America/Santiago" />
+                                <option value="America/Bogota" />
+                                <option value="America/Lima" />
+                                <option value="America/Caracas" />
+                                <option value="America/Mexico_City" />
+                                <option value="America/Havana" />
+                                <option value="Atlantic/Azores" />
+                                <option value="Atlantic/Cape_Verde" />
+                                <option value="Africa/Casablanca" />
+                                <option value="Africa/Cairo" />
+                                <option value="Africa/Nairobi" />
+                                <option value="Africa/Johannesburg" />
+                                <option value="Africa/Lagos" />
+                            </datalist>
                             <span asp-validation-for="Form.TimeZone" class="text-danger small"></span>
                         </div>
 

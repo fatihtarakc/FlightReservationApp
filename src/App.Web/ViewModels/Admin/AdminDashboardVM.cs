@@ -3,6 +3,7 @@ namespace App.Web.ViewModels.Admin
     public class AdminDashboardVM
     {
         public int TotalUsers { get; set; }
+        public int ActiveUsers { get; set; }
         public int TotalPassengers { get; set; }
         public int TotalFlights { get; set; }
         public int ActiveFlights { get; set; }

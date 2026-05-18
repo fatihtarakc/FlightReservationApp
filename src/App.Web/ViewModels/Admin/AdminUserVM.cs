@@ -10,6 +10,7 @@ namespace App.Web.ViewModels.Admin
         public string PhoneNumber { get; set; } = string.Empty;
         public UserStatus UserStatus { get; set; }
         public bool IsActive => UserStatus == UserStatus.Active;
+        public bool EmailConfirmed { get; set; }
         public string Role { get; set; } = string.Empty;
         public int BookingCount { get; set; }
         public DateTime CreatedAt { get; set; }

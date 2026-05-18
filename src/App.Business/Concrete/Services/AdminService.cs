@@ -75,10 +75,15 @@ namespace App.Business.Concrete.Services
                         b.CreatedDate))
                     .ToList();
 
+                var userList = users.ToList();
                 var dashboard = new AdminDashboardDto
                 {
-                    TotalUsers              = users.Count(),
+                    TotalUsers              = userList.Count,
+                    ActiveUsers             = userList.Count(u => u.UserStatus == UserStatus.Active),
                     TotalFlights            = flightList.Count,
+                    ActiveFlights           = flightList.Count(f => f.FlightStatus == FlightStatus.Scheduled
+                                                                 || f.FlightStatus == FlightStatus.Boarding
+                                                                 || f.FlightStatus == FlightStatus.Departed),
                     ScheduledFlights        = flightList.Count(f => f.FlightStatus == FlightStatus.Scheduled),
                     BoardingFlights         = flightList.Count(f => f.FlightStatus == FlightStatus.Boarding),
                     DepartedFlights         = flightList.Count(f => f.FlightStatus == FlightStatus.Departed),

@@ -85,6 +85,11 @@
                 <i class="fas fa-plane-departure"></i>
                 <span>@L["Nav_Flights"]</span>
             </a>
+            <a asp-area="Admin" asp-controller="Schedule" asp-action="Index"
+               class="sidebar-link @(ctrl == "Schedule" ? "active" : "")">
+                <i class="fas fa-calendar-alt"></i>
+                <span>@L["Schedule_Management"]</span>
+            </a>
             <a asp-area="Admin" asp-controller="Route" asp-action="Index"
                class="sidebar-link @(ctrl == "Route" ? "active" : "")">
                 <i class="fas fa-route"></i>
@@ -99,11 +104,6 @@
                class="sidebar-link @(ctrl == "Airport" ? "active" : "")">
                 <i class="fas fa-building"></i>
                 <span>@L["Airport_Management"]</span>
-            </a>
-            <a asp-area="Admin" asp-controller="Schedule" asp-action="Index"
-               class="sidebar-link @(ctrl == "Schedule" ? "active" : "")">
-                <i class="fas fa-calendar-alt"></i>
-                <span>@L["Schedule_Management"]</span>
             </a>
 
             <div class="nav-group-label">@L["Admin_Reservations"]</div>

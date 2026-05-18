@@ -7,7 +7,20 @@ builder.Host.UseSerilog((context, services, configuration) =>
         .ReadFrom.Configuration(context.Configuration)
         .ReadFrom.Services(services));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = ctx =>
+        {
+            var errors = ctx.ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .Where(m => !string.IsNullOrWhiteSpace(m))
+                .ToList();
+            var message = errors.Count > 0 ? string.Join(" | ", errors) : "Validation failed.";
+            return new BadRequestObjectResult(new { IsSuccess = false, Message = message });
+        };
+    });
 builder.Services.AddEndpointsApiExplorer();
 
 // Localization

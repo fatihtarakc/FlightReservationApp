@@ -13,5 +13,7 @@
         Task<IResult> UpdateNotificationPreferenceAsync(NotificationChannel preference, string token);
         Task<IDataResult<List<AdminUserVM>>> GetAllUsersAsync(string token);
         Task<IResult> SetUserStatusAsync(Guid id, bool isActive, string token);
+        Task<IResult> SendEmailConfirmationCodeAsync(string email);
+        Task<IResult> VerifyEmailAsync(string email, string code);
     }
 }

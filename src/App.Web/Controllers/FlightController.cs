@@ -47,7 +47,7 @@ namespace App.Web.Controllers
                 if (result.IsSuccess && result.Data != null)
                 {
                     vm.Flights = result.Data
-                        .Where(f => f.DepartureTime.Date == DateTime.Today && f.DepartureTime >= DateTime.Now)
+                        .Where(f => f.DepartureTime >= DateTime.Now)
                         .OrderBy(f => f.DepartureTime)
                         .ToList();
                 }

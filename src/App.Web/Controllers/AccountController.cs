@@ -41,6 +41,12 @@ namespace App.Web.Controllers
             var result = await _accountService.SignInAsync(model);
             if (!result.IsSuccess)
             {
+                if (result.Message == _localizer[Messages.Account_Email_Has_Not_Confirmed])
+                {
+                    var emailForVerify = model.UsernameOrEmail.Contains('@') ? model.UsernameOrEmail : string.Empty;
+                    TempData["VerifyEmail_Info"] = _localizer[Messages.Account_Email_Has_Not_Confirmed].Value;
+                    return RedirectToAction(nameof(VerifyEmail), new { email = emailForVerify });
+                }
                 ModelState.AddModelError("", result.Message ?? "");
                 return View(model);
             }
@@ -127,6 +133,40 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult VerifyEmail(string? email)
+        {
+            ViewBag.InfoMessage = TempData["VerifyEmail_Info"] as string;
+            return View(new VerifyEmailVM { Email = email ?? string.Empty });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerifyEmail(VerifyEmailVM model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            var result = await _accountService.VerifyEmailAsync(model.Email, model.Code);
+            if (!result.IsSuccess)
+            {
+                ModelState.AddModelError(nameof(model.Code), result.Message ?? "");
+                return View(model);
+            }
+            NotifySuccessLocalized(result.Message);
+            return RedirectToAction(nameof(SignIn));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResendEmailConfirmation(string email)
+        {
+            var result = await _accountService.SendEmailConfirmationCodeAsync(email);
+            if (result.IsSuccess)
+                NotifySuccessLocalized(result.Message);
+            else
+                NotifyErrorLocalized(result.Message);
+            return RedirectToAction(nameof(VerifyEmail), new { email });
+        }
+
+        [HttpGet]
         public IActionResult SignUp() => View(new SignUpVM());
 
         [HttpPost]
@@ -143,7 +183,7 @@ namespace App.Web.Controllers
             }
 
             NotifySuccessLocalized(result.Message);
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction(nameof(VerifyEmail), new { email = model.Email });
         }
 
         [HttpGet]

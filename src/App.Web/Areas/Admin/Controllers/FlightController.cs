@@ -206,7 +206,7 @@ namespace App.Web.Areas.Admin.Controllers
                 EditId    = editId,
                 Aircraft  = aircraft,
                 Schedules = schedules,
-                Form      = new FlightAddVM { DepartureTime = DateTime.Now.AddDays(1), ArrivalTime = DateTime.Now.AddDays(1).AddHours(2) }
+                Form      = new FlightAddVM { DepartureTime = DateTime.Today.AddDays(1).AddHours(9), ArrivalTime = DateTime.Today.AddDays(1).AddHours(11) }
             };
         }
     }

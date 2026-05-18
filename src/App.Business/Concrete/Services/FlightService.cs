@@ -132,7 +132,9 @@ namespace App.Business.Concrete.Services
 
                         var saved = await _flightRepository.IncludeGetByIdAsync(flight.Id, tracking: false);
                         _logger.LogInformation("{Message} Number: {Number}", _localizer[Messages.Flight_HasBeen_Added].Value, dto.Number);
-                        result = new SuccessDataResult<FlightDto>(saved.Adapt<FlightDto>(), _localizer[Messages.Flight_HasBeen_Added]);
+                        result = saved is null
+                            ? new ErrorDataResult<FlightDto>(_localizer[Messages.UnexpectedError])
+                            : new SuccessDataResult<FlightDto>(saved.Adapt<FlightDto>(), _localizer[Messages.Flight_HasBeen_Added]);
                     }
                     catch (Exception ex)
                     {

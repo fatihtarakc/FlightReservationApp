@@ -14,6 +14,9 @@ namespace App.Web.Constants
         public const string Account_ResetPassword_Successful = nameof(Account_ResetPassword_Successful);
         public const string Account_ForgotPassword_Successful = nameof(Account_ForgotPassword_Successful);
         public const string Account_Was_Not_Found = nameof(Account_Was_Not_Found);
+        public const string Account_Email_Has_Not_Confirmed = nameof(Account_Email_Has_Not_Confirmed);
+        public const string Account_ConfirmEmail_Successful = nameof(Account_ConfirmEmail_Successful);
+        public const string Account_ResendCode_Successful = nameof(Account_ResendCode_Successful);
         #endregion
 
         #region AppUser

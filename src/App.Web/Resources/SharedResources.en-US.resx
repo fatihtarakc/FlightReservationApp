@@ -1797,4 +1797,31 @@
   <data name="Day_Sun" xml:space="preserve">
     <value>Sun</value>
   </data>
+  <data name="Account_Email_Has_Not_Confirmed" xml:space="preserve">
+    <value>Your email address is not yet confirmed. Please check your inbox.</value>
+  </data>
+  <data name="Account_ConfirmEmail_Successful" xml:space="preserve">
+    <value>Your email address has been successfully confirmed. You can now sign in.</value>
+  </data>
+  <data name="Account_ResendCode_Successful" xml:space="preserve">
+    <value>Verification code has been sent to your email address.</value>
+  </data>
+  <data name="Account_VerifyEmail" xml:space="preserve">
+    <value>Email Verification</value>
+  </data>
+  <data name="Account_VerifyEmail_Subtitle" xml:space="preserve">
+    <value>Enter the 6-digit code sent to your email address.</value>
+  </data>
+  <data name="Account_VerifyEmail_Btn" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="Account_CodeNotReceived" xml:space="preserve">
+    <value>Didn't receive the code?</value>
+  </data>
+  <data name="Account_ResendCode" xml:space="preserve">
+    <value>Resend</value>
+  </data>
+  <data name="Account_BackToSignIn" xml:space="preserve">
+    <value>Back to sign in</value>
+  </data>
 </root>

@@ -50,6 +50,14 @@
             var result = await _appUserService.SetStatusAsync(id, dto.IsActive);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpPost("{id:guid}/confirm-email")]
+        [Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> ConfirmEmail(Guid id)
+        {
+            var result = await _appUserService.ConfirmEmailAsync(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }
 
