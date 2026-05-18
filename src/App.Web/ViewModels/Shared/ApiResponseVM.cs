@@ -1,11 +1,6 @@
 ﻿namespace App.Web.ViewModels.Shared
 {
-    public class HomePageVM
-    {
-        public List<FlightVM> RecentFlights { get; set; } = new();
-        public List<RouteVM> PopularRoutes { get; set; } = new();
-        public List<AirportVM> Airports { get; set; } = new();
-    }
+    public class HomePageVM { }
 
     public class ApiResponseVM<T>
     {

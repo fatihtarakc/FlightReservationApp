@@ -107,9 +107,25 @@ namespace App.Web.Services
         {
             try
             {
+                var payload = new
+                {
+                    Number                  = model.FlightNumber,
+                    DepartureDateTime       = model.DepartureTime,
+                    ArrivalDateTime         = model.ArrivalTime,
+                    BaseEconomyPrice        = model.EconomyPrice,
+                    BasePremiumEconomyPrice = model.PremiumEconomyPrice ?? 0m,
+                    BaseBusinessPrice       = model.BusinessPrice ?? 0m,
+                    BaseFirstClassPrice     = model.FirstClassPrice ?? 0m,
+                    Currency                = model.Currency,
+                    Gate                    = model.Gate,
+                    Terminal                = model.Terminal,
+                    AircraftId              = model.AircraftId,
+                    AirlineId               = model.AirlineId,
+                    ScheduleId              = model.ScheduleId
+                };
                 var req = new HttpRequestMessage(HttpMethod.Post, "api/Flight")
                 {
-                    Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json")
+                    Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json")
                 };
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
@@ -131,9 +147,19 @@ namespace App.Web.Services
         {
             try
             {
+                var payload = new
+                {
+                    BaseEconomyPrice        = model.EconomyPrice,
+                    BasePremiumEconomyPrice = model.PremiumEconomyPrice ?? 0m,
+                    BaseBusinessPrice       = model.BusinessPrice ?? 0m,
+                    BaseFirstClassPrice     = model.FirstClassPrice ?? 0m,
+                    FlightStatus            = FlightStatus.Scheduled,
+                    Gate                    = model.Gate,
+                    Terminal                = model.Terminal
+                };
                 var req = new HttpRequestMessage(HttpMethod.Put, $"api/Flight/{id}")
                 {
-                    Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json")
+                    Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json")
                 };
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
@@ -155,9 +181,10 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, $"api/Flight/{id}/cancel");
-                if (!string.IsNullOrEmpty(reason))
-                    req.Content = new StringContent(JsonSerializer.Serialize(new { reason }), Encoding.UTF8, "application/json");
+                var url = string.IsNullOrEmpty(reason)
+                    ? $"api/Flight/{id}/cancel"
+                    : $"api/Flight/{id}/cancel?reason={Uri.EscapeDataString(reason)}";
+                var req = new HttpRequestMessage(HttpMethod.Post, url);
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();

@@ -44,7 +44,9 @@
         public FlightStatus Status { get; set; }
 
         public int AvailableEconomySeats { get; set; }
+        public int AvailablePremiumEconomySeats { get; set; }
         public int AvailableBusinessSeats { get; set; }
+        public int AvailableFirstClassSeats { get; set; }
 
         public int DurationMinutes => (int)(ArrivalTime - DepartureTime).TotalMinutes;
         public string DurationFormatted => $"{DurationMinutes / 60}s {DurationMinutes % 60}dk";

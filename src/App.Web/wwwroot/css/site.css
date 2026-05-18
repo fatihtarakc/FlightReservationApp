@@ -69,16 +69,33 @@ body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
 .alert-floating { position: fixed; top: 80px; right: 20px; z-index: 9999; min-width: 300px; animation: slideIn .3s ease; }
 @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-/* Seat map */
-.seat-map { display: grid; gap: 4px; }
-.seat-btn { width: 36px; height: 36px; border-radius: 6px; border: 2px solid; font-size: .7rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s; }
-.seat-available { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; }
-.seat-occupied { background: #ffebee; border-color: #ef9a9a; color: #b71c1c; cursor: not-allowed; }
-.seat-selected { background: var(--primary); border-color: var(--primary); color: #fff; }
-.seat-business { background: #e3f2fd; border-color: #1565c0; color: #1565c0; }
-.seat-first { background: #fff8e1; border-color: #f57f17; color: #e65100; }
-.seat-legend-icon { width: 28px; height: 28px; }
+/* Seat buttons */
+.seat-btn { width: 32px; height: 32px; border-radius: 6px; border: 2px solid; font-size: .62rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform .15s; flex-shrink: 0; }
+.seat-btn:not(:disabled):hover { transform: scale(1.15); }
+.seat-available  { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; }
+.seat-occupied   { background: #eceff1; border-color: #b0bec5; color: #90a4ae; cursor: not-allowed; }
+.seat-selected   { background: var(--primary); border-color: var(--primary); color: #fff; }
+.seat-business   { background: #e3f2fd; border-color: #1565c0; color: #1565c0; }
+.seat-first      { background: #fff8e1; border-color: #f57f17; color: #e65100; }
+.seat-premium    { background: #f3e5f5; border-color: #7b1fa2; color: #6a1b9a; }
+.seat-legroom    { border-style: dashed !important; }
+.seat-legend-icon { width: 26px; height: 26px; }
 .selected-seat-panel { background: #f8f9fa; border: 2px solid var(--primary); }
+
+/* Airplane seat map */
+.plane-map-wrap  { max-width: 600px; margin: 0 auto; }
+.plane-nose      { width: 44%; height: 56px; margin: 0 auto; background: #f1f3f5; border: 2px solid #ced4da; border-bottom: none; border-radius: 50% 50% 0 0 / 100% 100% 0 0; }
+.plane-tail      { width: 44%; height: 44px; margin: 0 auto; background: #f1f3f5; border: 2px solid #ced4da; border-top: none;    border-radius: 0 0 50% 50% / 0 0 100% 100%; }
+.plane-cabin     { border-left: 2px solid #ced4da; border-right: 2px solid #ced4da; background: #fff; padding: 10px 14px 14px; overflow-x: auto; }
+.smap-row        { display: flex; align-items: center; justify-content: center; gap: 3px; margin-bottom: 3px; }
+.smap-row-num    { width: 22px; text-align: right; font-size: .63rem; color: #adb5bd; flex-shrink: 0; padding-right: 3px; }
+.smap-col-lbl   { width: 32px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: .65rem; font-weight: 700; color: #6c757d; }
+.smap-group      { display: flex; gap: 3px; }
+.smap-aisle      { width: 20px; flex-shrink: 0; position: relative; }
+.smap-aisle::after { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: #dee2e6; border-left: 1px dashed #ced4da; }
+.smap-empty      { width: 32px; height: 32px; visibility: hidden; flex-shrink: 0; }
+.smap-divider    { display: flex; align-items: center; gap: 6px; margin: 10px 0 5px; font-size: .65rem; font-weight: 700; white-space: nowrap; }
+.smap-divider::before, .smap-divider::after { content: ''; flex: 1; height: 1px; background: currentColor; opacity: .3; }
 
 /* Color utilities */
 .text-primary-color { color: var(--primary) !important; }
@@ -154,12 +171,15 @@ body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
 .airport-item-iata { font-size: .75rem; color: #999; margin-top: 1px; }
 
 /* ── Page Loader ── */
-#pageLoader { position: fixed; inset: 0; z-index: 99999; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity .35s ease, visibility .35s ease; }
+#pageLoader { position: fixed; inset: 0; z-index: 99999; background: rgba(15,20,40,.45); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); display: flex; align-items: center; justify-content: center; transition: opacity .4s ease, visibility .4s ease; }
 #pageLoader.loader-hide { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader-brand { font-size: 1.4rem; font-weight: 800; color: #1a1a2e; margin-bottom: 28px; letter-spacing: 1px; }
+.loader-circle { width: 240px; height: 240px; border-radius: 50%; background: #1a1a2e; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 8px 48px rgba(0,0,0,.45); }
+.loader-brand { font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 26px; letter-spacing: 1px; }
+.loader-brand i { color: #fff; }
 .loader-brand span { color: #c8102e; }
-.loader-runway { position: relative; width: 220px; height: 4px; background: #e9ecef; border-radius: 2px; }
+.loader-runway { position: relative; width: 160px; height: 4px; background: rgba(255,255,255,.2); border-radius: 2px; }
 .loader-bar { position: absolute; inset: 0; background: #c8102e; border-radius: 2px; transform-origin: left; animation: loaderBar 1.4s ease-in-out infinite; }
-.loader-plane-icon { position: absolute; top: -11px; left: 0; font-size: 1.15rem; color: #c8102e; animation: loaderFly 1.4s ease-in-out infinite; }
+.loader-plane-icon { position: absolute; top: -11px; left: 0; font-size: 1.15rem; color: #fff; animation: loaderFly 1.4s ease-in-out infinite; }
 @keyframes loaderFly { 0% { left: 0; } 100% { left: calc(100% - 18px); } }
 @keyframes loaderBar { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
+@keyframes skeletonPulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }

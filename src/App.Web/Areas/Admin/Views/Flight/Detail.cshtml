@@ -1,0 +1,114 @@
+@model FlightVM
+
+<div class="admin-card">
+    <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-plane me-2"></i>@L["Flight_Detail"]</span>
+        <div class="d-flex gap-2">
+            @if (Model.Status != FlightStatus.Arrived)
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-edit me-1"></i>@L["Btn_Edit"]
+                </a>
+            }
+            <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i>@L["Btn_Back"]
+            </a>
+        </div>
+    </div>
+
+    <div class="p-4 border-bottom bg-light">
+        <div class="d-flex align-items-center justify-content-center gap-5">
+            <div class="text-center">
+                <div class="display-4 fw-bold text-danger">@Model.OriginIata</div>
+                <div class="text-muted">@Model.OriginCity</div>
+                <div class="mt-1 fw-semibold">@Model.DepartureTime.ToString("dd.MM.yyyy")</div>
+                <div class="fs-5">@Model.DepartureTime.ToString("HH:mm")</div>
+            </div>
+            <div class="text-center px-4">
+                <div class="text-muted small mb-1"><strong class="text-danger fs-5">@Model.FlightNumber</strong></div>
+                <i class="fas fa-long-arrow-alt-right fa-3x text-muted"></i>
+                <div class="mt-1">
+                    @{
+                        var sc = Model.Status switch {
+                            FlightStatus.Scheduled => "status-scheduled",
+                            FlightStatus.Boarding  => "status-boarding",
+                            FlightStatus.Departed  => "status-departed",
+                            FlightStatus.Delayed   => "status-delayed",
+                            FlightStatus.Cancelled => "status-cancelled",
+                            FlightStatus.Arrived   => "status-arrived",
+                            _                      => "status-scheduled"
+                        };
+                    }
+                    <span class="status-badge @sc">@L["Status_" + Model.Status.ToString()]</span>
+                </div>
+                <div class="text-muted small mt-1">@Model.DurationFormatted</div>
+            </div>
+            <div class="text-center">
+                <div class="display-4 fw-bold text-danger">@Model.DestinationIata</div>
+                <div class="text-muted">@Model.DestinationCity</div>
+                <div class="mt-1 fw-semibold">@Model.ArrivalTime.ToString("dd.MM.yyyy")</div>
+                <div class="fs-5">@Model.ArrivalTime.ToString("HH:mm")</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-4">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3">
+                    <h6 class="text-danger mb-3 pb-2 border-bottom"><i class="fas fa-tag me-2"></i>@L["Flight_Pricing"]</h6>
+                    <table class="table table-sm table-borderless mb-0">
+                        <tr>
+                            <td class="text-muted fw-semibold">@L["Flight_Economy"]</td>
+                            <td class="fw-bold">₺@Model.EconomyPrice.ToString("N0")</td>
+                        </tr>
+                        @if (Model.PremiumEconomyPrice.HasValue)
+                        {
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Flight_PremiumEconomy"]</td>
+                                <td class="fw-bold">₺@Model.PremiumEconomyPrice.Value.ToString("N0")</td>
+                            </tr>
+                        }
+                        @if (Model.BusinessPrice.HasValue)
+                        {
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Flight_Business"]</td>
+                                <td class="fw-bold">₺@Model.BusinessPrice.Value.ToString("N0")</td>
+                            </tr>
+                        }
+                        @if (Model.FirstClassPrice.HasValue)
+                        {
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Flight_First"]</td>
+                                <td class="fw-bold">₺@Model.FirstClassPrice.Value.ToString("N0")</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3">
+                    <h6 class="text-danger mb-3 pb-2 border-bottom"><i class="fas fa-info-circle me-2"></i>@L["Flight_Info"]</h6>
+                    <table class="table table-sm table-borderless mb-0">
+                        <tr>
+                            <td class="text-muted fw-semibold" style="width:50%">@L["Flight_Number"]</td>
+                            <td><strong class="text-danger">@Model.FlightNumber</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted fw-semibold">@L["Flight_Aircraft"]</td>
+                            <td>@Model.AircraftModel</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted fw-semibold">@L["Flight_Duration"]</td>
+                            <td>@Model.DurationFormatted</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted fw-semibold">@L["Label_Status"]</td>
+                            <td><span class="status-badge @sc">@L["Status_" + Model.Status.ToString()]</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

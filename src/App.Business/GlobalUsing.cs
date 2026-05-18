@@ -3,6 +3,7 @@ global using App.Business.Concrete.Services;
 global using App.Cache.Extensions;
 global using App.Cache.Services.Abstract;
 global using App.Core.Constants;
+global using App.Core.Enums;
 global using App.Core.Resources;
 global using App.Core.UnitOfWorks.Interfaces;
 global using App.Core.Utilities.Results.Abstract;

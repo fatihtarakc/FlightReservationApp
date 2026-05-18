@@ -56,18 +56,28 @@ namespace App.Queue.Consumers
 
             var body = $@"<!DOCTYPE html>
 <html>
-<head><meta charset=""utf-8""><meta name=""viewport"" content=""width=device-width, initial-scale=1.0""></head>
-<body style=""font-family:Arial,sans-serif;background-color:#f4f4f4;margin:0;padding:20px;"">
-  <div style=""max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1);"">
+<head>
+  <meta charset=""utf-8""><meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+  <style>
+    @media screen and (max-width:600px) {{
+      .email-body {{ padding:8px !important; }}
+      .email-wrap {{ border-radius:0 !important; }}
+      .email-content {{ padding:20px 16px !important; }}
+      .code-box {{ font-size:28px !important; letter-spacing:6px !important; padding:16px 20px !important; }}
+    }}
+  </style>
+</head>
+<body class=""email-body"" style=""font-family:Arial,sans-serif;background-color:#f4f4f4;margin:0;padding:20px;"">
+  <div class=""email-wrap"" style=""max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1);"">
     <div style=""background-color:#003580;padding:30px;text-align:center;"">
       <h1 style=""color:#ffffff;margin:0;font-size:24px;"">&#9992; Flight Reservation</h1>
       <p style=""color:#a8c4e0;margin:8px 0 0;"">{_localizer[Messages.Email_VerificationCode_HeaderSubtitle]}</p>
     </div>
-    <div style=""padding:30px;"">
+    <div class=""email-content"" style=""padding:30px;"">
       <h2 style=""color:#003580;"">{purposeLabel}</h2>
       <p style=""color:#555;line-height:1.7;"">{dear} {message.Name}, {_localizer[Messages.Email_VerificationCode_Intro]}</p>
       <div style=""text-align:center;margin:30px 0;"">
-        <span style=""display:inline-block;background-color:#e8f0fe;color:#003580;font-size:36px;font-weight:bold;letter-spacing:12px;padding:20px 30px;border-radius:8px;border:2px solid #003580;"">{message.Code}</span>
+        <span class=""code-box"" style=""display:inline-block;background-color:#e8f0fe;color:#003580;font-size:36px;font-weight:bold;letter-spacing:12px;padding:20px 30px;border-radius:8px;border:2px solid #003580;"">{message.Code}</span>
       </div>
       <div style=""padding:14px;background-color:#fff3cd;border-radius:4px;border-left:4px solid #ffc107;"">
         <p style=""margin:0;color:#856404;font-size:13px;"">&#9888; {_localizer[Messages.Email_VerificationCode_Warning]}</p>

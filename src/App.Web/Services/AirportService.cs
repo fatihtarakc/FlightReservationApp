@@ -54,8 +54,15 @@ namespace App.Web.Services
         {
             try
             {
+                var payload = new
+                {
+                    model.Name, model.IataCode, model.IcaoCode,
+                    model.City, model.Country,
+                    TimeZone  = model.Timezone,
+                    model.Latitude, model.Longitude
+                };
                 var req = new HttpRequestMessage(HttpMethod.Post, "api/Airport")
-                { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
+                { Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json") };
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();
@@ -76,8 +83,15 @@ namespace App.Web.Services
         {
             try
             {
+                var payload = new
+                {
+                    model.Name, model.IataCode, model.IcaoCode,
+                    model.City, model.Country,
+                    TimeZone  = model.Timezone,
+                    model.Latitude, model.Longitude
+                };
                 var req = new HttpRequestMessage(HttpMethod.Put, $"api/Airport/{id}")
-                { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
+                { Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json") };
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();

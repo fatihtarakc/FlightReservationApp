@@ -1,0 +1,132 @@
+@model BookingVM
+
+<div class="admin-card">
+    <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-ticket-alt me-2"></i>@L["Booking_Detail"]</span>
+        <div class="d-flex gap-2">
+            @if (Model.Status != BookingStatus.Cancelled)
+            {
+                <button type="button" class="btn btn-sm btn-outline-warning confirm-action-btn"
+                        data-action-url="@Url.Action("Cancel", new { id = Model.Id })"
+                        data-confirm-msg="@L["Confirm_Cancel"]">
+                    <i class="fas fa-ban me-1"></i>@L["Booking_Cancel"]
+                </button>
+            }
+            <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i>@L["Btn_Back"]
+            </a>
+        </div>
+    </div>
+
+    <div class="p-4 border-bottom bg-light text-center">
+        <div class="display-6 fw-bold text-danger">@Model.BookingCode</div>
+        <div class="mt-2">
+            @{
+                var sc = Model.Status switch {
+                    BookingStatus.Confirmed  => "status-boarding",
+                    BookingStatus.Cancelled  => "status-cancelled",
+                    BookingStatus.Pending    => "status-delayed",
+                    BookingStatus.CheckedIn  => "status-scheduled",
+                    BookingStatus.Completed  => "status-arrived",
+                    _                        => "status-scheduled"
+                };
+            }
+            <span class="status-badge @sc">@L["Status_" + Model.Status.ToString()]</span>
+        </div>
+    </div>
+
+    <div class="p-4">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3">
+                    <h6 class="text-danger mb-3 pb-2 border-bottom"><i class="fas fa-user me-2"></i>@L["Booking_Passenger"]</h6>
+                    <table class="table table-sm table-borderless mb-0">
+                        <tr>
+                            <td class="text-muted fw-semibold" style="width:40%">@L["Label_Name"] @L["Label_Surname"]</td>
+                            <td class="fw-semibold">@Model.PassengerName</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted fw-semibold">@L["Label_Email"]</td>
+                            <td><small>@Model.PassengerEmail</small></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3">
+                    <h6 class="text-danger mb-3 pb-2 border-bottom"><i class="fas fa-plane me-2"></i>@L["Flight_Info"]</h6>
+                    <table class="table table-sm table-borderless mb-0">
+                        <tr>
+                            <td class="text-muted fw-semibold" style="width:40%">@L["Flight_Number"]</td>
+                            <td><strong class="text-danger">@Model.FlightNumber</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted fw-semibold">@L["Flight_Route"]</td>
+                            <td>
+                                <span class="badge bg-secondary">@Model.OriginIata</span>
+                                <i class="fas fa-arrow-right text-muted mx-1"></i>
+                                <span class="badge bg-secondary">@Model.DestinationIata</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted fw-semibold">@L["Flight_Departure"]</td>
+                            <td>@Model.DepartureTime.ToString("dd.MM.yyyy HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted fw-semibold">@L["Flight_Arrival"]</td>
+                            <td>@Model.ArrivalTime.ToString("dd.MM.yyyy HH:mm")</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3">
+                    <h6 class="text-danger mb-3 pb-2 border-bottom"><i class="fas fa-chair me-2"></i>@L["Booking_Seat"]</h6>
+                    <table class="table table-sm table-borderless mb-0">
+                        <tr>
+                            <td class="text-muted fw-semibold" style="width:40%">@L["Booking_Seat"]</td>
+                            <td><strong>@Model.SeatNumber</strong> <small class="text-muted">(@Model.SeatClass)</small></td>
+                        </tr>
+                        @if (!string.IsNullOrEmpty(Model.BoardingPassNumber))
+                        {
+                            <tr>
+                                <td class="text-muted fw-semibold">Boarding Pass</td>
+                                <td><code>@Model.BoardingPassNumber</code></td>
+                            </tr>
+                        }
+                        @if (Model.CheckInTime.HasValue)
+                        {
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Booking_CheckIn"]</td>
+                                <td>@Model.CheckInTime.Value.ToString("dd.MM.yyyy HH:mm")</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3">
+                    <h6 class="text-danger mb-3 pb-2 border-bottom"><i class="fas fa-receipt me-2"></i>@L["Booking_TotalPrice"]</h6>
+                    <table class="table table-sm table-borderless mb-0">
+                        <tr>
+                            <td class="text-muted fw-semibold" style="width:40%">@L["Booking_TotalPrice"]</td>
+                            <td><strong class="fs-5 text-success">₺@Model.TotalPrice.ToString("N0")</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted fw-semibold">@L["Booking_Date"]</td>
+                            <td>@Model.BookingDate.ToString("dd.MM.yyyy HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted fw-semibold">@L["Booking_Code"]</td>
+                            <td><strong class="text-danger">@Model.BookingCode</strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="actionForm" method="post" class="d-none">
+    @Html.AntiForgeryToken()
+</form>

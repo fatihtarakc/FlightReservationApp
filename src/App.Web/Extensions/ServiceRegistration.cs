@@ -25,8 +25,16 @@ namespace App.Web.Extensions
             {
                 client.BaseAddress = new Uri(apiBaseUrl);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.Timeout = TimeSpan.FromSeconds(30);
+                client.Timeout = TimeSpan.FromSeconds(120);
             }).AddHttpMessageHandler<CultureDelegatingHandler>();
+
+            services.AddHttpClient("PexelsClient", client =>
+            {
+                client.BaseAddress = new Uri("https://api.pexels.com/");
+                client.DefaultRequestHeaders.Add("Authorization", configuration["Pexels:ApiKey"] ?? string.Empty);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.Timeout = TimeSpan.FromSeconds(10);
+            });
 
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IFlightService, FlightService>();
@@ -36,6 +44,7 @@ namespace App.Web.Extensions
             services.AddScoped<IAircraftService, AircraftService>();
             services.AddScoped<IAirportService, AirportService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IScheduleService, ScheduleService>();
 
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<Program>();

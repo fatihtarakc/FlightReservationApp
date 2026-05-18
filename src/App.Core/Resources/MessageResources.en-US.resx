@@ -88,6 +88,10 @@
   <data name="AppUser_Was_Found"><value>User found.</value></data>
   <data name="AppUser_Was_Updated"><value>User updated successfully.</value></data>
   <data name="AppUser_Could_Not_Be_Updated"><value>User could not be updated.</value></data>
+  <data name="AppUser_Was_Activated"><value>User account has been activated.</value></data>
+  <data name="AppUser_Was_Deactivated"><value>User account has been deactivated.</value></data>
+  <data name="Password_ChangeSuccess"><value>Your password has been changed successfully.</value></data>
+  <data name="Password_ChangeFailed"><value>Password could not be changed. Please check your current password.</value></data>
 
   <!-- Airline -->
   <data name="Airline_Was_Not_Found"><value>Airline not found.</value></data>

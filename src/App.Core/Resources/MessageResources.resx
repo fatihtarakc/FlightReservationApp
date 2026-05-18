@@ -82,6 +82,10 @@
   <data name="AppUser_Was_Found"><value>Kullanıcı bulundu.</value></data>
   <data name="AppUser_Was_Updated"><value>Kullanıcı başarıyla güncellendi.</value></data>
   <data name="AppUser_Could_Not_Be_Updated"><value>Kullanıcı güncellenemedi.</value></data>
+  <data name="AppUser_Was_Activated"><value>Kullanıcı hesabı aktif edildi.</value></data>
+  <data name="AppUser_Was_Deactivated"><value>Kullanıcı hesabı pasife alındı.</value></data>
+  <data name="Password_ChangeSuccess"><value>Şifreniz başarıyla değiştirildi.</value></data>
+  <data name="Password_ChangeFailed"><value>Şifre değiştirilemedi. Mevcut şifrenizi kontrol edin.</value></data>
   <!-- Airline -->
   <data name="Airline_Was_Not_Found"><value>Havayolu bulunamadı.</value></data>
   <data name="Airline_Was_Found"><value>Havayolu bulundu.</value></data>

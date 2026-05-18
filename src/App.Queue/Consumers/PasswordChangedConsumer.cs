@@ -49,20 +49,33 @@ namespace App.Queue.Consumers
 
             var body = $@"<!DOCTYPE html>
 <html>
-<head><meta charset=""utf-8""><meta name=""viewport"" content=""width=device-width, initial-scale=1.0""></head>
-<body style=""font-family:Arial,sans-serif;background-color:#f4f4f4;margin:0;padding:20px;"">
-  <div style=""max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1);"">
+<head>
+  <meta charset=""utf-8""><meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+  <style>
+    @media screen and (max-width:600px) {{
+      .email-body {{ padding:8px !important; }}
+      .email-wrap {{ border-radius:0 !important; }}
+      .email-content {{ padding:20px 16px !important; }}
+      .info-table .lbl,
+      .info-table .val {{ display:block !important; text-align:left !important; padding:2px 0 !important; }}
+      .info-table .lbl {{ font-size:11px; color:#888 !important; }}
+      .info-table .val {{ padding-bottom:8px !important; word-break:break-word; }}
+    }}
+  </style>
+</head>
+<body class=""email-body"" style=""font-family:Arial,sans-serif;background-color:#f4f4f4;margin:0;padding:20px;"">
+  <div class=""email-wrap"" style=""max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1);"">
     <div style=""background-color:#003580;padding:30px;text-align:center;"">
       <h1 style=""color:#ffffff;margin:0;font-size:24px;"">&#9992; Flight Reservation</h1>
       <p style=""color:#a8c4e0;margin:8px 0 0;"">{_localizer[Messages.Email_PasswordChanged_HeaderSubtitle]}</p>
     </div>
-    <div style=""padding:30px;"">
+    <div class=""email-content"" style=""padding:30px;"">
       <h2 style=""color:#003580;"">{_localizer[Messages.Email_PasswordChanged_Heading]}</h2>
       <p style=""color:#555;line-height:1.7;"">{dear} {message.Name}, {_localizer[Messages.Email_PasswordChanged_Intro]}</p>
       <div style=""margin:20px 0;padding:20px;background-color:#f0f5ff;border-radius:6px;border:1px solid #d0e4ff;"">
-        <table style=""width:100%;border-collapse:collapse;"">
-          <tr><td style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_Email]}</td><td style=""color:#222;font-weight:bold;text-align:right;"">{message.Email}</td></tr>
-          <tr><td style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_OperationTime]}</td><td style=""color:#222;font-weight:bold;text-align:right;"">{changedAtFormatted}</td></tr>
+        <table class=""info-table"" style=""width:100%;border-collapse:collapse;"">
+          <tr><td class=""lbl"" style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_Email]}</td><td class=""val"" style=""color:#222;font-weight:bold;text-align:right;word-break:break-word;"">{message.Email}</td></tr>
+          <tr><td class=""lbl"" style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_OperationTime]}</td><td class=""val"" style=""color:#222;font-weight:bold;text-align:right;"">{changedAtFormatted}</td></tr>
         </table>
       </div>
       <div style=""padding:16px;background-color:#fff3cd;border-radius:4px;border-left:4px solid #ffc107;"">

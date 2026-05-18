@@ -8,13 +8,13 @@
         </a>
     </div>
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table table-hover align-middle mb-0 admin-sortable">
             <thead class="table-dark">
                 <tr>
-                    <th>@L["Aircraft_Registration"]</th>
-                    <th>@L["Aircraft_ModelManufacturer"]</th>
-                    <th>@L["Aircraft_ManufactureYear"]</th>
-                    <th>@L["Label_Status"]</th>
+                    <th data-col="0">@L["Aircraft_Registration"]</th>
+                    <th data-col="1">@L["Aircraft_ModelManufacturer"]</th>
+                    <th data-col="2">@L["Aircraft_ManufactureYear"]</th>
+                    <th data-col="3">@L["Label_Status"]</th>
                     <th class="text-center">@L["Label_Actions"]</th>
                 </tr>
             </thead>
@@ -23,7 +23,7 @@
                 {
                     @foreach (var a in Model.Aircraft)
                     {
-                        <tr>
+                        <tr data-href="@Url.Action("Detail", new { id = a.Id })">
                             <td><strong class="text-danger">@a.RegistrationNumber</strong></td>
                             <td>
                                 @a.Model<br />
@@ -46,13 +46,11 @@
                                     <a asp-action="Edit" asp-route-id="@a.Id" class="btn btn-outline-primary" title="@L["Btn_Edit"]">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form asp-action="Delete" asp-route-id="@a.Id" method="post" class="d-inline"
-                                          onsubmit="return confirm('@L["Confirm_Delete"]')">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-outline-danger" title="@L["Btn_Delete"]">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-outline-danger confirm-action-btn" title="@L["Btn_Delete"]"
+                                            data-action-url="@Url.Action("Delete", new { id = a.Id })"
+                                            data-confirm-msg="@L["Confirm_Delete"]">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -68,3 +66,11 @@
         </table>
     </div>
 </div>
+
+<form id="actionForm" method="post" class="d-none">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <script src="~/js/admin-table.js"></script>
+}

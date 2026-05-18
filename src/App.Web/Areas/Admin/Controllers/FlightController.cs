@@ -9,17 +9,20 @@ namespace App.Web.Areas.Admin.Controllers
     {
         private readonly IFlightService _flightService;
         private readonly IAircraftService _aircraftService;
+        private readonly IScheduleService _scheduleService;
         private readonly IRouteService _routeService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly IStringLocalizer<SharedResources> _localizer;
 
         public FlightController(IFlightService flightService, IAircraftService aircraftService,
-            IRouteService routeService, IHttpContextAccessor httpContextAccessor, IMapper mapper,
+            IScheduleService scheduleService, IRouteService routeService,
+            IHttpContextAccessor httpContextAccessor, IMapper mapper,
             IStringLocalizer<SharedResources> localizer)
         {
             _flightService = flightService;
             _aircraftService = aircraftService;
+            _scheduleService = scheduleService;
             _routeService = routeService;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
@@ -52,6 +55,18 @@ namespace App.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            var result = await _flightService.GetByIdAsync(id);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                NotifyErrorLocalized(result.Message);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(result.Data);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
             var pageVm = await BuildFormPageVm(null);
@@ -64,6 +79,7 @@ namespace App.Web.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                NotifyValidationErrors();
                 var filled = await BuildFormPageVm(null);
                 filled.Form = model.Form;
                 return View(filled);
@@ -71,8 +87,11 @@ namespace App.Web.Areas.Admin.Controllers
             var result = await _flightService.AddAsync(model.Form, Token!);
             if (!result.IsSuccess)
             {
+                ModelState.AddModelError(string.Empty, result.Message);
                 NotifyErrorLocalized(result.Message);
-                return RedirectToAction(nameof(Index));
+                var filled = await BuildFormPageVm(null);
+                filled.Form = model.Form;
+                return View(filled);
             }
             NotifySuccessLocalized(result.Message);
             return RedirectToAction(nameof(Index));
@@ -89,7 +108,17 @@ namespace App.Web.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             var pageVm = await BuildFormPageVm(id);
-            pageVm.Form = _mapper.Map<FlightAddVM>(result.Data!);
+            var f = result.Data!;
+            pageVm.Form = new FlightAddVM
+            {
+                FlightNumber        = f.FlightNumber,
+                DepartureTime       = f.DepartureTime,
+                ArrivalTime         = f.ArrivalTime,
+                EconomyPrice        = f.EconomyPrice,
+                PremiumEconomyPrice = f.PremiumEconomyPrice,
+                BusinessPrice       = f.BusinessPrice,
+                FirstClassPrice     = f.FirstClassPrice
+            };
             return View(pageVm);
         }
 
@@ -105,6 +134,7 @@ namespace App.Web.Areas.Admin.Controllers
             }
             if (!ModelState.IsValid)
             {
+                NotifyValidationErrors();
                 var filled = await BuildFormPageVm(id);
                 filled.Form = model.Form;
                 return View(filled);
@@ -157,14 +187,26 @@ namespace App.Web.Areas.Admin.Controllers
 
         private async Task<AdminFlightFormPageVM> BuildFormPageVm(Guid? editId)
         {
-            var aircraftResult = await _aircraftService.GetAllAsync();
-            var routesResult = await _routeService.GetAllAsync();
+            var aircraftTask  = _aircraftService.GetAllAsync();
+            var scheduleTask  = _scheduleService.GetAllAsync();
+            var routeTask     = _routeService.GetAllAsync();
+            await Task.WhenAll(aircraftTask, scheduleTask, routeTask);
+
+            var aircraft  = (await aircraftTask).IsSuccess ? (await aircraftTask).Data ?? new() : new();
+            var schedules = await scheduleTask;
+            var routes    = (await routeTask).IsSuccess ? (await routeTask).Data ?? new() : new();
+
+            var durationMap = routes.ToDictionary(r => r.Id, r => r.DurationMinutes);
+            foreach (var s in schedules)
+                if (durationMap.TryGetValue(s.RouteId, out var dur))
+                    s.DurationMinutes = dur;
+
             return new AdminFlightFormPageVM
             {
-                EditId = editId,
-                Aircraft = aircraftResult.IsSuccess ? aircraftResult.Data ?? new() : new(),
-                Routes = routesResult.IsSuccess ? routesResult.Data ?? new() : new(),
-                Form = new FlightAddVM { DepartureTime = DateTime.Now.AddDays(1), ArrivalTime = DateTime.Now.AddDays(1).AddHours(2) }
+                EditId    = editId,
+                Aircraft  = aircraft,
+                Schedules = schedules,
+                Form      = new FlightAddVM { DepartureTime = DateTime.Now.AddDays(1), ArrivalTime = DateTime.Now.AddDays(1).AddHours(2) }
             };
         }
     }

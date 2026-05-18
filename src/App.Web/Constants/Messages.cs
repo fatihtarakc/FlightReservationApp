@@ -118,6 +118,7 @@ namespace App.Web.Constants
         public const string Val_ModelId_Required          = nameof(Val_ModelId_Required);
         public const string Val_AircraftId_Required       = nameof(Val_AircraftId_Required);
         public const string Val_RouteId_Required          = nameof(Val_RouteId_Required);
+        public const string Val_ScheduleId_Required       = nameof(Val_ScheduleId_Required);
         public const string Val_FlightId_Required = nameof(Val_FlightId_Required);
         public const string Val_SeatId_Required = nameof(Val_SeatId_Required);
         public const string Val_FlightNumber_Format = nameof(Val_FlightNumber_Format);

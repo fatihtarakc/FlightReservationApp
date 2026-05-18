@@ -601,56 +601,15 @@ body {
 .log-detail-pre { max-height: 400px; overflow-y: auto; }
 
 /* ── Page Loader ── */
-#pageLoader {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: opacity .35s ease, visibility .35s ease;
-}
-
+#pageLoader { position: fixed; inset: 0; z-index: 99999; background: rgba(15,20,40,.45); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); display: flex; align-items: center; justify-content: center; transition: opacity .4s ease, visibility .4s ease; }
 #pageLoader.loader-hide { opacity: 0; visibility: hidden; pointer-events: none; }
-
-.loader-brand {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--adm-primary);
-    margin-bottom: 28px;
-    letter-spacing: 1px;
-}
-
+.loader-circle { width: 240px; height: 240px; border-radius: 50%; background: #1a1a2e; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 8px 48px rgba(0,0,0,.45); }
+.loader-brand { font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 26px; letter-spacing: 1px; }
+.loader-brand i { color: #fff; }
 .loader-brand span { color: var(--adm-accent); }
-
-.loader-runway {
-    position: relative;
-    width: 220px;
-    height: 4px;
-    background: #e9ecef;
-    border-radius: 2px;
-}
-
-.loader-bar {
-    position: absolute;
-    inset: 0;
-    background: var(--adm-accent);
-    border-radius: 2px;
-    transform-origin: left;
-    animation: loaderBar 1.4s ease-in-out infinite;
-}
-
-.loader-plane-icon {
-    position: absolute;
-    top: -11px;
-    left: 0;
-    font-size: 1.15rem;
-    color: var(--adm-accent);
-    animation: loaderFly 1.4s ease-in-out infinite;
-}
-
+.loader-runway { position: relative; width: 160px; height: 4px; background: rgba(255,255,255,.2); border-radius: 2px; }
+.loader-bar { position: absolute; inset: 0; background: var(--adm-accent); border-radius: 2px; transform-origin: left; animation: loaderBar 1.4s ease-in-out infinite; }
+.loader-plane-icon { position: absolute; top: -11px; left: 0; font-size: 1.15rem; color: #fff; animation: loaderFly 1.4s ease-in-out infinite; }
 @keyframes loaderFly { 0% { left: 0; } 100% { left: calc(100% - 18px); } }
 @keyframes loaderBar  { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
 

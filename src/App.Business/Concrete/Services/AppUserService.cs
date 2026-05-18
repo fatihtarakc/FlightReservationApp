@@ -114,5 +114,30 @@ namespace App.Business.Concrete.Services
                 return new ErrorResult(_localizer[Messages.UnexpectedError]);
             }
         }
+
+        public async Task<IResult> SetStatusAsync(Guid id, bool isActive)
+        {
+            try
+            {
+                var user = await _appUserRepository.GetByIdAsync(id);
+                if (user == null)
+                    return new ErrorResult(_localizer[Messages.AppUser_Was_Not_Found]);
+
+                user.UserStatus = isActive ? UserStatus.Active : UserStatus.Suspended;
+                await _appUserRepository.UpdateAsync(user);
+                await _unitOfWork.SaveChangesAsync();
+
+                var msg = isActive
+                    ? _localizer[Messages.AppUser_Was_Activated]
+                    : _localizer[Messages.AppUser_Was_Deactivated];
+                _logger.LogInformation("{Message} UserId: {Id}", msg.Value, id);
+                return new SuccessResult(msg);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
+            }
+        }
     }
 }

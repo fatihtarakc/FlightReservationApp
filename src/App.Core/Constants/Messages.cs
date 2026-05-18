@@ -86,6 +86,10 @@ namespace App.Core.Constants
         public const string AppUser_Was_Found = "AppUser_Was_Found";
         public const string AppUser_Was_Updated = "AppUser_Was_Updated";
         public const string AppUser_Could_Not_Be_Updated = "AppUser_Could_Not_Be_Updated";
+        public const string AppUser_Was_Activated = "AppUser_Was_Activated";
+        public const string AppUser_Was_Deactivated = "AppUser_Was_Deactivated";
+        public const string Password_ChangeSuccess = "Password_ChangeSuccess";
+        public const string Password_ChangeFailed = "Password_ChangeFailed";
         #endregion
 
         #region Airline

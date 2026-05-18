@@ -17,6 +17,7 @@ global using App.Web.ViewModels.Airport;
 global using App.Web.ViewModels.Aircraft;
 global using App.Web.ViewModels.Admin;
 global using App.Web.ViewModels.Passenger;
+global using App.Web.ViewModels.Schedule;
 global using App.Web.Enums;
 global using App.Web.Helpers;
 global using App.Web.Constants;

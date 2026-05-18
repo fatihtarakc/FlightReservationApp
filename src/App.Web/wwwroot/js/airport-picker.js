@@ -14,17 +14,72 @@
 
     if (!panel || !depPicker) return;
 
-    var allAirports   = [];
-    var activeField   = null;
-    var activeCountry = null;
+    var allAirports       = [];
+    var availableArrivals = null; // null = show all; array = route-filtered
+    var activeField       = null;
+    var activeCountry     = null;
+    var defaultCountry    = (panel.dataset.defaultCountry || '').trim();
 
     var labelSelectDep = depPicker.dataset.placeholder || '—';
     var labelSelectArr = arrPicker ? (arrPicker.dataset.placeholder || '—') : '—';
 
-    fetch('/api/airports-list')
-        .then(function (r) { return r.json(); })
-        .then(function (data) { allAirports = data; })
-        .catch(function () {});
+    // ── Bootstrap airport data ───────────────────────────────────────────────
+
+    function _signalReady() {
+        document.dispatchEvent(new CustomEvent('airportsReady'));
+    }
+
+    var _retryCount = 0;
+    var _maxRetries = 5;
+    var _retryDelay = 1500;
+
+    function _fetchAirports() {
+        fetch('/api/airports-list')
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (Array.isArray(data) && data.length > 0) {
+                    allAirports = data;
+                    // If a departure IATA is already selected (e.g. from URL on /flight),
+                    // pre-load the filtered arrival list immediately.
+                    var existingDep = depInput ? depInput.value.trim() : '';
+                    if (existingDep) loadAvailableDestinations(existingDep);
+                    _signalReady();
+                } else {
+                    _scheduleRetry();
+                }
+            })
+            .catch(function () { _scheduleRetry(); });
+    }
+
+    function _scheduleRetry() {
+        if (_retryCount < _maxRetries) {
+            _retryCount++;
+            setTimeout(_fetchAirports, _retryDelay);
+        } else {
+            _signalReady();
+        }
+    }
+
+    _fetchAirports();
+
+    // ── Route-filtered destinations ──────────────────────────────────────────
+
+    function loadAvailableDestinations(originIata) {
+        if (!originIata) { availableArrivals = null; return; }
+        fetch('/api/available-destinations?origin=' + encodeURIComponent(originIata))
+            .then(function (r) { return r.json(); })
+            .then(function (data) { availableArrivals = Array.isArray(data) ? data : null; })
+            .catch(function () { availableArrivals = null; });
+    }
+
+    // ── Source list for the current field ────────────────────────────────────
+
+    function getSourceList() {
+        if (activeField === 'arrival' && availableArrivals !== null) {
+            return availableArrivals;
+        }
+        return allAirports;
+    }
 
     // ── Positioning ──────────────────────────────────────────────────────────
 
@@ -41,9 +96,10 @@
     // ── Countries ────────────────────────────────────────────────────────────
 
     function getCountries() {
+        var src  = getSourceList();
         var seen = {};
         var list = [];
-        allAirports.forEach(function (a) {
+        src.forEach(function (a) {
             if (a.country && !seen[a.country]) { seen[a.country] = true; list.push(a.country); }
         });
         return list.sort();
@@ -62,7 +118,8 @@
                     el.classList.remove('active');
                 });
                 item.classList.add('active');
-                renderAirports(allAirports.filter(function (a) { return a.country === c; }));
+                var src = getSourceList();
+                renderAirports(src.filter(function (a) { return a.country === c; }));
                 listEl.scrollTop = 0;
             });
             countryEl.appendChild(item);
@@ -96,12 +153,22 @@
         activeField = field;
         positionPanel(trigger);
         trigger.classList.add('picker-open');
+
         var countries = getCountries();
-        if (!activeCountry && countries.length) activeCountry = countries[0];
+
+        // Pick the active country: keep current if still valid, else prefer the
+        // configured default, else fall back to the first available country.
+        if (!activeCountry || countries.indexOf(activeCountry) === -1) {
+            activeCountry = countries.indexOf(defaultCountry) !== -1
+                ? defaultCountry
+                : (countries[0] || null);
+        }
+
         renderCountries(countries);
+        var src = getSourceList();
         renderAirports(activeCountry
-            ? allAirports.filter(function (a) { return a.country === activeCountry; })
-            : allAirports);
+            ? src.filter(function (a) { return a.country === activeCountry; })
+            : src);
         var activeEl = countryEl ? countryEl.querySelector('.country-item.active') : null;
         if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
         panel.style.display = 'flex';
@@ -120,8 +187,11 @@
         if (activeField === 'departure') {
             if (depInput) depInput.value = a.iataCode;
             if (depText)  { depText.textContent = a.city; depText.classList.remove('airport-placeholder'); }
+            // Reset arrival and kick off route-filtered destination fetch
             if (arrInput) arrInput.value = '';
             if (arrText)  { arrText.textContent = labelSelectArr; arrText.classList.add('airport-placeholder'); }
+            activeCountry = null; // so arrival panel re-defaults to defaultCountry
+            loadAvailableDestinations(a.iataCode);
         } else {
             if (arrInput) arrInput.value = a.iataCode;
             if (arrText)  { arrText.textContent = a.city; arrText.classList.remove('airport-placeholder'); }

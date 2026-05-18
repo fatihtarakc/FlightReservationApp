@@ -97,16 +97,16 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table table-hover align-middle mb-0 admin-sortable">
             <thead class="table-dark">
                 <tr>
-                    <th>@L["Label_Name"] @L["Label_Surname"]</th>
-                    <th>@L["Label_UsernameOrEmail"]</th>
-                    <th>@L["Account_Phone"]</th>
-                    <th>@L["Label_Role"]</th>
-                    <th>@L["Label_BookingCount"]</th>
-                    <th>@L["Label_SignUpDate"]</th>
-                    <th>@L["Label_Status"]</th>
+                    <th data-col="0">@L["Label_Name"] @L["Label_Surname"]</th>
+                    <th data-col="1">@L["Label_UsernameOrEmail"]</th>
+                    <th data-col="2">@L["Account_Phone"]</th>
+                    <th data-col="3">@L["Label_Role"]</th>
+                    <th data-col="4">@L["Label_BookingCount"]</th>
+                    <th data-col="5">@L["Label_SignUpDate"]</th>
+                    <th data-col="6">@L["Label_Status"]</th>
                     <th class="text-center">@L["Label_Actions"]</th>
                 </tr>
             </thead>
@@ -115,7 +115,7 @@
                 {
                     @foreach (var u in Model.Users)
                     {
-                        <tr>
+                        <tr data-href="@Url.Action("Detail", new { id = u.Id })">
                             <td>
                                 <div class="fw-semibold">@u.FullName</div>
                                 <small class="text-muted">@u.Email</small>
@@ -147,22 +147,19 @@
                             <td class="text-center">
                                 @if (u.IsActive)
                                 {
-                                    <form asp-action="Deactivate" asp-route-id="@u.Id" method="post" class="d-inline"
-                                          onsubmit="return confirm('@L["Confirm_Cancel"]')">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-sm btn-outline-warning" title="@L["Admin_Deactivate"]">
-                                            <i class="fas fa-user-times"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-sm btn-outline-warning confirm-action-btn" title="@L["Admin_Deactivate"]"
+                                            data-action-url="@Url.Action("Deactivate", new { id = u.Id })"
+                                            data-confirm-msg="@L["Confirm_Cancel"]">
+                                        <i class="fas fa-user-times"></i>
+                                    </button>
                                 }
                                 else
                                 {
-                                    <form asp-action="Activate" asp-route-id="@u.Id" method="post" class="d-inline">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-sm btn-outline-success" title="@L["Admin_ActivateUser"]">
-                                            <i class="fas fa-user-check"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-sm btn-outline-success confirm-action-btn" title="@L["Admin_ActivateUser"]"
+                                            data-action-url="@Url.Action("Activate", new { id = u.Id })"
+                                            data-confirm-msg="@L["Confirm_Cancel"]">
+                                        <i class="fas fa-user-check"></i>
+                                    </button>
                                 }
                             </td>
                         </tr>
@@ -180,3 +177,11 @@
         </table>
     </div>
 </div>
+
+<form id="actionForm" method="post" class="d-none">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <script src="~/js/admin-table.js"></script>
+}

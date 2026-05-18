@@ -27,18 +27,37 @@ namespace App.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            var result = await _aircraftService.GetByIdAsync(id);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                NotifyErrorLocalized(result.Message);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(result.Data);
+        }
+
+        [HttpGet]
         public IActionResult Create() => View(new AircraftAddVM());
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AircraftAddVM model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                NotifyValidationErrors();
+                return View(model);
+            }
             var result = await _aircraftService.AddAsync(model, Token!);
             if (!result.IsSuccess)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
                 NotifyErrorLocalized(result.Message);
-            else
-                NotifySuccessLocalized(result.Message);
+                return View(model);
+            }
+            NotifySuccessLocalized(result.Message);
             return RedirectToAction(nameof(Index));
         }
 
@@ -66,7 +85,7 @@ namespace App.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, AircraftUpdateVM model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid) { NotifyValidationErrors(); return View(model); }
             var result = await _aircraftService.UpdateAsync(id, model, Token!);
             if (!result.IsSuccess)
                 NotifyErrorLocalized(result.Message);

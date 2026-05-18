@@ -37,17 +37,17 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table table-hover align-middle mb-0 admin-sortable">
             <thead class="table-dark">
                 <tr>
-                    <th>@L["Booking_Code"]</th>
-                    <th>@L["Booking_Passenger"]</th>
-                    <th>@L["Flight_Number"]</th>
-                    <th>@L["Flight_Route"]</th>
-                    <th>@L["Booking_Seat"]</th>
-                    <th>@L["Booking_TotalPrice"]</th>
-                    <th>@L["Booking_Date"]</th>
-                    <th>@L["Label_Status"]</th>
+                    <th data-col="0">@L["Booking_Code"]</th>
+                    <th data-col="1">@L["Booking_Passenger"]</th>
+                    <th data-col="2">@L["Flight_Number"]</th>
+                    <th data-col="3">@L["Flight_Route"]</th>
+                    <th data-col="4">@L["Booking_Seat"]</th>
+                    <th data-col="5">@L["Booking_TotalPrice"]</th>
+                    <th data-col="6">@L["Booking_Date"]</th>
+                    <th data-col="7">@L["Label_Status"]</th>
                     <th class="text-center">@L["Label_Actions"]</th>
                 </tr>
             </thead>
@@ -56,7 +56,7 @@
                 {
                     @foreach (var b in Model.Bookings)
                     {
-                        <tr>
+                        <tr data-href="@Url.Action("Detail", new { id = b.Id })">
                             <td><strong class="text-danger">@b.BookingCode</strong></td>
                             <td>
                                 @b.PassengerName<br />
@@ -90,13 +90,11 @@
                             <td class="text-center">
                                 @if (b.Status != BookingStatus.Cancelled)
                                 {
-                                    <form asp-action="Cancel" asp-route-id="@b.Id" method="post" class="d-inline"
-                                          onsubmit="return confirm('@L["Confirm_Cancel"]')">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-sm btn-outline-warning" title="@L["Booking_Cancel"]">
-                                            <i class="fas fa-ban"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-sm btn-outline-warning confirm-action-btn" title="@L["Booking_Cancel"]"
+                                            data-action-url="@Url.Action("Cancel", new { id = b.Id })"
+                                            data-confirm-msg="@L["Confirm_Cancel"]">
+                                        <i class="fas fa-ban"></i>
+                                    </button>
                                 }
                             </td>
                         </tr>
@@ -112,3 +110,11 @@
         </table>
     </div>
 </div>
+
+<form id="actionForm" method="post" class="d-none">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <script src="~/js/admin-table.js"></script>
+}

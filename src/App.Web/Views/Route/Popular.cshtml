@@ -1,0 +1,209 @@
+@model List<RouteVM>
+@{
+    var totalCount = (int)(ViewBag.TotalCount ?? 0);
+    var today      = DateTime.Today.ToString("yyyy-MM-dd");
+}
+
+<section style="background:var(--secondary);color:#fff;padding:40px 0 32px">
+    <div class="container">
+        <p class="text-uppercase mb-1" style="color:var(--gold);letter-spacing:2px;font-weight:600;font-size:.8rem">@L["Home_PopularRoutes"]</p>
+        <h2 class="fw-bold mb-1">@L["Nav_PopularRoutes"]</h2>
+        <p class="mb-0" style="color:rgba(255,255,255,.7)">@L["Route_PopularSubtitle"]</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div id="routeGrid" class="row g-4">
+            @foreach (var route in Model)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="card border-0 shadow-sm h-100" style="border-radius:12px;overflow:hidden;transition:transform .3s" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <div class="route-card-header"
+                             data-dest-city="@route.DestinationCity"
+                             style="height:160px;background:linear-gradient(135deg,var(--secondary),var(--primary));background-size:cover;background-position:center;position:relative;overflow:hidden">
+                            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18),rgba(0,0,0,.62));display:flex;align-items:center;justify-content:center;padding:20px">
+                                <div class="text-center text-white">
+                                    <div class="d-flex align-items-center justify-content-center gap-3">
+                                        <div>
+                                            <div style="font-size:1.4rem;font-weight:800;text-shadow:0 1px 4px rgba(0,0,0,.6)">@route.OriginIata</div>
+                                            <small style="opacity:.9;text-shadow:0 1px 3px rgba(0,0,0,.5)">@route.OriginCity</small>
+                                        </div>
+                                        <i class="fas fa-plane" style="font-size:1.2rem;opacity:.85"></i>
+                                        <div>
+                                            <div style="font-size:1.4rem;font-weight:800;text-shadow:0 1px 4px rgba(0,0,0,.6)">@route.DestinationIata</div>
+                                            <small style="opacity:.9;text-shadow:0 1px 3px rgba(0,0,0,.5)">@route.DestinationCity</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-muted small"><i class="fas fa-clock me-1"></i>@(route.DurationMinutes / 60) @L["Label_HourAbbr"] @(route.DurationMinutes % 60) @L["Label_MinAbbr"]</span>
+                                <span class="text-muted small"><i class="fas fa-ruler-horizontal me-1"></i>@route.DistanceKm.ToString("N0") km</span>
+                            </div>
+                            @if (route.FlightCount > 0)
+                            {
+                                <div class="mb-2">
+                                    <span style="background:rgba(200,16,46,.08);color:var(--primary);font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:20px">
+                                        <i class="fas fa-plane-departure me-1"></i>@route.FlightCount @L["Home_FlightCount"]
+                                    </span>
+                                </div>
+                            }
+                            <a asp-controller="Flight" asp-action="Index"
+                               asp-route-DepartureIata="@route.OriginIata"
+                               asp-route-ArrivalIata="@route.DestinationIata"
+                               asp-route-DepartureDate="@today"
+                               class="btn btn-sm w-100" style="background:var(--primary);color:#fff;font-weight:700">
+                                <i class="fas fa-search me-1"></i>@L["Home_FindFlight"]
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-5" id="loadMoreWrap">
+            @if (totalCount > 6)
+            {
+                <button id="btnLoadMore" class="btn btn-outline-danger px-5 py-2 fw-bold"
+                        data-skip="6"
+                        data-total="@totalCount"
+                        data-today="@today"
+                        data-label-load="@L["Btn_LoadMore"].Value"
+                        data-label-hour="@L["Label_HourAbbr"].Value"
+                        data-label-min="@L["Label_MinAbbr"].Value"
+                        data-label-flight="@L["Home_FlightCount"].Value"
+                        data-label-find="@L["Home_FindFlight"].Value"
+                        data-label-nomore="@L["Route_NoMoreRoutes"].Value">
+                    <i class="fas fa-chevron-down me-2"></i>@L["Btn_LoadMore"]
+                </button>
+            }
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+<script>
+(function () {
+    /* ── Image cache to avoid duplicate Pexels calls ── */
+    const imgCache = new Map();
+
+    async function fetchCityImage(city) {
+        if (imgCache.has(city)) return imgCache.get(city);
+        try {
+            const res  = await fetch('/api/city-image?city=' + encodeURIComponent(city));
+            const data = await res.json();
+            imgCache.set(city, data.url ?? null);
+            return data.url ?? null;
+        } catch {
+            imgCache.set(city, null);
+            return null;
+        }
+    }
+
+    function applyImage(headerEl, url) {
+        if (!url) return;
+        headerEl.style.backgroundImage = 'url(' + url + ')';
+    }
+
+    /* ── Apply images to all currently-rendered cards ── */
+    async function loadImagesForCards(container) {
+        const headers = container.querySelectorAll('.route-card-header[data-dest-city]');
+        const promises = Array.from(headers).map(async function (hdr) {
+            const city = hdr.dataset.destCity;
+            const url  = await fetchCityImage(city);
+            applyImage(hdr, url);
+        });
+        await Promise.all(promises);
+    }
+
+    /* ── Initial load ── */
+    loadImagesForCards(document.getElementById('routeGrid'));
+
+    /* ── Load More ── */
+    const btn  = document.getElementById('btnLoadMore');
+    if (!btn) return;
+
+    const grid = document.getElementById('routeGrid');
+    const wrap = document.getElementById('loadMoreWrap');
+    const d    = btn.dataset;
+
+    btn.addEventListener('click', async function () {
+        const skip = parseInt(d.skip, 10);
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>' + d.labelLoad;
+
+        try {
+            const res  = await fetch('/api/routes/popular?skip=' + skip + '&take=3');
+            const data = await res.json();
+
+            const newHeaders = [];
+            data.items.forEach(function (r) {
+                const h   = Math.floor(r.durationMinutes / 60);
+                const m   = r.durationMinutes % 60;
+                const col = document.createElement('div');
+                col.className = 'col-lg-4 col-md-6';
+                col.innerHTML = buildCard(r, h, m);
+                grid.appendChild(col);
+                col.querySelectorAll('.route-card-header[data-dest-city]').forEach(function (hdr) {
+                    newHeaders.push(hdr);
+                });
+            });
+
+            /* fetch images only for newly added cards */
+            await Promise.all(newHeaders.map(async function (hdr) {
+                const url = await fetchCityImage(hdr.dataset.destCity);
+                applyImage(hdr, url);
+            }));
+
+            const newSkip = skip + data.items.length;
+            d.skip = newSkip;
+
+            if (newSkip >= parseInt(d.total, 10) || data.items.length === 0) {
+                wrap.innerHTML = '<p class="text-muted small">' + d.labelNomore + '</p>';
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-chevron-down me-2"></i>' + d.labelLoad;
+            }
+        } catch (e) {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-chevron-down me-2"></i>' + d.labelLoad;
+        }
+    });
+
+    function buildCard(r, h, m) {
+        const badge = r.flightCount > 0
+            ? '<div class="mb-2"><span style="background:rgba(200,16,46,.08);color:#c8102e;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:20px"><i class="fas fa-plane-departure me-1"></i>' + r.flightCount + ' ' + d.labelFlight + '</span></div>'
+            : '';
+        return [
+            '<div class="card border-0 shadow-sm h-100" style="border-radius:12px;overflow:hidden;transition:transform .3s" onmouseover="this.style.transform=\'translateY(-5px)\'" onmouseout="this.style.transform=\'translateY(0)\'">',
+            '  <div class="route-card-header" data-dest-city="' + r.destinationCity + '"',
+            '       style="height:160px;background:linear-gradient(135deg,#1a1a2e,#c8102e);background-size:cover;background-position:center;position:relative;overflow:hidden">',
+            '    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18),rgba(0,0,0,.62));display:flex;align-items:center;justify-content:center;padding:20px">',
+            '      <div class="text-center text-white">',
+            '        <div class="d-flex align-items-center justify-content-center gap-3">',
+            '          <div><div style="font-size:1.4rem;font-weight:800;text-shadow:0 1px 4px rgba(0,0,0,.6)">' + r.originIata + '</div><small style="opacity:.9;text-shadow:0 1px 3px rgba(0,0,0,.5)">' + r.originCity + '</small></div>',
+            '          <i class="fas fa-plane" style="font-size:1.2rem;opacity:.85"></i>',
+            '          <div><div style="font-size:1.4rem;font-weight:800;text-shadow:0 1px 4px rgba(0,0,0,.6)">' + r.destinationIata + '</div><small style="opacity:.9;text-shadow:0 1px 3px rgba(0,0,0,.5)">' + r.destinationCity + '</small></div>',
+            '        </div>',
+            '      </div>',
+            '    </div>',
+            '  </div>',
+            '  <div class="card-body">',
+            '    <div class="d-flex justify-content-between align-items-center mb-2">',
+            '      <span class="text-muted small"><i class="fas fa-clock me-1"></i>' + h + ' ' + d.labelHour + ' ' + m + ' ' + d.labelMin + '</span>',
+            '      <span class="text-muted small"><i class="fas fa-ruler-horizontal me-1"></i>' + Number(r.distanceKm).toLocaleString('tr-TR') + ' km</span>',
+            '    </div>',
+            badge,
+            '    <a href="/Flight?DepartureIata=' + r.originIata + '&ArrivalIata=' + r.destinationIata + '&DepartureDate=' + d.today + '" class="btn btn-sm w-100" style="background:#c8102e;color:#fff;font-weight:700">',
+            '      <i class="fas fa-search me-1"></i>' + d.labelFind,
+            '    </a>',
+            '  </div>',
+            '</div>'
+        ].join('\n');
+    }
+}());
+</script>
+}

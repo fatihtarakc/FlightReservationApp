@@ -47,13 +47,22 @@ namespace App.Queue.Consumers
 
             var body = $@"<!DOCTYPE html>
 <html>
-<head><meta charset=""utf-8""><meta name=""viewport"" content=""width=device-width, initial-scale=1.0""></head>
-<body style=""font-family:Arial,sans-serif;background-color:#f4f4f4;margin:0;padding:20px;"">
-  <div style=""max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1);"">
+<head>
+  <meta charset=""utf-8""><meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+  <style>
+    @media screen and (max-width:600px) {{
+      .email-body {{ padding:8px !important; }}
+      .email-wrap {{ border-radius:0 !important; }}
+      .email-content {{ padding:20px 16px !important; }}
+    }}
+  </style>
+</head>
+<body class=""email-body"" style=""font-family:Arial,sans-serif;background-color:#f4f4f4;margin:0;padding:20px;"">
+  <div class=""email-wrap"" style=""max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1);"">
     <div style=""background-color:#003580;padding:30px;text-align:center;"">
       <h1 style=""color:#ffffff;margin:0;font-size:24px;"">&#9992; Flight Reservation &#8212; {_localizer[Messages.Email_UserSignedUp_HeaderSubtitle]}</h1>
     </div>
-    <div style=""padding:30px;"">
+    <div class=""email-content"" style=""padding:30px;"">
       <p style=""color:#555;line-height:1.7;"">{_localizer[Messages.Email_Dear]} <strong>{message.Name} {message.Surname}</strong>,</p>
       <p style=""color:#555;line-height:1.7;"">{_localizer[Messages.Email_UserSignedUp_Intro]}</p>
       <div style=""text-align:center;margin:30px 0;"">
@@ -61,8 +70,8 @@ namespace App.Queue.Consumers
       </div>
       <div style=""margin:20px 0;padding:20px;background-color:#f0f5ff;border-left:4px solid #003580;border-radius:4px;"">
         <p style=""margin:0;color:#003580;font-weight:bold;"">{_localizer[Messages.Email_UserSignedUp_AccountInfo]}</p>
-        <p style=""margin:8px 0 0;color:#555;"">{_localizer[Messages.Email_Label_FullName]}: {message.Name} {message.Surname}</p>
-        <p style=""margin:4px 0 0;color:#555;"">{_localizer[Messages.Email_Label_Email]}: {message.Email}</p>
+        <p style=""margin:8px 0 0;color:#555;word-break:break-word;"">{_localizer[Messages.Email_Label_FullName]}: {message.Name} {message.Surname}</p>
+        <p style=""margin:4px 0 0;color:#555;word-break:break-word;"">{_localizer[Messages.Email_Label_Email]}: {message.Email}</p>
       </div>
       <p style=""margin-top:16px;font-size:13px;color:#888;"">{_localizer[Messages.Email_UserSignedUp_Note]}</p>
     </div>

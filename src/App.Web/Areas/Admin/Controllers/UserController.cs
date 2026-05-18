@@ -43,6 +43,16 @@ namespace App.Web.Areas.Admin.Controllers
             });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            var result = await _accountService.GetAllUsersAsync(Token!);
+            if (!result.IsSuccess) { NotifyErrorLocalized(result.Message); return RedirectToAction(nameof(Index)); }
+            var user = result.Data?.FirstOrDefault(u => u.Id == id);
+            if (user == null) { NotifyError("Kullanıcı bulunamadı."); return RedirectToAction(nameof(Index)); }
+            return View(user);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Activate(Guid id)

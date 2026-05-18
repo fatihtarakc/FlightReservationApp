@@ -23,6 +23,7 @@ namespace App.Dtos.FlightDtos
         string ArrivalAirportIata,
         string ArrivalCity,
         int AvailableEconomySeats,
+        int AvailablePremiumEconomySeats,
         int AvailableBusinessSeats,
         int AvailableFirstClassSeats);
 }

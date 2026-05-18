@@ -13,5 +13,8 @@ namespace App.Dtos.FlightDtos
         decimal BaseEconomyPrice,
         Currency Currency,
         FlightStatus FlightStatus,
-        int AvailableSeats);
+        int AvailableEconomySeats,
+        int AvailablePremiumEconomySeats,
+        int AvailableBusinessSeats,
+        int AvailableFirstClassSeats);
 }

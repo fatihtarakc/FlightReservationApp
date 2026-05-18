@@ -66,7 +66,7 @@ namespace App.Business.Concrete.Services
                             return;
                         }
 
-                        await _userManager.AddToRoleAsync(identityUser, "AppUser");
+                        await _userManager.AddToRoleAsync(identityUser, Role.AppUser.ToString());
 
                         var appUser = new AppUser
                         {
@@ -291,6 +291,42 @@ namespace App.Business.Concrete.Services
 
                 _logger.LogInformation("{Message} Email: {Email}", _localizer[Messages.Account_ResetPassword_Successful].Value, dto.Email);
                 return new SuccessResult(_localizer[Messages.Account_ResetPassword_Successful]);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
+            }
+        }
+
+        public async Task<IResult> ChangePasswordAsync(string identityId, ChangePasswordDto dto)
+        {
+            try
+            {
+                var identityUser = await _userManager.FindByIdAsync(identityId);
+                if (identityUser == null)
+                    return new ErrorResult(_localizer[Messages.Account_Was_Not_Found]);
+
+                var result = await _userManager.ChangePasswordAsync(identityUser, dto.CurrentPassword, dto.NewPassword);
+                if (!result.Succeeded)
+                    return new ErrorResult(_localizer[Messages.Password_ChangeFailed]);
+
+                var appUser = await _appUserRepository.GetByIdentityIdAsync(identityId, tracking: false);
+                if (appUser != null)
+                {
+                    await _publishEndpoint.Publish(new PasswordChangedEvent
+                    {
+                        Name             = appUser.Name,
+                        Email            = appUser.Email,
+                        PhoneNumber      = appUser.PhoneNumber,
+                        ChangedAt        = DateTime.UtcNow,
+                        PreferredChannel = appUser.PreferredNotificationChannel,
+                        Language         = CultureInfo.CurrentUICulture.Name
+                    });
+                }
+
+                _logger.LogInformation("Password changed. IdentityId: {Id}", identityId);
+                return new SuccessResult(_localizer[Messages.Password_ChangeSuccess]);
             }
             catch (Exception ex)
             {

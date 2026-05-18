@@ -1,4 +1,4 @@
-﻿using App.Web.Enums;
+using App.Web.Enums;
 namespace App.Web.ViewModels.Flight
 {
     public class FlightAddVM
@@ -14,6 +14,7 @@ namespace App.Web.ViewModels.Flight
         public string? Gate { get; set; }
         public string? Terminal { get; set; }
         public Guid AircraftId { get; set; }
-        public Guid RouteId { get; set; }
+        public Guid AirlineId { get; set; }
+        public Guid ScheduleId { get; set; }
     }
 }

@@ -6,5 +6,6 @@ namespace App.Business.Abstract.Services
         Task<IDataResult<AppUserDto>> GetByIdentityIdAsync(string identityId);
         Task<IDataResult<IEnumerable<AppUserListDto>>> GetAllAsync();
         Task<IResult> UpdateAsync(Guid id, AppUserDto dto);
+        Task<IResult> SetStatusAsync(Guid id, bool isActive);
     }
 }

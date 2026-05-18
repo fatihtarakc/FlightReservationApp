@@ -85,123 +85,6 @@
     </div>
 </section>
 
-<!-- Routes Section -->
-@if (Model.PopularRoutes.Any())
-{
-    <section class="py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <p class="text-uppercase mb-2" style="color:var(--primary);letter-spacing:2px;font-size:.8rem;font-weight:700">@L["Home_PopularRoutes"]</p>
-                <h2 class="fw-bold" style="color:var(--secondary)">@L["Home_DiscoverDestinations"]</h2>
-            </div>
-            <div class="row g-4">
-                @foreach (var route in Model.PopularRoutes)
-                {
-                    <div class="col-lg-4 col-md-6">
-                        <div class="card border-0 shadow-sm h-100" style="border-radius:12px;overflow:hidden;transition:transform .3s" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                            <div style="background:linear-gradient(135deg,var(--secondary),var(--primary));height:140px;display:flex;align-items:center;justify-content:center;padding:20px">
-                                <div class="text-center text-white">
-                                    <div class="d-flex align-items-center justify-content-center gap-3">
-                                        <div>
-                                            <div style="font-size:1.4rem;font-weight:800">@route.OriginIata</div>
-                                            <small style="opacity:.8">@route.OriginCity</small>
-                                        </div>
-                                        <i class="fas fa-plane" style="font-size:1.2rem;opacity:.7"></i>
-                                        <div>
-                                            <div style="font-size:1.4rem;font-weight:800">@route.DestinationIata</div>
-                                            <small style="opacity:.8">@route.DestinationCity</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="text-muted small"><i class="fas fa-clock me-1"></i>@(route.DurationMinutes / 60) @L["Label_HourAbbr"] @(route.DurationMinutes % 60) @L["Label_MinAbbr"]</span>
-                                    <span class="text-muted small"><i class="fas fa-ruler-horizontal me-1"></i>@route.DistanceKm.ToString("N0") km</span>
-                                </div>
-                                <a asp-controller="Flight" asp-action="Index" asp-route-DepartureIata="@route.OriginIata" asp-route-ArrivalIata="@route.DestinationIata" asp-route-DepartureDate="@DateTime.Today.ToString("yyyy-MM-dd")" class="btn btn-sm w-100" style="background:var(--primary);color:#fff;font-weight:700">
-                                    @L["Home_FindFlight"]
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </section>
-}
-
-<!-- Recent Flights -->
-@if (Model.RecentFlights.Any())
-{
-    <section class="py-5 bg-light">
-        <div class="container">
-            <div class="text-center mb-5">
-                <p class="text-uppercase mb-2" style="color:var(--primary);letter-spacing:2px;font-size:.8rem;font-weight:700">@L["Home_CurrentFlights"]</p>
-                <h2 class="fw-bold" style="color:var(--secondary)">@L["Home_RecentFlights"]</h2>
-            </div>
-            <div class="row g-3">
-                @foreach (var flight in Model.RecentFlights)
-                {
-                    <div class="col-lg-6">
-                        <div class="flight-card">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <span class="flight-number">@flight.FlightNumber</span>
-                                    <span class="ms-2 text-muted small">@flight.AircraftModel</span>
-                                </div>
-                                @{
-                                    var statusClass = flight.Status switch {
-                                        FlightStatus.Scheduled => "status-scheduled",
-                                        FlightStatus.Boarding => "status-boarding",
-                                        FlightStatus.Departed => "status-departed",
-                                        FlightStatus.Delayed => "status-delayed",
-                                        FlightStatus.Cancelled => "status-cancelled",
-                                        FlightStatus.Arrived => "status-arrived",
-                                        _ => "status-scheduled"
-                                    };
-                                }
-                                <span class="status-badge @statusClass">@L["Status_" + flight.Status.ToString()]</span>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="text-center">
-                                    <div class="fw-bold fs-5">@flight.DepartureTime.ToString("HH:mm")</div>
-                                    <div class="fw-bold" style="color:var(--primary)">@flight.OriginIata</div>
-                                    <small class="text-muted">@flight.OriginCity</small>
-                                </div>
-                                <div class="text-center flex-grow-1 px-3">
-                                    <small class="text-muted d-block">@flight.DurationFormatted</small>
-                                    <div class="d-flex align-items-center">
-                                        <div style="height:2px;flex-grow:1;background:#dee2e6"></div>
-                                        <i class="fas fa-plane mx-2 text-muted" style="font-size:.75rem"></i>
-                                        <div style="height:2px;flex-grow:1;background:#dee2e6"></div>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="fw-bold fs-5">@flight.ArrivalTime.ToString("HH:mm")</div>
-                                    <div class="fw-bold" style="color:var(--primary)">@flight.DestinationIata</div>
-                                    <small class="text-muted">@flight.DestinationCity</small>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-                                <span class="price-badge">₺@flight.EconomyPrice.ToString("N0")</span>
-                                <a asp-controller="Flight" asp-action="Detail" asp-route-id="@flight.Id" class="btn btn-sm" style="border:2px solid var(--primary);color:var(--primary);font-weight:700">
-                                    @L["Flight_SelectSeat"] <i class="fas fa-arrow-right ms-1"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-            <div class="text-center mt-4">
-                <a asp-controller="Flight" asp-action="Index" class="btn btn-book px-5 py-3">
-                    @L["Home_ViewAllFlights"] <i class="fas fa-arrow-right ms-2"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-}
-
 <!-- Features -->
 <section class="py-5">
     <div class="container">
@@ -262,7 +145,7 @@
     <button type="button" id="passengerConfirm" class="pax-confirm-btn">@L["Btn_Ok"]</button>
 </div>
 
-<div id="airportPanel" class="airport-panel" style="display:none">
+<div id="airportPanel" class="airport-panel" style="display:none" data-default-country="Turkey">
     <div class="airport-panel-header">
         <button type="button" id="airportPanelClose" class="airport-panel-close" aria-label="close">&times;</button>
     </div>

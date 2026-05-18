@@ -41,16 +41,65 @@ namespace App.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Create(AdminRouteFormPageVM page)
         {
             if (!ModelState.IsValid)
+            {
+                NotifyValidationErrors();
                 return View(await BuildFormVm(page.Form));
+            }
 
             var result = await _routeService.AddAsync(page.Form, Token!);
             if (!result.IsSuccess)
             {
-                NotifyErrorLocalized(result.Message);
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, result.Message);
+                return View(await BuildFormVm(page.Form));
             }
             NotifySuccessLocalized(result.Message);
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTakenDestinations(Guid departureAirportId)
+        {
+            var routesResult   = await _routeService.GetAllAsync();
+            var airportsResult = await _airportService.GetAllAsync();
+
+            var routes   = routesResult.IsSuccess   ? routesResult.Data   ?? new() : new();
+            var airports = airportsResult.IsSuccess ? airportsResult.Data ?? new() : new();
+
+            var departure = airports.FirstOrDefault(a => a.Id == departureAirportId);
+            if (departure == null)
+                return Json(Array.Empty<Guid>());
+
+            var takenIatas = routes
+                .Where(r => r.OriginIata == departure.IataCode)
+                .Select(r => r.DestinationIata)
+                .ToHashSet();
+
+            var takenIds = airports
+                .Where(a => takenIatas.Contains(a.IataCode))
+                .Select(a => a.Id)
+                .ToList();
+
+            return Json(takenIds);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            var routeResult = await _routeService.GetByIdAsync(id);
+            if (!routeResult.IsSuccess || routeResult.Data == null)
+            {
+                NotifyErrorLocalized(routeResult.Message);
+                return RedirectToAction(nameof(Index));
+            }
+            var r = routeResult.Data;
+            var airportsResult = await _airportService.GetAllAsync();
+            var airports = airportsResult.IsSuccess ? airportsResult.Data ?? new() : new();
+            return View(new AdminRouteDetailPageVM
+            {
+                Route = r,
+                Origin = airports.FirstOrDefault(a => a.IataCode == r.OriginIata),
+                Destination = airports.FirstOrDefault(a => a.IataCode == r.DestinationIata)
+            });
         }
 
         [HttpGet]
@@ -88,6 +137,7 @@ namespace App.Web.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                NotifyValidationErrors();
                 var airports = await _airportService.GetAllAsync();
                 page.EditId = id;
                 page.Airports = airports.IsSuccess ? airports.Data ?? new() : new();

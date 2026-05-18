@@ -44,6 +44,18 @@ namespace App.Web.Areas.Admin.Controllers
             return View(vm);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            var result = await _bookingService.GetByIdAsync(id, Token!);
+            if (!result.IsSuccess || result.Data == null)
+            {
+                NotifyErrorLocalized(result.Message);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(result.Data);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cancel(Guid id)

@@ -25,20 +25,7 @@ namespace App.Web.Controllers
             _aircraftService = aircraftService;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var flightsTask = _flightService.GetAllAsync();
-            var routesTask = _routeService.GetAllAsync();
-            var airportsTask = _airportService.GetAllAsync();
-            await Task.WhenAll(flightsTask, routesTask, airportsTask);
-            var vm = new HomePageVM
-            {
-                RecentFlights = flightsTask.Result.IsSuccess ? flightsTask.Result.Data?.Take(6).ToList() ?? new() : new(),
-                PopularRoutes = routesTask.Result.IsSuccess ? routesTask.Result.Data?.Take(6).ToList() ?? new() : new(),
-                Airports = airportsTask.Result.IsSuccess ? airportsTask.Result.Data ?? new() : new()
-            };
-            return View(vm);
-        }
+        public IActionResult Index() => View(new HomePageVM());
 
         [HttpGet("api/countries")]
         public IActionResult Countries()

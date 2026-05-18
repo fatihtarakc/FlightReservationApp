@@ -229,7 +229,7 @@ namespace App.Web.Services
         {
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Post, $"api/admin/users/{id}/status")
+                var req = new HttpRequestMessage(HttpMethod.Post, $"api/AppUser/{id}/status")
                 { Content = new StringContent(JsonSerializer.Serialize(new { isActive }), Encoding.UTF8, "application/json") };
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);

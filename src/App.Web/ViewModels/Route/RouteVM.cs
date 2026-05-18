@@ -21,5 +21,7 @@ namespace App.Web.ViewModels.Route
 
         [System.Text.Json.Serialization.JsonPropertyName("arrivalCity")]
         public string DestinationCity { get; set; } = null!;
+
+        public int FlightCount { get; set; }
     }
 }

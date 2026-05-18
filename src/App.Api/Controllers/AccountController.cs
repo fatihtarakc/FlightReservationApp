@@ -5,11 +5,13 @@
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private readonly IAppUserService _appUserService;
         private readonly IStringLocalizer<MessageResources> _localizer;
 
-        public AccountController(IAccountService accountService, IStringLocalizer<MessageResources> localizer)
+        public AccountController(IAccountService accountService, IAppUserService appUserService, IStringLocalizer<MessageResources> localizer)
         {
             _accountService = accountService;
+            _appUserService = appUserService;
             _localizer = localizer;
         }
 
@@ -65,6 +67,53 @@
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
         {
             var result = await _accountService.ResetPasswordAsync(dto);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPut("profile")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile([FromBody] ProfileUpdateDto dto)
+        {
+            var identityId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var userResult = await _appUserService.GetByIdentityIdAsync(identityId);
+            if (!userResult.IsSuccess || userResult.Data == null)
+                return NotFound(userResult);
+
+            var current = userResult.Data;
+            var updated = new AppUserDto(
+                current.Id, dto.Name, dto.Surname, current.Email, dto.PhoneNumber,
+                current.BirthDate, current.UserStatus, dto.NotificationPreference,
+                current.Nationality, current.PassportNumber);
+
+            var result = await _appUserService.UpdateAsync(current.Id, updated);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            var identityId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var result = await _accountService.ChangePasswordAsync(identityId, dto);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPut("notification-preference")]
+        [Authorize]
+        public async Task<IActionResult> UpdateNotificationPreference([FromBody] NotificationPreferenceDto dto)
+        {
+            var identityId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            var userResult = await _appUserService.GetByIdentityIdAsync(identityId);
+            if (!userResult.IsSuccess || userResult.Data == null)
+                return NotFound(userResult);
+
+            var current = userResult.Data;
+            var updated = new AppUserDto(
+                current.Id, current.Name, current.Surname, current.Email, current.PhoneNumber,
+                current.BirthDate, current.UserStatus, dto.NotificationPreference,
+                current.Nationality, current.PassportNumber);
+
+            var result = await _appUserService.UpdateAsync(current.Id, updated);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

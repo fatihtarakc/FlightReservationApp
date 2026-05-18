@@ -69,4 +69,39 @@
 
 @section Scripts {
     <script src="~/js/admin-form-validation.js"></script>
+    <script>
+    (function () {
+        var originSel = document.getElementById('originSelect');
+        var destSel   = document.getElementById('destinationSelect');
+        if (!originSel || !destSel) return;
+
+        var originalHtml = destSel.innerHTML;
+
+        originSel.addEventListener('change', function () {
+            var depId = this.value;
+
+            destSel.innerHTML = originalHtml;
+            destSel.value = '';
+
+            if (!depId) return;
+
+            fetch('@Url.Action("GetTakenDestinations", "Route", new { area = "Admin" })?departureAirportId=' + depId)
+                .then(function (r) { return r.json(); })
+                .then(function (takenIds) {
+                    var takenSet = new Set(takenIds.map(function (id) { return id.toLowerCase(); }));
+                    var depIdLow = depId.toLowerCase();
+
+                    Array.from(destSel.options).forEach(function (opt) {
+                        if (!opt.value) return;
+                        var v = opt.value.toLowerCase();
+                        if (v === depIdLow || takenSet.has(v)) opt.remove();
+                    });
+
+                    if (destSel.value && !destSel.querySelector('option[value="' + destSel.value + '"]'))
+                        destSel.value = '';
+                })
+                .catch(function () {});
+        });
+    })();
+    </script>
 }

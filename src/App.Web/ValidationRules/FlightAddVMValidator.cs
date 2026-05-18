@@ -19,8 +19,10 @@ namespace App.Web.ValidationRules
                 .GreaterThan(0).WithMessage(localizer[Messages.Val_EconomyPrice_Positive]);
             RuleFor(x => x.AircraftId)
                 .NotEmpty().WithMessage(localizer[Messages.Val_AircraftId_Required]);
-            RuleFor(x => x.RouteId)
-                .NotEmpty().WithMessage(localizer[Messages.Val_RouteId_Required]);
+            RuleFor(x => x.AirlineId)
+                .NotEmpty().WithMessage(localizer[Messages.Val_AirlineId_Required]);
+            RuleFor(x => x.ScheduleId)
+                .NotEmpty().WithMessage(localizer[Messages.Val_ScheduleId_Required]);
         }
     }
 }

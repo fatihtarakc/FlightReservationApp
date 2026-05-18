@@ -56,9 +56,10 @@ namespace App.Business.Concrete.Services
             try
             {
                 var cached = await _cacheService.GetListByAsync(CacheKeyAll);
-                if (cached.IsSuccess && cached.Data is not null) return new SuccessDataResult<IEnumerable<FlightListDto>>(cached.Data.Select(x => x.Adapt<FlightListDto>()));
+                if (cached.IsSuccess && cached.Data is not null)
+                    return new SuccessDataResult<IEnumerable<FlightListDto>>(cached.Data.Select(x => x.Adapt<FlightListDto>()));
 
-                var flights = await _flightRepository.GetAllAsync(tracking: false);
+                var flights = await _flightRepository.GetUpcomingWithSeatsAsync(DateTime.UtcNow, tracking: false);
                 var list = flights.Select(f => f.Adapt<FlightListDto>()).ToList();
                 await _cacheService.AddListAsync(CacheKeyAll, flights);
 

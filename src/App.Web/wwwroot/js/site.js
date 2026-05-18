@@ -3,8 +3,22 @@
     var loader = document.getElementById('pageLoader');
     if (!loader) return;
 
+    var _needsAirports = !!document.getElementById('departurePicker');
+    var _pageLoaded    = false;
+    var _airportsReady = !_needsAirports;
+
+    function _tryHide() {
+        if (_pageLoaded && _airportsReady) loader.classList.add('loader-hide');
+    }
+
     window.addEventListener('load', function () {
-        loader.classList.add('loader-hide');
+        _pageLoaded = true;
+        _tryHide();
+    });
+
+    document.addEventListener('airportsReady', function () {
+        _airportsReady = true;
+        _tryHide();
     });
 
     document.addEventListener('click', function (e) {

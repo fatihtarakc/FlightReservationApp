@@ -56,28 +56,41 @@ namespace App.Queue.Consumers
             var footer = _localizer[Messages.Email_Footer].Value;
 
             var reasonRow = !string.IsNullOrWhiteSpace(message.CancellationReason)
-                ? $"<tr><td style=\"color:#777;padding:6px 0;\">{_localizer[Messages.Email_Label_CancellationReason]}</td><td style=\"color:#222;font-weight:bold;text-align:right;\">{message.CancellationReason}</td></tr>"
+                ? $"<tr><td class=\"lbl\" style=\"color:#777;padding:6px 0;\">{_localizer[Messages.Email_Label_CancellationReason]}</td><td class=\"val\" style=\"color:#222;font-weight:bold;text-align:right;\">{message.CancellationReason}</td></tr>"
                 : string.Empty;
 
             var body = $@"<!DOCTYPE html>
 <html>
-<head><meta charset=""utf-8""><meta name=""viewport"" content=""width=device-width, initial-scale=1.0""></head>
-<body style=""font-family:Arial,sans-serif;background-color:#f4f4f4;margin:0;padding:20px;"">
-  <div style=""max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1);"">
+<head>
+  <meta charset=""utf-8""><meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+  <style>
+    @media screen and (max-width:600px) {{
+      .email-body {{ padding:8px !important; }}
+      .email-wrap {{ border-radius:0 !important; }}
+      .email-content {{ padding:20px 16px !important; }}
+      .info-table .lbl,
+      .info-table .val {{ display:block !important; text-align:left !important; padding:2px 0 !important; }}
+      .info-table .lbl {{ font-size:11px; color:#888 !important; }}
+      .info-table .val {{ padding-bottom:8px !important; }}
+    }}
+  </style>
+</head>
+<body class=""email-body"" style=""font-family:Arial,sans-serif;background-color:#f4f4f4;margin:0;padding:20px;"">
+  <div class=""email-wrap"" style=""max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1);"">
     <div style=""background-color:#e74c3c;padding:30px;text-align:center;"">
       <h1 style=""color:#ffffff;margin:0;font-size:24px;"">&#9992; Flight Reservation</h1>
       <p style=""color:#fadbd8;margin:8px 0 0;"">{_localizer[Messages.Email_FlightCancelled_HeaderSubtitle]}</p>
     </div>
-    <div style=""padding:30px;"">
+    <div class=""email-content"" style=""padding:30px;"">
       <h2 style=""color:#e74c3c;"">{_localizer[Messages.Email_FlightCancelled_Heading]}</h2>
       <p style=""color:#555;line-height:1.7;"">{dear} {passenger.Name}, {_localizer[Messages.Email_FlightCancelled_Intro]}</p>
       <div style=""margin:20px 0;padding:20px;background-color:#fef9f9;border-radius:6px;border:1px solid #f5c6c2;"">
         <h3 style=""color:#e74c3c;margin:0 0 15px;"">{_localizer[Messages.Email_FlightCancelled_SectionTitle]}</h3>
-        <table style=""width:100%;border-collapse:collapse;"">
-          <tr><td style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_PnrNumber]}</td><td style=""color:#222;font-weight:bold;text-align:right;"">{passenger.PnrNumber}</td></tr>
-          <tr><td style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_Flight]}</td><td style=""color:#222;font-weight:bold;text-align:right;"">{message.FlightNumber}</td></tr>
-          <tr><td style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_Route]}</td><td style=""color:#222;font-weight:bold;text-align:right;"">{message.DepartureCity} &#8594; {message.ArrivalCity}</td></tr>
-          <tr><td style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_ScheduledDeparture]}</td><td style=""color:#222;font-weight:bold;text-align:right;"">{message.DepartureDateTime:dd MMM yyyy HH:mm}</td></tr>
+        <table class=""info-table"" style=""width:100%;border-collapse:collapse;"">
+          <tr><td class=""lbl"" style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_PnrNumber]}</td><td class=""val"" style=""color:#222;font-weight:bold;text-align:right;"">{passenger.PnrNumber}</td></tr>
+          <tr><td class=""lbl"" style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_Flight]}</td><td class=""val"" style=""color:#222;font-weight:bold;text-align:right;"">{message.FlightNumber}</td></tr>
+          <tr><td class=""lbl"" style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_Route]}</td><td class=""val"" style=""color:#222;font-weight:bold;text-align:right;"">{message.DepartureCity} &#8594; {message.ArrivalCity}</td></tr>
+          <tr><td class=""lbl"" style=""color:#777;padding:6px 0;"">{_localizer[Messages.Email_Label_ScheduledDeparture]}</td><td class=""val"" style=""color:#222;font-weight:bold;text-align:right;"">{message.DepartureDateTime:dd MMM yyyy HH:mm}</td></tr>
           {reasonRow}
         </table>
       </div>

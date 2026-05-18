@@ -1,0 +1,122 @@
+@model AdminUserVM
+
+<div class="admin-card">
+    <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-user me-2"></i>@L["Admin_UserDetail"]</span>
+        <div class="d-flex gap-2">
+            @if (Model.IsActive)
+            {
+                <button type="button" class="btn btn-sm btn-outline-warning confirm-action-btn"
+                        data-action-url="@Url.Action("Deactivate", new { id = Model.Id })"
+                        data-confirm-msg="@L["Confirm_Cancel"]">
+                    <i class="fas fa-user-times me-1"></i>@L["Admin_Deactivate"]
+                </button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-sm btn-outline-success confirm-action-btn"
+                        data-action-url="@Url.Action("Activate", new { id = Model.Id })"
+                        data-confirm-msg="@L["Confirm_Cancel"]">
+                    <i class="fas fa-user-check me-1"></i>@L["Admin_ActivateUser"]
+                </button>
+            }
+            <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i>@L["Btn_Back"]
+            </a>
+        </div>
+    </div>
+
+    <div class="p-4 border-bottom bg-light text-center">
+        <div class="rounded-circle bg-danger text-white d-inline-flex align-items-center justify-content-center mb-3"
+             style="width:80px;height:80px;font-size:2rem">
+            @Model.FullName.Substring(0, 1).ToUpper()
+        </div>
+        <div class="fs-4 fw-bold">@Model.FullName</div>
+        <div class="text-muted">@Model.Email</div>
+        <div class="mt-2">
+            @if (Model.Role == "Admin")
+            {
+                <span class="badge bg-danger me-1">Admin</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary me-1">@L["Label_Passenger"]</span>
+            }
+            @if (Model.IsActive)
+            {
+                <span class="badge bg-success"><i class="fas fa-check me-1"></i>@L["Label_Active"]</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary"><i class="fas fa-times me-1"></i>@L["Label_Passive"]</span>
+            }
+        </div>
+    </div>
+
+    <div class="p-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <table class="table table-sm table-borderless">
+                    <tr>
+                        <td class="text-muted fw-semibold" style="width:45%">@L["Label_Name"]</td>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted fw-semibold">@L["Label_Surname"]</td>
+                        <td>@Model.Surname</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted fw-semibold">@L["Label_UsernameOrEmail"]</td>
+                        <td><code>@Model.UserName</code></td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted fw-semibold">@L["Label_Email"]</td>
+                        <td><small>@Model.Email</small></td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted fw-semibold">@L["Account_Phone"]</td>
+                        <td>@Model.PhoneNumber</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted fw-semibold">@L["Label_Role"]</td>
+                        <td>
+                            @if (Model.Role == "Admin")
+                            {
+                                <span class="badge bg-danger">Admin</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@L["Label_Passenger"]</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted fw-semibold">@L["Label_BookingCount"]</td>
+                        <td><span class="badge bg-info text-dark">@Model.BookingCount</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted fw-semibold">@L["Label_SignUpDate"]</td>
+                        <td>@Model.CreatedAt.ToString("dd.MM.yyyy")</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted fw-semibold">@L["Label_Status"]</td>
+                        <td>
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge bg-success"><i class="fas fa-check me-1"></i>@L["Label_Active"]</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary"><i class="fas fa-times me-1"></i>@L["Label_Passive"]</span>
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="actionForm" method="post" class="d-none">
+    @Html.AntiForgeryToken()
+</form>

@@ -42,6 +42,14 @@
             var result = await _appUserService.UpdateAsync(id, dto);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpPost("{id:guid}/status")]
+        [Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> SetStatus(Guid id, [FromBody] UserStatusDto dto)
+        {
+            var result = await _appUserService.SetStatusAsync(id, dto.IsActive);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }
 

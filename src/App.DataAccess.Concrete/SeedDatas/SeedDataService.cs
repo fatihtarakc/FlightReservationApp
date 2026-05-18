@@ -110,7 +110,7 @@ namespace App.DataAccess.Concrete.SeedDatas
                 identityUser.PasswordHash = userManager.PasswordHasher.HashPassword(identityUser, "User2026+-!?");
                 var identityResult = await userManager.CreateAsync(identityUser);
                 if (!identityResult.Succeeded) continue;
-                await userManager.AddToRoleAsync(identityUser, Role.Admin.ToString());
+                await userManager.AddToRoleAsync(identityUser, Role.AppUser.ToString());
 
                 if (!await db.AppUsers.AnyAsync(u => u.Email == email))
                 {

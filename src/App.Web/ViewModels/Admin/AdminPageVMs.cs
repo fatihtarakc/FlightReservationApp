@@ -11,7 +11,7 @@
     public class AdminFlightFormPageVM
     {
         public FlightAddVM Form { get; set; } = new();
-        public List<RouteVM> Routes { get; set; } = new();
+        public List<ScheduleSelectItemVM> Schedules { get; set; } = new();
         public List<AircraftVM> Aircraft { get; set; } = new();
         public Guid? EditId { get; set; }
     }
@@ -76,6 +76,13 @@
     public class AdminHangfirePageVM
     {
         public HangfireStatsVM Stats { get; set; } = new();
+    }
+
+    public class AdminRouteDetailPageVM
+    {
+        public RouteVM Route { get; set; } = new();
+        public AirportVM? Origin { get; set; }
+        public AirportVM? Destination { get; set; }
     }
 
     public class AdminUserListPageVM

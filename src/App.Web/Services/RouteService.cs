@@ -54,8 +54,15 @@ namespace App.Web.Services
         {
             try
             {
+                var payload = new
+                {
+                    DepartureAirportId = model.OriginAirportId,
+                    ArrivalAirportId   = model.DestinationAirportId,
+                    DistanceKm         = model.DistanceKm,
+                    EstimatedDuration  = TimeSpan.FromMinutes(model.EstimatedDuration)
+                };
                 var req = new HttpRequestMessage(HttpMethod.Post, "api/Route")
-                { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
+                { Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json") };
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();
@@ -76,8 +83,13 @@ namespace App.Web.Services
         {
             try
             {
+                var payload = new
+                {
+                    DistanceKm        = model.DistanceKm,
+                    EstimatedDuration = TimeSpan.FromMinutes(model.EstimatedDuration)
+                };
                 var req = new HttpRequestMessage(HttpMethod.Put, $"api/Route/{id}")
-                { Content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json") };
+                { Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json") };
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();

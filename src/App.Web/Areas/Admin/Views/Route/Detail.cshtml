@@ -1,0 +1,120 @@
+@model AdminRouteDetailPageVM
+
+<div class="admin-card">
+    <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-route me-2"></i>@L["Route_Detail"]</span>
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Route.Id" class="btn btn-sm btn-outline-primary">
+                <i class="fas fa-edit me-1"></i>@L["Btn_Edit"]
+            </a>
+            <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i>@L["Btn_Back"]
+            </a>
+        </div>
+    </div>
+
+    <div class="p-4 border-bottom text-center bg-light">
+        <div class="d-flex align-items-center justify-content-center gap-5">
+            <div>
+                <div class="display-4 fw-bold text-danger">@Model.Route.OriginIata</div>
+                <div class="text-muted fs-5">@Model.Route.OriginCity</div>
+            </div>
+            <div class="px-4 text-center">
+                <i class="fas fa-long-arrow-alt-right fa-3x text-muted"></i>
+                <div class="mt-2 d-flex gap-2 justify-content-center flex-wrap">
+                    <span class="badge bg-secondary fs-6">@Model.Route.DistanceKm km</span>
+                    <span class="badge bg-secondary fs-6">@Model.Route.DurationMinutes dk</span>
+                </div>
+            </div>
+            <div>
+                <div class="display-4 fw-bold text-danger">@Model.Route.DestinationIata</div>
+                <div class="text-muted fs-5">@Model.Route.DestinationCity</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-4">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3 h-100">
+                    <h6 class="text-danger mb-3 pb-2 border-bottom">
+                        <i class="fas fa-plane-departure me-2"></i>@L["Route_Origin"]
+                    </h6>
+                    @if (Model.Origin != null)
+                    {
+                        <table class="table table-sm table-borderless mb-0">
+                            <tr>
+                                <td class="text-muted fw-semibold" style="width:40%">@L["Airport_IataCode"]</td>
+                                <td><span class="badge bg-danger fs-6">@Model.Origin.IataCode</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Airport_IcaoCode"]</td>
+                                <td><code>@Model.Origin.IcaoCode</code></td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Airport_Name"]</td>
+                                <td>@Model.Origin.Name</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Airport_City"]</td>
+                                <td>@Model.Origin.City</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Airport_Country"]</td>
+                                <td>@Model.Origin.Country</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Airport_Timezone"]</td>
+                                <td><small class="text-muted">@Model.Origin.Timezone</small></td>
+                            </tr>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted fst-italic">@L["Label_NoData"]</p>
+                    }
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="border rounded-3 p-3 h-100">
+                    <h6 class="text-danger mb-3 pb-2 border-bottom">
+                        <i class="fas fa-plane-arrival me-2"></i>@L["Route_Destination"]
+                    </h6>
+                    @if (Model.Destination != null)
+                    {
+                        <table class="table table-sm table-borderless mb-0">
+                            <tr>
+                                <td class="text-muted fw-semibold" style="width:40%">@L["Airport_IataCode"]</td>
+                                <td><span class="badge bg-danger fs-6">@Model.Destination.IataCode</span></td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Airport_IcaoCode"]</td>
+                                <td><code>@Model.Destination.IcaoCode</code></td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Airport_Name"]</td>
+                                <td>@Model.Destination.Name</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Airport_City"]</td>
+                                <td>@Model.Destination.City</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Airport_Country"]</td>
+                                <td>@Model.Destination.Country</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-semibold">@L["Airport_Timezone"]</td>
+                                <td><small class="text-muted">@Model.Destination.Timezone</small></td>
+                            </tr>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted fst-italic">@L["Label_NoData"]</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,6 +9,10 @@
                 if (!form.checkValidity()) {
                     e.preventDefault();
                     e.stopPropagation();
+                    var msg = form.dataset.validationMsg ||
+                              document.body.dataset.valMsg ||
+                              'Lütfen zorunlu alanları doğru doldurunuz.';
+                    if (typeof swToastClient === 'function') swToastClient('danger', msg);
                 }
                 form.classList.add('was-validated');
             }, false);
@@ -50,11 +54,17 @@
             var arrivalMsg  = (flightForm && flightForm.dataset.arrivalMsg) || 'Arrival time must be after departure time.';
 
             function validateFlightTimes() {
-                if (depInput.value && arrInput.value && arrInput.value <= depInput.value) {
-                    arrInput.setCustomValidity(arrivalMsg);
-                } else {
+                if (!depInput.value || !arrInput.value) {
                     arrInput.setCustomValidity('');
+                    return;
                 }
+                var dep = new Date(depInput.value);
+                var arr = new Date(arrInput.value);
+                if (isNaN(dep.getTime()) || isNaN(arr.getTime())) {
+                    arrInput.setCustomValidity('');
+                    return;
+                }
+                arrInput.setCustomValidity(arr <= dep ? arrivalMsg : '');
             }
 
             depInput.addEventListener('change', validateFlightTimes);

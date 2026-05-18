@@ -8,17 +8,23 @@
         ("Home", _)               => L["Admin_Dashboard"].Value,
         ("Flight", "Create")      => L["Flight_Add"].Value,
         ("Flight", "Edit")        => L["Flight_Edit"].Value,
+        ("Flight", "Detail")      => L["Flight_Detail"].Value,
         ("Flight", _)             => L["Flight_Management"].Value,
         ("Aircraft", "Create")    => L["Aircraft_Add"].Value,
         ("Aircraft", "Edit")      => L["Aircraft_Edit"].Value,
+        ("Aircraft", "Detail")    => L["Aircraft_Detail"].Value,
         ("Aircraft", _)           => L["Aircraft_Management"].Value,
         ("Airport", "Create")     => L["Airport_Add"].Value,
         ("Airport", "Edit")       => L["Airport_Edit"].Value,
+        ("Airport", "Detail")     => L["Airport_Detail"].Value,
         ("Airport", _)            => L["Airport_Management"].Value,
         ("Route", "Create")       => L["Route_Add"].Value,
         ("Route", "Edit")         => L["Route_Edit"].Value,
+        ("Route", "Detail")       => L["Route_Detail"].Value,
         ("Route", _)              => L["Route_Management"].Value,
+        ("Booking", "Detail")     => L["Booking_Detail"].Value,
         ("Booking", _)            => L["Booking_Management"].Value,
+        ("User", "Detail")        => L["Admin_UserDetail"].Value,
         ("User", _)               => L["Admin_UserManagement"].Value,
         _                         => "SkyWay Admin"
     };
@@ -32,18 +38,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@pageTitle — SkyWay Admin</title>
+    <link rel="icon" type="image/svg+xml" href="~/favicon.svg" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
 </head>
-<body>
+<body data-val-msg="@L["Error_Form_Invalid"]">
 
     <!-- ── Page loader ── -->
     <div id="pageLoader">
-        <div class="loader-brand"><i class="fas fa-plane me-2"></i>Sky<span>Way</span></div>
-        <div class="loader-runway">
-            <div class="loader-bar"></div>
-            <i class="fas fa-plane loader-plane-icon"></i>
+        <div class="loader-circle">
+            <div class="loader-brand"><i class="fas fa-plane me-2"></i>Sky<span>Way</span></div>
+            <div class="loader-runway">
+                <div class="loader-bar"></div>
+                <i class="fas fa-plane loader-plane-icon"></i>
+            </div>
         </div>
     </div>
 
@@ -216,8 +225,16 @@
             </div>
         </header>
 
-        <!-- Notifications -->
-        @await Component.InvokeAsync("Notyf")
+        <!-- Toast notifications -->
+        @{
+            var _swToasts = TempData["_sw_toasts"] as string;
+        }
+        @if (!string.IsNullOrEmpty(_swToasts))
+        {
+            <div id="sw-toast-stack" class="position-fixed end-0 p-3"
+                 style="top:72px;z-index:1055;min-width:320px;max-width:440px"
+                 data-toasts="@_swToasts"></div>
+        }
 
         <!-- Page body -->
         <main class="admin-body">
@@ -226,10 +243,28 @@
 
     </div>
 
+    <!-- Confirm modal (shared, wired by admin.js) -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title"><i class="fas fa-exclamation-triangle text-danger me-2"></i>@L["Btn_Confirm"]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="confirmModalBody"></div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@L["Btn_Cancel"]</button>
+                    <button type="button" class="btn btn-danger" id="confirmModalOk">@L["Btn_Confirm"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/admin.js" asp-append-version="true"></script>
+    <script src="~/js/sw-toast.js" asp-append-version="true"></script>
     <script>
     var _sidebarCollapsed = false;
 

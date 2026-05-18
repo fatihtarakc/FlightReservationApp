@@ -7,19 +7,21 @@ namespace App.DataAccess.Concrete.Repositories.Concrete
         public async Task<Flight> IncludeGetByIdAsync(Guid id, bool tracking = true) =>
             await GetAllByStatusIsNotDeletedByTracking(tracking)
                 .Include(f => f.Aircraft).ThenInclude(a => a.Model)
+                .Include(f => f.Aircraft).ThenInclude(a => a.Seats)
                 .Include(f => f.Airline)
                 .Include(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.DepartureAirport)
                 .Include(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.ArrivalAirport)
-                .Include(f => f.Bookings)
+                .Include(f => f.Bookings).ThenInclude(b => b.Seat)
                 .FirstOrDefaultAsync(f => f.Id == id);
 
         public async Task<IEnumerable<Flight>> SearchFlightsAsync(string departureIata, string arrivalIata, DateTime departureDate, bool tracking = false) =>
             await GetAllByStatusIsNotDeletedByTracking(tracking)
                 .Include(f => f.Aircraft).ThenInclude(a => a.Model)
+                .Include(f => f.Aircraft).ThenInclude(a => a.Seats)
                 .Include(f => f.Airline)
                 .Include(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.DepartureAirport)
                 .Include(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.ArrivalAirport)
-                .Include(f => f.Bookings)
+                .Include(f => f.Bookings).ThenInclude(b => b.Seat)
                 .Where(f =>
                     f.Schedule.Route.DepartureAirport.IataCode == departureIata &&
                     f.Schedule.Route.ArrivalAirport.IataCode == arrivalIata &&
@@ -46,9 +48,23 @@ namespace App.DataAccess.Concrete.Repositories.Concrete
         public async Task<IEnumerable<Flight>> GetAllWithStatsAsync(bool tracking = false) =>
             await GetAllByStatusIsNotDeletedByTracking(tracking)
                 .Include(f => f.Aircraft).ThenInclude(a => a.Model)
+                .Include(f => f.Aircraft).ThenInclude(a => a.Seats)
+                .Include(f => f.Airline)
                 .Include(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.DepartureAirport)
                 .Include(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.ArrivalAirport)
-                .Include(f => f.Bookings)
+                .Include(f => f.Bookings).ThenInclude(b => b.Seat)
+                .OrderBy(f => f.DepartureDateTime)
+                .ToListAsync();
+
+        public async Task<IEnumerable<Flight>> GetUpcomingWithSeatsAsync(DateTime from, bool tracking = false) =>
+            await GetAllByStatusIsNotDeletedByTracking(tracking)
+                .Include(f => f.Aircraft).ThenInclude(a => a.Model)
+                .Include(f => f.Aircraft).ThenInclude(a => a.Seats)
+                .Include(f => f.Airline)
+                .Include(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.DepartureAirport)
+                .Include(f => f.Schedule).ThenInclude(s => s.Route).ThenInclude(r => r.ArrivalAirport)
+                .Include(f => f.Bookings).ThenInclude(b => b.Seat)
+                .Where(f => f.DepartureDateTime >= from && f.FlightStatus != FlightStatus.Cancelled)
                 .OrderBy(f => f.DepartureDateTime)
                 .ToListAsync();
 

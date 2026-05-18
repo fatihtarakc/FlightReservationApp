@@ -70,9 +70,30 @@ namespace App.Business.Extensions
                     ? s.Schedule.Route.ArrivalAirport.IataCode : string.Empty)
                 .Map(d => d.ArrivalCity, s => s.Schedule != null && s.Schedule.Route != null && s.Schedule.Route.ArrivalAirport != null
                     ? s.Schedule.Route.ArrivalAirport.City : string.Empty)
-                .Map(d => d.AvailableEconomySeats, s => 0)
-                .Map(d => d.AvailableBusinessSeats, s => 0)
-                .Map(d => d.AvailableFirstClassSeats, s => 0);
+                .Map(d => d.AvailableEconomySeats, s =>
+                    s.Aircraft != null
+                    ? s.Aircraft.Seats.Count(seat => seat.SeatClass == SeatClass.Economy) -
+                      s.Bookings.Count(b => b.BookingStatus != BookingStatus.Cancelled &&
+                                           b.Seat != null && b.Seat.SeatClass == SeatClass.Economy)
+                    : 0)
+                .Map(d => d.AvailablePremiumEconomySeats, s =>
+                    s.Aircraft != null
+                    ? s.Aircraft.Seats.Count(seat => seat.SeatClass == SeatClass.PremiumEconomy) -
+                      s.Bookings.Count(b => b.BookingStatus != BookingStatus.Cancelled &&
+                                           b.Seat != null && b.Seat.SeatClass == SeatClass.PremiumEconomy)
+                    : 0)
+                .Map(d => d.AvailableBusinessSeats, s =>
+                    s.Aircraft != null
+                    ? s.Aircraft.Seats.Count(seat => seat.SeatClass == SeatClass.Business) -
+                      s.Bookings.Count(b => b.BookingStatus != BookingStatus.Cancelled &&
+                                           b.Seat != null && b.Seat.SeatClass == SeatClass.Business)
+                    : 0)
+                .Map(d => d.AvailableFirstClassSeats, s =>
+                    s.Aircraft != null
+                    ? s.Aircraft.Seats.Count(seat => seat.SeatClass == SeatClass.First) -
+                      s.Bookings.Count(b => b.BookingStatus != BookingStatus.Cancelled &&
+                                           b.Seat != null && b.Seat.SeatClass == SeatClass.First)
+                    : 0);
 
             config.NewConfig<Flight, FlightListDto>()
                 .Map(d => d.AirlineName, s => s.Airline != null ? s.Airline.Name : string.Empty)
@@ -84,7 +105,30 @@ namespace App.Business.Extensions
                     ? s.Schedule.Route.ArrivalAirport.IataCode : string.Empty)
                 .Map(d => d.ArrivalCity, s => s.Schedule != null && s.Schedule.Route != null && s.Schedule.Route.ArrivalAirport != null
                     ? s.Schedule.Route.ArrivalAirport.City : string.Empty)
-                .Map(d => d.AvailableSeats, s => 0);
+                .Map(d => d.AvailableEconomySeats, s =>
+                    s.Aircraft != null
+                    ? s.Aircraft.Seats.Count(seat => seat.SeatClass == SeatClass.Economy) -
+                      s.Bookings.Count(b => b.BookingStatus != BookingStatus.Cancelled &&
+                                           b.Seat != null && b.Seat.SeatClass == SeatClass.Economy)
+                    : 0)
+                .Map(d => d.AvailablePremiumEconomySeats, s =>
+                    s.Aircraft != null
+                    ? s.Aircraft.Seats.Count(seat => seat.SeatClass == SeatClass.PremiumEconomy) -
+                      s.Bookings.Count(b => b.BookingStatus != BookingStatus.Cancelled &&
+                                           b.Seat != null && b.Seat.SeatClass == SeatClass.PremiumEconomy)
+                    : 0)
+                .Map(d => d.AvailableBusinessSeats, s =>
+                    s.Aircraft != null
+                    ? s.Aircraft.Seats.Count(seat => seat.SeatClass == SeatClass.Business) -
+                      s.Bookings.Count(b => b.BookingStatus != BookingStatus.Cancelled &&
+                                           b.Seat != null && b.Seat.SeatClass == SeatClass.Business)
+                    : 0)
+                .Map(d => d.AvailableFirstClassSeats, s =>
+                    s.Aircraft != null
+                    ? s.Aircraft.Seats.Count(seat => seat.SeatClass == SeatClass.First) -
+                      s.Bookings.Count(b => b.BookingStatus != BookingStatus.Cancelled &&
+                                           b.Seat != null && b.Seat.SeatClass == SeatClass.First)
+                    : 0);
 
             config.NewConfig<Seat, SeatDto>()
                 .Map(d => d.IsAvailable, s => false);

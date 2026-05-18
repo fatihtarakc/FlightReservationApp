@@ -50,7 +50,7 @@ namespace App.Business.Concrete.Services
                         f.BaseEconomyPrice,
                         f.Currency,
                         f.FlightStatus,
-                        0))
+                        0, 0, 0, 0))
                     .ToList();
 
                 var recentBookings = bookingList
