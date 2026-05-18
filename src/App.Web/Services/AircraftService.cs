@@ -72,7 +72,7 @@ namespace App.Web.Services
             }
         }
 
-        public async Task<IDataResult<AircraftVM>> UpdateAsync(Guid id, AircraftUpdateVM model, string token)
+        public async Task<IResult> UpdateAsync(Guid id, AircraftUpdateVM model, string token)
         {
             try
             {
@@ -81,16 +81,16 @@ namespace App.Web.Services
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 var response = await _http.SendAsync(req);
                 var body = await response.Content.ReadAsStringAsync();
-                var result = JsonSerializer.Deserialize<ApiResponseVM<AircraftVM>>(body, _opts);
-                return result?.IsSuccess == true && result.Data != null
-                    ? new SuccessDataResult<AircraftVM>(result.Data, _localizer[Messages.Aircraft_Was_Updated])
-                    : new ErrorDataResult<AircraftVM>(result?.Message ?? _localizer[Messages.UnexpectedError]);
+                var result = JsonSerializer.Deserialize<ApiResponseVM<object>>(body, _opts);
+                return result?.IsSuccess == true
+                    ? new SuccessResult(_localizer[Messages.Aircraft_Was_Updated])
+                    : new ErrorResult(result?.Message ?? _localizer[Messages.UnexpectedError]);
             }
             catch (Exception ex)
             {
                 var message = _localizer[Messages.UnexpectedError];
                 _logger.LogError(ex, message);
-                return new ErrorDataResult<AircraftVM>(message);
+                return new ErrorResult(message);
             }
         }
 

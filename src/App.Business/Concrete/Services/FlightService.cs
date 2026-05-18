@@ -57,10 +57,10 @@ namespace App.Business.Concrete.Services
             {
                 var cached = await _cacheService.GetListByAsync(CacheKeyAll);
                 if (cached.IsSuccess && cached.Data is not null)
-                    return new SuccessDataResult<IEnumerable<FlightListDto>>(cached.Data.Select(x => x.Adapt<FlightListDto>()));
+                    return new SuccessDataResult<IEnumerable<FlightListDto>>(cached.Data.Select(x => x.Adapt<FlightListDto>()).OrderBy(flight => flight.Number));
 
                 var flights = await _flightRepository.GetUpcomingWithSeatsAsync(DateTime.UtcNow, tracking: false);
-                var list = flights.Select(f => f.Adapt<FlightListDto>()).ToList();
+                var list = flights.Select(f => f.Adapt<FlightListDto>()).OrderBy(flight => flight.Number).ToList();
                 await _cacheService.AddListAsync(CacheKeyAll, flights);
 
                 return new SuccessDataResult<IEnumerable<FlightListDto>>(list);
@@ -79,7 +79,7 @@ namespace App.Business.Concrete.Services
                 var flights = await _flightRepository.SearchFlightsAsync(
                     dto.DepartureIata, dto.ArrivalIata, dto.DepartureDate);
 
-                return new SuccessDataResult<IEnumerable<FlightListDto>>(flights.Select(x => x.Adapt<FlightListDto>()));
+                return new SuccessDataResult<IEnumerable<FlightListDto>>(flights.Select(x => x.Adapt<FlightListDto>()).OrderBy(flight => flight.Number));
             }
             catch (Exception ex)
             {
@@ -173,9 +173,8 @@ namespace App.Business.Concrete.Services
                         flight.BasePremiumEconomyPrice = dto.BasePremiumEconomyPrice;
                         flight.BaseBusinessPrice       = dto.BaseBusinessPrice;
                         flight.BaseFirstClassPrice     = dto.BaseFirstClassPrice;
-                        flight.FlightStatus            = dto.FlightStatus;
-                        flight.Gate                    = dto.Gate;
-                        flight.Terminal                = dto.Terminal;
+                        if (dto.Gate != null)     flight.Gate     = dto.Gate;
+                        if (dto.Terminal != null) flight.Terminal = dto.Terminal;
                         if (!string.IsNullOrWhiteSpace(dto.CancellationReason))
                             flight.CancellationReason = dto.CancellationReason;
 

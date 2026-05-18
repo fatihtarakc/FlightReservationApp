@@ -15,8 +15,8 @@
                             <span asp-validation-for="IataCode" class="text-danger small"></span>
                         </div>
                         <div class="col-md-4">
-                            <label asp-for="IcaoCode" class="form-label fw-semibold">ICAO</label>
-                            <input asp-for="IcaoCode" class="form-control text-uppercase" maxlength="4" placeholder="LTFM"/>
+                            <label asp-for="IcaoCode" class="form-label fw-semibold">ICAO <span class="text-danger">*</span></label>
+                            <input asp-for="IcaoCode" class="form-control text-uppercase" maxlength="4" placeholder="LTFM" required/>
                         </div>
                         <div class="col-md-4">
                             <label asp-for="City" class="form-label fw-semibold">@L["Airport_City"] <span class="text-danger">*</span></label>

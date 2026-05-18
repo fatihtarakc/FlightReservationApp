@@ -4,6 +4,7 @@ namespace App.Dtos.AircraftDtos
         Guid Id,
         string TailNumber,
         AircraftStatus AircraftStatus,
+        Guid AirlineId,
         string AirlineName,
         string ModelName);
 }

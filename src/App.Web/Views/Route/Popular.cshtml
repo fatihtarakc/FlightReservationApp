@@ -43,18 +43,15 @@
                                 <span class="text-muted small"><i class="fas fa-clock me-1"></i>@(route.DurationMinutes / 60) @L["Label_HourAbbr"] @(route.DurationMinutes % 60) @L["Label_MinAbbr"]</span>
                                 <span class="text-muted small"><i class="fas fa-ruler-horizontal me-1"></i>@route.DistanceKm.ToString("N0") km</span>
                             </div>
-                            @if (route.FlightCount > 0)
-                            {
-                                <div class="mb-2">
-                                    <span style="background:rgba(200,16,46,.08);color:var(--primary);font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:20px">
-                                        <i class="fas fa-plane-departure me-1"></i>@route.FlightCount @L["Home_FlightCount"]
-                                    </span>
-                                </div>
-                            }
+                            <div class="mb-2">
+                                <span style="background:rgba(200,16,46,.08);color:var(--primary);font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:20px">
+                                    <i class="fas fa-plane-departure me-1"></i>@L["Route_TotalFlights"] : @route.FlightCount @L["Route_FlightPiece"]
+                                </span>
+                            </div>
                             <a asp-controller="Flight" asp-action="Index"
                                asp-route-DepartureIata="@route.OriginIata"
                                asp-route-ArrivalIata="@route.DestinationIata"
-                               asp-route-DepartureDate="@today"
+                               asp-route-AllDates="true"
                                class="btn btn-sm w-100" style="background:var(--primary);color:#fff;font-weight:700">
                                 <i class="fas fa-search me-1"></i>@L["Home_FindFlight"]
                             </a>
@@ -74,7 +71,8 @@
                         data-label-load="@L["Btn_LoadMore"].Value"
                         data-label-hour="@L["Label_HourAbbr"].Value"
                         data-label-min="@L["Label_MinAbbr"].Value"
-                        data-label-flight="@L["Home_FlightCount"].Value"
+                        data-label-total-flights="@L["Route_TotalFlights"].Value"
+                        data-label-piece="@L["Route_FlightPiece"].Value"
                         data-label-find="@L["Home_FindFlight"].Value"
                         data-label-nomore="@L["Route_NoMoreRoutes"].Value">
                     <i class="fas fa-chevron-down me-2"></i>@L["Btn_LoadMore"]
@@ -174,9 +172,7 @@
     });
 
     function buildCard(r, h, m) {
-        const badge = r.flightCount > 0
-            ? '<div class="mb-2"><span style="background:rgba(200,16,46,.08);color:#c8102e;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:20px"><i class="fas fa-plane-departure me-1"></i>' + r.flightCount + ' ' + d.labelFlight + '</span></div>'
-            : '';
+        const badge = '<div class="mb-2"><span style="background:rgba(200,16,46,.08);color:#c8102e;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:20px"><i class="fas fa-plane-departure me-1"></i>' + d.labelTotalFlights + ' : ' + r.flightCount + ' ' + d.labelPiece + '</span></div>';
         return [
             '<div class="card border-0 shadow-sm h-100" style="border-radius:12px;overflow:hidden;transition:transform .3s" onmouseover="this.style.transform=\'translateY(-5px)\'" onmouseout="this.style.transform=\'translateY(0)\'">',
             '  <div class="route-card-header" data-dest-city="' + r.destinationCity + '"',
@@ -197,7 +193,7 @@
             '      <span class="text-muted small"><i class="fas fa-ruler-horizontal me-1"></i>' + Number(r.distanceKm).toLocaleString('tr-TR') + ' km</span>',
             '    </div>',
             badge,
-            '    <a href="/Flight?DepartureIata=' + r.originIata + '&ArrivalIata=' + r.destinationIata + '&DepartureDate=' + d.today + '" class="btn btn-sm w-100" style="background:#c8102e;color:#fff;font-weight:700">',
+            '    <a href="/Flight?DepartureIata=' + r.originIata + '&ArrivalIata=' + r.destinationIata + '&AllDates=true" class="btn btn-sm w-100" style="background:#c8102e;color:#fff;font-weight:700">',
             '      <i class="fas fa-search me-1"></i>' + d.labelFind,
             '    </a>',
             '  </div>',

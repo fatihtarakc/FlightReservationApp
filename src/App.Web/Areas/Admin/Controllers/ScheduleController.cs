@@ -95,7 +95,7 @@ namespace App.Web.Areas.Admin.Controllers
                     ValidFrom     = s.ValidFrom,
                     ValidTo       = s.ValidTo,
                     SelectedDays  = ExtractDays(s.DaysOfWeek),
-                    DepartureTime = s.DepartureTime.ToString(@"hh\:mm"),
+                    DepartureTime = s.DepartureTime.ToString(@"HH\:mm"),
                     TimeZone      = s.TimeZone
                 }
             });

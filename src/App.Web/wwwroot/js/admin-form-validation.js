@@ -79,6 +79,47 @@
             }
         }
 
+        // Flight price ordering validation
+        var ecoInput   = document.querySelector('[name="Form.EconomyPrice"]');
+        var premInput  = document.querySelector('[name="Form.PremiumEconomyPrice"]');
+        var bizInput   = document.querySelector('[name="Form.BusinessPrice"]');
+        var firstInput = document.querySelector('[name="Form.FirstClassPrice"]');
+
+        if (ecoInput && premInput && bizInput && firstInput) {
+            function validatePrices() {
+                var eco  = parseFloat(ecoInput.value)   || 0;
+                var prem = parseFloat(premInput.value)  || 0;
+                var biz  = parseFloat(bizInput.value)   || 0;
+                var fst  = parseFloat(firstInput.value) || 0;
+
+                premInput.setCustomValidity(
+                    (premInput.value !== '' && prem <= eco)
+                        ? (premInput.dataset.gtEconomyMsg || '')
+                        : ''
+                );
+                bizInput.setCustomValidity(
+                    (bizInput.value !== '' && biz <= prem)
+                        ? (bizInput.dataset.gtPremiumMsg || '')
+                        : ''
+                );
+                firstInput.setCustomValidity(
+                    (firstInput.value !== '' && fst <= biz)
+                        ? (firstInput.dataset.gtBusinessMsg || '')
+                        : ''
+                );
+            }
+
+            [ecoInput, premInput, bizInput, firstInput].forEach(function (inp) {
+                inp.addEventListener('input',  validatePrices);
+                inp.addEventListener('change', validatePrices);
+            });
+
+            var priceForm = ecoInput.closest('form');
+            if (priceForm) {
+                priceForm.addEventListener('submit', validatePrices, true);
+            }
+        }
+
         // Password strength bar (passenger settings)
         var pwdInput    = document.querySelector('[name="PasswordForm.NewPassword"]');
         var strengthBar = document.getElementById('pwStrength');
@@ -180,6 +221,68 @@
                 this.value = this.value.toUpperCase();
                 this.setSelectionRange(pos, pos);
             });
+        }
+
+        // Airline combobox ↔ Aircraft combobox
+        var airlineSelect  = document.getElementById('airlineSelect');
+        var aircraftSelect = document.getElementById('aircraftSelect');
+        var airlineIdInput = document.getElementById('airlineIdInput');
+
+        if (airlineSelect && aircraftSelect && airlineIdInput) {
+            // Build sorted unique airline list from aircraft options
+            var airlinesMap = {};
+            Array.from(aircraftSelect.options).forEach(function (opt) {
+                var id   = opt.dataset.airlineId;
+                var name = opt.dataset.airlineName;
+                if (id && name && !/^0+$/.test(id.replace(/-/g, '')))
+                    airlinesMap[id] = name;
+            });
+            Object.keys(airlinesMap).sort(function (a, b) {
+                return airlinesMap[a].localeCompare(airlinesMap[b]);
+            }).forEach(function (id) {
+                var o = document.createElement('option');
+                o.value = id;
+                o.textContent = airlinesMap[id];
+                airlineSelect.appendChild(o);
+            });
+
+            // Filter aircraft list to only the selected airline's planes
+            function filterAircraft(airlineId) {
+                Array.from(aircraftSelect.options).forEach(function (opt) {
+                    if (!opt.value) return;
+                    opt.hidden = airlineId ? (opt.dataset.airlineId !== airlineId) : false;
+                });
+                // If current aircraft no longer matches, reset it
+                var cur = aircraftSelect.options[aircraftSelect.selectedIndex];
+                if (cur && cur.value && cur.dataset.airlineId !== airlineId) {
+                    aircraftSelect.value = '';
+                    airlineIdInput.value = airlineId;
+                }
+            }
+
+            // Airline changed → filter aircraft, set hidden field
+            airlineSelect.addEventListener('change', function () {
+                var id = airlineSelect.value;
+                airlineIdInput.value = id;
+                filterAircraft(id);
+            });
+
+            // Aircraft changed → sync airline select and hidden field
+            aircraftSelect.addEventListener('change', function () {
+                var opt = aircraftSelect.options[aircraftSelect.selectedIndex];
+                var id  = opt ? opt.dataset.airlineId : '';
+                airlineSelect.value  = id || '';
+                airlineIdInput.value = id || '';
+            });
+
+            // Init on page load (Edit scenario: aircraft may already be pre-selected)
+            var preSelected = aircraftSelect.options[aircraftSelect.selectedIndex];
+            if (preSelected && preSelected.value && preSelected.dataset.airlineId) {
+                var preId = preSelected.dataset.airlineId;
+                airlineSelect.value  = preId;
+                airlineIdInput.value = preId;
+                filterAircraft(preId);
+            }
         }
     });
 })();

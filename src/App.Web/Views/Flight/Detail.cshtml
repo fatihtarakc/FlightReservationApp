@@ -80,25 +80,25 @@
                                 <span class="small">@L["Flight_Economy"]</span>
                                 <strong style="color:var(--primary)">₺@Model.Flight.EconomyPrice.ToString("N0")</strong>
                             </div>
-                            @if (Model.Flight.PremiumEconomyPrice.HasValue)
+                            @if (Model.Flight.PremiumEconomyPrice > 0)
                             {
                                 <div class="d-flex justify-content-between mb-1">
                                     <span class="small">@L["Flight_PremiumEconomy"]</span>
-                                    <strong style="color:var(--primary)">₺@Model.Flight.PremiumEconomyPrice.Value.ToString("N0")</strong>
+                                    <strong style="color:var(--primary)">₺@Model.Flight.PremiumEconomyPrice.ToString("N0")</strong>
                                 </div>
                             }
-                            @if (Model.Flight.BusinessPrice.HasValue)
+                            @if (Model.Flight.BusinessPrice > 0)
                             {
                                 <div class="d-flex justify-content-between mb-1">
                                     <span class="small">@L["Flight_Business"]</span>
-                                    <strong style="color:var(--primary)">₺@Model.Flight.BusinessPrice.Value.ToString("N0")</strong>
+                                    <strong style="color:var(--primary)">₺@Model.Flight.BusinessPrice.ToString("N0")</strong>
                                 </div>
                             }
-                            @if (Model.Flight.FirstClassPrice.HasValue)
+                            @if (Model.Flight.FirstClassPrice > 0)
                             {
                                 <div class="d-flex justify-content-between">
                                     <span class="small">@L["Flight_First"]</span>
-                                    <strong style="color:var(--primary)">₺@Model.Flight.FirstClassPrice.Value.ToString("N0")</strong>
+                                    <strong style="color:var(--primary)">₺@Model.Flight.FirstClassPrice.ToString("N0")</strong>
                                 </div>
                             }
                         </div>

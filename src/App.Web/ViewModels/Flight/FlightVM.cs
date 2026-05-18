@@ -32,16 +32,22 @@
         public decimal EconomyPrice { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("basePremiumEconomyPrice")]
-        public decimal? PremiumEconomyPrice { get; set; }
+        public decimal PremiumEconomyPrice { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("baseBusinessPrice")]
-        public decimal? BusinessPrice { get; set; }
+        public decimal BusinessPrice { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("baseFirstClassPrice")]
-        public decimal? FirstClassPrice { get; set; }
+        public decimal FirstClassPrice { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("flightStatus")]
         public FlightStatus Status { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("gate")]
+        public string? Gate { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("terminal")]
+        public string? Terminal { get; set; }
 
         public int AvailableEconomySeats { get; set; }
         public int AvailablePremiumEconomySeats { get; set; }

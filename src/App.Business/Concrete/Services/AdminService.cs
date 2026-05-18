@@ -26,9 +26,9 @@ namespace App.Business.Concrete.Services
         {
             try
             {
-                var users    = await _appUserRepository.GetAllAsync(tracking: false);
-                var flights  = await _flightRepository.GetAllWithStatsAsync(tracking: false);
-                var bookings = await _bookingRepository.GetAllWithDetailsAsync(tracking: false);
+                var users    = (await _appUserRepository.GetAllAsync(tracking: false)).OrderBy(user => user.Name);
+                var flights  = (await _flightRepository.GetAllWithStatsAsync(tracking: false)).OrderBy(flight => flight.Number);
+                var bookings = (await _bookingRepository.GetAllWithDetailsAsync(tracking: false)).OrderBy(booking => booking.PnrNumber);
 
                 var flightList  = flights.ToList();
                 var bookingList = bookings.ToList();
@@ -118,7 +118,7 @@ namespace App.Business.Concrete.Services
         {
             try
             {
-                var flights = await _flightRepository.GetAllWithStatsAsync(tracking: false);
+                var flights = (await _flightRepository.GetAllWithStatsAsync(tracking: false)).OrderBy(flight => flight.Number);
 
                 var stats = flights.Select(f =>
                 {

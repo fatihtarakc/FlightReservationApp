@@ -62,25 +62,25 @@
                             <td class="text-muted fw-semibold">@L["Flight_Economy"]</td>
                             <td class="fw-bold">₺@Model.EconomyPrice.ToString("N0")</td>
                         </tr>
-                        @if (Model.PremiumEconomyPrice.HasValue)
+                        @if (Model.PremiumEconomyPrice > 0)
                         {
                             <tr>
                                 <td class="text-muted fw-semibold">@L["Flight_PremiumEconomy"]</td>
-                                <td class="fw-bold">₺@Model.PremiumEconomyPrice.Value.ToString("N0")</td>
+                                <td class="fw-bold">₺@Model.PremiumEconomyPrice.ToString("N0")</td>
                             </tr>
                         }
-                        @if (Model.BusinessPrice.HasValue)
+                        @if (Model.BusinessPrice > 0)
                         {
                             <tr>
                                 <td class="text-muted fw-semibold">@L["Flight_Business"]</td>
-                                <td class="fw-bold">₺@Model.BusinessPrice.Value.ToString("N0")</td>
+                                <td class="fw-bold">₺@Model.BusinessPrice.ToString("N0")</td>
                             </tr>
                         }
-                        @if (Model.FirstClassPrice.HasValue)
+                        @if (Model.FirstClassPrice > 0)
                         {
                             <tr>
                                 <td class="text-muted fw-semibold">@L["Flight_First"]</td>
-                                <td class="fw-bold">₺@Model.FirstClassPrice.Value.ToString("N0")</td>
+                                <td class="fw-bold">₺@Model.FirstClassPrice.ToString("N0")</td>
                             </tr>
                         }
                     </table>

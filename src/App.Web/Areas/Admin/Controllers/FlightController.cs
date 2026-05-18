@@ -117,7 +117,9 @@ namespace App.Web.Areas.Admin.Controllers
                 EconomyPrice        = f.EconomyPrice,
                 PremiumEconomyPrice = f.PremiumEconomyPrice,
                 BusinessPrice       = f.BusinessPrice,
-                FirstClassPrice     = f.FirstClassPrice
+                FirstClassPrice     = f.FirstClassPrice,
+                Gate                = f.Gate,
+                Terminal            = f.Terminal
             };
             return View(pageVm);
         }

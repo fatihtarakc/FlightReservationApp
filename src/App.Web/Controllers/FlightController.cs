@@ -28,7 +28,21 @@ namespace App.Web.Controllers
                 IsLoggedIn = !string.IsNullOrEmpty(TokenHelper.GetToken(_httpContextAccessor))
             };
 
-            if (search != null && !string.IsNullOrWhiteSpace(search.DepartureIata))
+            if (search != null && !string.IsNullOrWhiteSpace(search.DepartureIata) && search.AllDates)
+            {
+                var result = await _flightService.GetAllAsync();
+                if (result.IsSuccess && result.Data != null)
+                {
+                    vm.Flights = result.Data
+                        .Where(f => f.OriginIata == search.DepartureIata
+                                 && f.DestinationIata == search.ArrivalIata
+                                 && (f.Status == FlightStatus.Scheduled || f.Status == FlightStatus.Delayed))
+                        .OrderBy(f => f.DepartureTime)
+                        .ToList();
+                    vm.IsRouteResult = true;
+                }
+            }
+            else if (search != null && !string.IsNullOrWhiteSpace(search.DepartureIata))
             {
                 var result = await _flightService.SearchAsync(search);
                 if (result.IsSuccess)

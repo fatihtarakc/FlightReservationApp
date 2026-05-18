@@ -84,7 +84,7 @@
                                 else
                                 {
                                     <div class="btn-group btn-group-sm">
-                                        <a asp-action="Edit" asp-route-id="@f.Id" class="btn btn-outline-primary"><i class="fas fa-edit"></i></a>
+                                        <a asp-action="Edit" asp-route-id="@f.Id" class="btn btn-outline-primary" title="@L["Btn_Edit"]"><i class="fas fa-edit"></i></a>
                                         @if (f.Status != FlightStatus.Cancelled)
                                         {
                                             <button type="button" class="btn btn-outline-warning confirm-action-btn"

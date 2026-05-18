@@ -112,6 +112,7 @@ namespace App.Core.Constants
         public const string Airport_Was_Updated = "Airport_Was_Updated";
         public const string Airport_Was_Deleted = "Airport_Was_Deleted";
         public const string Airport_IataCode_Already_Exists = "Airport_IataCode_Already_Exists";
+        public const string Airport_Has_Routes = "Airport_Has_Routes";
         #endregion
 
         #region Aircraft
@@ -122,6 +123,7 @@ namespace App.Core.Constants
         public const string Aircraft_Was_Updated = "Aircraft_Was_Updated";
         public const string Aircraft_Was_Deleted = "Aircraft_Was_Deleted";
         public const string Aircraft_TailNumber_Already_Exists = "Aircraft_TailNumber_Already_Exists";
+        public const string Aircraft_Has_Flights = "Aircraft_Has_Flights";
         #endregion
 
         #region Manufacturer
@@ -409,6 +411,9 @@ namespace App.Core.Constants
         public const string Flight_PremiumEconomyPrice_Must_Be_Positive = "Flight_PremiumEconomyPrice_Must_Be_Positive";
         public const string Flight_BusinessPrice_Must_Be_Positive = "Flight_BusinessPrice_Must_Be_Positive";
         public const string Flight_FirstClassPrice_Must_Be_Positive = "Flight_FirstClassPrice_Must_Be_Positive";
+        public const string Flight_PremiumEconomy_Must_Be_GreaterThan_Economy = "Flight_PremiumEconomy_Must_Be_GreaterThan_Economy";
+        public const string Flight_Business_Must_Be_GreaterThan_PremiumEconomy = "Flight_Business_Must_Be_GreaterThan_PremiumEconomy";
+        public const string Flight_FirstClass_Must_Be_GreaterThan_Business = "Flight_FirstClass_Must_Be_GreaterThan_Business";
         public const string Flight_Please_Select_Aircraft = "Flight_Please_Select_Aircraft";
         public const string Flight_Please_Select_Airline = "Flight_Please_Select_Airline";
         public const string Flight_Please_Select_Schedule = "Flight_Please_Select_Schedule";

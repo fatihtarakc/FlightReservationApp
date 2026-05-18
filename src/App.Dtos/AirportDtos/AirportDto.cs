@@ -7,5 +7,7 @@ namespace App.Dtos.AirportDtos
         string IcaoCode,
         string City,
         string Country,
-        string TimeZone);
+        string TimeZone,
+        double Latitude,
+        double Longitude);
 }

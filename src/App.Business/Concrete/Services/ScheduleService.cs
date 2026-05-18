@@ -60,7 +60,7 @@ namespace App.Business.Concrete.Services
                 if (cachedList.IsSuccess && cachedList.Data is not null) return new SuccessDataResult<IEnumerable<ScheduleDto>>(cachedList.Data.Select(x => x.Adapt<ScheduleDto>()));
 
                 var schedules = await _scheduleRepository.GetAllAsync(tracking: false);
-                var list = schedules.ToList();
+                var list = schedules.OrderBy(schedule => schedule.Code).ToList();
                 await _cacheService.AddListAsync(CacheKeyAll, list);
                 return new SuccessDataResult<IEnumerable<ScheduleDto>>(list.Select(x => x.Adapt<ScheduleDto>()));
             }

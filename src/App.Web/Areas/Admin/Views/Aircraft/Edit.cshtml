@@ -1,14 +1,11 @@
 @model AircraftUpdateVM
-@{
-    var editId = ViewContext.RouteData.Values["id"];
-}
 
 <div class="row justify-content-center">
     <div class="col-xl-7">
         <div class="admin-card">
             <div class="admin-card-header"><i class="fas fa-fighter-jet me-2"></i>@L["Aircraft_Management"] — @L["Btn_Edit"]</div>
             <div class="p-4">
-                <form asp-action="Edit" asp-route-id="@editId" method="post" novalidate>
+                <form asp-action="Edit" asp-route-id="@Model.Id" method="post" novalidate>
                     @Html.AntiForgeryToken()
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
                     <div class="row g-3">

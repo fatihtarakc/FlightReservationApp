@@ -104,6 +104,16 @@
   <data name="Airport_Was_Updated"><value>Havalimanı başarıyla güncellendi.</value></data>
   <data name="Airport_Was_Deleted"><value>Havalimanı başarıyla silindi.</value></data>
   <data name="Airport_IataCode_Already_Exists"><value>Bu IATA kodu zaten kullanımda.</value></data>
+  <data name="Airport_Has_Routes"><value>Bu havalimanı bir rotaya bağlı olduğu için silinemez.</value></data>
+  <!-- Aircraft -->
+  <data name="Aircraft_Was_Not_Found"><value>Uçak bulunamadı.</value></data>
+  <data name="Aircraft_Was_Found"><value>Uçak bulundu.</value></data>
+  <data name="Aircraft_HasBeen_Added"><value>Uçak başarıyla eklendi.</value></data>
+  <data name="Aircraft_CouldNotBe_Added"><value>Uçak eklenemedi.</value></data>
+  <data name="Aircraft_Was_Updated"><value>Uçak başarıyla güncellendi.</value></data>
+  <data name="Aircraft_Was_Deleted"><value>Uçak başarıyla silindi.</value></data>
+  <data name="Aircraft_TailNumber_Already_Exists"><value>Bu kuyruk numarası zaten kullanımda.</value></data>
+  <data name="Aircraft_Has_Flights"><value>Bu uçağa ait uçuşlar bulunduğu için silinemez.</value></data>
   <!-- Flight -->
   <data name="Flight_Was_Not_Found"><value>Uçuş bulunamadı.</value></data>
   <data name="Flight_Was_Found"><value>Uçuş bulundu.</value></data>
@@ -116,6 +126,27 @@
   <data name="Flight_No_Available_Seats"><value>Bu uçuş için müsait koltuk bulunmamaktadır.</value></data>
   <data name="Flight_Has_Active_Bookings"><value>Bu uçuşa ait aktif rezervasyonlar bulunmaktadır. Silme işlemi gerçekleştirilemiyor.</value></data>
   <data name="Flight_Seat_Is_Already_Booked"><value>Bu koltuk zaten rezerve edilmiş.</value></data>
+  <data name="Flight_Please_Enter_Number"><value>Uçuş numarası giriniz.</value></data>
+  <data name="Flight_Number_Cannot_Be_GreaterThan_6Characters"><value>Uçuş numarası en fazla 6 karakter olabilir.</value></data>
+  <data name="Flight_Number_Format_Invalid"><value>Uçuş numarası yalnızca büyük harf ve rakamlardan oluşmalı, 3-6 karakter uzunluğunda olmalıdır.</value></data>
+  <data name="Flight_DepartureDateTime_Required"><value>Kalkış tarihi ve saati zorunludur.</value></data>
+  <data name="Flight_DepartureDateTime_Must_Be_Future"><value>Kalkış tarihi gelecekte bir zaman olmalıdır.</value></data>
+  <data name="Flight_ArrivalDateTime_Required"><value>Varış tarihi ve saati zorunludur.</value></data>
+  <data name="Flight_ArrivalDateTime_Must_Be_After_Departure"><value>Varış tarihi kalkış tarihinden sonra olmalıdır.</value></data>
+  <data name="Flight_EconomyPrice_Must_Be_Positive"><value>Ekonomi sınıfı fiyatı sıfırdan büyük olmalıdır.</value></data>
+  <data name="Flight_PremiumEconomyPrice_Must_Be_Positive"><value>Premium ekonomi fiyatı sıfırdan büyük olmalıdır.</value></data>
+  <data name="Flight_BusinessPrice_Must_Be_Positive"><value>Business sınıfı fiyatı sıfırdan büyük olmalıdır.</value></data>
+  <data name="Flight_FirstClassPrice_Must_Be_Positive"><value>First class fiyatı sıfırdan büyük olmalıdır.</value></data>
+  <data name="Flight_PremiumEconomy_Must_Be_GreaterThan_Economy"><value>Premium ekonomi fiyatı ekonomi fiyatından büyük olmalıdır.</value></data>
+  <data name="Flight_Business_Must_Be_GreaterThan_PremiumEconomy"><value>Business fiyatı premium ekonomi fiyatından büyük olmalıdır.</value></data>
+  <data name="Flight_FirstClass_Must_Be_GreaterThan_Business"><value>First class fiyatı business fiyatından büyük olmalıdır.</value></data>
+  <data name="Flight_Please_Select_Aircraft"><value>Lütfen uçak seçiniz.</value></data>
+  <data name="Flight_Please_Select_Airline"><value>Lütfen havayolu şirketi seçiniz.</value></data>
+  <data name="Flight_Please_Select_Schedule"><value>Lütfen sefer programı seçiniz.</value></data>
+  <data name="Flight_Please_Select_Currency"><value>Lütfen geçerli bir para birimi seçiniz.</value></data>
+  <data name="Flight_Please_Select_Status"><value>Lütfen geçerli bir durum seçiniz.</value></data>
+  <data name="Flight_Gate_Cannot_Be_GreaterThan_10Characters"><value>Kapı numarası en fazla 10 karakter olabilir.</value></data>
+  <data name="Flight_Terminal_Cannot_Be_GreaterThan_10Characters"><value>Terminal adı en fazla 10 karakter olabilir.</value></data>
   <!-- Seat -->
   <data name="Seat_Was_Not_Found"><value>Koltuk bulunamadı.</value></data>
   <data name="Seat_Was_Found"><value>Koltuk bulundu.</value></data>

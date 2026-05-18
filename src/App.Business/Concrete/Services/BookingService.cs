@@ -90,7 +90,7 @@ namespace App.Business.Concrete.Services
             try
             {
                 var bookings = await _bookingRepository.GetAllWithDetailsAsync(tracking: false);
-                return new SuccessDataResult<IEnumerable<BookingDto>>(bookings.Select(b => b.Adapt<BookingDto>()));
+                return new SuccessDataResult<IEnumerable<BookingDto>>(bookings.Select(b => b.Adapt<BookingDto>()).OrderBy(booking => booking.PnrNumber));
             }
             catch (Exception ex)
             {

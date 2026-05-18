@@ -4,9 +4,6 @@ namespace App.Api.Validators
     {
         public AircraftUpdateDtoValidator()
         {
-            RuleFor(x => x.Id)
-                .NotEmpty();
-
             RuleFor(x => x.TailNumber)
                 .NotEmpty().WithMessage(Messages.Aircraft_Please_Enter_TailNumber)
                 .MinimumLength(2).WithMessage(Messages.Aircraft_TailNumber_Cannot_Be_LessThan_2Characters)

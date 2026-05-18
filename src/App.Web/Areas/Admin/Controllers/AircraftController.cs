@@ -73,6 +73,7 @@ namespace App.Web.Areas.Admin.Controllers
             var vm = result.Data;
             return View(new AircraftUpdateVM
             {
+                Id              = id,
                 TailNumber      = vm.RegistrationNumber,
                 ManufactureYear = vm.ManufactureYear,
                 AircraftStatus  = vm.Status,

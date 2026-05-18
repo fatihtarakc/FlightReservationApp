@@ -5,5 +5,6 @@ namespace App.Dtos.AirportDtos
         string Name,
         string IataCode,
         string City,
-        string Country);
+        string Country,
+        string TimeZone);
 }

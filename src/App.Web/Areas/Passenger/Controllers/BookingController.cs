@@ -52,9 +52,9 @@ namespace App.Web.Areas.Passenger.Controllers
             var price = seat.SeatClass switch
             {
                 SeatClass.Economy => flight.EconomyPrice,
-                SeatClass.PremiumEconomy => flight.PremiumEconomyPrice ?? flight.EconomyPrice,
-                SeatClass.Business => flight.BusinessPrice ?? flight.EconomyPrice,
-                SeatClass.First => flight.FirstClassPrice ?? flight.EconomyPrice,
+                SeatClass.PremiumEconomy => flight.PremiumEconomyPrice > 0 ? flight.PremiumEconomyPrice : flight.EconomyPrice,
+                SeatClass.Business => flight.BusinessPrice > 0 ? flight.BusinessPrice : flight.EconomyPrice,
+                SeatClass.First => flight.FirstClassPrice > 0 ? flight.FirstClassPrice : flight.EconomyPrice,
                 _ => flight.EconomyPrice
             };
 

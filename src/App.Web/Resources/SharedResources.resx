@@ -207,6 +207,12 @@
   <data name="Flight_All" xml:space="preserve">
     <value>Tüm Uçuşlar</value>
   </data>
+  <data name="Flight_AllFlights" xml:space="preserve">
+    <value>— Tüm Uçuşlar</value>
+  </data>
+  <data name="Flight_AvailableFlights" xml:space="preserve">
+    <value>Tüm Uygun Uçuşlar</value>
+  </data>
   <data name="Flight_New" xml:space="preserve">
     <value>Yeni Uçuş</value>
   </data>
@@ -299,6 +305,21 @@
   </data>
   <data name="Flight_SelectAircraft" xml:space="preserve">
     <value>Uçak Seçin</value>
+  </data>
+  <data name="Flight_Airline" xml:space="preserve">
+    <value>Havayolu</value>
+  </data>
+  <data name="Flight_SelectAirline" xml:space="preserve">
+    <value>Havayolu Seçin</value>
+  </data>
+  <data name="Flight_GateTerminal" xml:space="preserve">
+    <value>Kapı &amp; Terminal</value>
+  </data>
+  <data name="Flight_Gate" xml:space="preserve">
+    <value>Kapı</value>
+  </data>
+  <data name="Flight_Terminal" xml:space="preserve">
+    <value>Terminal</value>
   </data>
   <data name="Route_Management" xml:space="preserve">
     <value>Güzergah Yönetimi</value>
@@ -1056,6 +1077,15 @@
   <data name="Val_EconomyPrice_Positive" xml:space="preserve">
     <value>Ekonomi fiyatı sıfırdan büyük olmalıdır.</value>
   </data>
+  <data name="Val_PremiumEconomy_GreaterThan_Economy" xml:space="preserve">
+    <value>Premium ekonomi fiyatı ekonomi fiyatından büyük olmalıdır.</value>
+  </data>
+  <data name="Val_Business_GreaterThan_PremiumEconomy" xml:space="preserve">
+    <value>Business fiyatı premium ekonomi fiyatından büyük olmalıdır.</value>
+  </data>
+  <data name="Val_FirstClass_GreaterThan_Business" xml:space="preserve">
+    <value>First class fiyatı business fiyatından büyük olmalıdır.</value>
+  </data>
   <data name="Val_TailNumber_Required" xml:space="preserve">
     <value>Kuyruk numarası gereklidir.</value>
   </data>
@@ -1307,6 +1337,15 @@
   </data>
   <data name="Route_Edit" xml:space="preserve">
     <value>Güzergah Düzenle</value>
+  </data>
+  <data name="Route_AirportsReadOnly" xml:space="preserve">
+    <value>Havalimanları güzergah oluşturulduktan sonra değiştirilemez.</value>
+  </data>
+  <data name="Route_TotalFlights" xml:space="preserve">
+    <value>Tüm Uçuşlar</value>
+  </data>
+  <data name="Route_FlightPiece" xml:space="preserve">
+    <value>tane</value>
   </data>
   <data name="Route_Was_Updated" xml:space="preserve">
     <value>Güzergah başarıyla güncellendi.</value>
@@ -1657,25 +1696,25 @@
     <value>Yaklaşan Uçuşlar</value>
   </data>
   <data name="Schedule_Management" xml:space="preserve">
-    <value>Takvim Yönetimi</value>
+    <value>Takvim - Sefer Yönetimi</value>
   </data>
   <data name="Schedule_All" xml:space="preserve">
     <value>Tüm Takvimler</value>
   </data>
   <data name="Schedule_New" xml:space="preserve">
-    <value>Yeni Takvim</value>
+    <value>Yeni Takvim - Sefer</value>
   </data>
   <data name="Schedule_Add" xml:space="preserve">
     <value>Takvim Ekle</value>
   </data>
   <data name="Schedule_Edit" xml:space="preserve">
-    <value>Takvim Düzenle</value>
+    <value>Takvim - Sefer Düzenle</value>
   </data>
   <data name="Schedule_Detail" xml:space="preserve">
-    <value>Takvim Detayı</value>
+    <value>Takvim - Sefer Detayı</value>
   </data>
   <data name="Schedule_Info" xml:space="preserve">
-    <value>Takvim Bilgisi</value>
+    <value>Takvim - Sefer Bilgisi</value>
   </data>
   <data name="Schedule_Code" xml:space="preserve">
     <value>Kod</value>
@@ -1699,19 +1738,19 @@
     <value>Güzergah</value>
   </data>
   <data name="Schedule_NotFound" xml:space="preserve">
-    <value>Takvim bulunamadı</value>
+    <value>Takvim - Sefer bilgisi bulunamadı</value>
   </data>
   <data name="Schedule_SelectRoute" xml:space="preserve">
     <value>Güzergah Seçin</value>
   </data>
   <data name="Schedule_Was_Not_Found" xml:space="preserve">
-    <value>Takvim bulunamadı</value>
+    <value>Takvim - Sefer bilgisi bulunamadı</value>
   </data>
   <data name="Schedule_HasBeen_Added" xml:space="preserve">
-    <value>Takvim başarıyla eklendi</value>
+    <value>Takvim - Sefer başarıyla eklendi</value>
   </data>
   <data name="Schedule_HasFlights_Error" xml:space="preserve">
-    <value>Bu takvime atanmış uçuşlar bulunduğundan silinemez.</value>
+    <value>Bu takvime - sefere atanmış uçuşlar bulunduğundan silinemez.</value>
   </data>
   <data name="Val_Schedule_Code_Required" xml:space="preserve">
     <value>Takvim kodu zorunludur.</value>
@@ -1750,10 +1789,10 @@
     <value>Güzergah seçilmelidir.</value>
   </data>
   <data name="Schedule_Was_Updated" xml:space="preserve">
-    <value>Takvim başarıyla güncellendi</value>
+    <value>Takvim - Sefer bilgisi başarıyla güncellendi</value>
   </data>
   <data name="Schedule_Was_Deleted" xml:space="preserve">
-    <value>Takvim başarıyla silindi</value>
+    <value>Takvim - Sefer bilgisi başarıyla silindi</value>
   </data>
   <data name="DayOfWeek_Monday" xml:space="preserve">
     <value>Pazartesi</value>

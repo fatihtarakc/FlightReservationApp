@@ -46,24 +46,26 @@
             <div class="d-flex align-items-center ms-auto ms-md-0">
                 @if (!string.IsNullOrEmpty(Context.Session.GetString("JwtToken")))
                 {
-                    <span class="me-3 d-none d-sm-inline"><i class="fas fa-user-circle me-1"></i> @Context.Session.GetString("UserName")</span>
                     @if (Context.Session.GetString("UserRole") == "Admin")
                     {
-                        <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="me-2">@L["Nav_AdminPanel"]</a>
+                        <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="me-2">
+                            <span class="me-3 d-none d-sm-inline"><i class="fas fa-user-circle me-1"></i> @Context.Session.GetString("UserName")</span>
+                        </a>
                     }
                     else
                     {
-                        <a asp-area="Passenger" asp-controller="Home" asp-action="Index" class="me-2">@L["Nav_MyAccount"]</a>
+                        <a asp-area="Passenger" asp-controller="Home" asp-action="Index" class="me-2">
+                            <span class="me-3 d-none d-sm-inline"><i class="fas fa-user-circle me-1"></i> @Context.Session.GetString("UserName")</span>
+                        </a>
                     }
                     <form asp-controller="Account" asp-action="SignOut" asp-area="" method="post" class="d-inline">
                         @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-outline-light">@L["Nav_SignOut"]</button>
+                        <button type="submit" class="btn btn-sm btn-outline" style="background:var(--gold);font-weight:700;">@L["Nav_SignOut"]</button>
                     </form>
                 }
                 else
                 {
-                    <a asp-controller="Account" asp-action="SignUp" asp-area="" class="me-2">@L["Nav_SignUp"]</a>
-                    <button type="button" id="signInPanelBtn" class="btn btn-sm" style="background:var(--gold);color:#000;font-weight:700;">@L["Nav_SignIn"]</button>
+                    <button type="button" id="signInPanelBtn" class="btn btn-sm btn-outline" style="background:var(--gold);font-weight:700;">@L["Nav_SignIn"]</button>
                 }
             </div>
         </div>

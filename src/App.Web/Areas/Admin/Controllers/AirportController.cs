@@ -77,12 +77,14 @@ namespace App.Web.Areas.Admin.Controllers
             var vm = result.Data;
             return View(new AirportAddVM
             {
-                Name     = vm.Name,
-                IataCode = vm.IataCode,
-                IcaoCode = vm.IcaoCode,
-                City     = vm.City,
-                Country  = vm.Country,
-                Timezone = vm.Timezone
+                Name      = vm.Name,
+                IataCode  = vm.IataCode,
+                IcaoCode  = vm.IcaoCode,
+                City      = vm.City,
+                Country   = vm.Country,
+                Timezone  = vm.Timezone,
+                Latitude  = vm.Latitude,
+                Longitude = vm.Longitude
             });
         }
 

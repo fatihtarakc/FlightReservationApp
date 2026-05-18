@@ -13,6 +13,7 @@ namespace App.Web.ViewModels.Admin
         public bool EmailConfirmed { get; set; }
         public string Role { get; set; } = string.Empty;
         public int BookingCount { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("createdDate")]
         public DateTime CreatedAt { get; set; }
         public string FullName => $"{Name} {Surname}";
     }

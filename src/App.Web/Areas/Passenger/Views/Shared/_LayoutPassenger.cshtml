@@ -43,20 +43,6 @@
                     <i class="fas fa-plane me-2"></i>Sky<span>Way</span>
                 </a>
             </div>
-            <div class="d-flex align-items-center gap-3">
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="topbar-link">
-                    <i class="fas fa-home"></i> @L["Nav_Home"]
-                </a>
-                <div class="d-flex gap-1">
-                    <a asp-controller="Home" asp-action="SetLanguage" asp-route-lang="tr-TR" asp-route-returnUrl="@Context.Request.Path"
-                       class="lang-btn @(paxLang == "tr" ? "active-lang" : "")">TR</a>
-                    <a asp-controller="Home" asp-action="SetLanguage" asp-route-lang="en-US" asp-route-returnUrl="@Context.Request.Path"
-                       class="lang-btn @(paxLang == "en" ? "active-lang" : "")">EN</a>
-                </div>
-                <span class="text-white-50 small d-none d-md-inline">
-                    <i class="fas fa-user-circle me-1"></i>@Context.Session.GetString("UserName")
-                </span>
-            </div>
         </div>
     </div>
 
@@ -98,9 +84,9 @@
             </div>
             <div class="sidebar-divider"></div>
 
-            <form asp-area="" asp-controller="Account" asp-action="SignOut" method="post" class="d-inline w-100">
+            <form asp-area="" asp-controller="Account" asp-action="SignOut" method="post" class="nav-link">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="nav-link border-0 w-100 text-start" style="background:transparent;color:#c8102e">
+                <button type="submit" class="btn">
                     <i class="fas fa-sign-out-alt"></i> @L["Nav_SignOut"]
                 </button>
             </form>

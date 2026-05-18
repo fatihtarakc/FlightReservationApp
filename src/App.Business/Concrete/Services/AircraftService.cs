@@ -3,6 +3,7 @@ namespace App.Business.Concrete.Services
     public class AircraftService : IAircraftService
     {
         private readonly IAircraftRepository _aircraftRepository;
+        private readonly IFlightRepository _flightRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICacheService<Aircraft> _cacheService;
         private readonly IStringLocalizer<MessageResources> _localizer;
@@ -13,12 +14,14 @@ namespace App.Business.Concrete.Services
 
         public AircraftService(
             IAircraftRepository aircraftRepository,
+            IFlightRepository flightRepository,
             IUnitOfWork unitOfWork,
             ICacheService<Aircraft> cacheService,
             IStringLocalizer<MessageResources> localizer,
             ILogger<AircraftService> logger)
         {
             _aircraftRepository = aircraftRepository;
+            _flightRepository = flightRepository;
             _unitOfWork = unitOfWork;
             _cacheService = cacheService;
             _localizer = localizer;
@@ -50,10 +53,10 @@ namespace App.Business.Concrete.Services
             try
             {
                 var cachedList = await _cacheService.GetListByAsync(CacheKeyAll);
-                if (cachedList.IsSuccess && cachedList.Data is not null) return new SuccessDataResult<IEnumerable<AircraftListDto>>(cachedList.Data.Select(x => x.Adapt<AircraftListDto>()));
+                if (cachedList.IsSuccess && cachedList.Data is not null) return new SuccessDataResult<IEnumerable<AircraftListDto>>(cachedList.Data.Select(x => x.Adapt<AircraftListDto>()).OrderBy(aircraft => aircraft.TailNumber));
 
                 var aircrafts = await _aircraftRepository.GetAllAsync(tracking: false);
-                var list = aircrafts.ToList();
+                var list = aircrafts.OrderBy(aircraft => aircraft.TailNumber).ToList();
                 await _cacheService.AddListAsync(CacheKeyAll, list);
 
                 return new SuccessDataResult<IEnumerable<AircraftListDto>>(list.Select(a => a.Adapt<AircraftListDto>()));
@@ -173,6 +176,10 @@ namespace App.Business.Concrete.Services
                 var aircraft = await _aircraftRepository.GetByIdAsync(id);
                 if (aircraft == null)
                     return new ErrorResult(_localizer[Messages.Aircraft_Was_Not_Found]);
+
+                var hasFlights = await _flightRepository.AnyAsync(f => f.AircraftId == id);
+                if (hasFlights)
+                    return new ErrorResult(_localizer[Messages.Aircraft_Has_Flights]);
 
                 IResult result = new ErrorResult(_localizer[Messages.UnexpectedError]);
                 var strategy = await _unitOfWork.CreateExecutionStrategy();

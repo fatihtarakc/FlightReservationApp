@@ -207,6 +207,12 @@
   <data name="Flight_All" xml:space="preserve">
     <value>All Flights</value>
   </data>
+  <data name="Flight_AllFlights" xml:space="preserve">
+    <value>— All Flights</value>
+  </data>
+  <data name="Flight_AvailableFlights" xml:space="preserve">
+    <value>All Available Flights</value>
+  </data>
   <data name="Flight_New" xml:space="preserve">
     <value>New Flight</value>
   </data>
@@ -299,6 +305,21 @@
   </data>
   <data name="Flight_SelectAircraft" xml:space="preserve">
     <value>Select Aircraft</value>
+  </data>
+  <data name="Flight_Airline" xml:space="preserve">
+    <value>Airline</value>
+  </data>
+  <data name="Flight_SelectAirline" xml:space="preserve">
+    <value>Select Airline</value>
+  </data>
+  <data name="Flight_GateTerminal" xml:space="preserve">
+    <value>Gate &amp; Terminal</value>
+  </data>
+  <data name="Flight_Gate" xml:space="preserve">
+    <value>Gate</value>
+  </data>
+  <data name="Flight_Terminal" xml:space="preserve">
+    <value>Terminal</value>
   </data>
   <data name="Route_Management" xml:space="preserve">
     <value>Route Management</value>
@@ -1056,6 +1077,15 @@
   <data name="Val_EconomyPrice_Positive" xml:space="preserve">
     <value>Economy price must be greater than zero.</value>
   </data>
+  <data name="Val_PremiumEconomy_GreaterThan_Economy" xml:space="preserve">
+    <value>Premium economy price must be greater than economy price.</value>
+  </data>
+  <data name="Val_Business_GreaterThan_PremiumEconomy" xml:space="preserve">
+    <value>Business price must be greater than premium economy price.</value>
+  </data>
+  <data name="Val_FirstClass_GreaterThan_Business" xml:space="preserve">
+    <value>First class price must be greater than business price.</value>
+  </data>
   <data name="Val_TailNumber_Required" xml:space="preserve">
     <value>Tail number is required.</value>
   </data>
@@ -1307,6 +1337,15 @@
   </data>
   <data name="Route_Edit" xml:space="preserve">
     <value>Edit Route</value>
+  </data>
+  <data name="Route_AirportsReadOnly" xml:space="preserve">
+    <value>Airports cannot be changed after the route is created.</value>
+  </data>
+  <data name="Route_TotalFlights" xml:space="preserve">
+    <value>All Flights</value>
+  </data>
+  <data name="Route_FlightPiece" xml:space="preserve">
+    <value>total</value>
   </data>
   <data name="Route_Was_Updated" xml:space="preserve">
     <value>Route has been updated successfully.</value>

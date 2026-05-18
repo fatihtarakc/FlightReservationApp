@@ -55,11 +55,11 @@ namespace App.Business.Concrete.Services
                 if (cachedList.IsSuccess && cachedList.Data != null)
                 {
                     var cachedDtos = cachedList.Data.Select(x => x.Adapt<AirlineListDto>());
-                    return new SuccessDataResult<IEnumerable<AirlineListDto>>(cachedDtos);
+                    return new SuccessDataResult<IEnumerable<AirlineListDto>>(cachedDtos.OrderBy(airline => airline.Name));
                 }
 
                 var airlines = await _airlineRepository.GetAllAsync(tracking: false);
-                var airlineList = airlines.ToList();
+                var airlineList = airlines.OrderBy(airline => airline.Name).ToList();
                 await _cacheService.AddListAsync(CacheKeyAll, airlineList);
 
                 return new SuccessDataResult<IEnumerable<AirlineListDto>>(airlineList.Select(x => x.Adapt<AirlineListDto>()));

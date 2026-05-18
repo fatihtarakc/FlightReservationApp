@@ -58,36 +58,55 @@
                     </div>
 
                     <hr class="my-4" />
+                    <h6 class="fw-bold mb-3"><i class="fas fa-door-open me-2 text-secondary"></i>@L["Flight_GateTerminal"]</h6>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label asp-for="Form.Gate" class="form-label fw-semibold">@L["Flight_Gate"]</label>
+                            <input asp-for="Form.Gate" class="form-control" placeholder="A12"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Form.Terminal" class="form-label fw-semibold">@L["Flight_Terminal"]</label>
+                            <input asp-for="Form.Terminal" class="form-control" placeholder="T1"/>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
                     <h6 class="fw-bold mb-3"><i class="fas fa-tags me-2 text-danger"></i>@L["Flight_Pricing"]</h6>
                     <div class="row g-3">
                         <div class="col-md-3">
-                            <label asp-for="Form.EconomyPrice" class="form-label fw-semibold">@L["Flight_Economy"] (₺)</label>
+                            <label asp-for="Form.EconomyPrice" class="form-label fw-semibold">@L["Flight_Economy"] (₺) <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
-                                <input asp-for="Form.EconomyPrice" class="form-control" type="number" min="0" step="0.01" required/>
+                                <input asp-for="Form.EconomyPrice" class="form-control" type="number" min="1" step="0.01" required/>
                             </div>
                             <span asp-validation-for="Form.EconomyPrice" class="text-danger small"></span>
                         </div>
                         <div class="col-md-3">
-                            <label asp-for="Form.PremiumEconomyPrice" class="form-label fw-semibold">@L["Flight_PremiumEconomy"] (₺)</label>
+                            <label asp-for="Form.PremiumEconomyPrice" class="form-label fw-semibold">@L["Flight_PremiumEconomy"] (₺) <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
-                                <input asp-for="Form.PremiumEconomyPrice" class="form-control" type="number" min="0" step="0.01"/>
+                                <input asp-for="Form.PremiumEconomyPrice" class="form-control" type="number" min="1" step="0.01" required
+                                       data-gt-economy-msg="@L["Val_PremiumEconomy_GreaterThan_Economy"]"/>
                             </div>
+                            <span asp-validation-for="Form.PremiumEconomyPrice" class="text-danger small"></span>
                         </div>
                         <div class="col-md-3">
-                            <label asp-for="Form.BusinessPrice" class="form-label fw-semibold">@L["Flight_Business"] (₺)</label>
+                            <label asp-for="Form.BusinessPrice" class="form-label fw-semibold">@L["Flight_Business"] (₺) <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
-                                <input asp-for="Form.BusinessPrice" class="form-control" type="number" min="0" step="0.01"/>
+                                <input asp-for="Form.BusinessPrice" class="form-control" type="number" min="1" step="0.01" required
+                                       data-gt-premium-msg="@L["Val_Business_GreaterThan_PremiumEconomy"]"/>
                             </div>
+                            <span asp-validation-for="Form.BusinessPrice" class="text-danger small"></span>
                         </div>
                         <div class="col-md-3">
-                            <label asp-for="Form.FirstClassPrice" class="form-label fw-semibold">@L["Flight_First"] (₺)</label>
+                            <label asp-for="Form.FirstClassPrice" class="form-label fw-semibold">@L["Flight_First"] (₺) <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">₺</span>
-                                <input asp-for="Form.FirstClassPrice" class="form-control" type="number" min="0" step="0.01"/>
+                                <input asp-for="Form.FirstClassPrice" class="form-control" type="number" min="1" step="0.01" required
+                                       data-gt-business-msg="@L["Val_FirstClass_GreaterThan_Business"]"/>
                             </div>
+                            <span asp-validation-for="Form.FirstClassPrice" class="text-danger small"></span>
                         </div>
                     </div>
 

@@ -56,7 +56,7 @@ namespace App.Business.Concrete.Services
             {
                 var cachedList = await _cacheService.GetListByAsync(CacheKeyAll);
                 if (cachedList.IsSuccess && cachedList.Data != null)
-                    return new SuccessDataResult<IEnumerable<RouteDto>>(cachedList.Data.Select(x => x.Adapt<RouteDto>()));
+                    return new SuccessDataResult<IEnumerable<RouteDto>>(cachedList.Data.Select(x => x.Adapt<RouteDto>()).OrderBy(route => route.DepartureAirportIata));
 
                 var routes = await _routeRepository.GetAllAsync(tracking: false);
                 var list = routes.ToList();

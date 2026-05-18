@@ -151,7 +151,7 @@ namespace App.Web.Controllers
                 return View(model);
             }
             NotifySuccessLocalized(result.Message);
-            return RedirectToAction(nameof(SignIn));
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
 
         [HttpPost]

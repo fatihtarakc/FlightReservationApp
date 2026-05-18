@@ -80,7 +80,18 @@
 
 <section class="py-4">
     <div class="container">
-        @if (Model.IsSearchResult)
+        @if (Model.IsRouteResult)
+        {
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0" style="color:var(--secondary)">
+                    <i class="fas fa-route me-2" style="color:var(--gold)"></i>
+                    @Model.SearchVM.DepartureIata &rarr; @Model.SearchVM.ArrivalIata &nbsp;
+                    <span class="text-muted fw-normal" style="font-size:.9rem">@L["Flight_AvailableFlights"]</span>
+                </h5>
+                <span class="badge" style="background:var(--primary)">@Model.Flights.Count @L["Flight_Found"]</span>
+            </div>
+        }
+        else if (Model.IsSearchResult)
         {
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="fw-bold mb-0" style="color:var(--secondary)">
@@ -163,11 +174,11 @@
                                         <small class="text-muted">@L["Flight_Economy"]</small>
                                         <span class="float-end fw-bold" style="color:var(--primary)">₺@flight.EconomyPrice.ToString("N0")</span>
                                     </div>
-                                    @if (flight.BusinessPrice.HasValue)
+                                    @if (flight.BusinessPrice > 0)
                                     {
                                         <div class="mb-1">
                                             <small class="text-muted">@L["Flight_Business"]</small>
-                                            <span class="float-end fw-bold" style="color:var(--primary)">₺@flight.BusinessPrice.Value.ToString("N0")</span>
+                                            <span class="float-end fw-bold" style="color:var(--primary)">₺@flight.BusinessPrice.ToString("N0")</span>
                                         </div>
                                     }
                                     <div class="d-flex flex-wrap gap-1 mt-2" style="font-size:.72rem">

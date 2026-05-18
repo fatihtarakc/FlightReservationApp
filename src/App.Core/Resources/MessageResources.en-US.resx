@@ -112,6 +112,7 @@
   <data name="Airport_Was_Updated"><value>Airport updated successfully.</value></data>
   <data name="Airport_Was_Deleted"><value>Airport deleted successfully.</value></data>
   <data name="Airport_IataCode_Already_Exists"><value>This IATA code is already in use.</value></data>
+  <data name="Airport_Has_Routes"><value>This airport cannot be deleted because it is linked to one or more routes.</value></data>
 
   <!-- Aircraft -->
   <data name="Aircraft_Was_Not_Found"><value>Aircraft not found.</value></data>
@@ -121,6 +122,7 @@
   <data name="Aircraft_Was_Updated"><value>Aircraft updated successfully.</value></data>
   <data name="Aircraft_Was_Deleted"><value>Aircraft deleted successfully.</value></data>
   <data name="Aircraft_TailNumber_Already_Exists"><value>This tail number is already registered.</value></data>
+  <data name="Aircraft_Has_Flights"><value>This aircraft cannot be deleted because it has assigned flights.</value></data>
 
   <!-- Manufacturer -->
   <data name="Manufacturer_Was_Not_Found"><value>Manufacturer not found.</value></data>
@@ -169,6 +171,27 @@
   <data name="Flight_No_Available_Seats"><value>No available seats on this flight.</value></data>
   <data name="Flight_Has_Active_Bookings"><value>This flight has active bookings. Deletion is not allowed.</value></data>
   <data name="Flight_Seat_Is_Already_Booked"><value>This seat is already booked.</value></data>
+  <data name="Flight_Please_Enter_Number"><value>Please enter a flight number.</value></data>
+  <data name="Flight_Number_Cannot_Be_GreaterThan_6Characters"><value>Flight number cannot exceed 6 characters.</value></data>
+  <data name="Flight_Number_Format_Invalid"><value>Flight number must consist of uppercase letters and digits and be 3–6 characters long.</value></data>
+  <data name="Flight_DepartureDateTime_Required"><value>Departure date and time are required.</value></data>
+  <data name="Flight_DepartureDateTime_Must_Be_Future"><value>Departure date must be in the future.</value></data>
+  <data name="Flight_ArrivalDateTime_Required"><value>Arrival date and time are required.</value></data>
+  <data name="Flight_ArrivalDateTime_Must_Be_After_Departure"><value>Arrival date must be after departure date.</value></data>
+  <data name="Flight_EconomyPrice_Must_Be_Positive"><value>Economy class price must be greater than zero.</value></data>
+  <data name="Flight_PremiumEconomyPrice_Must_Be_Positive"><value>Premium economy price must be greater than zero.</value></data>
+  <data name="Flight_BusinessPrice_Must_Be_Positive"><value>Business class price must be greater than zero.</value></data>
+  <data name="Flight_FirstClassPrice_Must_Be_Positive"><value>First class price must be greater than zero.</value></data>
+  <data name="Flight_PremiumEconomy_Must_Be_GreaterThan_Economy"><value>Premium economy price must be greater than economy price.</value></data>
+  <data name="Flight_Business_Must_Be_GreaterThan_PremiumEconomy"><value>Business price must be greater than premium economy price.</value></data>
+  <data name="Flight_FirstClass_Must_Be_GreaterThan_Business"><value>First class price must be greater than business price.</value></data>
+  <data name="Flight_Please_Select_Aircraft"><value>Please select an aircraft.</value></data>
+  <data name="Flight_Please_Select_Airline"><value>Please select an airline.</value></data>
+  <data name="Flight_Please_Select_Schedule"><value>Please select a schedule.</value></data>
+  <data name="Flight_Please_Select_Currency"><value>Please select a valid currency.</value></data>
+  <data name="Flight_Please_Select_Status"><value>Please select a valid status.</value></data>
+  <data name="Flight_Gate_Cannot_Be_GreaterThan_10Characters"><value>Gate cannot exceed 10 characters.</value></data>
+  <data name="Flight_Terminal_Cannot_Be_GreaterThan_10Characters"><value>Terminal cannot exceed 10 characters.</value></data>
 
   <!-- Seat -->
   <data name="Seat_Was_Not_Found"><value>Seat not found.</value></data>

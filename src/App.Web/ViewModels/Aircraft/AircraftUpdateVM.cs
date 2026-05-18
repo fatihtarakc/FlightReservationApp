@@ -4,6 +4,7 @@ namespace App.Web.ViewModels.Aircraft
 {
     public class AircraftUpdateVM
     {
+        public Guid           Id              { get; set; }
         public string         TailNumber      { get; set; }
         public int            ManufactureYear { get; set; }
         public AircraftStatus AircraftStatus  { get; set; }

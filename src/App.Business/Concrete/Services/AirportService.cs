@@ -3,6 +3,7 @@ namespace App.Business.Concrete.Services
     public class AirportService : IAirportService
     {
         private readonly IAirportRepository _airportRepository;
+        private readonly IRouteRepository _routeRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICacheService<Airport> _cacheService;
         private readonly IStringLocalizer<MessageResources> _localizer;
@@ -13,12 +14,14 @@ namespace App.Business.Concrete.Services
 
         public AirportService(
             IAirportRepository airportRepository,
+            IRouteRepository routeRepository,
             IUnitOfWork unitOfWork,
             ICacheService<Airport> cacheService,
             IStringLocalizer<MessageResources> localizer,
             ILogger<AirportService> logger)
         {
             _airportRepository = airportRepository;
+            _routeRepository = routeRepository;
             _unitOfWork = unitOfWork;
             _cacheService = cacheService;
             _localizer = localizer;
@@ -53,10 +56,10 @@ namespace App.Business.Concrete.Services
             {
                 var cachedList = await _cacheService.GetListByAsync(CacheKeyAll);
                 if (cachedList.IsSuccess && cachedList.Data != null)
-                    return new SuccessDataResult<IEnumerable<AirportListDto>>(cachedList.Data.Select(x => x.Adapt<AirportListDto>()));
+                    return new SuccessDataResult<IEnumerable<AirportListDto>>(cachedList.Data.Select(x => x.Adapt<AirportListDto>()).OrderBy(airport => airport.IataCode));
 
                 var airports = await _airportRepository.GetAllAsync(tracking: false);
-                var airportList = airports.ToList();
+                var airportList = airports.OrderBy(airport => airport.IataCode).ToList();
                 await _cacheService.AddListAsync(CacheKeyAll, airportList);
 
                 return new SuccessDataResult<IEnumerable<AirportListDto>>(airportList.Select(x => x.Adapt<AirportListDto>()));
@@ -231,6 +234,10 @@ namespace App.Business.Concrete.Services
                 var airport = await _airportRepository.GetByIdAsync(id);
                 if (airport == null)
                     return new ErrorResult(_localizer[Messages.Airport_Was_Not_Found]);
+
+                var hasRoutes = await _routeRepository.AnyAsync(r => r.DepartureAirportId == id || r.ArrivalAirportId == id);
+                if (hasRoutes)
+                    return new ErrorResult(_localizer[Messages.Airport_Has_Routes]);
 
                 IResult result = new ErrorResult(_localizer[Messages.UnexpectedError]);
                 var strategy = await _unitOfWork.CreateExecutionStrategy();

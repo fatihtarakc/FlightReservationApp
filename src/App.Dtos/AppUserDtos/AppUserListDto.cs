@@ -6,5 +6,6 @@ namespace App.Dtos.AppUserDtos
         string Surname,
         string Email,
         string PhoneNumber,
-        UserStatus UserStatus);
+        UserStatus UserStatus,
+        DateTime CreatedDate);
 }
