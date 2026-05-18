@@ -17,6 +17,10 @@ namespace App.Web.Constants
         public const string Account_Email_Has_Not_Confirmed = nameof(Account_Email_Has_Not_Confirmed);
         public const string Account_ConfirmEmail_Successful = nameof(Account_ConfirmEmail_Successful);
         public const string Account_ResendCode_Successful = nameof(Account_ResendCode_Successful);
+        public const string Account_CodeSentToEmail = nameof(Account_CodeSentToEmail);
+        public const string Account_CodeSentToPhone = nameof(Account_CodeSentToPhone);
+        public const string Account_CodeSentToWhatsApp = nameof(Account_CodeSentToWhatsApp);
+        public const string Account_EnterEmailForPhoneVerify = nameof(Account_EnterEmailForPhoneVerify);
         #endregion
 
         #region AppUser

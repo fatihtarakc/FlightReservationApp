@@ -1,4 +1,4 @@
-@model AirportAddVM
+@model AdminAirportFormPageVM
 
 <div class="row justify-content-center">
     <div class="col-xl-7">
@@ -10,45 +10,53 @@
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label asp-for="IataCode" class="form-label fw-semibold">@L["Airport_IataCode"] <span class="text-danger">*</span></label>
-                            <input asp-for="IataCode" class="form-control text-uppercase" maxlength="3" placeholder="IST" required/>
-                            <span asp-validation-for="IataCode" class="text-danger small"></span>
+                            <label asp-for="Form.IataCode" class="form-label fw-semibold">@L["Airport_IataCode"] <span class="text-danger">*</span></label>
+                            <input asp-for="Form.IataCode" class="form-control text-uppercase" maxlength="3" placeholder="IST" required/>
+                            <span asp-validation-for="Form.IataCode" class="text-danger small"></span>
                         </div>
                         <div class="col-md-4">
-                            <label asp-for="IcaoCode" class="form-label fw-semibold">ICAO <span class="text-danger">*</span></label>
-                            <input asp-for="IcaoCode" class="form-control text-uppercase" maxlength="4" placeholder="LTFM" required/>
+                            <label asp-for="Form.IcaoCode" class="form-label fw-semibold">ICAO <span class="text-danger">*</span></label>
+                            <input asp-for="Form.IcaoCode" class="form-control text-uppercase" maxlength="4" placeholder="LTFM" required/>
                         </div>
                         <div class="col-md-4">
-                            <label asp-for="City" class="form-label fw-semibold">@L["Airport_City"] <span class="text-danger">*</span></label>
-                            <input asp-for="City" class="form-control" required/>
-                            <span asp-validation-for="City" class="text-danger small"></span>
+                            <label asp-for="Form.City" class="form-label fw-semibold">@L["Airport_City"] <span class="text-danger">*</span></label>
+                            <input asp-for="Form.City" class="form-control" required/>
+                            <span asp-validation-for="Form.City" class="text-danger small"></span>
                         </div>
                         <div class="col-md-12">
-                            <label asp-for="Name" class="form-label fw-semibold">@L["Airport_Name"] <span class="text-danger">*</span></label>
-                            <input asp-for="Name" class="form-control" required/>
-                            <span asp-validation-for="Name" class="text-danger small"></span>
+                            <label asp-for="Form.Name" class="form-label fw-semibold">@L["Airport_Name"] <span class="text-danger">*</span></label>
+                            <input asp-for="Form.Name" class="form-control" required/>
+                            <span asp-validation-for="Form.Name" class="text-danger small"></span>
                         </div>
                         <div class="col-md-6">
-                            <label asp-for="Country" class="form-label fw-semibold">@L["Airport_Country"] <span class="text-danger">*</span></label>
-                            <select id="countrySelect" name="Country" data-selected="@Model.Country" class="form-select" required>
-                                <option value="">— @L["Airport_SelectCountry"] —</option>
-                            </select>
-                            <span asp-validation-for="Country" class="text-danger small"></span>
+                            <label asp-for="Form.Country" class="form-label fw-semibold">@L["Airport_Country"] <span class="text-danger">*</span></label>
+                            <input asp-for="Form.Country" class="form-control" list="countryList" autocomplete="off" required/>
+                            <datalist id="countryList">
+                                @foreach (var c in Model.Countries)
+                                {
+                                    <option value="@c"></option>
+                                }
+                            </datalist>
+                            <span asp-validation-for="Form.Country" class="text-danger small"></span>
                         </div>
                         <div class="col-md-6">
-                            <label asp-for="Timezone" class="form-label fw-semibold">@L["Airport_Timezone"] <span class="text-danger">*</span></label>
-                            <select id="timezoneSelect" name="Timezone" data-selected="@Model.Timezone" class="form-select" required>
-                                <option value="">— @L["Airport_SelectTimezone"] —</option>
-                            </select>
-                            <span asp-validation-for="Timezone" class="text-danger small"></span>
+                            <label asp-for="Form.Timezone" class="form-label fw-semibold">@L["Airport_Timezone"] <span class="text-danger">*</span></label>
+                            <input asp-for="Form.Timezone" class="form-control" list="timezoneList" autocomplete="off" required/>
+                            <datalist id="timezoneList">
+                                @foreach (var t in Model.Timezones)
+                                {
+                                    <option value="@t"></option>
+                                }
+                            </datalist>
+                            <span asp-validation-for="Form.Timezone" class="text-danger small"></span>
                         </div>
                         <div class="col-md-3">
-                            <label asp-for="Latitude" class="form-label fw-semibold">@L["Airport_Latitude"]</label>
-                            <input asp-for="Latitude" class="form-control" type="number" step="0.000001"/>
+                            <label asp-for="Form.Latitude" class="form-label fw-semibold">@L["Airport_Latitude"]</label>
+                            <input asp-for="Form.Latitude" class="form-control" type="number" step="0.000001"/>
                         </div>
                         <div class="col-md-3">
-                            <label asp-for="Longitude" class="form-label fw-semibold">@L["Airport_Longitude"]</label>
-                            <input asp-for="Longitude" class="form-control" type="number" step="0.000001"/>
+                            <label asp-for="Form.Longitude" class="form-label fw-semibold">@L["Airport_Longitude"]</label>
+                            <input asp-for="Form.Longitude" class="form-control" type="number" step="0.000001"/>
                         </div>
                     </div>
                     <div class="mt-4 d-flex gap-2">
@@ -62,6 +70,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/airport-form.js"></script>
     <script src="~/js/admin-form-validation.js"></script>
 }

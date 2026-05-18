@@ -1858,9 +1858,48 @@
     <value>Kodu almadınız mı?</value>
   </data>
   <data name="Account_ResendCode" xml:space="preserve">
-    <value>Tekrar Gönder</value>
+    <value>Doğrulama Kodunu Yeniden Gönder</value>
+  </data>
+  <data name="Account_CodeSentToEmail" xml:space="preserve">
+    <value>Doğrulama kodu e-posta adresinize gönderildi. Lütfen gelen kutunuzu kontrol edin.</value>
+  </data>
+  <data name="Account_EnterEmailToReceiveCode" xml:space="preserve">
+    <value>Doğrulama kodunu almak için lütfen e-posta adresinizi girin ve "Doğrulama Kodunu Yeniden Gönder" butonuna tıklayın.</value>
   </data>
   <data name="Account_BackToSignIn" xml:space="preserve">
     <value>Giriş sayfasına dön</value>
+  </data>
+  <data name="Account_VerifySms" xml:space="preserve">
+    <value>SMS Doğrulama</value>
+  </data>
+  <data name="Account_VerifySms_Subtitle" xml:space="preserve">
+    <value>Kayıtlı telefon numaranıza SMS ile gönderilen 6 haneli kodu girin.</value>
+  </data>
+  <data name="Account_VerifySms_Btn" xml:space="preserve">
+    <value>SMS ile Doğrula</value>
+  </data>
+  <data name="Account_CodeSentToPhone" xml:space="preserve">
+    <value>Doğrulama kodu telefon numaranıza SMS olarak gönderildi. Lütfen mesajlarınızı kontrol edin.</value>
+  </data>
+  <data name="Account_ResendSmsCode" xml:space="preserve">
+    <value>SMS Kodunu Yeniden Gönder</value>
+  </data>
+  <data name="Account_VerifyWhatsApp" xml:space="preserve">
+    <value>WhatsApp Doğrulama</value>
+  </data>
+  <data name="Account_VerifyWhatsApp_Subtitle" xml:space="preserve">
+    <value>WhatsApp numaranıza gönderilen 6 haneli kodu girin.</value>
+  </data>
+  <data name="Account_VerifyWhatsApp_Btn" xml:space="preserve">
+    <value>WhatsApp ile Doğrula</value>
+  </data>
+  <data name="Account_CodeSentToWhatsApp" xml:space="preserve">
+    <value>Doğrulama kodu WhatsApp numaranıza gönderildi. Lütfen WhatsApp mesajlarınızı kontrol edin.</value>
+  </data>
+  <data name="Account_ResendWhatsAppCode" xml:space="preserve">
+    <value>WhatsApp Kodunu Yeniden Gönder</value>
+  </data>
+  <data name="Account_EnterEmailForPhoneVerify" xml:space="preserve">
+    <value>Doğrulamayı tamamlamak için lütfen e-posta adresinizi girin ve kodu yeniden gönderin.</value>
   </data>
 </root>

@@ -225,11 +225,11 @@
   <data name="EmailSubject_BookingCancellation"><value>Your Booking has been Cancelled</value></data>
   <data name="EmailContent_BookingCancellation"><value>Hello {0}, your booking for flight {1} has been cancelled. PNR: {2}</value></data>
   <data name="EmailTitle_FlightReminder_7Days"><value>Flight Reminder - 7 Days</value></data>
-  <data name="EmailSubject_FlightReminder_7Days"><value>Your Flight is in 7 Days</value></data>
-  <data name="EmailContent_FlightReminder_7Days"><value>Hello {0}, your flight {1} departs in 7 days. Departure: {2}. PNR: {3}</value></data>
+  <data name="EmailSubject_FlightReminder_7Days"><value>Less Than 7 Days to Your Flight</value></data>
+  <data name="EmailContent_FlightReminder_7Days"><value>Hello {0}, less than 7 days left for your flight {1}. Departure: {2}. PNR: {3}</value></data>
   <data name="EmailTitle_FlightReminder_24Hours"><value>Flight Reminder - 24 Hours</value></data>
-  <data name="EmailSubject_FlightReminder_24Hours"><value>Your Flight is Tomorrow</value></data>
-  <data name="EmailContent_FlightReminder_24Hours"><value>Hello {0}, your flight {1} departs in 24 hours. Departure: {2}. PNR: {3}</value></data>
+  <data name="EmailSubject_FlightReminder_24Hours"><value>Less Than 24 Hours to Your Flight</value></data>
+  <data name="EmailContent_FlightReminder_24Hours"><value>Hello {0}, less than 24 hours left for your flight {1}. Departure: {2}. PNR: {3}</value></data>
   <data name="EmailTitle_FlightCancelled"><value>Flight Cancellation Notice</value></data>
   <data name="EmailSubject_FlightCancelled"><value>Your Flight has been Cancelled</value></data>
   <data name="EmailContent_FlightCancelled"><value>Hello {0}, flight {1} has been cancelled. PNR: {2}. A refund process will be initiated.</value></data>
@@ -283,10 +283,10 @@
   <data name="Email_FlightReminder_HeaderSubtitle"><value>Flight Reminder</value></data>
   <data name="Email_FlightReminder_SectionTitle"><value>Your Flight Details</value></data>
   <data name="Email_FlightReminder_Closing"><value>Have a wonderful journey!</value></data>
-  <data name="Email_FlightReminder_7Days_Badge"><value>7 Days Until Departure</value></data>
-  <data name="Email_FlightReminder_7Days_Desc"><value>Your flight is just 7 days away! Please make sure your travel documents are ready.</value></data>
-  <data name="Email_FlightReminder_24Hours_Badge"><value>24 Hours Until Departure</value></data>
-  <data name="Email_FlightReminder_24Hours_Desc"><value>Your flight departs tomorrow! We recommend checking in online and having your boarding pass ready.</value></data>
+  <data name="Email_FlightReminder_7Days_Badge"><value>Less Than 7 Days to Your Flight</value></data>
+  <data name="Email_FlightReminder_7Days_Desc"><value>Less than 7 days left for your flight! Please make sure your travel documents are ready.</value></data>
+  <data name="Email_FlightReminder_24Hours_Badge"><value>Less Than 24 Hours to Your Flight</value></data>
+  <data name="Email_FlightReminder_24Hours_Desc"><value>Less than 24 hours left for your flight! We recommend checking in online and having your boarding pass ready.</value></data>
 
   <!-- VerificationCode body -->
   <data name="Email_VerificationCode_HeaderSubtitle"><value>Verification Code</value></data>
@@ -307,6 +307,13 @@
   <data name="Email_PasswordChanged_Intro"><value>your account password has been changed successfully.</value></data>
   <data name="Email_PasswordChanged_Warning"><value>If you did not make this change, please contact our support team immediately and secure your account.</value></data>
 
+  <!-- EmailConfirmed body -->
+  <data name="EmailSubject_EmailConfirmed"><value>Your Email Address Has Been Verified</value></data>
+  <data name="Email_EmailConfirmed_HeaderSubtitle"><value>Account Verification</value></data>
+  <data name="Email_EmailConfirmed_Heading"><value>Your email address is verified!</value></data>
+  <data name="Email_EmailConfirmed_Intro"><value>your email address has been successfully verified. You can now enjoy all features of Flight Reservation.</value></data>
+  <data name="Email_EmailConfirmed_Note"><value>If you did not perform this verification, please contact our support team immediately.</value></data>
+
   <!-- SMS templates -->
   <data name="Sms_BookingConfirmed"><value>Booking confirmed! PNR: {0} | Flight: {1} | {2}-{3} | {4} | Seat: {5} | Amount: {6}</value></data>
   <data name="Sms_BookingCancelled"><value>Booking cancelled. PNR: {0} | Flight: {1} | {2}-{3} | {4}.{5}</value></data>
@@ -315,6 +322,7 @@
   <data name="Sms_VerificationCode"><value>Flight Reservation - {0} code: {1}. Valid for 10 minutes. Do not share this code.</value></data>
   <data name="Sms_UserSignedUp"><value>Hello {0} {1}, welcome to Flight Reservation! Your account has been created. You can sign in to start searching for flights.</value></data>
   <data name="Sms_PasswordChanged"><value>Flight Reservation: Your account password was changed on {0}. If you did not make this change, please contact our support team immediately.</value></data>
+  <data name="Sms_EmailConfirmed"><value>Flight Reservation: Your email address has been successfully verified. You can now sign in to your account.</value></data>
 
   <!-- WhatsApp templates -->
   <data name="WhatsApp_BookingConfirmed"><value>✈ *Booking Confirmed!*\n\n*PNR:* {0}\n*Flight:* {1}\n*Route:* {2} → {3}\n*Departure:* {4}\n*Seat:* {5} ({6})\n*Total:* {7}\n\nKeep your PNR number for check-in.</value></data>
@@ -324,6 +332,7 @@
   <data name="WhatsApp_VerificationCode"><value>✈ *Flight Reservation - {0}*\n\nYour verification code:\n\n*{1}*\n\n⚠️ This code is valid for 10 minutes. Do not share it with anyone.</value></data>
   <data name="WhatsApp_UserSignedUp"><value>✈ *Flight Reservation — Welcome!*\n\nYour account has been successfully created.\n\nYou can sign in to search and book flights.</value></data>
   <data name="WhatsApp_PasswordChanged"><value>✈ *Flight Reservation — Password Changed*\n\nYour account password was changed on *{0}*.\n\n⚠️ If you did not make this change, please contact our support team immediately.</value></data>
+  <data name="WhatsApp_EmailConfirmed"><value>✈ *Flight Reservation — Email Verified*\n\nYour email address has been successfully verified! ✅\n\nYou can now sign in and book flights.</value></data>
 
   <!-- SMS -->
   <data name="Sms_SendingProcess_Was_Failed"><value>SMS sending failed.</value></data>

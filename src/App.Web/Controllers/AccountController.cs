@@ -41,11 +41,36 @@ namespace App.Web.Controllers
             var result = await _accountService.SignInAsync(model);
             if (!result.IsSuccess)
             {
-                if (result.Message == _localizer[Messages.Account_Email_Has_Not_Confirmed])
+                if (result.Message == _localizer[Messages.Account_Email_Has_Not_Confirmed].Value)
                 {
-                    var emailForVerify = model.UsernameOrEmail.Contains('@') ? model.UsernameOrEmail : string.Empty;
-                    TempData["VerifyEmail_Info"] = _localizer[Messages.Account_Email_Has_Not_Confirmed].Value;
-                    return RedirectToAction(nameof(VerifyEmail), new { email = emailForVerify });
+                    var infoResult = await _accountService.GetVerificationInfoAsync(model.UsernameOrEmail);
+                    var info = infoResult.Data;
+                    var emailForVerify = info?.Email ?? string.Empty;
+                    var maskedPhone = info?.MaskedPhone ?? string.Empty;
+                    var codeSent = false;
+
+                    if (!string.IsNullOrEmpty(emailForVerify))
+                    {
+                        if (info!.PreferredChannel.HasFlag(NotificationChannel.Email) || info.PreferredChannel == NotificationChannel.None)
+                        {
+                            var sendResult = await _accountService.SendEmailConfirmationCodeAsync(emailForVerify);
+                            codeSent = sendResult.IsSuccess;
+                            return RedirectToAction(nameof(VerifyEmail), new { email = emailForVerify, codeSent, showWarning = true });
+                        }
+                        if (info.PreferredChannel.HasFlag(NotificationChannel.Sms))
+                        {
+                            var sendResult = await _accountService.SendSmsConfirmationCodeAsync(emailForVerify);
+                            codeSent = sendResult.IsSuccess;
+                            return RedirectToAction(nameof(VerifySms), new { email = emailForVerify, maskedPhone, codeSent, showWarning = true });
+                        }
+                        if (info.PreferredChannel.HasFlag(NotificationChannel.WhatsApp))
+                        {
+                            var sendResult = await _accountService.SendWhatsAppConfirmationCodeAsync(emailForVerify);
+                            codeSent = sendResult.IsSuccess;
+                            return RedirectToAction(nameof(VerifyWhatsApp), new { email = emailForVerify, maskedPhone, codeSent, showWarning = true });
+                        }
+                    }
+                    return RedirectToAction(nameof(VerifyEmail), new { email = emailForVerify, codeSent, showWarning = true });
                 }
                 ModelState.AddModelError("", result.Message ?? "");
                 return View(model);
@@ -102,7 +127,42 @@ namespace App.Web.Controllers
 
             var result = await _accountService.SignInAsync(model);
             if (!result.IsSuccess)
+            {
+                if (result.Message == _localizer[Messages.Account_Email_Has_Not_Confirmed].Value)
+                {
+                    var infoResult = await _accountService.GetVerificationInfoAsync(model.UsernameOrEmail);
+                    var info = infoResult.Data;
+                    var emailForVerify = info?.Email ?? string.Empty;
+                    var maskedPhone = info?.MaskedPhone ?? string.Empty;
+                    var codeSent = false;
+                    string? verifyUrl = null;
+
+                    if (!string.IsNullOrEmpty(emailForVerify))
+                    {
+                        if (info!.PreferredChannel.HasFlag(NotificationChannel.Email) || info.PreferredChannel == NotificationChannel.None)
+                        {
+                            var sendResult = await _accountService.SendEmailConfirmationCodeAsync(emailForVerify);
+                            codeSent = sendResult.IsSuccess;
+                            verifyUrl = Url.Action(nameof(VerifyEmail), "Account", new { email = emailForVerify, codeSent, showWarning = true });
+                        }
+                        else if (info.PreferredChannel.HasFlag(NotificationChannel.Sms))
+                        {
+                            var sendResult = await _accountService.SendSmsConfirmationCodeAsync(emailForVerify);
+                            codeSent = sendResult.IsSuccess;
+                            verifyUrl = Url.Action(nameof(VerifySms), "Account", new { email = emailForVerify, maskedPhone, codeSent, showWarning = true });
+                        }
+                        else if (info.PreferredChannel.HasFlag(NotificationChannel.WhatsApp))
+                        {
+                            var sendResult = await _accountService.SendWhatsAppConfirmationCodeAsync(emailForVerify);
+                            codeSent = sendResult.IsSuccess;
+                            verifyUrl = Url.Action(nameof(VerifyWhatsApp), "Account", new { email = emailForVerify, maskedPhone, codeSent, showWarning = true });
+                        }
+                    }
+                    verifyUrl ??= Url.Action(nameof(VerifyEmail), "Account", new { email = emailForVerify, showWarning = true });
+                    return Json(new { success = false, requiresVerification = true, redirectUrl = verifyUrl });
+                }
                 return Json(new { success = false, message = result.Message ?? _localizer["Account_SignInError"].Value });
+            }
 
             var token = result.Data!.AccessToken;
             TokenHelper.SetToken(_httpContextAccessor, token);
@@ -133,10 +193,14 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult VerifyEmail(string? email)
+        public IActionResult VerifyEmail(string? email, bool codeSent = false, bool showWarning = false)
         {
-            ViewBag.InfoMessage = TempData["VerifyEmail_Info"] as string;
-            return View(new VerifyEmailVM { Email = email ?? string.Empty });
+            return View(new VerifyEmailVM
+            {
+                Email       = email ?? string.Empty,
+                CodeSent    = codeSent,
+                ShowWarning = showWarning
+            });
         }
 
         [HttpPost]
@@ -167,6 +231,80 @@ namespace App.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult VerifySms(string? email, string? maskedPhone)
+        {
+            return View(new VerifyPhoneVM
+            {
+                Email       = email ?? string.Empty,
+                MaskedPhone = maskedPhone ?? string.Empty
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerifySms(VerifyPhoneVM model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            var result = await _accountService.VerifyEmailAsync(model.Email, model.Code);
+            if (!result.IsSuccess)
+            {
+                ModelState.AddModelError(nameof(model.Code), result.Message ?? "");
+                return View(model);
+            }
+            NotifySuccessLocalized(result.Message);
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResendSmsConfirmation(string email, string maskedPhone)
+        {
+            var result = await _accountService.SendSmsConfirmationCodeAsync(email);
+            if (result.IsSuccess)
+                NotifySuccessLocalized(result.Message);
+            else
+                NotifyErrorLocalized(result.Message);
+            return RedirectToAction(nameof(VerifySms), new { email, maskedPhone });
+        }
+
+        [HttpGet]
+        public IActionResult VerifyWhatsApp(string? email, string? maskedPhone)
+        {
+            return View(new VerifyPhoneVM
+            {
+                Email       = email ?? string.Empty,
+                MaskedPhone = maskedPhone ?? string.Empty
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerifyWhatsApp(VerifyPhoneVM model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            var result = await _accountService.VerifyEmailAsync(model.Email, model.Code);
+            if (!result.IsSuccess)
+            {
+                ModelState.AddModelError(nameof(model.Code), result.Message ?? "");
+                return View(model);
+            }
+            NotifySuccessLocalized(result.Message);
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResendWhatsAppConfirmation(string email, string maskedPhone)
+        {
+            var result = await _accountService.SendWhatsAppConfirmationCodeAsync(email);
+            if (result.IsSuccess)
+                NotifySuccessLocalized(result.Message);
+            else
+                NotifyErrorLocalized(result.Message);
+            return RedirectToAction(nameof(VerifyWhatsApp), new { email, maskedPhone });
+        }
+
+        [HttpGet]
         public IActionResult SignUp() => View(new SignUpVM());
 
         [HttpPost]
@@ -183,6 +321,15 @@ namespace App.Web.Controllers
             }
 
             NotifySuccessLocalized(result.Message);
+
+            var maskedPhone = MaskPhone(model.PhoneNumber);
+            if (!model.PreferredNotificationChannel.HasFlag(NotificationChannel.Email))
+            {
+                if (model.PreferredNotificationChannel.HasFlag(NotificationChannel.Sms))
+                    return RedirectToAction(nameof(VerifySms), new { email = model.Email, maskedPhone, codeSent = true });
+                if (model.PreferredNotificationChannel.HasFlag(NotificationChannel.WhatsApp))
+                    return RedirectToAction(nameof(VerifyWhatsApp), new { email = model.Email, maskedPhone, codeSent = true });
+            }
             return RedirectToAction(nameof(VerifyEmail), new { email = model.Email });
         }
 
@@ -234,10 +381,18 @@ namespace App.Web.Controllers
                 await _accountService.SignOutAsync(token);
             TokenHelper.ClearSession(_httpContextAccessor);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            NotifySuccess(_localizer[Messages.Account_SignOut_Successful]);
             return RedirectToAction("Index", "Home", new { area = "" });
         }
 
         [HttpGet]
         public IActionResult AccessDenied() => View();
+
+        private static string MaskPhone(string? phone)
+        {
+            if (string.IsNullOrEmpty(phone) || phone.Length < 4)
+                return phone ?? string.Empty;
+            return new string('*', phone.Length - 4) + phone[^4..];
+        }
     }
 }

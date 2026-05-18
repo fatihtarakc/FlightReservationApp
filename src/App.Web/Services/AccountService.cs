@@ -225,6 +225,63 @@ namespace App.Web.Services
             }
         }
 
+        public async Task<IResult> SendSmsConfirmationCodeAsync(string email)
+        {
+            try
+            {
+                var url = $"api/Account/send-verification-code?email={Uri.EscapeDataString(email)}&purpose=1&channel=2";
+                var response = await _http.SendAsync(new HttpRequestMessage(HttpMethod.Post, url));
+                var body = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<ApiResponseVM<object>>(body, _opts);
+                return result?.IsSuccess == true
+                    ? new SuccessResult(_localizer[Messages.Account_ResendCode_Successful])
+                    : new ErrorResult(result?.Message ?? _localizer[Messages.UnexpectedError]);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
+            }
+        }
+
+        public async Task<IResult> SendWhatsAppConfirmationCodeAsync(string email)
+        {
+            try
+            {
+                var url = $"api/Account/send-verification-code?email={Uri.EscapeDataString(email)}&purpose=1&channel=3";
+                var response = await _http.SendAsync(new HttpRequestMessage(HttpMethod.Post, url));
+                var body = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<ApiResponseVM<object>>(body, _opts);
+                return result?.IsSuccess == true
+                    ? new SuccessResult(_localizer[Messages.Account_ResendCode_Successful])
+                    : new ErrorResult(result?.Message ?? _localizer[Messages.UnexpectedError]);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorResult(_localizer[Messages.UnexpectedError]);
+            }
+        }
+
+        public async Task<IDataResult<VerificationInfoVM>> GetVerificationInfoAsync(string emailOrUsername)
+        {
+            try
+            {
+                var url = $"api/Account/verification-info?emailOrUsername={Uri.EscapeDataString(emailOrUsername)}";
+                var response = await _http.SendAsync(new HttpRequestMessage(HttpMethod.Get, url));
+                var body = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<ApiResponseVM<VerificationInfoVM>>(body, _opts);
+                return result?.IsSuccess == true && result.Data != null
+                    ? new SuccessDataResult<VerificationInfoVM>(result.Data)
+                    : new ErrorDataResult<VerificationInfoVM>(result?.Message ?? _localizer[Messages.UnexpectedError]);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorDataResult<VerificationInfoVM>(_localizer[Messages.UnexpectedError]);
+            }
+        }
+
         public async Task<IResult> VerifyEmailAsync(string email, string code)
         {
             try

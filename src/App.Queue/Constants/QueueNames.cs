@@ -12,5 +12,6 @@ namespace App.Queue.Constants
         public const string FlightReminder = "flight-reservation-flight-reminder";
         public const string VerificationCode = "flight-reservation-verification-code";
         public const string PasswordChanged = "flight-reservation-password-changed";
+        public const string EmailConfirmed = "flight-reservation-email-confirmed";
     }
 }

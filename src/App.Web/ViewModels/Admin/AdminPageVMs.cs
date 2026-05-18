@@ -46,6 +46,14 @@
         public string? Search { get; set; }
     }
 
+    public class AdminAirportFormPageVM
+    {
+        public AirportAddVM  Form      { get; set; } = new();
+        public Guid?         EditId    { get; set; }
+        public List<string>  Countries { get; set; } = new();
+        public List<string>  Timezones { get; set; } = new();
+    }
+
     public class AdminBookingListPageVM
     {
         public List<BookingVM> Bookings { get; set; } = new();

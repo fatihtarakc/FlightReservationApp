@@ -46,6 +46,14 @@
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpGet("verification-info")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetVerificationInfo([FromQuery] string emailOrUsername)
+        {
+            var result = await _accountService.GetVerificationInfoAsync(emailOrUsername);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpPost("send-verification-code")]
         [AllowAnonymous]
         public async Task<IActionResult> SendVerificationCode([FromQuery] string email, [FromQuery] VerificationCodePurpose purpose, [FromQuery] VerificationCodeChannel channel)

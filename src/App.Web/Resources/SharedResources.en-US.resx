@@ -1858,9 +1858,48 @@
     <value>Didn't receive the code?</value>
   </data>
   <data name="Account_ResendCode" xml:space="preserve">
-    <value>Resend</value>
+    <value>Resend Verification Code</value>
+  </data>
+  <data name="Account_CodeSentToEmail" xml:space="preserve">
+    <value>A verification code has been sent to your email address. Please check your inbox.</value>
+  </data>
+  <data name="Account_EnterEmailToReceiveCode" xml:space="preserve">
+    <value>Please enter your email address and click "Resend Verification Code" to receive your verification code.</value>
   </data>
   <data name="Account_BackToSignIn" xml:space="preserve">
     <value>Back to sign in</value>
+  </data>
+  <data name="Account_VerifySms" xml:space="preserve">
+    <value>SMS Verification</value>
+  </data>
+  <data name="Account_VerifySms_Subtitle" xml:space="preserve">
+    <value>Enter the 6-digit code sent to your registered phone number via SMS.</value>
+  </data>
+  <data name="Account_VerifySms_Btn" xml:space="preserve">
+    <value>Verify via SMS</value>
+  </data>
+  <data name="Account_CodeSentToPhone" xml:space="preserve">
+    <value>A verification code has been sent to your phone number via SMS. Please check your messages.</value>
+  </data>
+  <data name="Account_ResendSmsCode" xml:space="preserve">
+    <value>Resend SMS Code</value>
+  </data>
+  <data name="Account_VerifyWhatsApp" xml:space="preserve">
+    <value>WhatsApp Verification</value>
+  </data>
+  <data name="Account_VerifyWhatsApp_Subtitle" xml:space="preserve">
+    <value>Enter the 6-digit code sent to your WhatsApp number.</value>
+  </data>
+  <data name="Account_VerifyWhatsApp_Btn" xml:space="preserve">
+    <value>Verify via WhatsApp</value>
+  </data>
+  <data name="Account_CodeSentToWhatsApp" xml:space="preserve">
+    <value>A verification code has been sent to your WhatsApp number. Please check your WhatsApp messages.</value>
+  </data>
+  <data name="Account_ResendWhatsAppCode" xml:space="preserve">
+    <value>Resend WhatsApp Code</value>
+  </data>
+  <data name="Account_EnterEmailForPhoneVerify" xml:space="preserve">
+    <value>Please enter your email address and resend the code to complete verification.</value>
   </data>
 </root>

@@ -200,10 +200,10 @@
   <data name="EmailSubject_BookingCancellation"><value>Rezervasyonunuz İptal Edildi</value></data>
   <data name="EmailContent_BookingCancellation"><value>Merhaba {0}, {1} uçuşunuz için rezervasyonunuz iptal edildi. PNR: {2}</value></data>
   <data name="EmailTitle_FlightReminder_7Days"><value>Uçuş Hatırlatması - 7 Gün</value></data>
-  <data name="EmailSubject_FlightReminder_7Days"><value>Uçuşunuza 7 Gün Kaldı</value></data>
-  <data name="EmailContent_FlightReminder_7Days"><value>Merhaba {0}, {1} uçuşunuza 7 gün kaldı. Uçuş saati: {2}. PNR: {3}</value></data>
+  <data name="EmailSubject_FlightReminder_7Days"><value>Uçuşunuza 7 Günden Az Kaldı</value></data>
+  <data name="EmailContent_FlightReminder_7Days"><value>Merhaba {0}, {1} uçuşunuza 7 günden daha az bir süre kaldı. Uçuş saati: {2}. PNR: {3}</value></data>
   <data name="EmailTitle_FlightReminder_24Hours"><value>Uçuş Hatırlatması - 24 Saat</value></data>
-  <data name="EmailSubject_FlightReminder_24Hours"><value>Uçuşunuza 24 Saat Kaldı</value></data>
+  <data name="EmailSubject_FlightReminder_24Hours"><value>Uçuşunuza 24 Saatten Az Kaldı</value></data>
   <data name="EmailContent_FlightReminder_24Hours"><value>Merhaba {0}, {1} uçuşunuza 24 saat kaldı. Uçuş saati: {2}. PNR: {3}</value></data>
   <data name="EmailTitle_FlightCancelled"><value>Uçuş İptali Bildirimi</value></data>
   <data name="EmailSubject_FlightCancelled"><value>Uçuşunuz İptal Edildi</value></data>

@@ -65,7 +65,7 @@
             })
             .then(function (r) { return r.json(); })
             .then(function (res) {
-                if (res.success) {
+                if (res.success || res.requiresVerification) {
                     window.location.href = res.redirectUrl || '/';
                 } else {
                     if (errorEl) {

@@ -97,8 +97,9 @@ namespace App.Business.Concrete.Services
                             Language = CultureInfo.CurrentUICulture.Name
                         });
 
+                        var verifyChannel = ToVerificationChannel(appUser.PreferredNotificationChannel);
                         var codeResult = await _verificationCodeService.GenerateAndSaveAsync(
-                            appUser.Id, VerificationCodePurpose.EmailConfirmation, VerificationCodeChannel.Email);
+                            appUser.Id, VerificationCodePurpose.EmailConfirmation, verifyChannel);
 
                         if (codeResult.IsSuccess)
                         {
@@ -109,7 +110,7 @@ namespace App.Business.Concrete.Services
                                 PhoneNumber = appUser.PhoneNumber,
                                 Code = codeResult.Data!,
                                 Purpose = VerificationCodePurpose.EmailConfirmation,
-                                Channel = VerificationCodeChannel.Email,
+                                Channel = verifyChannel,
                                 Language = CultureInfo.CurrentUICulture.Name
                             });
                         }
@@ -225,6 +226,36 @@ namespace App.Business.Concrete.Services
             }
         }
 
+        public async Task<IDataResult<VerificationInfoDto>> GetVerificationInfoAsync(string emailOrUsername)
+        {
+            try
+            {
+                var identityUser = emailOrUsername.Contains('@')
+                    ? await _userManager.FindByEmailAsync(emailOrUsername)
+                    : await _userManager.FindByNameAsync(emailOrUsername);
+
+                if (identityUser == null)
+                    return new ErrorDataResult<VerificationInfoDto>(_localizer[Messages.Account_Was_Not_Found]);
+
+                var appUser = await _appUserRepository.GetByEmailAsync(identityUser.Email!, tracking: false);
+                if (appUser == null)
+                    return new ErrorDataResult<VerificationInfoDto>(_localizer[Messages.Account_Was_Not_Found]);
+
+                var dto = new VerificationInfoDto
+                {
+                    Email = appUser.Email!,
+                    PreferredChannel = appUser.PreferredNotificationChannel,
+                    MaskedPhone = MaskPhone(appUser.PhoneNumber)
+                };
+                return new SuccessDataResult<VerificationInfoDto>(dto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return new ErrorDataResult<VerificationInfoDto>(_localizer[Messages.UnexpectedError]);
+            }
+        }
+
         public async Task<IResult> VerifyCodeAsync(string email, string code, VerificationCodePurpose purpose)
         {
             try
@@ -245,6 +276,15 @@ namespace App.Business.Concrete.Services
                         identityUser.EmailConfirmed = true;
                         await _userManager.UpdateAsync(identityUser);
                         _logger.LogInformation("{Message} Email: {Email}", _localizer[Messages.Account_Email_Was_Confirmed].Value, email);
+
+                        await _publishEndpoint.Publish(new EmailConfirmedEvent
+                        {
+                            Name = appUser.Name,
+                            Email = appUser.Email,
+                            PhoneNumber = appUser.PhoneNumber,
+                            PreferredChannel = appUser.PreferredNotificationChannel,
+                            Language = CultureInfo.CurrentUICulture.Name
+                        });
                     }
                 }
 
@@ -333,6 +373,20 @@ namespace App.Business.Concrete.Services
                 _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
                 return new ErrorResult(_localizer[Messages.UnexpectedError]);
             }
+        }
+
+        private static VerificationCodeChannel ToVerificationChannel(NotificationChannel channel)
+        {
+            if (channel.HasFlag(NotificationChannel.Email)) return VerificationCodeChannel.Email;
+            if (channel.HasFlag(NotificationChannel.Sms))   return VerificationCodeChannel.Sms;
+            return VerificationCodeChannel.WhatsApp;
+        }
+
+        private static string? MaskPhone(string? phone)
+        {
+            if (string.IsNullOrEmpty(phone) || phone.Length < 4)
+                return phone;
+            return new string('*', phone.Length - 4) + phone[^4..];
         }
     }
 }

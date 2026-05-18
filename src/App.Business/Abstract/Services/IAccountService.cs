@@ -7,6 +7,7 @@ namespace App.Business.Abstract.Services
         Task<IResult> SignOutAsync(string identityId);
         Task<IResult> SendVerificationCodeAsync(string email, VerificationCodePurpose purpose, VerificationCodeChannel channel);
         Task<IResult> VerifyCodeAsync(string email, string code, VerificationCodePurpose purpose);
+        Task<IDataResult<VerificationInfoDto>> GetVerificationInfoAsync(string emailOrUsername);
         Task<IResult> ResetPasswordAsync(ResetPasswordDto dto);
         Task<IResult> ChangePasswordAsync(string identityId, ChangePasswordDto dto);
     }

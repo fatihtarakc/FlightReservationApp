@@ -56,10 +56,10 @@ namespace App.Business.Concrete.Services
             {
                 var cachedList = await _cacheService.GetListByAsync(CacheKeyAll);
                 if (cachedList.IsSuccess && cachedList.Data != null)
-                    return new SuccessDataResult<IEnumerable<AirportListDto>>(cachedList.Data.Select(x => x.Adapt<AirportListDto>()).OrderBy(airport => airport.IataCode));
+                    return new SuccessDataResult<IEnumerable<AirportListDto>>(cachedList.Data.Select(x => x.Adapt<AirportListDto>()).OrderBy(airport => airport.Name));
 
                 var airports = await _airportRepository.GetAllAsync(tracking: false);
-                var airportList = airports.OrderBy(airport => airport.IataCode).ToList();
+                var airportList = airports.OrderBy(airport => airport.Name).ToList();
                 await _cacheService.AddListAsync(CacheKeyAll, airportList);
 
                 return new SuccessDataResult<IEnumerable<AirportListDto>>(airportList.Select(x => x.Adapt<AirportListDto>()));

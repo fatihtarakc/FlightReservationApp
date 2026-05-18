@@ -243,6 +243,8 @@ namespace App.Core.Constants
         public const string EmailSubject_PasswordChanged = "EmailSubject_PasswordChanged";
         public const string EmailContent_PasswordChanged = "EmailContent_PasswordChanged";
 
+        public const string EmailSubject_EmailConfirmed = "EmailSubject_EmailConfirmed";
+
         // Shared email labels
         public const string Email_Dear = "Email_Dear";
         public const string Email_Footer = "Email_Footer";
@@ -307,6 +309,12 @@ namespace App.Core.Constants
         public const string Email_PasswordChanged_Intro = "Email_PasswordChanged_Intro";
         public const string Email_PasswordChanged_Warning = "Email_PasswordChanged_Warning";
 
+        // EmailConfirmed email body
+        public const string Email_EmailConfirmed_HeaderSubtitle = "Email_EmailConfirmed_HeaderSubtitle";
+        public const string Email_EmailConfirmed_Heading = "Email_EmailConfirmed_Heading";
+        public const string Email_EmailConfirmed_Intro = "Email_EmailConfirmed_Intro";
+        public const string Email_EmailConfirmed_Note = "Email_EmailConfirmed_Note";
+
         // SMS / WhatsApp templates
         public const string Sms_BookingConfirmed = "Sms_BookingConfirmed";
         public const string Sms_BookingCancelled = "Sms_BookingCancelled";
@@ -315,6 +323,7 @@ namespace App.Core.Constants
         public const string Sms_VerificationCode = "Sms_VerificationCode";
         public const string Sms_UserSignedUp = "Sms_UserSignedUp";
         public const string Sms_PasswordChanged = "Sms_PasswordChanged";
+        public const string Sms_EmailConfirmed = "Sms_EmailConfirmed";
         public const string WhatsApp_BookingConfirmed = "WhatsApp_BookingConfirmed";
         public const string WhatsApp_BookingCancelled = "WhatsApp_BookingCancelled";
         public const string WhatsApp_FlightCancelled = "WhatsApp_FlightCancelled";
@@ -322,6 +331,7 @@ namespace App.Core.Constants
         public const string WhatsApp_VerificationCode = "WhatsApp_VerificationCode";
         public const string WhatsApp_UserSignedUp = "WhatsApp_UserSignedUp";
         public const string WhatsApp_PasswordChanged = "WhatsApp_PasswordChanged";
+        public const string WhatsApp_EmailConfirmed = "WhatsApp_EmailConfirmed";
         #endregion
 
         #region Sms
