@@ -160,6 +160,7 @@ namespace App.Core.Constants
         public const string Schedule_CouldNotBe_Added = "Schedule_CouldNotBe_Added";
         public const string Schedule_Was_Updated = "Schedule_Was_Updated";
         public const string Schedule_Was_Deleted = "Schedule_Was_Deleted";
+        public const string Schedule_HasFlights_Cannot_Be_Deleted = "Schedule_HasFlights_Cannot_Be_Deleted";
         #endregion
 
         #region Flight

@@ -1656,4 +1656,145 @@
   <data name="Flight_Upcoming" xml:space="preserve">
     <value>Upcoming Flights</value>
   </data>
+  <data name="Schedule_Management" xml:space="preserve">
+    <value>Schedule Management</value>
+  </data>
+  <data name="Schedule_All" xml:space="preserve">
+    <value>All Schedules</value>
+  </data>
+  <data name="Schedule_New" xml:space="preserve">
+    <value>New Schedule</value>
+  </data>
+  <data name="Schedule_Add" xml:space="preserve">
+    <value>Add Schedule</value>
+  </data>
+  <data name="Schedule_Edit" xml:space="preserve">
+    <value>Edit Schedule</value>
+  </data>
+  <data name="Schedule_Detail" xml:space="preserve">
+    <value>Schedule Detail</value>
+  </data>
+  <data name="Schedule_Info" xml:space="preserve">
+    <value>Schedule Information</value>
+  </data>
+  <data name="Schedule_Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Schedule_ValidFrom" xml:space="preserve">
+    <value>Valid From</value>
+  </data>
+  <data name="Schedule_ValidTo" xml:space="preserve">
+    <value>Valid To</value>
+  </data>
+  <data name="Schedule_DaysOfWeek" xml:space="preserve">
+    <value>Days of Week</value>
+  </data>
+  <data name="Schedule_DepartureTime" xml:space="preserve">
+    <value>Departure Time</value>
+  </data>
+  <data name="Schedule_TimeZone" xml:space="preserve">
+    <value>Time Zone</value>
+  </data>
+  <data name="Schedule_Route" xml:space="preserve">
+    <value>Route</value>
+  </data>
+  <data name="Schedule_NotFound" xml:space="preserve">
+    <value>No schedules found</value>
+  </data>
+  <data name="Schedule_SelectRoute" xml:space="preserve">
+    <value>Select Route</value>
+  </data>
+  <data name="Schedule_Was_Not_Found" xml:space="preserve">
+    <value>Schedule not found</value>
+  </data>
+  <data name="Schedule_HasBeen_Added" xml:space="preserve">
+    <value>Schedule added successfully</value>
+  </data>
+  <data name="Schedule_HasFlights_Error" xml:space="preserve">
+    <value>This schedule cannot be deleted because it has assigned flights.</value>
+  </data>
+  <data name="Val_Schedule_Code_Required" xml:space="preserve">
+    <value>Schedule code is required.</value>
+  </data>
+  <data name="Val_Schedule_Code_MinLength" xml:space="preserve">
+    <value>Schedule code must be at least 3 characters.</value>
+  </data>
+  <data name="Val_Schedule_Code_MaxLength" xml:space="preserve">
+    <value>Schedule code must not exceed 20 characters.</value>
+  </data>
+  <data name="Val_Schedule_Code_Format" xml:space="preserve">
+    <value>Schedule code can only contain letters, digits, spaces and . &amp; - characters.</value>
+  </data>
+  <data name="Val_Schedule_ValidFrom_Required" xml:space="preserve">
+    <value>Valid from date is required.</value>
+  </data>
+  <data name="Val_Schedule_ValidTo_AfterValidFrom" xml:space="preserve">
+    <value>Valid to must be after valid from.</value>
+  </data>
+  <data name="Val_Schedule_Days_Required" xml:space="preserve">
+    <value>At least one day must be selected.</value>
+  </data>
+  <data name="Val_Schedule_DepartureTime_Required" xml:space="preserve">
+    <value>Departure time is required.</value>
+  </data>
+  <data name="Val_Schedule_DepartureTime_Invalid" xml:space="preserve">
+    <value>Please enter a valid departure time (HH:mm).</value>
+  </data>
+  <data name="Val_Schedule_TimeZone_Required" xml:space="preserve">
+    <value>Time zone is required.</value>
+  </data>
+  <data name="Val_Schedule_TimeZone_MaxLength" xml:space="preserve">
+    <value>Time zone must not exceed 100 characters.</value>
+  </data>
+  <data name="Val_Schedule_Route_Required" xml:space="preserve">
+    <value>Route must be selected.</value>
+  </data>
+  <data name="Schedule_Was_Updated" xml:space="preserve">
+    <value>Schedule updated successfully</value>
+  </data>
+  <data name="Schedule_Was_Deleted" xml:space="preserve">
+    <value>Schedule deleted successfully</value>
+  </data>
+  <data name="DayOfWeek_Monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="DayOfWeek_Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="DayOfWeek_Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="DayOfWeek_Thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="DayOfWeek_Friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="DayOfWeek_Saturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="DayOfWeek_Sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="Day_Mon" xml:space="preserve">
+    <value>Mon</value>
+  </data>
+  <data name="Day_Tue" xml:space="preserve">
+    <value>Tue</value>
+  </data>
+  <data name="Day_Wed" xml:space="preserve">
+    <value>Wed</value>
+  </data>
+  <data name="Day_Thu" xml:space="preserve">
+    <value>Thu</value>
+  </data>
+  <data name="Day_Fri" xml:space="preserve">
+    <value>Fri</value>
+  </data>
+  <data name="Day_Sat" xml:space="preserve">
+    <value>Sat</value>
+  </data>
+  <data name="Day_Sun" xml:space="preserve">
+    <value>Sun</value>
+  </data>
 </root>

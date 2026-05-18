@@ -155,6 +155,7 @@
   <data name="Schedule_CouldNotBe_Added"><value>Sefer programı eklenemedi.</value></data>
   <data name="Schedule_Was_Updated"><value>Sefer programı başarıyla güncellendi.</value></data>
   <data name="Schedule_Was_Deleted"><value>Sefer programı başarıyla silindi.</value></data>
+  <data name="Schedule_HasFlights_Cannot_Be_Deleted"><value>Bu takvime atanmış uçuşlar bulunduğundan silinemez.</value></data>
   <!-- Email -->
   <data name="Email_SendingProcess_Was_Failed"><value>E-posta gönderimi başarısız.</value></data>
   <data name="Email_SendingProcess_Was_Successful"><value>E-posta başarıyla gönderildi.</value></data>

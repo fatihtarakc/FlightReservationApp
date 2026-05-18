@@ -1,0 +1,151 @@
+@model AdminScheduleListPageVM
+
+@{
+    var dayDefs = new (DaysOfWeek Flag, string Label)[]
+    {
+        (DaysOfWeek.Monday,    L["Day_Mon"].Value),
+        (DaysOfWeek.Tuesday,   L["Day_Tue"].Value),
+        (DaysOfWeek.Wednesday, L["Day_Wed"].Value),
+        (DaysOfWeek.Thursday,  L["Day_Thu"].Value),
+        (DaysOfWeek.Friday,    L["Day_Fri"].Value),
+        (DaysOfWeek.Saturday,  L["Day_Sat"].Value),
+        (DaysOfWeek.Sunday,    L["Day_Sun"].Value)
+    };
+}
+
+<div class="admin-card">
+    <div class="admin-card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-calendar-alt me-2"></i>@L["Schedule_All"]</span>
+        <a asp-area="Admin" asp-controller="Schedule" asp-action="Create" class="btn btn-sm btn-danger">
+            <i class="fas fa-plus me-1"></i> @L["Schedule_New"]
+        </a>
+    </div>
+
+    <!-- Search -->
+    <div class="p-3 border-bottom">
+        <form method="get" class="d-flex gap-2" style="max-width:420px">
+            <input type="text" name="search" value="@Model.Search" class="form-control form-control-sm"
+                   placeholder="@L["Label_Search"]…" />
+            <button class="btn btn-sm btn-outline-secondary" type="submit">
+                <i class="fas fa-search"></i>
+            </button>
+            @if (!string.IsNullOrEmpty(Model.Search))
+            {
+                <a asp-action="Index" class="btn btn-sm btn-outline-danger" title="@L["Btn_Clear"]">
+                    <i class="fas fa-times"></i>
+                </a>
+            }
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 admin-sortable">
+            <thead class="table-dark">
+                <tr>
+                    <th data-col="0">@L["Schedule_Code"]</th>
+                    <th data-col="1">@L["Schedule_Route"]</th>
+                    <th>@L["Schedule_DaysOfWeek"]</th>
+                    <th data-col="3">@L["Schedule_DepartureTime"]</th>
+                    <th data-col="4">@L["Schedule_ValidFrom"]</th>
+                    <th>@L["Schedule_ValidTo"]</th>
+                    <th class="text-center">@L["Label_Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Schedules.Any())
+                {
+                    @foreach (var s in Model.Schedules)
+                    {
+                        <tr data-href="@Url.Action("Detail", new { id = s.Id })">
+                            <td><span class="badge bg-secondary fs-6">@s.Code</span></td>
+                            <td>
+                                <span class="badge bg-danger">@s.DepartureAirport</span>
+                                <i class="fas fa-long-arrow-alt-right text-muted mx-1"></i>
+                                <span class="badge bg-danger">@s.ArrivalAirport</span>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-wrap gap-1">
+                                    @foreach (var (flag, label) in dayDefs)
+                                    {
+                                        <span class="badge @(s.DaysOfWeek.HasFlag(flag) ? "bg-primary" : "bg-light text-muted border")">@label</span>
+                                    }
+                                </div>
+                            </td>
+                            <td><code>@s.DepartureTime.ToString(@"hh\:mm")</code></td>
+                            <td>@s.ValidFrom.ToString("dd.MM.yyyy")</td>
+                            <td>@(s.ValidTo.HasValue ? s.ValidTo.Value.ToString("dd.MM.yyyy") : "—")</td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm">
+                                    <a asp-action="Edit" asp-route-id="@s.Id" class="btn btn-outline-primary" title="@L["Btn_Edit"]">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger schedule-delete-btn" title="@L["Btn_Delete"]"
+                                            data-action-url="@Url.Action("Delete", new { id = s.Id })"
+                                            data-hasflights-url="@Url.Action("HasFlights", new { id = s.Id })"
+                                            data-confirm-msg="@L["Confirm_Delete"]"
+                                            data-hasflights-msg="@L["Schedule_HasFlights_Error"]">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="7" class="text-center text-muted py-4">
+                        <i class="fas fa-calendar-times fa-2x mb-2 d-block"></i>@L["Schedule_NotFound"]
+                    </td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<form id="actionForm" method="post" class="d-none">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <script src="~/js/admin-table.js"></script>
+    <script>
+    (function () {
+        document.querySelectorAll('.schedule-delete-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var self        = this;
+                var actionUrl   = self.dataset.actionUrl;
+                var checkUrl    = self.dataset.hasflightsUrl;
+                var confirmMsg  = self.dataset.confirmMsg;
+                var blockedMsg  = self.dataset.hasflightsMsg;
+
+                self.disabled = true;
+
+                fetch(checkUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        self.disabled = false;
+                        if (data.hasFlights) {
+                            if (typeof swToastClient === 'function') swToastClient('danger', blockedMsg);
+                            return;
+                        }
+                        if (typeof window.swShowConfirm === 'function') {
+                            window.swShowConfirm(confirmMsg, function () {
+                                var form = document.getElementById('actionForm');
+                                if (form) { form.action = actionUrl; form.submit(); }
+                            });
+                        }
+                    })
+                    .catch(function () {
+                        self.disabled = false;
+                        if (typeof window.swShowConfirm === 'function') {
+                            window.swShowConfirm(confirmMsg, function () {
+                                var form = document.getElementById('actionForm');
+                                if (form) { form.action = actionUrl; form.submit(); }
+                            });
+                        }
+                    });
+            });
+        });
+    })();
+    </script>
+}

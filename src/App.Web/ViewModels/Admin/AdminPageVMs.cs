@@ -95,4 +95,23 @@
         public int ActiveCount => Users.Count(u => u.IsActive);
         public int PassiveCount => Users.Count(u => !u.IsActive);
     }
+
+    public class AdminScheduleListPageVM
+    {
+        public List<ScheduleVM> Schedules { get; set; } = new();
+        public string? Search { get; set; }
+    }
+
+    public class AdminScheduleFormPageVM
+    {
+        public ScheduleAddVM Form { get; set; } = new();
+        public List<RouteVM> Routes { get; set; } = new();
+    }
+
+    public class AdminScheduleEditPageVM
+    {
+        public ScheduleUpdateVM Form { get; set; } = new();
+        public Guid EditId { get; set; }
+        public string RouteName { get; set; } = string.Empty;
+    }
 }

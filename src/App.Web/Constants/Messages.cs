@@ -53,6 +53,29 @@ namespace App.Web.Constants
         public const string Aircraft_Was_Deleted = nameof(Aircraft_Was_Deleted);
         #endregion
 
+        #region Schedule
+        public const string Schedule_Was_Not_Found = nameof(Schedule_Was_Not_Found);
+        public const string Schedule_HasBeen_Added = nameof(Schedule_HasBeen_Added);
+        public const string Schedule_Was_Updated = nameof(Schedule_Was_Updated);
+        public const string Schedule_Was_Deleted = nameof(Schedule_Was_Deleted);
+        public const string Schedule_HasFlights_Error = nameof(Schedule_HasFlights_Error);
+        #endregion
+
+        #region Schedule Validation
+        public const string Val_Schedule_Code_Required = nameof(Val_Schedule_Code_Required);
+        public const string Val_Schedule_Code_MinLength = nameof(Val_Schedule_Code_MinLength);
+        public const string Val_Schedule_Code_MaxLength = nameof(Val_Schedule_Code_MaxLength);
+        public const string Val_Schedule_Code_Format = nameof(Val_Schedule_Code_Format);
+        public const string Val_Schedule_ValidFrom_Required = nameof(Val_Schedule_ValidFrom_Required);
+        public const string Val_Schedule_ValidTo_AfterValidFrom = nameof(Val_Schedule_ValidTo_AfterValidFrom);
+        public const string Val_Schedule_Days_Required = nameof(Val_Schedule_Days_Required);
+        public const string Val_Schedule_DepartureTime_Required = nameof(Val_Schedule_DepartureTime_Required);
+        public const string Val_Schedule_DepartureTime_Invalid = nameof(Val_Schedule_DepartureTime_Invalid);
+        public const string Val_Schedule_TimeZone_Required = nameof(Val_Schedule_TimeZone_Required);
+        public const string Val_Schedule_TimeZone_MaxLength = nameof(Val_Schedule_TimeZone_MaxLength);
+        public const string Val_Schedule_Route_Required = nameof(Val_Schedule_Route_Required);
+        #endregion
+
         #region Booking
         public const string Booking_Was_Not_Found = nameof(Booking_Was_Not_Found);
         public const string Booking_HasBeen_Added = nameof(Booking_HasBeen_Added);

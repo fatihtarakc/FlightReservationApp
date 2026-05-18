@@ -140,6 +140,8 @@ document.addEventListener('DOMContentLoaded', function () {
         bsConfirmModal.show();
     }
 
+    window.swShowConfirm = showConfirm;
+
     if (confirmModalOk) {
         confirmModalOk.addEventListener('click', function () {
             bsConfirmModal.hide();
@@ -182,6 +184,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Flight Create: auto-calculate arrival time from schedule duration
     const scheduleSelect = document.getElementById('scheduleSelect');
     if (scheduleSelect) {
+        const toLocalDT = function (d) {
+            var p = function (n) { return n < 10 ? '0' + n : '' + n; };
+            return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes());
+        };
         const calcArrival = function () {
             const opt = scheduleSelect.options[scheduleSelect.selectedIndex];
             if (!opt || !opt.value) return;
@@ -192,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const d = new Date(depInput.value);
             d.setMinutes(d.getMinutes() + duration);
             const arrInput = document.querySelector('[name="Form.ArrivalTime"]');
-            if (arrInput) arrInput.value = d.toISOString().slice(0, 16);
+            if (arrInput) arrInput.value = toLocalDT(d);
         };
         scheduleSelect.addEventListener('change', calcArrival);
         const depInput = document.querySelector('[name="Form.DepartureTime"]');

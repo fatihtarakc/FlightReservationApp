@@ -92,6 +92,48 @@
             });
         }
 
+        // Schedule Code: auto-uppercase on input
+        var scheduleCodeInput = document.querySelector('[name="Form.Code"]');
+        if (scheduleCodeInput) {
+            scheduleCodeInput.addEventListener('input', function () {
+                var pos = this.selectionStart;
+                this.value = this.value.toUpperCase();
+                this.setSelectionRange(pos, pos);
+            });
+        }
+
+        // Schedule form: ValidTo must be after ValidFrom
+        var scheduleValidFrom = document.querySelector('[name="Form.ValidFrom"]');
+        var scheduleValidTo   = document.querySelector('[name="Form.ValidTo"]');
+        if (scheduleValidFrom && scheduleValidTo) {
+            function validateScheduleDates() {
+                if (!scheduleValidTo.value) { scheduleValidTo.setCustomValidity(''); return; }
+                var from = new Date(scheduleValidFrom.value);
+                var to   = new Date(scheduleValidTo.value);
+                var msg  = scheduleValidTo.dataset.validToMsg || '';
+                scheduleValidTo.setCustomValidity((!isNaN(from) && !isNaN(to) && to <= from) ? msg : '');
+            }
+            scheduleValidFrom.addEventListener('change', validateScheduleDates);
+            scheduleValidTo.addEventListener('change', validateScheduleDates);
+        }
+
+        // Schedule form: at least one day must be selected (capture phase, fires before Bootstrap validation)
+        var scheduleForm = document.getElementById('scheduleForm');
+        if (scheduleForm) {
+            scheduleForm.addEventListener('submit', function (e) {
+                var checkboxes = scheduleForm.querySelectorAll('input[name="Form.SelectedDays"]');
+                if (checkboxes.length === 0) return;
+                var anyChecked = Array.from(checkboxes).some(function (c) { return c.checked; });
+                if (!anyChecked) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    scheduleForm.classList.add('was-validated');
+                    var msg = scheduleForm.dataset.daysMsg || 'En az bir gün seçilmelidir.';
+                    if (typeof swToastClient === 'function') swToastClient('danger', msg);
+                }
+            }, true);
+        }
+
         // IataCode: auto-uppercase on input
         var iataInput = document.querySelector('[name="IataCode"]');
         if (iataInput) {

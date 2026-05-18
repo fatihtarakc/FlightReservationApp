@@ -1,0 +1,129 @@
+@model AdminScheduleFormPageVM
+
+@{
+    var dayOptions = new (DaysOfWeek Flag, string Label)[]
+    {
+        (DaysOfWeek.Monday,    L["DayOfWeek_Monday"].Value),
+        (DaysOfWeek.Tuesday,   L["DayOfWeek_Tuesday"].Value),
+        (DaysOfWeek.Wednesday, L["DayOfWeek_Wednesday"].Value),
+        (DaysOfWeek.Thursday,  L["DayOfWeek_Thursday"].Value),
+        (DaysOfWeek.Friday,    L["DayOfWeek_Friday"].Value),
+        (DaysOfWeek.Saturday,  L["DayOfWeek_Saturday"].Value),
+        (DaysOfWeek.Sunday,    L["DayOfWeek_Sunday"].Value)
+    };
+}
+
+<div class="row justify-content-center">
+    <div class="col-xl-8">
+        <div class="admin-card">
+            <div class="admin-card-header"><i class="fas fa-calendar-plus me-2"></i>@L["Schedule_Info"]</div>
+            <div class="p-4">
+                <form asp-action="Create" method="post" id="scheduleForm" novalidate
+                      data-days-msg="@L["Val_Schedule_Days_Required"]"
+                      data-valid-to-msg="@L["Val_Schedule_ValidTo_AfterValidFrom"]">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="row g-3">
+
+                        <!-- Code -->
+                        <div class="col-md-4">
+                            <label asp-for="Form.Code" class="form-label fw-semibold">
+                                @L["Schedule_Code"] <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Form.Code" class="form-control text-uppercase"
+                                   placeholder="SW001" maxlength="20" required />
+                            <span asp-validation-for="Form.Code" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Route -->
+                        <div class="col-md-8">
+                            <label asp-for="Form.RouteId" class="form-label fw-semibold">
+                                @L["Schedule_Route"] <span class="text-danger">*</span>
+                            </label>
+                            <select asp-for="Form.RouteId" class="form-select" required>
+                                <option value="">— @L["Schedule_SelectRoute"] —</option>
+                                @foreach (var r in Model.Routes)
+                                {
+                                    <option value="@r.Id">@r.OriginIata → @r.DestinationIata (@r.OriginCity – @r.DestinationCity)</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Form.RouteId" class="text-danger small"></span>
+                        </div>
+
+                        <!-- ValidFrom -->
+                        <div class="col-md-4">
+                            <label asp-for="Form.ValidFrom" class="form-label fw-semibold">
+                                @L["Schedule_ValidFrom"] <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Form.ValidFrom" type="date" class="form-control"
+                                   value="@Model.Form.ValidFrom.ToString("yyyy-MM-dd")" required />
+                            <span asp-validation-for="Form.ValidFrom" class="text-danger small"></span>
+                        </div>
+
+                        <!-- ValidTo -->
+                        <div class="col-md-4">
+                            <label asp-for="Form.ValidTo" class="form-label fw-semibold">@L["Schedule_ValidTo"]</label>
+                            <input asp-for="Form.ValidTo" type="date" class="form-control"
+                                   value="@(Model.Form.ValidTo.HasValue ? Model.Form.ValidTo.Value.ToString("yyyy-MM-dd") : "")"
+                                   data-valid-to-msg="@L["Val_Schedule_ValidTo_AfterValidFrom"]" />
+                            <span asp-validation-for="Form.ValidTo" class="text-danger small"></span>
+                        </div>
+
+                        <!-- DepartureTime -->
+                        <div class="col-md-4">
+                            <label asp-for="Form.DepartureTime" class="form-label fw-semibold">
+                                @L["Schedule_DepartureTime"] <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Form.DepartureTime" type="time" class="form-control" required />
+                            <span asp-validation-for="Form.DepartureTime" class="text-danger small"></span>
+                        </div>
+
+                        <!-- TimeZone -->
+                        <div class="col-md-6">
+                            <label asp-for="Form.TimeZone" class="form-label fw-semibold">
+                                @L["Schedule_TimeZone"] <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Form.TimeZone" class="form-control"
+                                   placeholder="Europe/Istanbul" maxlength="100" required />
+                            <div class="form-text">IANA tz: Europe/Istanbul, UTC, America/New_York…</div>
+                            <span asp-validation-for="Form.TimeZone" class="text-danger small"></span>
+                        </div>
+
+                        <!-- DaysOfWeek -->
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">
+                                @L["Schedule_DaysOfWeek"] <span class="text-danger">*</span>
+                            </label>
+                            <div class="d-flex flex-wrap gap-2 mt-1">
+                                @foreach (var (flag, label) in dayOptions)
+                                {
+                                    var val = (int)flag;
+                                    var isChecked = Model.Form.SelectedDays.Contains(val);
+                                    <div class="form-check form-check-inline border rounded px-3 py-2">
+                                        <input class="form-check-input" type="checkbox"
+                                               name="Form.SelectedDays" value="@val" id="day_@val"
+                                               @(isChecked ? "checked" : "") />
+                                        <label class="form-check-label fw-semibold" for="day_@val">@label</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-danger px-4">
+                            <i class="fas fa-save me-1"></i> @L["Schedule_Add"]
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">@L["Btn_Cancel"]</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/admin-form-validation.js"></script>
+}

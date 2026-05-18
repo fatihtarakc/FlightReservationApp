@@ -3,6 +3,7 @@ namespace App.Business.Concrete.Services
     public class ScheduleService : IScheduleService
     {
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly IFlightRepository _flightRepository;
         private readonly IRouteRepository _routeRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICacheService<Schedule> _cacheService;
@@ -15,6 +16,7 @@ namespace App.Business.Concrete.Services
 
         public ScheduleService(
             IScheduleRepository scheduleRepository,
+            IFlightRepository flightRepository,
             IRouteRepository routeRepository,
             IUnitOfWork unitOfWork,
             ICacheService<Schedule> cacheService,
@@ -22,6 +24,7 @@ namespace App.Business.Concrete.Services
             ILogger<ScheduleService> logger)
         {
             _scheduleRepository = scheduleRepository;
+            _flightRepository = flightRepository;
             _routeRepository = routeRepository;
             _unitOfWork = unitOfWork;
             _cacheService = cacheService;
@@ -188,6 +191,19 @@ namespace App.Business.Concrete.Services
             }
         }
 
+        public async Task<bool> HasFlightsAsync(Guid id)
+        {
+            try
+            {
+                return await _flightRepository.AnyAsync(f => f.ScheduleId == id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, _localizer[Messages.UnexpectedError]);
+                return false;
+            }
+        }
+
         public async Task<IResult> DeleteAsync(Guid id)
         {
             try
@@ -195,6 +211,9 @@ namespace App.Business.Concrete.Services
                 var schedule = await _scheduleRepository.GetByIdAsync(id);
                 if (schedule == null)
                     return new ErrorResult(_localizer[Messages.Schedule_Was_Not_Found]);
+
+                if (await _flightRepository.AnyAsync(f => f.ScheduleId == id))
+                    return new ErrorResult(_localizer[Messages.Schedule_HasFlights_Cannot_Be_Deleted]);
 
                 IResult result = new ErrorResult(_localizer[Messages.UnexpectedError]);
                 var strategy = await _unitOfWork.CreateExecutionStrategy();

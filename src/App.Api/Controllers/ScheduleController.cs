@@ -28,6 +28,14 @@
             return result.IsSuccess ? Ok(result) : NotFound(result);
         }
 
+        [HttpGet("{id:guid}/has-flights")]
+        [AllowAnonymous]
+        public async Task<IActionResult> HasFlights(Guid id)
+        {
+            var hasFlights = await _scheduleService.HasFlightsAsync(id);
+            return Ok(new { IsSuccess = true, Data = hasFlights });
+        }
+
         [HttpGet("by-route/{routeId:guid}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetByRouteId(Guid routeId)

@@ -22,6 +22,10 @@
         ("Route", "Edit")         => L["Route_Edit"].Value,
         ("Route", "Detail")       => L["Route_Detail"].Value,
         ("Route", _)              => L["Route_Management"].Value,
+        ("Schedule", "Create")    => L["Schedule_Add"].Value,
+        ("Schedule", "Edit")      => L["Schedule_Edit"].Value,
+        ("Schedule", "Detail")    => L["Schedule_Detail"].Value,
+        ("Schedule", _)           => L["Schedule_Management"].Value,
         ("Booking", "Detail")     => L["Booking_Detail"].Value,
         ("Booking", _)            => L["Booking_Management"].Value,
         ("User", "Detail")        => L["Admin_UserDetail"].Value,
@@ -95,6 +99,11 @@
                class="sidebar-link @(ctrl == "Airport" ? "active" : "")">
                 <i class="fas fa-building"></i>
                 <span>@L["Airport_Management"]</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Schedule" asp-action="Index"
+               class="sidebar-link @(ctrl == "Schedule" ? "active" : "")">
+                <i class="fas fa-calendar-alt"></i>
+                <span>@L["Schedule_Management"]</span>
             </a>
 
             <div class="nav-group-label">@L["Admin_Reservations"]</div>

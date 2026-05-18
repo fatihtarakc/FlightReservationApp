@@ -8,5 +8,6 @@ namespace App.Business.Abstract.Services
         Task<IDataResult<ScheduleDto>> AddAsync(ScheduleAddDto dto);
         Task<IResult> UpdateAsync(Guid id, ScheduleUpdateDto dto);
         Task<IResult> DeleteAsync(Guid id);
+        Task<bool> HasFlightsAsync(Guid id);
     }
 }

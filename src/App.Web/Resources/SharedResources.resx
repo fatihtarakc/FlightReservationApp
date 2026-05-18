@@ -1656,4 +1656,145 @@
   <data name="Flight_Upcoming" xml:space="preserve">
     <value>Yaklaşan Uçuşlar</value>
   </data>
+  <data name="Schedule_Management" xml:space="preserve">
+    <value>Takvim Yönetimi</value>
+  </data>
+  <data name="Schedule_All" xml:space="preserve">
+    <value>Tüm Takvimler</value>
+  </data>
+  <data name="Schedule_New" xml:space="preserve">
+    <value>Yeni Takvim</value>
+  </data>
+  <data name="Schedule_Add" xml:space="preserve">
+    <value>Takvim Ekle</value>
+  </data>
+  <data name="Schedule_Edit" xml:space="preserve">
+    <value>Takvim Düzenle</value>
+  </data>
+  <data name="Schedule_Detail" xml:space="preserve">
+    <value>Takvim Detayı</value>
+  </data>
+  <data name="Schedule_Info" xml:space="preserve">
+    <value>Takvim Bilgisi</value>
+  </data>
+  <data name="Schedule_Code" xml:space="preserve">
+    <value>Kod</value>
+  </data>
+  <data name="Schedule_ValidFrom" xml:space="preserve">
+    <value>Başlangıç Tarihi</value>
+  </data>
+  <data name="Schedule_ValidTo" xml:space="preserve">
+    <value>Bitiş Tarihi</value>
+  </data>
+  <data name="Schedule_DaysOfWeek" xml:space="preserve">
+    <value>Haftanın Günleri</value>
+  </data>
+  <data name="Schedule_DepartureTime" xml:space="preserve">
+    <value>Kalkış Saati</value>
+  </data>
+  <data name="Schedule_TimeZone" xml:space="preserve">
+    <value>Saat Dilimi</value>
+  </data>
+  <data name="Schedule_Route" xml:space="preserve">
+    <value>Güzergah</value>
+  </data>
+  <data name="Schedule_NotFound" xml:space="preserve">
+    <value>Takvim bulunamadı</value>
+  </data>
+  <data name="Schedule_SelectRoute" xml:space="preserve">
+    <value>Güzergah Seçin</value>
+  </data>
+  <data name="Schedule_Was_Not_Found" xml:space="preserve">
+    <value>Takvim bulunamadı</value>
+  </data>
+  <data name="Schedule_HasBeen_Added" xml:space="preserve">
+    <value>Takvim başarıyla eklendi</value>
+  </data>
+  <data name="Schedule_HasFlights_Error" xml:space="preserve">
+    <value>Bu takvime atanmış uçuşlar bulunduğundan silinemez.</value>
+  </data>
+  <data name="Val_Schedule_Code_Required" xml:space="preserve">
+    <value>Takvim kodu zorunludur.</value>
+  </data>
+  <data name="Val_Schedule_Code_MinLength" xml:space="preserve">
+    <value>Takvim kodu en az 3 karakter olmalıdır.</value>
+  </data>
+  <data name="Val_Schedule_Code_MaxLength" xml:space="preserve">
+    <value>Takvim kodu en fazla 20 karakter olabilir.</value>
+  </data>
+  <data name="Val_Schedule_Code_Format" xml:space="preserve">
+    <value>Takvim kodu yalnızca harf, rakam, boşluk ve . &amp; - karakterlerini içerebilir.</value>
+  </data>
+  <data name="Val_Schedule_ValidFrom_Required" xml:space="preserve">
+    <value>Başlangıç tarihi zorunludur.</value>
+  </data>
+  <data name="Val_Schedule_ValidTo_AfterValidFrom" xml:space="preserve">
+    <value>Bitiş tarihi, başlangıç tarihinden sonra olmalıdır.</value>
+  </data>
+  <data name="Val_Schedule_Days_Required" xml:space="preserve">
+    <value>En az bir gün seçilmelidir.</value>
+  </data>
+  <data name="Val_Schedule_DepartureTime_Required" xml:space="preserve">
+    <value>Kalkış saati zorunludur.</value>
+  </data>
+  <data name="Val_Schedule_DepartureTime_Invalid" xml:space="preserve">
+    <value>Geçerli bir kalkış saati giriniz (SS:dd).</value>
+  </data>
+  <data name="Val_Schedule_TimeZone_Required" xml:space="preserve">
+    <value>Saat dilimi zorunludur.</value>
+  </data>
+  <data name="Val_Schedule_TimeZone_MaxLength" xml:space="preserve">
+    <value>Saat dilimi en fazla 100 karakter olabilir.</value>
+  </data>
+  <data name="Val_Schedule_Route_Required" xml:space="preserve">
+    <value>Güzergah seçilmelidir.</value>
+  </data>
+  <data name="Schedule_Was_Updated" xml:space="preserve">
+    <value>Takvim başarıyla güncellendi</value>
+  </data>
+  <data name="Schedule_Was_Deleted" xml:space="preserve">
+    <value>Takvim başarıyla silindi</value>
+  </data>
+  <data name="DayOfWeek_Monday" xml:space="preserve">
+    <value>Pazartesi</value>
+  </data>
+  <data name="DayOfWeek_Tuesday" xml:space="preserve">
+    <value>Salı</value>
+  </data>
+  <data name="DayOfWeek_Wednesday" xml:space="preserve">
+    <value>Çarşamba</value>
+  </data>
+  <data name="DayOfWeek_Thursday" xml:space="preserve">
+    <value>Perşembe</value>
+  </data>
+  <data name="DayOfWeek_Friday" xml:space="preserve">
+    <value>Cuma</value>
+  </data>
+  <data name="DayOfWeek_Saturday" xml:space="preserve">
+    <value>Cumartesi</value>
+  </data>
+  <data name="DayOfWeek_Sunday" xml:space="preserve">
+    <value>Pazar</value>
+  </data>
+  <data name="Day_Mon" xml:space="preserve">
+    <value>Pzt</value>
+  </data>
+  <data name="Day_Tue" xml:space="preserve">
+    <value>Sal</value>
+  </data>
+  <data name="Day_Wed" xml:space="preserve">
+    <value>Çar</value>
+  </data>
+  <data name="Day_Thu" xml:space="preserve">
+    <value>Per</value>
+  </data>
+  <data name="Day_Fri" xml:space="preserve">
+    <value>Cum</value>
+  </data>
+  <data name="Day_Sat" xml:space="preserve">
+    <value>Cmt</value>
+  </data>
+  <data name="Day_Sun" xml:space="preserve">
+    <value>Paz</value>
+  </data>
 </root>
